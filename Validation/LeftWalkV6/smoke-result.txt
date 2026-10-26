@@ -1,0 +1,3 @@
+PASS: 34 checks; Unity 2022.3 / UniversalRenderPipelineAsset.
+Left walking mirrors every right-walking leg pose, mirror resets on turning, continuous movement and combat progression preserved.
+192 actual Unity render frames exported; preview stretches short actions to show their poses.

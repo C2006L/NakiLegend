@@ -1,0 +1,1 @@
+PASS: saved NakiTest scene loads and starts the polished playable prototype automatically.
