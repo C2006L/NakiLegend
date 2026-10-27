@@ -1,0 +1,1 @@
+PASS 81 checks: real five-room transitions; two waves; safe arrivals; optional repair; cancellation; repeated interaction; full-resource reward, collection and revisits; two-end gate safety; master valve and rain state; restart and death; 1920x1080 screenshots.

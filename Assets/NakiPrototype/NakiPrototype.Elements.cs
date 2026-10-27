@@ -24,6 +24,7 @@ namespace NakiLegend.Prototype
             hintReadyAt = 0; journeyEnergyRegen = 4;journeyToast=null;journeyToastUntil=0;
             if (bossPracticeMode) { orbLearned = bladeLearned = waveLearned = true; clearedCombatRooms = 12; }
             ResetEquipment();ResetPowers();ResetBackpack();
+            if(gatehouseSampleMode){orbLearned=bladeLearned=waveLearned=true;carriedWeapons[1]=6;}
         }
 
         private void TickPlayerDefenses(float dt)

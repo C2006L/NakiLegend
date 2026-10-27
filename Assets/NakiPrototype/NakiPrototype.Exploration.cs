@@ -8,6 +8,7 @@ namespace NakiLegend.Prototype
         private static readonly Vector2Int[] Cardinal = { Vector2Int.up,Vector2Int.down,Vector2Int.right,Vector2Int.left };
         private readonly int[] stageStarts = new int[3], stageEnds = new int[3];
         private readonly List<GameObject> doorSeals = new List<GameObject>();
+        private readonly List<int> doorSealDirections = new List<int>();
         private readonly List<Rect> doorShotBlocks = new List<Rect>();
         private readonly List<PendingSpawn> pendingSpawns = new List<PendingSpawn>();
         private sealed class PendingSpawn { public EnemyKind kind; public bool champion;public Vector2 at; public float when; public GameObject mark; }
@@ -76,6 +77,7 @@ namespace NakiLegend.Prototype
             if(!journeyRooms[currentRoom].cleared)return false;
             for(int d=0;d<4;d++)if(HasDoor(d))
             {
+                if(GatehouseDoorLocked(currentRoom,d))continue;
                 Vector2 normal=DoorNormal(d),delta=at-DoorPoint(d);float outDistance=Vector2.Dot(delta,normal),side=Mathf.Abs(Vector2.Dot(delta,new Vector2(-normal.y,normal.x)));
                 if(outDistance>=-radius-.1f&&outDistance<=1.9f-radius&&side<=1.15f-radius)return true;
             }
@@ -112,7 +114,7 @@ namespace NakiLegend.Prototype
         private void BuildExplorationRoom(RoomNode node)
         {
             int floor=node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
-            doorSeals.Clear();doorShotBlocks.Clear();
+            doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
             TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),node.stage,-1000);
             // A continuous inset border keeps room edges readable without baking scenery into tiles.
             foreach(float sign in new[]{-1f,1f})
@@ -133,6 +135,7 @@ namespace NakiLegend.Prototype
                     begin=end;
                 }
             }
+            if(gatehouseSampleMode){BuildGatehouseScenery(node);return;}
             Vector2[] positions=JourneyCoverPositions(node.layout%16);
             float flip=(node.layout&16)!=0?-1:1,offset=(node.layout&32)!=0?.18f:0;
             foreach(Vector2 source in positions)
@@ -164,9 +167,13 @@ namespace NakiLegend.Prototype
 
         private void UpdateExplorationDoors()
         {
-            bool open=journeyRooms[currentRoom].cleared;
-            foreach(GameObject seal in doorSeals)if(seal!=null)seal.SetActive(!open);
-            if(open){foreach(Rect r in doorShotBlocks)projectileObstacles.Remove(r);doorShotBlocks.Clear();}
+            foreach(Rect r in doorShotBlocks)projectileObstacles.Remove(r);doorShotBlocks.Clear();
+            for(int i=0;i<doorSeals.Count;i++)
+            {
+                int d=doorSealDirections[i];bool locked=!journeyRooms[currentRoom].cleared||GatehouseDoorLocked(currentRoom,d);
+                if(doorSeals[i]!=null)doorSeals[i].SetActive(locked);
+                if(locked){Rect block=DoorSealCollision(d);doorShotBlocks.Add(block);projectileObstacles.Add(block);}
+            }
             CreateStairsIfReady();
         }
 
@@ -184,6 +191,7 @@ namespace NakiLegend.Prototype
             foreach(int link in node.links)
             {
                 int direction=NeighborDirection(node,journeyRooms[link]);Vector2 n=DoorNormal(direction),delta=position-DoorPoint(direction);
+                if(GatehouseDoorLocked(currentRoom,direction))continue;
                 if(Vector2.Dot(delta,n)>1.0f&&Mathf.Abs(Vector2.Dot(delta,new Vector2(-n.y,n.x)))<.55f){BeginDoorTransition(link,direction^1);return;}
             }
             // Stairs use explicit F interaction; normal room doors remain automatic.

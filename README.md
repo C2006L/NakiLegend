@@ -39,9 +39,15 @@ Unity 2D 地牢试玩，当前 **V12**。沙漠岛三小层共 39 房，四向�
 
 ![V12 Unity 实际画面](Art/DesertV12/unity-overview-v12.jpg)
 
+## 独立旧渠闸室样板 S1
+
+打开 Assets/Scenes/NakiGatehouseSample.unity，或菜单 Tools → Naki Legend → Open Old Canal Gatehouse。五个实际房间形成环路：清理闸室两波敌人后，可清沙转轮、获得一次20元素结晶，再沿北路打开总阀、绕到另一端清理庭院，开放检修捷径并回访通水景象。
+
+样板已开放三技能和两把武器用于比较，正式沙漠仍按进度学习。满元素时结晶留地；清沙 Esc 取消，转轮 Esc 跳过。运行进度保留在本轮，R / N 重开会重置。通过 81 项样板检查与 24 项真实脚本重载检查，见 [试玩说明](Docs/GATEHOUSE_PLAYTEST.md)。
+
 ## 开场与美术
 
-下一阶段设计 D1 已整理：[沙漠 39 房与四个事件](Docs/DESERT_CHAPTER_DESIGN.md) · [闸室样板规格](Docs/DESERT_GATEHOUSE_SAMPLE.md) · [Boss 对白与演出](Docs/DESERT_BOSS_STORY.md) · [雷雨高原概念](Docs/THUNDER_PLATEAU_CONCEPT.md)。新增设计尚未接入游戏，当前仍测试 V12；下一项制作是独立闸室样板。
+下一阶段设计 D1 已整理：[沙漠 39 房与四个事件](Docs/DESERT_CHAPTER_DESIGN.md) · [闸室样板规格](Docs/DESERT_GATEHOUSE_SAMPLE.md) · [Boss 对白与演出](Docs/DESERT_BOSS_STORY.md) · [雷雨高原概念](Docs/THUNDER_PLATEAU_CONCEPT.md)。闸室已作为独立样板实现，整章房间池、其余事件和新岛仍按设计逐步制作。
 
 六幅精细插画构成 11 幕开场，从神鸟传说、元素碎裂、王宫授命，到船头启程、枯井村落和少年为幼苗留水。包含推进、叠化、字幕、环境声与片名；当前无真人配音。剧情围绕修渠、居民饮水与恢复沙漠雨季展开。
 

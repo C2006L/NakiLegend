@@ -173,6 +173,7 @@ namespace NakiLegend.Prototype
 
         private bool TryRoomInteraction()
         {
+            if(gatehouseSampleMode&&TryGatehouseInteraction())return true;
             if(stairs!=null&&journeyRooms[currentRoom].cleared&&Vector2.Distance(position,stairPosition)<1.6f){BeginDoorTransition(journeyRooms[currentRoom].stairsTo,-1);return true;}
             if(lessonAltar!=null&&Vector2.Distance(position,lessonPosition)<1.35f){LearnPendingLesson();return true;}
             WeaponDrop drop=NearestWeaponDrop();if(drop!=null){PickUpWeapon(drop);return true;}

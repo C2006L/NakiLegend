@@ -1,0 +1,8 @@
+{
+  "sample_checks": 81,
+  "reload_checks": 24,
+  "desert_regression_checks": 3121,
+  "local_project": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend",
+  "scene": "Assets/Scenes/NakiGatehouseSample.unity",
+  "source_match": "PASS"
+}

@@ -59,9 +59,10 @@ namespace NakiLegend.Prototype
    var gate=new GameObject("Closed bronze portcullis");gate.transform.SetParent(world,false);gate.transform.position=center;
    for(int i=-4;i<=4;i++){GameObject bar=Stretch("Gate iron bar",square,center+Vector2.right*i*.235f,new Vector2(.08f,1.3f),C("775b3f"),620);bar.transform.SetParent(gate.transform,true);}
    foreach(float y in new[]{-.45f,.45f}){GameObject beam=Stretch("Gate crossbeam",square,center+Vector2.up*y,new Vector2(2.08f,.13f),C("be9357"),621);beam.transform.SetParent(gate.transform,true);}
-   GameObject seal=Draw("Gate wind lock",windRingSprite??disc,center,Vector2.one*.5f,C("e88c67"),623);seal.transform.SetParent(gate.transform,true);gate.transform.rotation=Quaternion.Euler(0,0,angle);doorSeals.Add(gate);
-   Rect block=horizontal?new Rect(-1.18f,center.y-.35f,2.36f,.7f):new Rect(center.x-.35f,-1.18f,.7f,2.36f);doorShotBlocks.Add(block);projectileObstacles.Add(block);
+   GameObject seal=Draw("Gate wind lock",windRingSprite??disc,center,Vector2.one*.5f,C("e88c67"),623);seal.transform.SetParent(gate.transform,true);gate.transform.rotation=Quaternion.Euler(0,0,angle);doorSeals.Add(gate);doorSealDirections.Add(direction);
+   Rect block=DoorSealCollision(direction);doorShotBlocks.Add(block);projectileObstacles.Add(block);
   }
+  private Rect DoorSealCollision(int direction){Vector2 c=DoorPoint(direction);return direction<2?new Rect(-1.18f,c.y-.35f,2.36f,.7f):new Rect(c.x-.35f,-1.18f,.7f,2.36f);}
   private string StairDestination()
   {
    RoomNode n=journeyRooms[currentRoom];if(n.stairsTo<0)return "";RoomNode target=journeyRooms[n.stairsTo];return (target.stage>n.stage?"前往":"返回")+"第 "+(target.stage+1)+" 层 · "+StageNames[target.stage];

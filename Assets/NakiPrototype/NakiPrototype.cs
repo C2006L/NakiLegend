@@ -14,6 +14,8 @@ namespace NakiLegend.Prototype
         public float dashSpeed = 12f;
         public float swordDamage = 18f;
         public float spellDamage = 15f;
+        [Header("Old canal gatehouse sample")]
+        public bool gatehouseSampleMode;
 
         private sealed class Enemy
         {
