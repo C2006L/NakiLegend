@@ -30,7 +30,7 @@ namespace NakiLegend.Prototype
             windRingSprite = sectorWarning = essenceSprite = null;
             journeyTitleStyle = journeyTextStyle = journeySmallStyle = journeyButtonStyle = journeyNodeStyle = null;
             openingCaptionStyle = null;
-            Start();if(thunderPrototypeMode){thunderSetupMenu=false;LoadThunderCheckpoint(false);}
+            Start();if(thunderChapterMode){chapterSetup=false;bool resumed=LoadChapterCheckpoint(false);JourneyHint(resumed?"脚本已更新 · 已恢复第二岛安全点":"脚本已更新 · 已重开本次练习");return;}if(thunderPrototypeMode){thunderSetupMenu=false;LoadThunderCheckpoint(false);}
             if (enableDesertJourney) JourneyHint(checkpointStatus.StartsWith("已读")?"脚本已更新 · 已恢复最近安全房间":"脚本已更新 · 已重新开始本轮旅程");
         }
     }

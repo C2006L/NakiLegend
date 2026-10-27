@@ -65,7 +65,7 @@ namespace NakiLegend.Prototype
   private Rect DoorSealCollision(int direction){Vector2 c=DoorPoint(direction);return direction<2?new Rect(-1.18f,c.y-.35f,2.36f,.7f):new Rect(c.x-.35f,-1.18f,.7f,2.36f);}
   private string StairDestination()
   {
-   RoomNode n=journeyRooms[currentRoom];if(n.stairsTo<0)return "";RoomNode target=journeyRooms[n.stairsTo];if(IsGatehouseRoom(target))return "前往归渠水道";if(IsGatehouseRoom(n))return "返回古渠核心";return (target.stage>n.stage?"前往":"返回")+"第 "+(target.stage+1)+" 层 · "+StageNames[target.stage];
+   RoomNode n=journeyRooms[currentRoom];if(thunderChapterMode&&n.stairsTo>=0)return (journeyRooms[n.stairsTo].stage>n.stage?"前往":"返回")+ThunderStages[journeyRooms[n.stairsTo].stage];if(n.stairsTo<0)return "";RoomNode target=journeyRooms[n.stairsTo];if(IsGatehouseRoom(target))return "前往归渠水道";if(IsGatehouseRoom(n))return "返回古渠核心";return (target.stage>n.stage?"前往":"返回")+"第 "+(target.stage+1)+" 层 · "+StageNames[target.stage];
   }
  }
 }

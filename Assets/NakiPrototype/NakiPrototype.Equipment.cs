@@ -10,7 +10,7 @@ namespace NakiLegend.Prototype
         {
             public string name; public WeaponType type; public Element element;
             public float damage, interval, range, cost, length, scatter;
-            public Sprite sprite; public Color color;
+            public Sprite sprite; public Color color;public bool bowFacesLeft;public int maxHits;
         }
         private sealed class StoredWeapon { public int id; public Vector2 at; }
         private sealed class WeaponDrop { public StoredWeapon data; public GameObject root; }
@@ -45,7 +45,7 @@ namespace NakiLegend.Prototype
                 Weapon("风牙法杖",WeaponType.Staff,Element.Wind,14,.7f,10,2,1.4f,staff,"85e7d2"),
                 Weapon("守渠风矛",WeaponType.Spear,Element.Wind,22,.65f,2.5f,1,2.05f,spear,"85e7d2")
             };
-            weaponCatalog[2].scatter=3.5f;weaponCatalog[3].scatter=1.2f;weaponCatalog[6].scatter=.65f;
+            weaponCatalog[2].bowFacesLeft=true;weaponCatalog[2].scatter=3.5f;weaponCatalog[3].scatter=1.2f;weaponCatalog[6].scatter=.65f;
             lessonArtwork = JourneySprite("lesson-altar-v9", 180, new Vector2(.5f, .08f));
             arrowSprite = MakeSprite(new[] { "..........kk...", "kkkkkkkkkkIIkk.", "kLLLLLLLLLIIIwk", "kkkkkkkkkkIIkk.", "..........kk..." },
                 new Dictionary<char, Color> { { 'k', C("383147") }, { 'L', C("bd8749") }, { 'I', C("e6dac1") }, { 'w', Color.white } }, 18);
@@ -92,6 +92,7 @@ namespace NakiLegend.Prototype
                 if (weapon.type == WeaponType.Bow) { shot.root.GetComponent<SpriteRenderer>().sprite = arrowSprite; shot.root.transform.localScale = Vector3.one * .65f; shot.root.transform.rotation = Quaternion.Euler(0,0,Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg); }
                 else shot.root.GetComponent<SpriteRenderer>().color = weapon.element == Element.Wind ? C("82e6cb") : C("f7e8b3");
             }
+            if(shots.Count>before&&weapon.element==Element.Lightning)shots[shots.Count-1].root.GetComponent<SpriteRenderer>().color=C("b4eaff");
             castDirection = aim; castPoseUntil = clock + .24f;
         }
 
@@ -116,7 +117,7 @@ namespace NakiLegend.Prototype
             }
             if(action==HeroAction.Cast || action==HeroAction.Dodge)
                 angle=Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg;
-            if(weapon.type==WeaponType.Bow)angle+=180; // Source bow faces local -X; arrows and aim face +X.
+            if(weapon.type==WeaponType.Bow&&weapon.bowFacesLeft)angle+=180; // Source bow faces local -X; arrows and aim face +X.
             Vector2 grip=root+pose.grip*pixelHeroScale;
             sword.transform.position=grip;sword.transform.rotation=Quaternion.Euler(0,0,angle);
             sword.transform.localScale=Vector3.one*weapon.length*pixelHeroScale;
@@ -139,6 +140,7 @@ namespace NakiLegend.Prototype
 
         private void SeedRoomLoot(RoomNode node)
         {
+            if(thunderChapterMode)return;
             if (node.lootSeeded) return; node.lootSeeded = true;
             bool drop = node.kind == RoomKind.Reward || node.kind == RoomKind.Guardian || clearedCombatRooms > 0 && clearedCombatRooms % 2 == 0;
             if (!drop) return;
@@ -175,6 +177,8 @@ namespace NakiLegend.Prototype
 
         private bool TryRoomInteraction()
         {
+            if(thunderChapterMode&&TryChapterInteraction())return true;
+            if(!thunderChapterMode&&GatehouseActive&&!gatehouseSampleMode&&canalEpilogueComplete&&journeyRooms[currentRoom].gatehouseIndex==4&&Vector2.Distance(position,ThunderDockAt)<1.4f){EmbarkThunderChapter();return true;}
             if(thunderPrototypeMode&&TryThunderInteraction())return true;
             if(GatehouseActive&&TryGatehouseInteraction())return true;
             if(stairs!=null&&journeyRooms[currentRoom].cleared&&Vector2.Distance(position,stairPosition)<1.6f){BeginDoorTransition(journeyRooms[currentRoom].stairsTo,-1);return true;}

@@ -28,14 +28,14 @@ namespace NakiLegend.Prototype
         }
         private void LoadThunderArt()
         {
-            if(!thunderPrototypeMode)return;
+            if(!ThunderActive)return;
             thunderFloor=ThunderSprite("floor",256,Vector2.one*.5f);
             thunderRock=ThunderSprite("rock",720,new Vector2(.5f,.17f));
             thunderNode=ThunderSprite("node",550,new Vector2(.5f,.17f));
             thunderWall=ThunderRegion("wall",new Rect(0,192,2172,304),405,Vector2.one*.5f);
             thunderGrass=ThunderRegion("grass",new Rect(355,282,864,433),900,new Vector2(.5f,.05f));
             thunderChannel=ThunderRegion("channel",new Rect(355,0,177,1774),280,Vector2.one*.5f);
-            LoadThunderEnemyArt();
+            LoadThunderEnemyArt();LoadThunderChapterArt();
         }
         private Sprite ThunderRegion(string name,Rect rect,float ppu,Vector2 pivot)
         {
@@ -60,16 +60,18 @@ namespace NakiLegend.Prototype
         }
         private void BeginThunderSample(ThunderPreset preset,int room)
         {
-            thunderPreset=preset;thunderStartRoom=Mathf.Clamp(room,0,1);thunderSetupMenu=false;BeginJourney();
+            thunderChapterMode=false;thunderPreset=preset;thunderStartRoom=Mathf.Clamp(room,0,1);thunderSetupMenu=false;BeginJourney();
         }
         private void ThunderTile(string name,Vector2 at,Vector2 size,int order)
         {
-            GameObject o=Draw(name,thunderFloor??terrainV12[1],at,Vector2.one,Color.white,order);
+            Sprite floor=thunderChapterMode?(chapterFloors[journeyRooms[currentRoom].stage]??thunderFloor):thunderFloor;
+            GameObject o=Draw(name,floor??terrainV12[1],at,Vector2.one,Color.white,order);
             var sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=size;sr.color=currentRoom==0?new Color(.87f,.96f,.9f):new Color(.9f,.94f,1);
         }
         private void BuildThunderRoom(RoomNode node)
         {
-            ReserveTransitSpace(node);doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
+            if(thunderChapterMode)thunderRepaired=currentRoom==14?chapterWest:currentRoom==16&&chapterEast;
+            ReserveTransitSpace(node);ReserveChapterProps(node);doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
             thunderRain.Clear();thunderFlow.Clear();thunderNodeVisual=thunderLamp=thunderLever=null;
             thunderStrikes.Clear();thunderWorkRemaining=0;thunderNextStrike=clock+2.4f;thunderNextWindup=clock+1.5f;
             ThunderTile("Wet highland paving",Vector2.zero,new Vector2(node.halfWidth*2,node.halfHeight*2),-1000);
@@ -84,8 +86,8 @@ namespace NakiLegend.Prototype
                     else ThunderBoundary(d,x,end);
                 }
             }
-            AddThunderRock(new Vector2(-3.7f,-.3f));AddThunderRock(new Vector2(3.3f,-1.3f));
-            if(node.id==1)
+            if(thunderChapterMode)BuildChapterCover(node);else{AddThunderRock(new Vector2(-3.7f,-.3f));AddThunderRock(new Vector2(3.3f,-1.3f));}
+            if(HasThunderConductor)
             {
                 thunderNodeVisual=Draw("Copper lightning conductor",thunderNode??lessonArtwork,ThunderNodeAt,Vector2.one,Color.white,DepthAt(ThunderNodeAt.y));
                 obstacles.Add(new Rect(ThunderNodeAt+new Vector2(-.56f,-.13f),new Vector2(1.12f,.32f)));projectileObstacles.Add(new Rect(ThunderNodeAt+new Vector2(-.7f,-.08f),new Vector2(1.4f,1.7f)));
@@ -103,6 +105,7 @@ namespace NakiLegend.Prototype
                 if(!IntersectsTransit(at,new Vector2(.8f,.5f)))Draw("Highland grass and flowers",thunderGrass,at,Vector2.one*(node.id==0?1:.7f),Color.white,DepthAt(at.y));
             }
             foreach(Vector2 at in new[]{new Vector2(-4.6f,.25f),new Vector2(4.2f,-.8f),new Vector2(-6.5f,3.5f)})Draw("Grass beside low stones",thunderGrass,at,Vector2.one*.7f,Color.white,DepthAt(at.y));
+            if(thunderChapterMode)BuildChapterActions();
             for(int i=0;i<32;i++)
             {
                 GameObject drop=Stretch("Highland rain",square,Vector2.zero,new Vector2(.012f,.15f),new Color(.65f,.82f,.88f,.17f),-610);
@@ -156,15 +159,16 @@ namespace NakiLegend.Prototype
         {foreach(ThunderStrike s in thunderStrikes)if(s.root!=null)Destroy(s.root);thunderStrikes.Clear();}
         private void TickThunderEnvironment(float dt)
         {
-            if(!thunderPrototypeMode)return;
+            if(!ThunderActive)return;
             for(int i=0;i<thunderRain.Count;i++)if(thunderRain[i]!=null)thunderRain[i].transform.position=new Vector2(-8.8f+Mathf.Repeat(i*2.731f+clock*.25f,17.6f),5.2f-Mathf.Repeat(i*1.137f+clock*3,10.4f));
-            if(currentRoom==1&&!thunderRepaired&&!journeyRooms[1].cleared&&clock>=thunderNextStrike&&thunderStrikes.Count==0)
+            if(HasThunderConductor&&!thunderRepaired&&!journeyRooms[currentRoom].cleared&&clock>=thunderNextStrike&&thunderStrikes.Count==0)
             {
                 Vector2 at=NearestEnemyFooting(position+Vector2.up*.65f,.85f);
                 if(!IntersectsTransit(at,Vector2.one*1.7f)&&!ProjectilePathBlocked(at,at,.85f))QueueThunderStrike(at);
                 thunderNextStrike=clock+4.5f;
             }
-            TickThunderStrikes();
+            TickThunderStrikes();TickChapterSkills();
+            if(thunderChapterMode&&chapterSavePending&&SafeChapterCheckpoint){chapterSavePending=false;SaveChapterCheckpoint(false);}
             if(thunderSavePending&&SafeThunderCheckpoint){thunderSavePending=false;SaveThunderCheckpoint(false);}
         }
         private bool TryThunderInteraction()

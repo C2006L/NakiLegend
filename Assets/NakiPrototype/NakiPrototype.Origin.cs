@@ -7,7 +7,7 @@ namespace NakiLegend.Prototype
         private enum Origin { Unchosen, Light, Dark }
         private Origin origin;
         private int originChoice;
-        private bool OriginChoiceReady { get { return enableDesertJourney&&!thunderPrototypeMode&&!gatehouseSampleMode&&!bossPracticeMode&&origin==Origin.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&health>0; } }
+        private bool OriginChoiceReady { get { return enableDesertJourney&&!ThunderActive&&!gatehouseSampleMode&&!bossPracticeMode&&origin==Origin.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&health>0; } }
         private void ChooseOrigin(int choice)
         {
             if(origin!=Origin.Unchosen)return;
@@ -39,7 +39,7 @@ namespace NakiLegend.Prototype
         }
         private void ChargeDarkPower(Enemy enemy)
         {
-            if(!enableDesertJourney||origin!=Origin.Dark||enemy.kind==EnemyKind.StoneSentinel||enemy.kind==EnemyKind.Colossus)return;
+            if(!enableDesertJourney||origin!=Origin.Dark||enemy.kind==EnemyKind.StoneSentinel||enemy.kind==EnemyKind.Colossus||enemy.kind==EnemyKind.CopperRoller||enemy.kind==EnemyKind.ThunderStone||IsChapterBoss(enemy.kind))return;
             darkPower=Mathf.Min(100,darkPower+(enemy.boss?24:12));
         }
         private void CastDarkMeteor()

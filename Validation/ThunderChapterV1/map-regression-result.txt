@@ -1,0 +1,2 @@
+PASS 3121 checks. Unity 2022.3.62f3 / URP.
+50 map seeds; actual sealed arrivals over 12 full graphs; all exits/stairs traversed on 3 graphs; separate light/element/dark accounting; crystal drops and revisits; automatic aim and cover; six weapon slots, full-bag replacement, supplies; explicit F floor transition; three boss moves, phases and post-death cleanup; lethal player damage in four directions, restart and missing-cache recovery. Real 1920x1080 Game View HUD/bag/map/stair/boss screenshots exported.

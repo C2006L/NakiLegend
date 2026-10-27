@@ -10,7 +10,7 @@ namespace NakiLegend.Prototype
         [Serializable] private sealed class ThunderAtlas { public ThunderFrame[] moth=Array.Empty<ThunderFrame>(),guard=Array.Empty<ThunderFrame>(); }
         private sealed class ThunderStrike { public Vector2 at;public float when;public GameObject root; }
         private readonly List<ThunderStrike> thunderStrikes=new List<ThunderStrike>();
-        private static bool IsThunderEnemy(EnemyKind kind){return kind==EnemyKind.ChargeMoth||kind==EnemyKind.StormGuard;}
+        private static bool IsThunderEnemy(EnemyKind kind){return kind>=EnemyKind.ChargeMoth&&kind<=EnemyKind.StormStag;}
         private void LoadThunderEnemyArt()
         {
             TextAsset data=Resources.Load<TextAsset>("NakiArt/ThunderS1/atlas");if(data==null)return;
@@ -30,12 +30,14 @@ namespace NakiLegend.Prototype
         }
         private void ConfigureThunderEnemy(Enemy e)
         {
+            if(e.kind>=EnemyKind.CopperRoller){ConfigureChapterEnemy(e);return;}
             e.boss=e.elite=false;e.radius=.32f;e.hp=e.maximum=e.kind==EnemyKind.ChargeMoth?30:42;
             e.speed=e.kind==EnemyKind.ChargeMoth?1.5f:1.65f;e.affinity=e.attackElement=Element.Lightning;
             e.nextAttack=clock+1.25f;e.root.transform.localScale=Vector3.one;
         }
         private void UpdateThunderEnemy(Enemy e,float dt)
         {
+            if(e.kind>=EnemyKind.CopperRoller){UpdateChapterEnemy(e,dt);return;}
             e.position=MoveEnemyWithinRoom(e.position,Vector2.zero,e.radius);Vector2 before=e.position,off=position-e.position;
             bool moth=e.kind==EnemyKind.ChargeMoth;
             if(e.windup>0)
@@ -111,7 +113,7 @@ namespace NakiLegend.Prototype
         }
         private bool TryThunderWindInterrupt(Shot shot,Vector2 from,Vector2 to)
         {
-            if(!thunderPrototypeMode||currentRoom!=1||thunderRepaired||shot.hostile||shot.element!=Element.Wind)return false;
+            if(!ThunderActive||!HasThunderConductor||thunderRepaired||shot.hostile||shot.element!=Element.Wind)return false;
             if(DistanceToSegment(ThunderNodeAt+Vector2.up*.35f,from,to)>.7f)return false;
             ClearThunderHazards();thunderNextStrike=clock+3;JourneyHint("风刃打断聚雷 · 清房后可免费复位手柄");return true;
         }

@@ -400,7 +400,7 @@ namespace NakiLegend.Prototype
         private void UpdateSwordImpact()
         {
             if (!swordHitPending || clock < swordHitAt) return;
-            swordHitPending = false;
+            swordHitPending = false;int hitCount=0;
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
                 Enemy enemy = enemies[i]; Vector2 offset = enemy.position - position;
@@ -408,7 +408,7 @@ namespace NakiLegend.Prototype
                 float cone = enableDesertJourney && CurrentWeapon.type == WeaponType.Spear ? .86f : .25f;
                 if (offset.magnitude <= reach + enemy.radius && Vector2.Dot(swingDirection, offset.normalized) > cone &&
                     (!enableDesertJourney || !ProjectilePathBlocked(position, enemy.position, .02f)))
-                { if(enableDesertJourney) ApplyElementDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element); else DamageEnemy(enemy,swordDamage); }
+                { if(enableDesertJourney) ApplyElementDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element); else DamageEnemy(enemy,swordDamage);if(enableDesertJourney&&CurrentWeapon.maxHits>0&&++hitCount>=CurrentWeapon.maxHits)break; }
             }
         }
 

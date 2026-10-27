@@ -2,6 +2,8 @@
 
 Unity 2D 地牢试玩，当前 **V14**。沙漠岛三小层共 39 房，四向走门探索，包含护盾、分阶段学习的光暗 / 风技能、独立主属性与元素资源、自动瞄准、六格行囊和三种最终 Boss。登岛选择光 / 暗，安全房自动存档；Boss 后进入五房归渠水道，最后播放 CG。保留 V10 精细开场与 V11 武器握持修正。
 
+**第二岛“雷雨高原”完整可玩首版已加入**：三层 39 房、双引雷节点、失联巡路员、三位 Boss、六件新武器、雷标 / 跃电与“灯下有归人”尾声。停止 Play 后，用 **Tools → Naki Legend → Play → 2 Thunder Plateau Adventure** 打开，再点击 Play。配置页可从任意一层或任意 Boss 开始，F5 / F9 使用独立存档，T 整理元素技能。沙漠收尾后也可在望台西侧风铃 F 乘船接续。详见 [第二岛试玩与数值说明](Docs/THUNDER_CHAPTER_V1.md)。
+
 ## 打开试玩
 
 1. Unity Hub 添加本仓库根目录，使用 **Unity 2022.3.62f3**。工程采用 URP 14.0.12 / Renderer2D，等待资源导入与脚本编译。
@@ -50,13 +52,13 @@ Unity 2D 地牢试玩，当前 **V14**。沙漠岛三小层共 39 房，四向�
 
 菜单 **Tools → Naki Legend → Open Thunder Plateau Prototype**，或打开 Assets/Scenes/NakiThunderPrototype.unity。选择光、暗或无技能零元素预设，A / D 选择从草坡或引雷坪开始，F 进入。两房用实际门廊往返，清理后免费复位铜手柄，检查风克雷、普通雷弹与落雷、奖励与回访。
 
-F5 / F9 使用独立的 thunder-prototype-v1.json，不读取或覆盖正常沙漠旅程；N 打开原型配置。见 [详细试玩说明](Docs/THUNDER_S1_PLAYTEST.md)。完整三层、Boss、雷技能与跨岛航行仍待制作。
+F5 / F9 使用独立的 thunder-prototype-v1.json，不读取或覆盖正常沙漠旅程；N 打开原型配置。见 [详细试玩说明](Docs/THUNDER_S1_PLAYTEST.md)。S1 保留为历史机制实验，完整三层请使用新的 NakiThunderChapter 场景。
 
 ## 第二岛设计：雷雨高原
 
-[D2 三层详细设计](Docs/THUNDER_PLATEAU_DESIGN.md) · [两房原型规格](Docs/THUNDER_PROTOTYPE_SPEC.md) · [环境、巨鹿和两类小怪概念图](Art/ThunderPlateauD2/README.md)。目标是三层 39 房走门探索，用风应对雷，修复引雷设施，让老人等到巡路员归家。独立两房原型 S1 已开放；完整第二岛尚未开放。
+[D2 三层详细设计](Docs/THUNDER_PLATEAU_DESIGN.md) · [两房原型规格](Docs/THUNDER_PROTOTYPE_SPEC.md) · [环境、巨鹿和两类小怪概念图](Art/ThunderPlateauD2/README.md)。三层 39 房已经接入，沿门探索，用风应对雷，修复引雷设施，让灯匠等到巡路员归家。
 
-D3 新增：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Docs/THUNDER_MAP_D3.md) · [三场 Boss、六把武器与技能](Docs/THUNDER_COMBAT_D3.md)。D3 完整连接数据尚未加载到游戏；独立原型只实现两房。
+D3 设计依据：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Docs/THUNDER_MAP_D3.md) · [三场 Boss、六把武器与技能](Docs/THUNDER_COMBAT_D3.md)。首版完整连接、节点、任务、技能配置和跨岛独立存档已经实现；实际内容与当前边界以 [第二岛 V1](Docs/THUNDER_CHAPTER_V1.md) 为准。
 
 ## 开场与美术
 
@@ -68,4 +70,4 @@ D3 新增：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Doc
 
 本轮生成美术使用内置 imagegen，保留原稿和精确提示。中文字体为 Fusion Pixel，授权见 [第三方说明](THIRD_PARTY_NOTICES.md)。
 
-安全房存档可跨 Play 会话继续。其他岛屿、完整光暗剧情、七元素关系与更多动作演出逐步制作。旧文档保留为历史，当前规则以 V14 为准。
+安全房存档可跨 Play 会话继续。其他岛屿、完整光暗剧情、七元素关系与更多动作演出逐步制作。旧文档保留为历史，沙漠规则以 V14、第二岛以雷雨高原 V1 试玩说明为准。

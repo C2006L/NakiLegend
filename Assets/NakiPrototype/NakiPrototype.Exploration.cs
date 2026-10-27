@@ -77,7 +77,7 @@ namespace NakiLegend.Prototype
             if(!journeyRooms[currentRoom].cleared)return false;
             for(int d=0;d<4;d++)if(HasDoor(d))
             {
-                if(GatehouseDoorLocked(currentRoom,d))continue;
+                if(ExplorationDoorLocked(currentRoom,d))continue;
                 Vector2 normal=DoorNormal(d),delta=at-DoorPoint(d);float outDistance=Vector2.Dot(delta,normal),side=Mathf.Abs(Vector2.Dot(delta,new Vector2(-normal.y,normal.x)));
                 if(outDistance>=-radius-.1f&&outDistance<=1.9f-radius&&side<=1.15f-radius)return true;
             }
@@ -113,7 +113,7 @@ namespace NakiLegend.Prototype
 
         private void BuildExplorationRoom(RoomNode node)
         {
-            if(thunderPrototypeMode){BuildThunderRoom(node);return;}
+            if(ThunderActive){BuildThunderRoom(node);return;}
             int floor=IsGatehouseRoom(node)?1:node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
             doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
             TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),floor,-1000);
@@ -171,7 +171,7 @@ namespace NakiLegend.Prototype
             foreach(Rect r in doorShotBlocks)projectileObstacles.Remove(r);doorShotBlocks.Clear();
             for(int i=0;i<doorSeals.Count;i++)
             {
-                int d=doorSealDirections[i];bool locked=!journeyRooms[currentRoom].cleared||GatehouseDoorLocked(currentRoom,d);
+                int d=doorSealDirections[i];bool locked=!journeyRooms[currentRoom].cleared||ExplorationDoorLocked(currentRoom,d);
                 if(doorSeals[i]!=null)doorSeals[i].SetActive(locked);
                 if(locked){Rect block=DoorSealCollision(d);doorShotBlocks.Add(block);projectileObstacles.Add(block);}
             }
@@ -193,7 +193,7 @@ namespace NakiLegend.Prototype
             foreach(int link in node.links)
             {
                 int direction=NeighborDirection(node,journeyRooms[link]);Vector2 n=DoorNormal(direction),delta=position-DoorPoint(direction);
-                if(GatehouseDoorLocked(currentRoom,direction))continue;
+                if(ExplorationDoorLocked(currentRoom,direction))continue;
                 if(Vector2.Dot(delta,n)>1.0f&&Mathf.Abs(Vector2.Dot(delta,new Vector2(-n.y,n.x)))<.55f){BeginDoorTransition(link,direction^1);return;}
             }
             // Stairs use explicit F interaction; normal room doors remain automatic.

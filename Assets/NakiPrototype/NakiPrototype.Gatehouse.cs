@@ -100,6 +100,7 @@ namespace NakiLegend.Prototype
 
         private void RefreshGatehouseWater()
         {
+            EnsureThunderDock();
             bool wet=gateRepairCommitted&&gateTotalUnlocked;
             for(int i=0;i<gateWaterVisuals.Count;i++)if(gateWaterVisuals[i]!=null){gateWaterVisuals[i].SetActive(wet);if(i==0)gateWaterVisuals[i].GetComponent<SpriteRenderer>().color=gateRainReturned?new Color(.26f,.7f,.72f,.8f):new Color(.24f,.55f,.57f,.42f);}
             if(gateRainReturned&&gateRainVisuals.Count==0)

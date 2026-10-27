@@ -16,6 +16,7 @@ namespace NakiLegend.Prototype
   {return e.boss?EnemyNames[(int)e.kind]:e.elite?(e.eliteKind==2?"雷印 · ":e.kind==EnemyKind.StoneSentinel?"重甲 · ":"追猎 · ")+EnemyNames[(int)e.kind]:EnemyNames[(int)e.kind];}
   private string EnemyMoveName(Enemy e)
   {
+   if(IsChapterBoss(e.kind))return ChapterBossMove(e);
    int move=(e.attackNumber-1)%3;
    if(e.kind==EnemyKind.WindScorpion)return new[]{"尾刺落点","风钳横扫","风刃齐射"}[Mathf.Max(0,move)];
    if(e.kind==EnemyKind.Colossus)return new[]{"扩散震波","碎石齐射","召唤守卫"}[Mathf.Max(0,move)];

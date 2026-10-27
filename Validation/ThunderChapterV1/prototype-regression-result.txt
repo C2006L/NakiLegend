@@ -1,0 +1,1 @@
+PASS 130 checks: two-room scene and presets, real doors and wave rosters, elemental enemies, wind and lightning, cover, free repair and one-time rewards, isolated real saves and corruption recovery; native HD screenshots and actor animation captures.

@@ -30,7 +30,7 @@ namespace NakiLegend.Prototype
             public Vector2 attackDirection;
             public float actionStarted, recoveryUntil, hurtUntil, chargeUntil;
             public int attackNumber;
-            public bool secondPhase;
+            public bool secondPhase;public int chapterCombo;
             public GameObject shadow;
             public Element affinity, attackElement;
             public float poise, poiseReadyAt;
@@ -48,7 +48,7 @@ namespace NakiLegend.Prototype
             public Element element;
             public bool tracking = true, orb, dispellable = true;
             public float speed;
-            public int hitsLeft = 1;
+            public int hitsLeft = 1;public bool chapterArc;
             public readonly HashSet<Enemy> hitTargets = new HashSet<Enemy>();
         }
 
@@ -117,7 +117,7 @@ namespace NakiLegend.Prototype
             view.backgroundColor = C("252d36");
             view.cullingMask = ~0;
             ResetRoom();
-            TryResumeAtStartup();if(thunderPrototypeMode)thunderSetupMenu=true;
+            TryResumeAtStartup();if(thunderPrototypeMode)thunderSetupMenu=true;if(thunderChapterMode)chapterSetup=thunderChapterPracticeBoss<0;
         }
 
         private Sprite MakeSprite(string[] rows, Dictionary<char, Color> palette, float pixelsPerUnit)
@@ -210,9 +210,9 @@ namespace NakiLegend.Prototype
             if (!enableDesertJourney && openingActive) StopOpeningCinematic();
             view.orthographicSize = enableDesertJourney ? Mathf.Max(5.1f, 9.7f / Mathf.Max(view.aspect, .1f)) : Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
             if(HandleCheckpointKeys())return;
-            if (Pressed('r')) { ResetRoom(); return; }
-            if (enableDesertJourney && Pressed('n')) { if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
-            if (enableDesertJourney && !thunderPrototypeMode && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
+            if (Pressed('r')) { if(thunderChapterMode&&thunderChapterPracticeBoss<0){if(!LoadChapterCheckpoint(false))BeginThunderChapter(false);}else ResetRoom(); return; }
+            if (enableDesertJourney && Pressed('n')) { if(thunderChapterMode){chapterSetup=true;paused=false;}else if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
+            if (enableDesertJourney && !ThunderActive && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
             if (enableDesertJourney && HandleJourneyOverlayInput()) return;
             if (Pressed('e')) paused = !paused;
             if (paused) return;
@@ -233,8 +233,8 @@ namespace NakiLegend.Prototype
             heroBody.color = clock < flashUntil ? C("ff7777") : clock < invulnerableUntil ? C("a9e9ff") : Color.white;
             if (Held('j') && clock >= nextSword && clock >= dashUntil && clock >= castPoseUntil) { if (enableDesertJourney) UseEquippedWeapon(); else Swing(); }
             if (Held('l') && clock >= nextSpell && (enableDesertJourney || energy >= 25) && clock >= dashUntil && clock >= swordUntil) Cast();
-            if (enableDesertJourney && Pressed('u')) CastWindBlade();
-            if (enableDesertJourney && Pressed('i')) CastWind();
+            if (enableDesertJourney && Pressed('u')) {if(thunderChapterMode)CastChapterSkill(0);else CastWindBlade();}
+            if (enableDesertJourney && Pressed('i')) {if(thunderChapterMode)CastChapterSkill(1);else CastWind();}
             if (enableDesertJourney && Pressed('h')) SwitchWeapon();
             UpdateSwordImpact();
             sword.SetActive(clock < swordUntil);
@@ -407,7 +407,7 @@ namespace NakiLegend.Prototype
             if (!remove && !shot.hostile)
                 for (int i = enemies.Count - 1; i >= 0; i--)
                     if (!shot.hitTargets.Contains(enemies[i]) && DistanceToSegment(enemies[i].position,previous,shot.position) < enemies[i].radius + .15f)
-                    { Enemy target = enemies[i]; shot.hitTargets.Add(target); if (enableDesertJourney) ApplyElementDamage(target, shot.damage > 0 ? shot.damage : spellDamage, shot.element); else DamageEnemy(target, shot.damage > 0 ? shot.damage : spellDamage); shot.hitsLeft--; if (shot.hitsLeft <= 0) { remove = true; break; } }
+                    { Enemy target = enemies[i]; shot.hitTargets.Add(target); if (enableDesertJourney) ApplyElementDamage(target, shot.damage > 0 ? shot.damage : spellDamage, shot.element); else DamageEnemy(target, shot.damage > 0 ? shot.damage : spellDamage); ResolveChapterArc(shot,target);shot.hitsLeft--; if (shot.hitsLeft <= 0) { remove = true; break; } }
             if (remove) { Destroy(shot.root); shots.RemoveAt(index); }
             else shot.root.transform.position = shot.position;
         }
@@ -478,6 +478,7 @@ namespace NakiLegend.Prototype
                 case '1': return keyboard.digit1Key.wasPressedThisFrame;
                 case '2': return keyboard.digit2Key.wasPressedThisFrame;
                 case '3': return keyboard.digit3Key.wasPressedThisFrame;
+                case 't': return keyboard.tKey.wasPressedThisFrame;
                 case ' ': return keyboard.spaceKey.wasPressedThisFrame;
                 case 'a': return keyboard.aKey.wasPressedThisFrame;
                 case 'd': return keyboard.dKey.wasPressedThisFrame;

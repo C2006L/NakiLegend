@@ -136,7 +136,7 @@ namespace NakiLegend.Prototype
 
         private void CheckPendingLesson()
         {
-            if(thunderPrototypeMode||origin==Origin.Unchosen)return;
+            if(ThunderActive||origin==Origin.Unchosen)return;
             pendingLesson = !orbLearned && clearedCombatRooms >= 3 ? 1 : !bladeLearned && clearedCombatRooms >= 6 ? 2 : !waveLearned && clearedCombatRooms >= 10 ? 3 : 0;
             if (pendingLesson == 0 || lessonAltar != null) return;
             lessonPosition = FindFreeInteractionPoint(new Vector2(-2.2f, -1.6f));

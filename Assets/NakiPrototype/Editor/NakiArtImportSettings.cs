@@ -7,7 +7,7 @@ namespace NakiLegend.Prototype.Editor
     {
         private const string ArtFolder = "Assets/NakiPrototype/Resources/NakiArt";
 
-        public override uint GetVersion() { return 4; }
+        public override uint GetVersion() { return 5; }
 
         private static bool IsArtwork(string path)
         {
@@ -29,7 +29,7 @@ namespace NakiLegend.Prototype.Editor
             importer.mipmapEnabled = false;
             importer.alphaSource = TextureImporterAlphaSource.FromInput;
             importer.alphaIsTransparency = true;
-            importer.filterMode = importer.assetPath.Contains("/ThunderS1/")?FilterMode.Point:FilterMode.Bilinear;
+            importer.filterMode = importer.assetPath.Contains("/ThunderS1/")||importer.assetPath.Contains("/ThunderChapter/")?FilterMode.Point:FilterMode.Bilinear;
             importer.wrapMode = TextureWrapMode.Clamp;
         }
 

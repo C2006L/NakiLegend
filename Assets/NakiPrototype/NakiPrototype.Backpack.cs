@@ -87,6 +87,7 @@ namespace NakiLegend.Prototype
    }
    if(FlatButton(new Rect(panel.x+28,panel.y+445,300,54),"1 清泉药剂 ×"+healingSupplies+" · 恢复2生命"))UseSupply(0);
    if(FlatButton(new Rect(panel.x+350,panel.y+445,300,54),"2 元素药剂 ×"+elementSupplies+" · 元素+40"))UseSupply(1);
+   if(thunderChapterMode&&FlatButton(new Rect(panel.x+674,panel.y+445,168,54),"T 元素技能")){inventoryMenu=false;chapterSkillsMenu=true;}
    GUI.Label(new Rect(panel.x+28,panel.y+523,844,26),"A / D 选装备 · F 装备至当前栏 · G 丢弃 · B / ESC 返回；菜单中暂停战斗",journeySmallStyle);
    GUI.enabled=wasEnabled;
    if(pendingWeaponPickup!=null)

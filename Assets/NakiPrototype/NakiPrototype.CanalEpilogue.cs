@@ -60,7 +60,7 @@ namespace NakiLegend.Prototype
 
         private string CanalCompletionHint()
         {
-            if(canalEpilogueComplete)return "甘泽归沙 · 水渠已恢复，可以继续回访";
+            if(canalEpilogueComplete)return "甘泽归沙 · 望台西侧风铃 F 乘船前往雷雨高原";
             if(!gateRepairCommitted)return "水渠尚未修好 · 返回闸室清沙转轮";
             if(!gateTotalUnlocked)return "总闸未开启 · 返回分水总闸操作阀门";
             if(!GatehouseRoom(3).cleared)return "沿南门清理检修庭院，再来迎接初雨";

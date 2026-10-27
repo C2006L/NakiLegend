@@ -54,7 +54,7 @@ namespace NakiLegend.Prototype
 
         private void BeginJourney(bool newSeed=false)
         {
-            StopOpeningCinematic();
+            StopOpeningCinematic();if(thunderChapterMode){BeginThunderChapter(newSeed);return;}
             if(!tuningCaptured){initialSwordDamage=swordDamage;initialSpellDamage=spellDamage;tuningCaptured=true;}
             swordDamage=initialSwordDamage;spellDamage=initialSpellDamage;
             int previous=activeSeed;
@@ -70,7 +70,7 @@ namespace NakiLegend.Prototype
             if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 元气弹、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
             else if(!TryStartOpeningCinematic()) TellStory("老人：风曾把海上的云带过山口，如今只卷走井底最后一点凉气。","少年：我会让风重新认得回家的路。先沿着门后的旧渠，去寻找风铃台。");
         }
-        private void BuildJourneyGraph(System.Random random){if(thunderPrototypeMode)BuildThunderGraph();else if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
+        private void BuildJourneyGraph(System.Random random){if(thunderChapterMode)BuildThunderChapterGraph();else if(thunderPrototypeMode)BuildThunderGraph();else if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
         private void ConnectRooms(int a,int b){journeyRooms[a].links.Add(b);journeyRooms[b].links.Add(a);}
         private void EnterJourneyRoom(int id){EnterExplorationRoom(id,-1);}
 
@@ -99,14 +99,14 @@ namespace NakiLegend.Prototype
                     node.cleared=true;
                     if(first&&!node.claimed)
                     {
-                        if(node.kind==RoomKind.Rest){health=Mathf.Min(6,health+2);energy=100;elementPower=Mathf.Min(100,elementPower+40);node.claimed=true;TellStory("你在树荫下补充饮水，恢复2生命、光之力，并补充40元素之力。");}
-                        if(node.kind==RoomKind.Event){restoredCanals++;health=Mathf.Min(6,health+1);energy=Mathf.Min(100,energy+20);elementPower=Mathf.Min(100,elementPower+20);node.claimed=true;TellStory("你清开堵住旧渠的沙石，将水车的卡槽重新对齐。","孩子：等找到水，能先给树根留一瓢吗？","少年：好。也给村里的人留一份。");}
+                        if(!thunderChapterMode&&node.kind==RoomKind.Rest){health=Mathf.Min(6,health+2);energy=100;elementPower=Mathf.Min(100,elementPower+40);node.claimed=true;TellStory("你在树荫下补充饮水，恢复2生命、光之力，并补充40元素之力。");}
+                        if(!thunderChapterMode&&node.kind==RoomKind.Event){restoredCanals++;health=Mathf.Min(6,health+1);energy=Mathf.Min(100,energy+20);elementPower=Mathf.Min(100,elementPower+20);node.claimed=true;TellStory("你清开堵住旧渠的沙石，将水车的卡槽重新对齐。","孩子：等找到水，能先给树根留一瓢吗？","少年：好。也给村里的人留一份。");}
                         if(node.kind==RoomKind.Reward)SeedRoomLoot(node);
                     }
                 }
             }
             DrawRoomLoot(node);RestoreEssence(node);UpdateJourneyPortal();doorCooldownUntil=clock+.8f;
-            if(GatehouseActive)OnGatehouseRoomEntered();RequestCheckpoint();
+            if(GatehouseActive)OnGatehouseRoomEntered();if(thunderChapterMode)OnChapterRoomEntered(node,first);RequestCheckpoint();
         }
         private static bool IsCombatRoom(RoomNode node){return node.kind==RoomKind.Combat||node.kind==RoomKind.Elite||node.kind==RoomKind.Guardian||node.kind==RoomKind.Boss;}
 
@@ -133,6 +133,7 @@ namespace NakiLegend.Prototype
         private void SpawnJourneyWave()
         {
             RoomNode node=journeyRooms[currentRoom];currentWave++;nextWaveAt=-1;
+            if(thunderChapterMode){SpawnChapterWave(node);return;}
             if(thunderPrototypeMode){SpawnThunderWave(node);return;}
             if(IsGatehouseRoom(node)){SpawnGatehouseWave(node);return;}
             var random=new System.Random(activeSeed^(currentRoom*503+currentWave*19));
@@ -181,13 +182,15 @@ namespace NakiLegend.Prototype
             RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;
             if(IsCombatRoom(node))clearedCombatRooms++;
             foreach(Shot shot in shots)if(shot.root!=null)Destroy(shot.root);shots.Clear();
-            if(thunderPrototypeMode){ClearThunderHazards();thunderSavePending=true;}
+            if(thunderChapterMode){ClearChapterSkillEffects();OnChapterRoomCleared(node);}
+            else if(thunderPrototypeMode){ClearThunderHazards();thunderSavePending=true;}
             else if(!GatehouseActive){SeedRoomLoot(node);CheckPendingLesson();}UpdateJourneyPortal();RequestCheckpoint();
         }
         private void UpdateJourneyPortal(){UpdateExplorationDoors();}
         private void FinishJourneyBoss(){pendingBossClear=true;}
         private void CompleteJourneyBoss()
         {
+            if(thunderChapterMode){CompleteChapterBoss();return;}
             foreach(Enemy e in enemies){if(e.warning!=null)Destroy(e.warning);if(e.shadow!=null)Destroy(e.shadow);Destroy(e.root);}enemies.Clear();
             foreach(PendingSpawn spawn in pendingSpawns)if(spawn.mark!=null)Destroy(spawn.mark);pendingSpawns.Clear();
             foreach(var g in groundShocks)if(g.root!=null)Destroy(g.root);groundShocks.Clear();
@@ -208,6 +211,7 @@ namespace NakiLegend.Prototype
         private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
         private bool HandleJourneyOverlayInput()
         {
+            if(TickChapterOverlay(Time.unscaledDeltaTime))return true;
             if(TickThunderOverlay(Time.unscaledDeltaTime))return true;
             if(TickOpeningCinematic(Time.unscaledDeltaTime))return true;
             if(HandleOriginChoice())return true;
@@ -218,6 +222,7 @@ namespace NakiLegend.Prototype
             if(showRainCG){if(Pressed('f')||Pressed('e'))showRainCG=false;return true;}
             if(rewardMenu){if(Pressed('a'))routeChoice=(routeChoice+2)%3;if(Pressed('d'))routeChoice=(routeChoice+1)%3;if(Pressed('f'))ClaimJourneyReward(routeChoice);return true;}
             if(mapMenu){if(Pressed('m')||Pressed('e'))mapMenu=false;return true;}
+            if(thunderChapterMode&&health>0&&Pressed('t')){chapterSkillsMenu=true;return true;}
             if(health>0&&Pressed('m')){mapMenu=true;return true;}return false;
         }
         private void ClaimJourneyReward(int choice)
