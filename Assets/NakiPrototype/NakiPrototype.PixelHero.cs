@@ -16,6 +16,7 @@ namespace NakiLegend.Prototype
             public Sprite sprite;
             public bool flipX;
             public Vector2 grip;
+            public Sprite gripCover;
             public float weaponAngle;
         }
         private sealed class DashEcho
@@ -305,6 +306,7 @@ namespace NakiLegend.Prototype
 
         private void SetupPixelHero()
         {
+            heldHandCover = null;
             currentHeroAction = HeroAction.Idle;
             pixelDirection = 1; pixelHurtUntil = 0; nextEchoAt = 0; nextEchoIndex = 0; swordHitPending = false;
             dashEchoes.Clear();
@@ -339,7 +341,7 @@ namespace NakiLegend.Prototype
             else if (won) { action = HeroAction.Idle; phase = 0; }
             else if (clock < pixelHurtUntil) { action = HeroAction.Hurt; phase = 1 - (pixelHurtUntil - clock) / .2f; }
             else if (clock < dashUntil) { action = HeroAction.Dodge; phase = 1 - (dashUntil - clock) / .17f; aim = dashDirection; }
-            else if (clock < swordUntil) { action = HeroAction.Attack; phase = (clock - swingStarted) / .32f; aim = swingDirection; }
+            else if (clock < swordUntil) { action = HeroAction.Attack; phase = (clock - swingStarted) / (enableDesertJourney ? meleeActionDuration : .32f); aim = swingDirection; }
             else if (clock < castPoseUntil) { action = HeroAction.Cast; phase = 1 - (castPoseUntil - clock) / .32f; aim = castDirection; }
             else if (movement.sqrMagnitude > .01f)
             {
@@ -371,6 +373,7 @@ namespace NakiLegend.Prototype
             }
             sword.transform.rotation = Quaternion.Euler(0, 0, weaponAngle);
             sword.GetComponent<SpriteRenderer>().sortingOrder = heroBody.sortingOrder + (pixelDirection == 2 ? -1 : 1);
+            if (enableDesertJourney && layeredHeroReady) DrawHeldEquipment(action,pixelDirection,frameIndex,phase,root,aim);
             weaponTrail.SetActive(action == HeroAction.Attack && frameIndex >= 2 && frameIndex <= 3);
             if (weaponTrail.activeSelf)
             {
@@ -401,8 +404,11 @@ namespace NakiLegend.Prototype
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
                 Enemy enemy = enemies[i]; Vector2 offset = enemy.position - position;
-                if (offset.magnitude <= 1.4f + enemy.radius && Vector2.Dot(swingDirection, offset.normalized) > .25f)
-                    DamageEnemy(enemy, swordDamage);
+                float reach = enableDesertJourney ? CurrentWeapon.range : 1.4f;
+                float cone = enableDesertJourney && CurrentWeapon.type == WeaponType.Spear ? .86f : .25f;
+                if (offset.magnitude <= reach + enemy.radius && Vector2.Dot(swingDirection, offset.normalized) > cone &&
+                    (!enableDesertJourney || !ProjectilePathBlocked(position, enemy.position, .02f)))
+                { if(enableDesertJourney) ApplyElementDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element); else DamageEnemy(enemy,swordDamage); }
             }
         }
 

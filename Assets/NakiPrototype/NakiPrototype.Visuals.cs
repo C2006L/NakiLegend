@@ -82,6 +82,8 @@ namespace NakiLegend.Prototype
             {
                 // Only the footing blocks movement. The column above it can occlude actors behind it.
                 obstacles.Add(new Rect(at.x - .42f, at.y - .24f, .84f, .48f));
+                Bounds body = pillarArtwork.bounds;
+                projectileObstacles.Add(new Rect(at.x + body.min.x, at.y + body.min.y, body.size.x, body.size.y));
                 Draw("Pillar ground shadow", softDisc, at + new Vector2(.12f, -.03f), new Vector2(1.5f, .5f), new Color(.16f, .1f, .06f, .3f), -800);
                 Draw("Independent sandstone pillar", pillarArtwork, at, Vector2.one, Color.white, DepthAt(at.y));
             }

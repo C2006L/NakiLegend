@@ -9,11 +9,11 @@ namespace NakiLegend.Prototype
 
         private void LoadPolishedHeroSprites()
         {
-            polishedHeroReady = false;
+            polishedHeroReady = layeredHeroReady = false;
             if (!usePolishedHeroArt) return;
-            Texture2D movement = Resources.Load<Texture2D>("NakiArt/hero-movement-v5");
-            Texture2D actions = Resources.Load<Texture2D>("NakiArt/hero-actions-v5");
-            Texture2D walking = Resources.Load<Texture2D>("NakiArt/hero-walk-v5");
+            Texture2D movement = Resources.Load<Texture2D>(enableDesertJourney ? "NakiArt/hero-body-movement-v9" : "NakiArt/hero-movement-v5");
+            Texture2D actions = Resources.Load<Texture2D>(enableDesertJourney ? "NakiArt/hero-body-actions-v9" : "NakiArt/hero-actions-v5");
+            Texture2D walking = Resources.Load<Texture2D>(enableDesertJourney ? "NakiArt/hero-body-walk-v9" : "NakiArt/hero-walk-v5");
             if (movement == null || actions == null)
             {
                 Debug.LogWarning("Naki Legend: polished hero atlas missing; using pixel hero fallback.");
@@ -48,8 +48,10 @@ namespace NakiLegend.Prototype
             {
                 leftWalk[i].sprite = rightWalk[i].sprite;
                 leftWalk[i].flipX = true;
+                leftWalk[i].grip = new Vector2(-rightWalk[i].grip.x,rightWalk[i].grip.y);
+                leftWalk[i].gripCover = rightWalk[i].gripCover;
             }
-            polishedHeroReady = true;
+            polishedHeroReady = true; layeredHeroReady = enableDesertJourney;
         }
 
         private Sprite[,] SliceHeroSheet(Texture2D texture, int columns = 4)
@@ -80,6 +82,7 @@ namespace NakiLegend.Prototype
             {
                 HeroFrame old = previous[Mathf.Min(i, previous.Length - 1)];
                 frames[i] = new HeroFrame { sprite = sprites[direction, poses[i]], grip = old.grip, weaponAngle = old.weaponAngle };
+                if(enableDesertJourney) CalibratePolishedGrip(frames[i],action,direction,poses[i]);
             }
             heroFrames[action][direction] = frames;
         }

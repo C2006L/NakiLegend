@@ -403,3 +403,12 @@ MonoBehaviour:
   useAnimatedPixelHero: 1
   usePolishedHeroArt: 1
   pixelHeroScale: 1
+
+  enableDesertJourney: 1
+  journeySeed: 0
+  bossOverride: -1
+  bossPracticeMode: 0
+  maximumShield: 4
+  lightningTrialMode: 0
+  showOpeningOnStart: 1
+  openingAudioVolume: 0.22

@@ -1,43 +1,52 @@
 # Naki Legend
 
-Unity 2D 地牢战斗原型。当前已有沙漠测试房间、近战、追踪法球、闪避、两只小怪和风蝎 Boss。游戏角色使用像素动作素材，CG 与对话图计划使用精细插画。
+Unity 2D 地牢试玩，当前 **V12**。沙漠岛三小层共 39 房，四向走门探索，包含护盾、分阶段学习的光 / 风技能、独立光与元素资源、自动瞄准、六格行囊和三种最终 Boss。保留 V10 精细开场与 V11 武器握持修正。
 
-## 打开与运行
+## 打开试玩
 
-1. 安装 **Unity 2022.3.62f3**，在 Unity Hub 中添加本仓库根目录。
-2. 等待 Package Manager 安装依赖和脚本编译。项目使用 **URP 14.0.12 / Renderer2D**。
-3. 打开 `Assets/Scenes/NakiTest.unity`，点击 Play，再点击 Game 窗口获得键盘焦点。
-4. Game 窗口建议用 16:9，并调整 Scale 让画面完整显示。
+1. Unity Hub 添加本仓库根目录，使用 **Unity 2022.3.62f3**。工程采用 URP 14.0.12 / Renderer2D，等待资源导入与脚本编译。
+2. 打开 `Assets/Scenes/NakiTest.unity`，点击 Play。Game 窗口建议 16:9。开场约 74 秒：F 全文 / 下一幕，空格暂停，Esc 跳过。
+3. 清完波次后沿打开的门探索；M 地图只查看，不传送。击败前两层守渠者后，找到阶梯，**靠近按 F 前往下一层**。第三层最终 Boss 在风蝎、巨像、猿王中抽取。
+4. Boss 练习：`Assets/Scenes/NakiBossPractice.unity`；风克雷练习：`Assets/Scenes/NakiElementTrial.unity`；开场预览：`Assets/Scenes/NakiOpeningPreview.unity`。
 
-入口场景已保存角色脚本，首次克隆不需要手动挂组件。`SampleScene` 保留为原始模板场景。
+已有 SampleScene + NakiPrototype 组件也能运行。更新后先退出旧 Play，等待编译完成，Clear 清除 Console 历史错误，再重新 Play。Play 中重新编译脚本会检测并重建运行缓存，**重新开始本轮**；当前尚无局内存档。
 
-| 按键 | 操作 |
+| 输入 | 操作 |
 | --- | --- |
-| WASD | 移动 |
-| J，可按住 | 剑击 |
-| K | 闪避 |
-| L，可按住 | 追踪法球 |
-| Esc | 暂停／继续 |
-| R | 重新开始 |
+| WASD | 移动，清房后走门自动换房 |
+| J / K | 当前武器攻击 / 闪避 |
+| L / U / I | 学习后使用元气弹 / 风之刃 / 护身风波 |
+| H | 切换携带的两把武器 |
+| F | 交互、学技能、拾取、开补给、使用阶梯、推进对话 |
+| B | 打开 / 关闭行囊，暂停战斗 |
+| A / D，F，G | 行囊中选择、装备到当前栏、丢弃；可点击装备到指定栏 |
+| 1 / 2 | 使用清泉药剂 / 元素药剂 |
+| M | 查看 / 关闭探索地图 |
+| Esc | 暂停、关闭界面、跳过对话 / 开场 |
+| 空格 / V | 开场暂停；暂停菜单 V 重播开场 |
+| R / N | 同种子重开 / 新旅程 |
 
-## 本次修复
+## 本轮修改
 
-左走原素材的腿部变化不明显，现改为镜像复用已确认的右走六帧循环。左右保持相同的步伐相位；转身会正确恢复翻转状态，残影也会复制对应状态。保留上一轮的独立切图、透明边距、落脚点对齐和连续移动坐标。
+- 门框与青铜栅门、门口障碍禁区、安全落点和独立换层阶梯，修复第二层入口夹住玩家的问题。
+- 光之力供元气弹，元素之力供武器和风技能。普通敌人 / 精英 / Boss 分别掉落 8 / 20 / 40 元素结晶，靠近自动拾取，满时留地。暗之力独立记账，暗线尚未开放。
+- 全方向自动锁定可见敌人，近战、法杖、弓、定向技能不用手动调整朝向；实体掩体仍挡弹。远程武器有不同散布。
+- 三层独立平铺材质、中文资源栏、明确的层数和交互提示。B 行囊提供两把携带 + 四把备用武器、属性详情、替换 / 丢弃和药剂。
+- 精英身份符环与雷印破势；Boss 真实范围预警、蓄力招式、收招提示、45% 血量转阶段，以及死亡后的危险清理。
+- 修复 Play 中脚本重载导致倒地 `Defeated` 动画字典丢失并持续刷错；补充死亡、重开和真正的程序集重载验证。
 
-![左右走路实际 Unity 渲染对比](Art/LeftWalkV6/left-right-walk.gif)
+完整规则、消耗与数值表见 [V12 修改说明](Docs/DESERT_V12.md)。本轮通过 3,121 项 Unity 运行检查，包含 1,404 个实际进门落点；真实脚本重载的独立结果另见 `Validation/DesertV12`。
 
-## 结构
+![V12 Unity 实际画面](Art/DesertV12/unity-overview-v12.jpg)
 
-- `Assets`、`Packages`、`ProjectSettings`：可直接打开的 Unity 工程。
-- `Art`：必要的原始动作表、提取坐标、生成记录与修复预览。
-- `Tools/build_hero_atlas_v5.py`：按透明轮廓提取图集，需要 Pillow、numpy、scipy。输出到 `Art/PolishedHeroV5`，运行时读取 `Assets/NakiPrototype/Resources/NakiArt` 内的图集。
-- `Validation/LeftWalkV6`：本次运行记录和回归检查脚本。
-- [下一阶段计划](Docs/ROADMAP.md)：先完成可反复试玩的沙漠岛短流程。
+## 开场与美术
 
-仓库排除 Library、Temp、Logs、UserSettings、历史 ZIP 和测试逐帧截图。当前仍是原型：敌人使用占位图，房间切换、掉落、剧情光暗分支与存档尚未实现。
+下一阶段设计 D1 已整理：[沙漠 39 房与四个事件](Docs/DESERT_CHAPTER_DESIGN.md) · [闸室样板规格](Docs/DESERT_GATEHOUSE_SAMPLE.md) · [Boss 对白与演出](Docs/DESERT_BOSS_STORY.md) · [雷雨高原概念](Docs/THUNDER_PLATEAU_CONCEPT.md)。新增设计尚未接入游戏，当前仍测试 V12；下一项制作是独立闸室样板。
 
-## 验证
+六幅精细插画构成 11 幕开场，从神鸟传说、元素碎裂、王宫授命，到船头启程、枯井村落和少年为幼苗留水。包含推进、叠化、字幕、环境声与片名；当前无真人配音。剧情围绕修渠、居民饮水与恢复沙漠雨季展开。
 
-本次在 Unity 2022.3.62f3 / URP 完成 34 项运行检查，包含六个左右步伐逐帧镜像对应、转身状态恢复、连续移动、剑击时机、闪避、施法、重开和 Boss 胜利。图集检查覆盖 56 个姿势的主体完整性、边距和落脚线。
+[开场分镜](Docs/OPENING_V10.md) · [握持修复](Docs/GRIP_FIX_V11.md) · [V12 美术原稿与提示](Art/DesertV12/prompts.json) · [后续计划](Docs/ROADMAP.md)
 
-`Validation/LeftWalkV6/LeftWalkSmoke.cs` 是开发检查脚本，默认不参与游戏编译。需复跑时，将它临时复制到 `Assets/Tests/Editor`，用 Unity 的 `-executeMethod NakiLeftWalkSmoke.Run` 执行；它会创建测试场景、切换 Play、输出报告并退出编辑器，应在独立工作副本执行。
+本轮生成美术使用内置 imagegen，保留原稿和精确提示。中文字体为 Fusion Pixel，授权见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+
+目前进度只在当前 Play 会话内保存。其他岛屿、完整光暗剧情、七元素关系、正式存档和更完整的动作演出待后续制作。旧 V8 / V9 文档保留为历史记录，当前规则以 V12 为准。

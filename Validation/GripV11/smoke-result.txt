@@ -1,0 +1,2 @@
+PASS: 2305 live pose combinations. Unity 2022.3.62f3 / URP.
+Eight weapons, four directions, idle/walk/attack/cast/dodge/hurt/defeated across 0.75/1/1.25 scales; same hand socket for weapon and finger cover; left attacks aim left; mirrored gait/sockets; room transition overlay cleanup. Actual isolated camera renders exported for visual verification.

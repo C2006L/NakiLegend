@@ -24,6 +24,15 @@ namespace NakiLegend.Prototype
             public bool boss;
             public Vector2 strikePoint;
             public GameObject warning;
+            public EnemyKind kind;
+            public Vector2 attackDirection;
+            public float actionStarted, recoveryUntil, hurtUntil, chargeUntil;
+            public int attackNumber;
+            public bool secondPhase;
+            public GameObject shadow;
+            public Element affinity, attackElement;
+            public float poise, poiseReadyAt;
+            public Vector2 velocity; public bool elite; public int eliteKind; public GameObject armorSigil;public float phaseUntil;
         }
 
         private sealed class Shot
@@ -33,11 +42,18 @@ namespace NakiLegend.Prototype
             public Enemy target;
             public float life;
             public bool hostile;
+            public float damage;
+            public Element element;
+            public bool tracking = true, orb, dispellable = true;
+            public float speed;
+            public int hitsLeft = 1;
+            public readonly HashSet<Enemy> hitTargets = new HashSet<Enemy>();
         }
 
         private readonly List<Enemy> enemies = new List<Enemy>();
         private readonly List<Shot> shots = new List<Shot>();
         private readonly List<Rect> obstacles = new List<Rect>();
+        private readonly List<Rect> projectileObstacles = new List<Rect>();
         private readonly List<Object> ownedAssets = new List<Object>();
         private Transform world;
         private Camera view;
@@ -88,8 +104,10 @@ namespace NakiLegend.Prototype
             }, palette, 8);
             LoadIllustratedAssets();
             LoadPixelHero();
+            LoadJourneyAssets();
             view = Camera.main;
             if (view == null) { var obj = new GameObject("Prototype Camera"); obj.tag = "MainCamera"; view = obj.AddComponent<Camera>(); ownsCamera = true; }
+            if (ownsCamera && enableDesertJourney && view.GetComponent<AudioListener>() == null) view.gameObject.AddComponent<AudioListener>();
             view.orthographic = true;
             view.transform.position = new Vector3(0, 0, -10);
             view.transform.rotation = Quaternion.identity;
@@ -130,10 +148,12 @@ namespace NakiLegend.Prototype
 
         private void ResetRoom()
         {
+            if (enableDesertJourney) { BeginJourney(); return; }
+            StopOpeningCinematic();
             if (world != null) { world.gameObject.SetActive(false); Destroy(world.gameObject); }
             world = new GameObject("Generated Prototype Room").transform;
             world.SetParent(transform, false);
-            enemies.Clear(); shots.Clear(); obstacles.Clear();
+            enemies.Clear(); shots.Clear(); obstacles.Clear(); projectileObstacles.Clear();
             clock = 0; health = 6; energy = 100; defeated = 0;
             paused = false; won = false; bossSpawned = false;
             swordHitPending = false;
@@ -155,6 +175,7 @@ namespace NakiLegend.Prototype
             foreach (Vector2 at in new[] { new Vector2(-6, 3), new Vector2(6, 3), new Vector2(-6, -3), new Vector2(6, -3) })
             {
                 obstacles.Add(new Rect(at.x - .55f, at.y - .55f, 1.1f, 1.1f));
+                projectileObstacles.Add(new Rect(at.x - .55f, at.y - .55f, 1.1f, 1.11f));
                 Draw("Pillar base", square, at, Vector2.one * 1.1f, C("826649"), -20);
                 Draw("Pillar top", square, at + Vector2.up * .16f, Vector2.one * .8f, C("dfbf87"), -19);
             }
@@ -181,15 +202,21 @@ namespace NakiLegend.Prototype
 
         private void Update()
         {
+            if (RuntimeCachesMissing()) { RebuildRuntimeAfterReload(); return; }
             if (world == null) return;
-            view.orthographicSize = Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
+            if (!enableDesertJourney && openingActive) StopOpeningCinematic();
+            view.orthographicSize = enableDesertJourney ? Mathf.Max(5.1f, 9.7f / Mathf.Max(view.aspect, .1f)) : Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
             if (Pressed('r')) { ResetRoom(); return; }
+            if (enableDesertJourney && Pressed('n')) { BeginJourney(true); return; }
+            if (enableDesertJourney && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
+            if (enableDesertJourney && HandleJourneyOverlayInput()) return;
             if (Pressed('e')) paused = !paused;
             if (paused) return;
             if (health <= 0 || won) { UpdateIllustratedHero(Vector2.zero); return; }
             float dt = Mathf.Min(Time.deltaTime, .05f);
             clock += dt;
-            energy = Mathf.Min(100, energy + 14 * dt);
+            if (enableDesertJourney) {TickPlayerDefenses(dt);TickEssence(dt);TickAutoTarget();if(Pressed('1'))UseSupply(0);if(Pressed('2'))UseSupply(1);}
+            energy = Mathf.Min(100, energy + (enableDesertJourney ? journeyEnergyRegen : 14) * dt);
             Vector2 input = new Vector2((Held('d') ? 1 : 0) - (Held('a') ? 1 : 0), (Held('w') ? 1 : 0) - (Held('s') ? 1 : 0)).normalized;
             if (input.sqrMagnitude > 0 && clock >= dashUntil) facing = input;
             if (Pressed('k') && clock >= nextDash)
@@ -200,8 +227,11 @@ namespace NakiLegend.Prototype
             hero.transform.position = position;
             heroBody.flipX = facing.x < -.1f;
             heroBody.color = clock < flashUntil ? C("ff7777") : clock < invulnerableUntil ? C("a9e9ff") : Color.white;
-            if (Held('j') && clock >= nextSword && clock >= dashUntil && clock >= castPoseUntil) Swing();
-            if (Held('l') && clock >= nextSpell && energy >= 25 && clock >= dashUntil && clock >= swordUntil) Cast();
+            if (Held('j') && clock >= nextSword && clock >= dashUntil && clock >= castPoseUntil) { if (enableDesertJourney) UseEquippedWeapon(); else Swing(); }
+            if (Held('l') && clock >= nextSpell && (enableDesertJourney || energy >= 25) && clock >= dashUntil && clock >= swordUntil) Cast();
+            if (enableDesertJourney && Pressed('u')) CastWindBlade();
+            if (enableDesertJourney && Pressed('i')) CastWind();
+            if (enableDesertJourney && Pressed('h')) SwitchWeapon();
             UpdateSwordImpact();
             sword.SetActive(clock < swordUntil);
             if (clock < swordUntil) sword.transform.position = position + (Vector2)sword.transform.right * .7f;
@@ -209,7 +239,8 @@ namespace NakiLegend.Prototype
 
             for (int i = enemies.Count - 1; i >= 0; i--) UpdateEnemy(enemies[i], dt);
             for (int i = shots.Count - 1; i >= 0; i--) UpdateShot(i, dt);
-            if (!bossSpawned && defeated >= 2)
+            if (enableDesertJourney) TickJourney(dt);
+            if (!enableDesertJourney && !bossSpawned && defeated >= 2)
             {
                 bossSpawned = true;
                 SpawnEnemy(new Vector2(0, 3.2f), true, false);
@@ -219,6 +250,7 @@ namespace NakiLegend.Prototype
 
         private Vector2 Move(Vector2 from, Vector2 delta, float radius)
         {
+            if (enableDesertJourney) return MoveInExploration(from, delta, radius);
             Vector2 next = from;
             Rect limits = illustratedArtReady ? new Rect(-9.4f, -3.85f, 18.8f, 7.65f) : new Rect(-9.4f, -5.4f, 18.8f, 10.8f);
             Vector2 candidate = new Vector2(Mathf.Clamp(from.x + delta.x, limits.xMin + radius, limits.xMax - radius), from.y);
@@ -238,8 +270,32 @@ namespace NakiLegend.Prototype
             return false;
         }
 
+        // Test the whole projectile path, including its radius, rather than just
+        // the frame endpoint. Pillar bodies block shots; only feet block walking.
+        private bool ProjectilePathBlocked(Vector2 from, Vector2 to, float radius)
+        {
+            Vector2 delta = to - from;
+            foreach (Rect obstacle in projectileObstacles)
+            {
+                float enter = 0, leave = 1;
+                if (ClipProjectileAxis(from.x, delta.x, obstacle.xMin - radius, obstacle.xMax + radius, ref enter, ref leave) &&
+                    ClipProjectileAxis(from.y, delta.y, obstacle.yMin - radius, obstacle.yMax + radius, ref enter, ref leave)) return true;
+            }
+            return false;
+        }
+
+        private static bool ClipProjectileAxis(float origin, float delta, float minimum, float maximum, ref float enter, ref float leave)
+        {
+            if (Mathf.Abs(delta) < .000001f) return origin >= minimum && origin <= maximum;
+            float a = (minimum - origin) / delta, b = (maximum - origin) / delta;
+            if (a > b) { float swap = a; a = b; b = swap; }
+            enter = Mathf.Max(enter, a); leave = Mathf.Min(leave, b);
+            return enter <= leave;
+        }
+
         private Enemy FindTarget(float range, bool frontOnly)
         {
+            if(enableDesertJourney)return AutoTarget(range);
             Enemy best = null;
             float distance = range;
             foreach (Enemy enemy in enemies)
@@ -255,16 +311,18 @@ namespace NakiLegend.Prototype
         private void Swing()
         {
             nextSword = clock + .32f; swordUntil = clock + .32f;
-            Enemy aim = FindTarget(2.1f, true);
+            if (enableDesertJourney) { meleeActionDuration = Mathf.Clamp(CurrentWeapon.interval * .85f, .25f, .5f); nextSword = clock + CurrentWeapon.interval; swordUntil = clock + meleeActionDuration; }
+            Enemy aim = FindTarget(enableDesertJourney?CurrentWeapon.range+.25f:2.1f, true);
             Vector2 direction = aim != null ? (aim.position - position).normalized : facing;
             swingDirection = direction; swingStarted = clock;
             sword.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-            swordHitAt = clock + .105f;
+            swordHitAt = clock + (enableDesertJourney ? meleeActionDuration * .34f : .105f);
             swordHitPending = true;
         }
 
         private void Cast()
         {
+            if (enableDesertJourney) { CastJourneyOrb(); return; }
             energy -= 25; nextSpell = clock + .65f;
             Enemy target = FindTarget(14, false);
             Vector2 direction = target != null ? (target.position - position).normalized : facing;
@@ -272,12 +330,13 @@ namespace NakiLegend.Prototype
             for (int i = -1; i <= 1; i++)
             {
                 Vector2 spread = Quaternion.Euler(0, 0, i * 15) * direction;
-                SpawnShot(position + direction * .45f, spread, false, target);
+                SpawnShot(position + direction * .45f, spread, false, target, position);
             }
         }
 
-        private void SpawnShot(Vector2 at, Vector2 direction, bool hostile, Enemy target)
+        private void SpawnShot(Vector2 at, Vector2 direction, bool hostile, Enemy target, Vector2? origin = null)
         {
+            if (ProjectilePathBlocked(origin ?? at, at, hostile ? .135f : .11f)) return;
             var shot = new Shot { position = at, direction = direction, target = target, hostile = hostile, life = hostile ? 5 : 2.8f };
             shot.root = Draw(hostile ? "Wind projectile" : "Light orb", disc, at, Vector2.one * (hostile ? .27f : .22f),
                 hostile ? C("38d6ce") : C("fff2ab"), illustratedArtReady ? 700 : 25);
@@ -286,6 +345,7 @@ namespace NakiLegend.Prototype
 
         private void UpdateEnemy(Enemy enemy, float dt)
         {
+            if (enableDesertJourney) { UpdateJourneyEnemy(enemy, dt); return; }
             if (enemy.windup > 0)
             {
                 enemy.windup -= dt;
@@ -297,7 +357,7 @@ namespace NakiLegend.Prototype
                     {
                         Vector2 aim = (position - enemy.position).normalized;
                         for (int i = -2; i <= 2; i++) SpawnShot(enemy.position + aim * 1.1f,
-                            Quaternion.Euler(0, 0, i * 18) * aim, true, null);
+                            Quaternion.Euler(0, 0, i * 18) * aim, true, null, enemy.position);
                     }
                 }
                 return;
@@ -328,41 +388,50 @@ namespace NakiLegend.Prototype
         private void UpdateShot(int index, float dt)
         {
             Shot shot = shots[index]; shot.life -= dt;
-            if (!shot.hostile && (shot.target == null || shot.target.hp <= 0)) shot.target = FindTarget(14, false);
-            if (!shot.hostile && shot.target != null)
+            if (!shot.hostile && (shot.target == null || shot.target.hp <= 0)) { if (!enableDesertJourney) shot.target = FindTarget(14, false); else shot.tracking = false; }
+            if (!shot.hostile && shot.target != null && shot.tracking)
             {
                 Vector2 wanted = (shot.target.position - shot.position).normalized;
-                shot.direction = Vector2.Lerp(shot.direction, wanted, 5 * dt).normalized;
+                shot.direction = enableDesertJourney ? (Vector2)Vector3.RotateTowards(shot.direction, wanted, 2.5f * dt, 0) : Vector2.Lerp(shot.direction, wanted, 5 * dt).normalized;
             }
-            shot.position += shot.direction * (shot.hostile ? 3.5f : 7f) * dt;
-            bool remove = shot.life <= 0 || Mathf.Abs(shot.position.x) > 9.4f ||
-                shot.position.y > (illustratedArtReady ? 3.8f : 5.4f) || shot.position.y < (illustratedArtReady ? -3.85f : -5.4f) || Blocked(shot.position, .1f);
-            if (!remove && shot.hostile && Vector2.Distance(shot.position, position) < .4f) { Hurt(); remove = true; }
+            Vector2 previous = shot.position;
+            shot.position += shot.direction * (shot.speed > 0 ? shot.speed : shot.hostile ? 3.5f : 7f) * dt;
+            bool outside = enableDesertJourney ? !WithinProjectileBounds(shot.position) : Mathf.Abs(shot.position.x) > 9.4f || shot.position.y > (illustratedArtReady ? 3.8f : 5.4f) || shot.position.y < (illustratedArtReady ? -3.85f : -5.4f);
+            bool remove = shot.life <= 0 || outside || ProjectilePathBlocked(previous, shot.position, shot.hostile ? .135f : .11f);
+            if (!remove && shot.hostile && Vector2.Distance(shot.position, position) < .4f) { if (enableDesertJourney) TakeJourneyDamage(shot.damage > 0 ? shot.damage : 1, shot.element); else Hurt(); remove = true; }
             if (!remove && !shot.hostile)
                 for (int i = enemies.Count - 1; i >= 0; i--)
-                    if (Vector2.Distance(shot.position, enemies[i].position) < enemies[i].radius + .15f)
-                    { DamageEnemy(enemies[i], spellDamage); remove = true; break; }
+                    if (!shot.hitTargets.Contains(enemies[i]) && DistanceToSegment(enemies[i].position,previous,shot.position) < enemies[i].radius + .15f)
+                    { Enemy target = enemies[i]; shot.hitTargets.Add(target); if (enableDesertJourney) ApplyElementDamage(target, shot.damage > 0 ? shot.damage : spellDamage, shot.element); else DamageEnemy(target, shot.damage > 0 ? shot.damage : spellDamage); shot.hitsLeft--; if (shot.hitsLeft <= 0) { remove = true; break; } }
             if (remove) { Destroy(shot.root); shots.RemoveAt(index); }
             else shot.root.transform.position = shot.position;
         }
 
         private void DamageEnemy(Enemy enemy, float amount)
         {
+            if(enemy.hp<=0)return;
+            if (enableDesertJourney && enemy.kind == EnemyKind.StoneSentinel && clock >= enemy.recoveryUntil) amount *= .45f;
             enemy.hp -= amount;
+            if (enableDesertJourney) OnEnemyHit(enemy, amount);
             if (enemy.hp > 0) return;
             if (enemy.warning != null) Destroy(enemy.warning);
+            SpawnEssence(enemy);
+            if(enemy.armorSigil!=null)Destroy(enemy.armorSigil);
             Destroy(enemy.root); enemies.Remove(enemy); defeated++;
-            energy = Mathf.Min(100, energy + 15);
-            if (enemy.boss) won = true;
+            if (enemy.shadow != null) Destroy(enemy.shadow);
+            if (!enableDesertJourney) energy = Mathf.Min(100, energy + 15);
+            if (enemy.boss) { if (enableDesertJourney) FinishJourneyBoss(); else won = true; }
         }
 
         private void Hurt()
         {
+            if (enableDesertJourney) { TakeJourneyDamage(1, Element.Physical); return; }
             if (clock < invulnerableUntil || health <= 0) return;
             health = Mathf.Max(0, health - 1);
             invulnerableUntil = clock + .85f; flashUntil = clock + .15f;
             pixelHurtUntil = clock + .2f;
             swordHitPending = false; swordUntil = 0;
+            if (enableDesertJourney) PlayJourneySound(true);
         }
 
         private static bool Held(char key)
@@ -392,10 +461,24 @@ namespace NakiLegend.Prototype
                 case 'k': return keyboard.kKey.wasPressedThisFrame;
                 case 'r': return keyboard.rKey.wasPressedThisFrame;
                 case 'e': return keyboard.escapeKey.wasPressedThisFrame;
+                case 'f': return keyboard.fKey.wasPressedThisFrame;
+                case 'n': return keyboard.nKey.wasPressedThisFrame;
+                case 'm': return keyboard.mKey.wasPressedThisFrame;
+                case 'i': return keyboard.iKey.wasPressedThisFrame;
+                case 'u': return keyboard.uKey.wasPressedThisFrame;
+                case 'h': return keyboard.hKey.wasPressedThisFrame;
+                case 'v': return keyboard.vKey.wasPressedThisFrame;
+                case 'b': return keyboard.bKey.wasPressedThisFrame;
+                case 'g': return keyboard.gKey.wasPressedThisFrame;
+                case '1': return keyboard.digit1Key.wasPressedThisFrame;
+                case '2': return keyboard.digit2Key.wasPressedThisFrame;
+                case ' ': return keyboard.spaceKey.wasPressedThisFrame;
+                case 'a': return keyboard.aKey.wasPressedThisFrame;
+                case 'd': return keyboard.dKey.wasPressedThisFrame;
             }
             return false;
 #elif ENABLE_LEGACY_INPUT_MANAGER
-            return Input.GetKeyDown(key == 'e' ? KeyCode.Escape : key == 'k' ? KeyCode.K : KeyCode.R);
+            return key == 'e' ? Input.GetKeyDown(KeyCode.Escape) : key == ' ' ? Input.GetKeyDown(KeyCode.Space) : Input.GetKeyDown(key.ToString());
 #else
             return false;
 #endif
@@ -403,11 +486,14 @@ namespace NakiLegend.Prototype
 
         private void OnGUI()
         {
-            DrawPrototypeHud();
+            if (RuntimeCachesMissing()) return;
+            if (enableDesertJourney && openingActive) DrawOpeningCinematic();
+            else { if (enableDesertJourney) DrawJourneyHud(); else DrawPrototypeHud(); DrawOpeningGameReveal(); }
         }
 
         private void OnDestroy()
         {
+            StopOpeningCinematic();
             if (world != null) Destroy(world.gameObject);
             if (ownsCamera && view != null) Destroy(view.gameObject);
             foreach (Object asset in ownedAssets) if (asset != null) Destroy(asset);

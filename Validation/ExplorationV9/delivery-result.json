@@ -1,0 +1,14 @@
+{
+  "archive": "NakiLegend-Exploration-v9.zip",
+  "files": 203,
+  "bytes": 100430535,
+  "sha256": "cbfce751df8ff52be4e0e4c7a4ac7cd2d9d2507b5902adc7eced9cdbd457351f",
+  "synchronizedScriptCopies": 20,
+  "uniqueAssetGuids": 61,
+  "checks": "69 runtime checks plus actual Game View GUI capture; final C# compilation clean",
+  "scenes": [
+    "NakiTest",
+    "NakiBossPractice",
+    "NakiElementTrial"
+  ]
+}

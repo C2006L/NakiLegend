@@ -1,0 +1,2 @@
+PASS 37 checks, Unity 2022.3.62f3 / URP.
+Six 1672x941 paintings, 11 shots / 74s, simulation freeze, pause timing, natural completion, skip, replay, retries, practice and disabled fallback. Real Game View screenshots of every shot and return to gameplay captured; no runtime or GUI errors.

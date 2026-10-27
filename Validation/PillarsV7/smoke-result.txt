@@ -1,0 +1,3 @@
+PASS: 85 checks; Unity 2022.3 / UniversalRenderPipelineAsset.
+Full pillar bodies block friendly/hostile shots; swept paths, spawn paths, radii, resets, left walking and combat progression verified.
+192 actual Unity render frames exported; preview stretches short actions to show their poses.

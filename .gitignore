@@ -21,6 +21,8 @@
 *.zip
 __pycache__/
 Validation/**/frames/
+Validation/**/runtime/
+Validation/**/Baseline/
 Validation/**/*.log
 Validation/**/*.dll
 Validation/**/*.rsp

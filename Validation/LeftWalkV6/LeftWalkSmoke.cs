@@ -25,7 +25,8 @@ public static class NakiLeftWalkSmoke
     {
         Directory.CreateDirectory(Output);
         EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-        new GameObject("Naki Pixel Animation Test").AddComponent<NakiPrototype>();
+        NakiPrototype prototype = new GameObject("Naki Pixel Animation Test").AddComponent<NakiPrototype>();
+        prototype.enableDesertJourney = false;
         EditorSceneManager.SaveScene(SceneManager.GetActiveScene(), "Assets/PixelSmoke.unity");
         SessionState.SetBool(Flag, true);
         EditorApplication.update -= Update; EditorApplication.update += Update;

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "dew-scorpion",
+    "name": "蓄露砂蝎",
+    "role": "近战 · 蓄力突刺",
+    "rank": "普通",
+    "file": "dew-scorpion.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      89,
+      63,
+      1205,
+      1194
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  },
+  {
+    "id": "canal-skeleton",
+    "name": "断渠枪卫",
+    "role": "中距离 · 直线刺击",
+    "rank": "普通",
+    "file": "canal-skeleton.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      122,
+      153,
+      1231,
+      1123
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  },
+  {
+    "id": "thorn-tumbleweed",
+    "name": "荆冠滚蓬",
+    "role": "突进 · 滚动封路",
+    "rank": "普通",
+    "file": "thorn-tumbleweed.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      95,
+      136,
+      1190,
+      1173
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  },
+  {
+    "id": "sand-kite",
+    "name": "逐风沙鹞",
+    "role": "空中 · 风刃骚扰",
+    "rank": "普通",
+    "file": "sand-kite.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      43,
+      10,
+      1219,
+      1195
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  },
+  {
+    "id": "drywell-sentinel",
+    "name": "枯井石卫",
+    "role": "重装 · 闸门与震地",
+    "rank": "精英",
+    "file": "drywell-sentinel.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      28,
+      72,
+      1227,
+      1160
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  },
+  {
+    "id": "rain-devouring-scorpion",
+    "name": "噬雨风蝎",
+    "role": "风元素守关者 · 沙暴与双钳",
+    "rank": "BOSS",
+    "file": "rain-devouring-scorpion.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaBounds": [
+      18,
+      15,
+      1242,
+      1234
+    ],
+    "status": "single-pose concept; animation and runtime integration pending"
+  }
+]

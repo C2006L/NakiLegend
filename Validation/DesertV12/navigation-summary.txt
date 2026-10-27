@@ -1,0 +1,1 @@
+1404 actual arrival configurations across 12 seeds; 50 graph seeds; all gates/stairs traversed on 3 full graphs.

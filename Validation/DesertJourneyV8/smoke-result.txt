@@ -1,0 +1,3 @@
+PASS: 73 checks. Unity 2022.3.62f3 / URP.
+50 seeded route graphs, sixteen reachable unique layouts, clear room navigation, wave/roster progression, one-time rewards/events/rest, actor poses and telegraphs, three boss patterns and safe lethal projectile handling, wind unlock and CG dialogue, same-seed retry/new-seed restart, full pillar projectile blocking.
+Camera renders exported for room variety and all three bosses; keyboard feel still requires editor playtesting.

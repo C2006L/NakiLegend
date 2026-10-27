@@ -1,0 +1,15 @@
+{
+  "version": 12,
+  "checks": 3121,
+  "reload_checks": 24,
+  "destinations": [
+    {
+      "path": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype",
+      "verified_files": 132
+    },
+    {
+      "path": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype",
+      "verified_files": 132
+    }
+  ]
+}

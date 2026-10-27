@@ -1,0 +1,1 @@
+PASS: Actual Game View OnGUI executed; HUD, fog map, reward choices and CJK dialogue screenshots captured.

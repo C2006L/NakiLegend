@@ -1,0 +1,17 @@
+{
+  "archive": "NakiLegend-Opening-v10.zip",
+  "bytes": 144196119,
+  "sha256": "c4f972ebc60b2e6dd425c11ab2f5cc0b8b672b28c71f3eb162866134af225758",
+  "files": 232,
+  "paintings": 6,
+  "beats": 11,
+  "seconds": 74,
+  "openingChecks": 37,
+  "explorationRegressionChecks": 69,
+  "totalChecks": 106,
+  "uniqueAssetGuids": 70,
+  "synchronizedProjects": [
+    "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype",
+    "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype"
+  ]
+}

@@ -1,0 +1,1 @@
+PASS: 46 directly authored live hand anchors lie on opaque brown glove pixels. Left walk uses the right atlas and mirrored source grip. Checked against retained PNG source files.

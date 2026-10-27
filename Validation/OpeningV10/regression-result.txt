@@ -1,0 +1,3 @@
+PASS 69 checks; Unity 2022.3.62f3 / URP.
+50 graph seeds; physical doors/navigation; persistent shields; delayed single orb; wind/lightning interactions; two weapon slots and persistent pickups; all floors, waves, guardians and three bosses; CJK GUI branches.
+Camera-only renders exported. Keyboard feel and full Game View composition still need player testing.

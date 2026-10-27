@@ -1,0 +1,16 @@
+{
+  "patch": "NakiLegend-GripFix-v11.zip",
+  "bytes": 235898,
+  "sha256": "087556b839bf29ec6cc450ee9a220b53cbb56d1e1e19248ca665cdd02f31fe09",
+  "runtimePoseCombinations": 2305,
+  "sourceGloveAnchors": 46,
+  "regressionChecks": 69,
+  "syncedScripts": [
+    "NakiPrototype.PixelHero.cs",
+    "NakiPrototype.PolishedHero.cs",
+    "NakiPrototype.Equipment.cs",
+    "NakiPrototype.Grip.cs"
+  ],
+  "originalAtlasPixels": "unchanged",
+  "userCopiesSynchronized": true
+}
