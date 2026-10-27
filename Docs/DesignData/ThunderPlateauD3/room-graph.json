@@ -1,0 +1,835 @@
+{
+  "schema": "naki-design-room-graph-v1",
+  "status": "D3 design only; not consumed by Unity runtime",
+  "date": "2026-10-27",
+  "island_id": "thunder_plateau",
+  "coordinates": "Logical room cells, NOT world-space collider positions. Only explicit edges are doors.",
+  "floors": [
+    {
+      "id": "thunder_floor_1",
+      "name": "雨中草坡",
+      "entry": "T101",
+      "exit_boss": "T107",
+      "main_route": [
+        "T101",
+        "T102",
+        "T103",
+        "T104",
+        "T105",
+        "T106",
+        "T107"
+      ],
+      "nodes": [
+        {
+          "id": "T101",
+          "cell": [
+            0,
+            0
+          ],
+          "name": "山口灯棚",
+          "kind": "entry",
+          "main_route": true
+        },
+        {
+          "id": "T102",
+          "cell": [
+            0,
+            1
+          ],
+          "name": "湿石草庭",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T103",
+          "cell": [
+            1,
+            1
+          ],
+          "name": "倒杆坡道",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T104",
+          "cell": [
+            1,
+            2
+          ],
+          "name": "旧路标坪",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T105",
+          "cell": [
+            2,
+            2
+          ],
+          "name": "牧棚外院",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T106",
+          "cell": [
+            2,
+            3
+          ],
+          "name": "铜铃短桥",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T107",
+          "cell": [
+            3,
+            3
+          ],
+          "name": "守路铜卫",
+          "kind": "boss",
+          "main_route": true
+        },
+        {
+          "id": "T108",
+          "cell": [
+            0,
+            2
+          ],
+          "name": "湿苔绕路",
+          "kind": "combat",
+          "main_route": false
+        },
+        {
+          "id": "T109",
+          "cell": [
+            0,
+            3
+          ],
+          "name": "雷囊栖架",
+          "kind": "elite",
+          "main_route": false
+        },
+        {
+          "id": "T110",
+          "cell": [
+            1,
+            3
+          ],
+          "name": "三块旧路标",
+          "kind": "event",
+          "main_route": false
+        },
+        {
+          "id": "T111",
+          "cell": [
+            1,
+            4
+          ],
+          "name": "避雨石棚",
+          "kind": "rest",
+          "main_route": false
+        },
+        {
+          "id": "T112",
+          "cell": [
+            2,
+            4
+          ],
+          "name": "巡路遗箱",
+          "kind": "equipment",
+          "main_route": false
+        }
+      ],
+      "edges": [
+        {
+          "a": "T101",
+          "b": "T102",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T102",
+          "b": "T103",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T103",
+          "b": "T104",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T104",
+          "b": "T105",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T105",
+          "b": "T106",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T106",
+          "b": "T107",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T104",
+          "b": "T108",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T108",
+          "b": "T109",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T109",
+          "b": "T110",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T110",
+          "b": "T111",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T111",
+          "b": "T112",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T110",
+          "b": "T106",
+          "type": "shortcut",
+          "bidirectional": true,
+          "unlock_all": [
+            "cleared:T106",
+            "cleared:T109"
+          ],
+          "interact_once_to_open": true
+        }
+      ]
+    },
+    {
+      "id": "thunder_floor_2",
+      "name": "引雷遗址",
+      "entry": "T201",
+      "exit_boss": "T207",
+      "main_route": [
+        "T201",
+        "T202",
+        "T203",
+        "T204",
+        "T205",
+        "T206",
+        "T207"
+      ],
+      "nodes": [
+        {
+          "id": "T201",
+          "cell": [
+            0,
+            0
+          ],
+          "name": "遗址检修口",
+          "kind": "entry",
+          "main_route": true
+        },
+        {
+          "id": "T202",
+          "cell": [
+            0,
+            1
+          ],
+          "name": "铜壳校场",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T203",
+          "cell": [
+            1,
+            1
+          ],
+          "name": "西引雷坪",
+          "kind": "combat_node",
+          "main_route": true
+        },
+        {
+          "id": "T204",
+          "cell": [
+            1,
+            2
+          ],
+          "name": "断槽回廊",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T205",
+          "cell": [
+            2,
+            2
+          ],
+          "name": "东引雷坪",
+          "kind": "combat_node",
+          "main_route": true
+        },
+        {
+          "id": "T206",
+          "cell": [
+            2,
+            3
+          ],
+          "name": "山径联络台",
+          "kind": "combat_npc",
+          "main_route": true
+        },
+        {
+          "id": "T207",
+          "cell": [
+            3,
+            3
+          ],
+          "name": "引雷石卫长",
+          "kind": "boss",
+          "main_route": true
+        },
+        {
+          "id": "T208",
+          "cell": [
+            0,
+            2
+          ],
+          "name": "铜架外庭",
+          "kind": "combat",
+          "main_route": false
+        },
+        {
+          "id": "T209",
+          "cell": [
+            0,
+            3
+          ],
+          "name": "断线石卫",
+          "kind": "elite",
+          "main_route": false
+        },
+        {
+          "id": "T210",
+          "cell": [
+            1,
+            3
+          ],
+          "name": "避雨棚梁",
+          "kind": "event",
+          "main_route": false
+        },
+        {
+          "id": "T211",
+          "cell": [
+            0,
+            4
+          ],
+          "name": "灯罩委托",
+          "kind": "event",
+          "main_route": false
+        },
+        {
+          "id": "T212",
+          "cell": [
+            2,
+            4
+          ],
+          "name": "石塔背风处",
+          "kind": "rest",
+          "main_route": false
+        },
+        {
+          "id": "T213",
+          "cell": [
+            1,
+            4
+          ],
+          "name": "铜匠检修箱",
+          "kind": "equipment",
+          "main_route": false
+        }
+      ],
+      "edges": [
+        {
+          "a": "T201",
+          "b": "T202",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T202",
+          "b": "T203",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T203",
+          "b": "T204",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T204",
+          "b": "T205",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T205",
+          "b": "T206",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T206",
+          "b": "T207",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [
+            "node:west",
+            "node:east",
+            "cleared:T206"
+          ],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T204",
+          "b": "T208",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T208",
+          "b": "T209",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T209",
+          "b": "T210",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T209",
+          "b": "T211",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T206",
+          "b": "T212",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T210",
+          "b": "T213",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T210",
+          "b": "T206",
+          "type": "shortcut",
+          "bidirectional": true,
+          "unlock_all": [
+            "cleared:T206",
+            "cleared:T209",
+            "node:west",
+            "node:east"
+          ],
+          "interact_once_to_open": true
+        },
+        {
+          "a": "T213",
+          "b": "T212",
+          "type": "shortcut",
+          "bidirectional": true,
+          "unlock_all": [
+            "cleared:T206"
+          ],
+          "interact_once_to_open": true
+        }
+      ]
+    },
+    {
+      "id": "thunder_floor_3",
+      "name": "雷鸣圣所",
+      "entry": "T301",
+      "exit_boss": "T307",
+      "main_route": [
+        "T301",
+        "T302",
+        "T303",
+        "T304",
+        "T305",
+        "T306",
+        "T307"
+      ],
+      "nodes": [
+        {
+          "id": "T301",
+          "cell": [
+            0,
+            0
+          ],
+          "name": "山顶短歇",
+          "kind": "entry",
+          "main_route": true
+        },
+        {
+          "id": "T302",
+          "cell": [
+            1,
+            0
+          ],
+          "name": "风穿铜柱",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T303",
+          "cell": [
+            1,
+            1
+          ],
+          "name": "旧祈雷坪",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T304",
+          "cell": [
+            2,
+            1
+          ],
+          "name": "裂桥边院",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T305",
+          "cell": [
+            2,
+            2
+          ],
+          "name": "回声石环",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T306",
+          "cell": [
+            3,
+            2
+          ],
+          "name": "圣所前庭",
+          "kind": "combat",
+          "main_route": true
+        },
+        {
+          "id": "T307",
+          "cell": [
+            3,
+            3
+          ],
+          "name": "巡雷巨鹿",
+          "kind": "boss",
+          "main_route": true
+        },
+        {
+          "id": "T308",
+          "cell": [
+            1,
+            2
+          ],
+          "name": "隐雨阶",
+          "kind": "combat",
+          "main_route": false
+        },
+        {
+          "id": "T309",
+          "cell": [
+            0,
+            2
+          ],
+          "name": "引雷架后庭",
+          "kind": "combat",
+          "main_route": false
+        },
+        {
+          "id": "T310",
+          "cell": [
+            0,
+            3
+          ],
+          "name": "雷冠沙鹞",
+          "kind": "elite",
+          "main_route": false
+        },
+        {
+          "id": "T311",
+          "cell": [
+            1,
+            3
+          ],
+          "name": "双环石卫",
+          "kind": "elite",
+          "main_route": false
+        },
+        {
+          "id": "T312",
+          "cell": [
+            2,
+            3
+          ],
+          "name": "远望山口",
+          "kind": "event",
+          "main_route": false
+        },
+        {
+          "id": "T313",
+          "cell": [
+            4,
+            2
+          ],
+          "name": "最后避雨棚",
+          "kind": "rest",
+          "main_route": false
+        },
+        {
+          "id": "T314",
+          "cell": [
+            4,
+            3
+          ],
+          "name": "旧巡路库",
+          "kind": "equipment",
+          "main_route": false
+        }
+      ],
+      "edges": [
+        {
+          "a": "T301",
+          "b": "T302",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T302",
+          "b": "T303",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T303",
+          "b": "T304",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T304",
+          "b": "T305",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T305",
+          "b": "T306",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T306",
+          "b": "T307",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [
+            "cleared:T306"
+          ],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T303",
+          "b": "T308",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T308",
+          "b": "T309",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T309",
+          "b": "T310",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T310",
+          "b": "T311",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T311",
+          "b": "T308",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T311",
+          "b": "T312",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T306",
+          "b": "T313",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T313",
+          "b": "T314",
+          "type": "corridor",
+          "bidirectional": true,
+          "unlock_all": [],
+          "interact_once_to_open": false
+        },
+        {
+          "a": "T312",
+          "b": "T305",
+          "type": "shortcut",
+          "bidirectional": true,
+          "unlock_all": [
+            "cleared:T305",
+            "cleared:T311"
+          ],
+          "interact_once_to_open": true
+        }
+      ]
+    }
+  ],
+  "stairs": [
+    {
+      "a": "T107",
+      "b": "T201",
+      "bidirectional": true,
+      "unlock_all": [
+        "defeated:copper_warden"
+      ],
+      "interaction": "F"
+    },
+    {
+      "a": "T207",
+      "b": "T301",
+      "bidirectional": true,
+      "unlock_all": [
+        "defeated:conductor_sentinel",
+        "node:west",
+        "node:east"
+      ],
+      "interaction": "F"
+    }
+  ],
+  "return_event": {
+    "from": "T307",
+    "to": "T101",
+    "unlock_all": [
+      "defeated:stormwatch_stag",
+      "fragment:lightning"
+    ],
+    "interaction": "F confirm, out of combat only",
+    "ordinary_door": false
+  }
+}

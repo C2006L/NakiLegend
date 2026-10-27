@@ -50,6 +50,8 @@ Unity 2D 地牢试玩，当前 **V14**。沙漠岛三小层共 39 房，四向�
 
 [D2 三层详细设计](Docs/THUNDER_PLATEAU_DESIGN.md) · [两房原型规格](Docs/THUNDER_PROTOTYPE_SPEC.md) · [环境、巨鹿和两类小怪概念图](Art/ThunderPlateauD2/README.md)。目标是三层 39 房走门探索，用风应对雷，修复引雷设施，让老人等到巡路员归家。先制作草坡与机关两房原型，再扩全岛；目前尚未开放第二岛试玩。
 
+D3 新增：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Docs/THUNDER_MAP_D3.md) · [三场 Boss、六把武器与技能](Docs/THUNDER_COMBAT_D3.md)。设计数据位于 Docs，尚未被运行代码加载，不影响当前 V14 试玩。
+
 ## 开场与美术
 
 下一阶段设计 D1 已整理：[沙漠 39 房与四个事件](Docs/DESERT_CHAPTER_DESIGN.md) · [闸室样板规格](Docs/DESERT_GATEHOUSE_SAMPLE.md) · [Boss 对白与演出](Docs/DESERT_BOSS_STORY.md) · [雷雨高原概念](Docs/THUNDER_PLATEAU_CONCEPT.md)。闸室已作为独立样板实现，整章房间池、其余事件和新岛仍按设计逐步制作。

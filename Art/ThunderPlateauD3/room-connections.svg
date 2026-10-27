@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2640" height="880" viewBox="0 0 2640 880">
+<rect width="100%" height="100%" fill="#111c27"/>
+<text x="40" y="54" text-anchor="start" fill="#f0cf86" font-family="Microsoft YaHei, sans-serif" font-size="34">雷雨高原 · 三层连接蓝图 D3</text>
+<text x="40" y="88" text-anchor="start" fill="#dce8ef" font-family="Microsoft YaHei, sans-serif" font-size="20">设计稿 / 非选关界面   ·   蓝框：首次主路   紫框：精英   金框：Boss   金虚线：满足条件后开放的捷径</text>
+<rect x="22" y="121" width="832" height="696" rx="8" fill="#172635" stroke="#304254" stroke-width="1"/>
+<text x="48" y="161" text-anchor="start" fill="#f0cf86" font-family="Microsoft YaHei, sans-serif" font-size="27">第 1 层 · 雨中草坡  /  12 房</text>
+<line x1="233" y1="696" x2="233" y2="584" stroke="#547387" stroke-width="4"/>
+<line x1="233" y1="584" x2="387" y2="584" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="584" x2="387" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="472" x2="541" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="541" y1="472" x2="541" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="541" y1="360" x2="695" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="472" x2="233" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="233" y1="472" x2="233" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="233" y1="360" x2="387" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="360" x2="387" y2="248" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="248" x2="541" y2="248" stroke="#547387" stroke-width="4"/>
+<line x1="387" y1="360" x2="541" y2="360" stroke="#d6b46b" stroke-width="4" stroke-dasharray="9 7"/>
+<rect x="167" y="662" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="233" y="685" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T101 · 入口</text>
+<text x="233" y="714" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">山口灯棚</text>
+<rect x="167" y="550" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="233" y="573" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T102 · 战斗</text>
+<text x="233" y="602" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">湿石草庭</text>
+<rect x="321" y="550" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="387" y="573" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T103 · 战斗</text>
+<text x="387" y="602" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">倒杆坡道</text>
+<rect x="321" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="387" y="461" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T104 · 战斗</text>
+<text x="387" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">旧路标坪</text>
+<rect x="475" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="541" y="461" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T105 · 战斗</text>
+<text x="541" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">牧棚外院</text>
+<rect x="475" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="541" y="349" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T106 · 战斗</text>
+<text x="541" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">铜铃短桥</text>
+<rect x="629" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#c8a65d" stroke-width="2"/>
+<text x="695" y="349" text-anchor="middle" fill="#c8a65d" font-family="Microsoft YaHei, sans-serif" font-size="18">T107 · 守关战</text>
+<text x="695" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">守路铜卫</text>
+<rect x="167" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="233" y="461" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T108 · 战斗</text>
+<text x="233" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">湿苔绕路</text>
+<rect x="167" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#aa86c9" stroke-width="2"/>
+<text x="233" y="349" text-anchor="middle" fill="#aa86c9" font-family="Microsoft YaHei, sans-serif" font-size="18">T109 · 精英</text>
+<text x="233" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">雷囊栖架</text>
+<rect x="321" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="387" y="349" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T110 · 事件</text>
+<text x="387" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">三块旧路标</text>
+<rect x="321" y="214" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="387" y="237" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T111 · 休憩</text>
+<text x="387" y="266" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">避雨石棚</text>
+<rect x="475" y="214" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="541" y="237" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T112 · 装备</text>
+<text x="541" y="266" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">巡路遗箱</text>
+<text x="48" y="776" text-anchor="start" fill="#91c3dc" font-family="Microsoft YaHei, sans-serif" font-size="20">入口 → 五间主路战斗 → 层末 Boss</text>
+<text x="48" y="802" text-anchor="start" fill="#aabcc8" font-family="Microsoft YaHei, sans-serif" font-size="18">支路可回头；返程与节点条件见地图稿</text>
+<rect x="902" y="121" width="832" height="696" rx="8" fill="#172635" stroke="#304254" stroke-width="1"/>
+<text x="928" y="161" text-anchor="start" fill="#f0cf86" font-family="Microsoft YaHei, sans-serif" font-size="27">第 2 层 · 引雷遗址  /  13 房</text>
+<line x1="1113" y1="696" x2="1113" y2="584" stroke="#547387" stroke-width="4"/>
+<line x1="1113" y1="584" x2="1267" y2="584" stroke="#547387" stroke-width="4"/>
+<line x1="1267" y1="584" x2="1267" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="1267" y1="472" x2="1421" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="1421" y1="472" x2="1421" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="1421" y1="360" x2="1575" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="1267" y1="472" x2="1113" y2="472" stroke="#547387" stroke-width="4"/>
+<line x1="1113" y1="472" x2="1113" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="1113" y1="360" x2="1267" y2="360" stroke="#547387" stroke-width="4"/>
+<line x1="1113" y1="360" x2="1113" y2="248" stroke="#547387" stroke-width="4"/>
+<line x1="1421" y1="360" x2="1421" y2="248" stroke="#547387" stroke-width="4"/>
+<line x1="1267" y1="360" x2="1267" y2="248" stroke="#547387" stroke-width="4"/>
+<line x1="1267" y1="360" x2="1421" y2="360" stroke="#d6b46b" stroke-width="4" stroke-dasharray="9 7"/>
+<line x1="1267" y1="248" x2="1421" y2="248" stroke="#d6b46b" stroke-width="4" stroke-dasharray="9 7"/>
+<rect x="1047" y="662" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1113" y="685" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T201 · 入口</text>
+<text x="1113" y="714" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">遗址检修口</text>
+<rect x="1047" y="550" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1113" y="573" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T202 · 战斗</text>
+<text x="1113" y="602" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">铜壳校场</text>
+<rect x="1201" y="550" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1267" y="573" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T203 · 节点战</text>
+<text x="1267" y="602" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">西引雷坪</text>
+<rect x="1201" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1267" y="461" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T204 · 战斗</text>
+<text x="1267" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">断槽回廊</text>
+<rect x="1355" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1421" y="461" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T205 · 节点战</text>
+<text x="1421" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">东引雷坪</text>
+<rect x="1355" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1421" y="349" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T206 · 会合战</text>
+<text x="1421" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">山径联络台</text>
+<rect x="1509" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#c8a65d" stroke-width="2"/>
+<text x="1575" y="349" text-anchor="middle" fill="#c8a65d" font-family="Microsoft YaHei, sans-serif" font-size="18">T207 · 守关战</text>
+<text x="1575" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">引雷石卫长</text>
+<rect x="1047" y="438" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1113" y="461" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T208 · 战斗</text>
+<text x="1113" y="490" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">铜架外庭</text>
+<rect x="1047" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#aa86c9" stroke-width="2"/>
+<text x="1113" y="349" text-anchor="middle" fill="#aa86c9" font-family="Microsoft YaHei, sans-serif" font-size="18">T209 · 精英</text>
+<text x="1113" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">断线石卫</text>
+<rect x="1201" y="326" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1267" y="349" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T210 · 事件</text>
+<text x="1267" y="378" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">避雨棚梁</text>
+<rect x="1047" y="214" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1113" y="237" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T211 · 事件</text>
+<text x="1113" y="266" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">灯罩委托</text>
+<rect x="1355" y="214" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1421" y="237" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T212 · 休憩</text>
+<text x="1421" y="266" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">石塔背风处</text>
+<rect x="1201" y="214" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1267" y="237" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T213 · 装备</text>
+<text x="1267" y="266" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">铜匠检修箱</text>
+<text x="928" y="776" text-anchor="start" fill="#91c3dc" font-family="Microsoft YaHei, sans-serif" font-size="20">入口 → 五间主路战斗 → 层末 Boss</text>
+<text x="928" y="802" text-anchor="start" fill="#aabcc8" font-family="Microsoft YaHei, sans-serif" font-size="18">支路可回头；返程与节点条件见地图稿</text>
+<rect x="1782" y="121" width="832" height="696" rx="8" fill="#172635" stroke="#304254" stroke-width="1"/>
+<text x="1808" y="161" text-anchor="start" fill="#f0cf86" font-family="Microsoft YaHei, sans-serif" font-size="27">第 3 层 · 雷鸣圣所  /  14 房</text>
+<line x1="1916" y1="640" x2="2070" y2="640" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="640" x2="2070" y2="528" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="528" x2="2224" y2="528" stroke="#547387" stroke-width="4"/>
+<line x1="2224" y1="528" x2="2224" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="2224" y1="416" x2="2378" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="2378" y1="416" x2="2378" y2="304" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="528" x2="2070" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="416" x2="1916" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="1916" y1="416" x2="1916" y2="304" stroke="#547387" stroke-width="4"/>
+<line x1="1916" y1="304" x2="2070" y2="304" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="304" x2="2070" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="2070" y1="304" x2="2224" y2="304" stroke="#547387" stroke-width="4"/>
+<line x1="2378" y1="416" x2="2532" y2="416" stroke="#547387" stroke-width="4"/>
+<line x1="2532" y1="416" x2="2532" y2="304" stroke="#547387" stroke-width="4"/>
+<line x1="2224" y1="304" x2="2224" y2="416" stroke="#d6b46b" stroke-width="4" stroke-dasharray="9 7"/>
+<rect x="1850" y="606" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="1916" y="629" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T301 · 入口</text>
+<text x="1916" y="658" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">山顶短歇</text>
+<rect x="2004" y="606" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="2070" y="629" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T302 · 战斗</text>
+<text x="2070" y="658" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">风穿铜柱</text>
+<rect x="2004" y="494" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="2070" y="517" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T303 · 战斗</text>
+<text x="2070" y="546" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">旧祈雷坪</text>
+<rect x="2158" y="494" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="2224" y="517" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T304 · 战斗</text>
+<text x="2224" y="546" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">裂桥边院</text>
+<rect x="2158" y="382" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="2224" y="405" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T305 · 战斗</text>
+<text x="2224" y="434" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">回声石环</text>
+<rect x="2312" y="382" width="132" height="68" rx="8" fill="#213849" stroke="#75b4d5" stroke-width="2"/>
+<text x="2378" y="405" text-anchor="middle" fill="#75b4d5" font-family="Microsoft YaHei, sans-serif" font-size="18">T306 · 战斗</text>
+<text x="2378" y="434" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">圣所前庭</text>
+<rect x="2312" y="270" width="132" height="68" rx="8" fill="#213849" stroke="#c8a65d" stroke-width="2"/>
+<text x="2378" y="293" text-anchor="middle" fill="#c8a65d" font-family="Microsoft YaHei, sans-serif" font-size="18">T307 · 守关战</text>
+<text x="2378" y="322" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">巡雷巨鹿</text>
+<rect x="2004" y="382" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="2070" y="405" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T308 · 战斗</text>
+<text x="2070" y="434" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">隐雨阶</text>
+<rect x="1850" y="382" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="1916" y="405" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T309 · 战斗</text>
+<text x="1916" y="434" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">引雷架后庭</text>
+<rect x="1850" y="270" width="132" height="68" rx="8" fill="#213849" stroke="#aa86c9" stroke-width="2"/>
+<text x="1916" y="293" text-anchor="middle" fill="#aa86c9" font-family="Microsoft YaHei, sans-serif" font-size="18">T310 · 精英</text>
+<text x="1916" y="322" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">雷冠沙鹞</text>
+<rect x="2004" y="270" width="132" height="68" rx="8" fill="#213849" stroke="#aa86c9" stroke-width="2"/>
+<text x="2070" y="293" text-anchor="middle" fill="#aa86c9" font-family="Microsoft YaHei, sans-serif" font-size="18">T311 · 精英</text>
+<text x="2070" y="322" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">双环石卫</text>
+<rect x="2158" y="270" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="2224" y="293" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T312 · 事件</text>
+<text x="2224" y="322" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">远望山口</text>
+<rect x="2466" y="382" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="2532" y="405" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T313 · 休憩</text>
+<text x="2532" y="434" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">最后避雨棚</text>
+<rect x="2466" y="270" width="132" height="68" rx="8" fill="#213849" stroke="#647e90" stroke-width="2"/>
+<text x="2532" y="293" text-anchor="middle" fill="#647e90" font-family="Microsoft YaHei, sans-serif" font-size="18">T314 · 装备</text>
+<text x="2532" y="322" text-anchor="middle" fill="#f0f3f5" font-family="Microsoft YaHei, sans-serif" font-size="20">旧巡路库</text>
+<text x="1808" y="776" text-anchor="start" fill="#91c3dc" font-family="Microsoft YaHei, sans-serif" font-size="20">入口 → 五间主路战斗 → 层末 Boss</text>
+<text x="1808" y="802" text-anchor="start" fill="#aabcc8" font-family="Microsoft YaHei, sans-serif" font-size="18">支路可回头；返程与节点条件见地图稿</text>
+<text x="40" y="858" text-anchor="start" fill="#c9d7df" font-family="Microsoft YaHei, sans-serif" font-size="20">跨层石阶：T107 &lt;-&gt; T201，T207 &lt;-&gt; T301；最终胜利后才可沿已修古道返回 T101。</text>
+</svg>
