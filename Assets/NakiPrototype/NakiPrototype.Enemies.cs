@@ -5,7 +5,7 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing }
+        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard }
         private readonly Dictionary<EnemyKind, Sprite[]> enemyActionArt = new Dictionary<EnemyKind, Sprite[]>();
         private sealed class FloatingHit { public string text; public Vector2 at; public float expires; public Color color; }
         private sealed class FadingBody { public GameObject root; public SpriteRenderer renderer; public float expires; }
@@ -14,7 +14,7 @@ namespace NakiLegend.Prototype
         private AudioSource journeyAudio;
         private AudioClip hitSound, hurtSound;
         private float nextSoundAt, cameraShakeUntil;
-        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王" };
+        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫" };
 
         private void LoadEnemyActionArt()
         {
@@ -36,7 +36,7 @@ namespace NakiLegend.Prototype
 
         private Enemy SpawnJourneyEnemy(EnemyKind kind, Vector2 at, int depth)
         {
-            bool boss = (int)kind >= 5;
+            bool boss = kind>=EnemyKind.WindScorpion&&kind<=EnemyKind.ApeKing;
             float hp = boss ? 390 + depth * 7 : kind == EnemyKind.StoneSentinel ? 95 + depth * 4 : kind == EnemyKind.SandKite ? 25 + depth : 28 + depth * 1.4f;
             float radius = boss ? .85f : kind == EnemyKind.StoneSentinel ? .55f : .32f;
             var enemy = new Enemy { kind = kind, position = at, hp = hp, maximum = hp, radius = radius, boss = boss,
@@ -45,11 +45,12 @@ namespace NakiLegend.Prototype
             Sprite sprite = enemyActionArt.TryGetValue(kind, out frames) ? frames[0] : boss ? bossSprite : kind == EnemyKind.SpearGuard ? skeletonSprite : smallEnemySprite;
             enemy.root = Draw(EnemyNames[(int)kind], sprite, at, Vector2.one, Color.white, DepthAt(at.y)); enemy.body = enemy.root.GetComponent<SpriteRenderer>();
             enemy.shadow = Draw("Enemy shadow", softDisc ?? disc, at, new Vector2(boss ? 1.8f : .7f, boss ? .45f : .2f), new Color(.08f, .06f, .04f, .35f), -799);
-            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}enemies.Add(enemy); return enemy;
+            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);enemies.Add(enemy); return enemy;
         }
 
         private void UpdateJourneyEnemy(Enemy enemy, float dt)
         {
+            if(IsThunderEnemy(enemy.kind)){UpdateThunderEnemy(enemy,dt);return;}
             enemy.position=MoveEnemyWithinRoom(enemy.position,Vector2.zero,enemy.radius);
             Vector2 previous = enemy.position, offset = position - enemy.position;
             if (enemy.boss && !enemy.secondPhase && enemy.hp <= enemy.maximum * .45f)
@@ -209,7 +210,7 @@ namespace NakiLegend.Prototype
             AddFloatingHit(Mathf.CeilToInt(amount).ToString(), enemy.position + Vector2.up * .7f, C("fff0bb")); PlayJourneySound(false);
             if (enemy.hp <= 0)
             {
-                Sprite[] art; Sprite sprite = enemyActionArt.TryGetValue(enemy.kind, out art) ? art[7] : enemy.body.sprite;
+                Sprite[] art; Sprite sprite = enemyActionArt.TryGetValue(enemy.kind, out art) ? art[IsThunderEnemy(enemy.kind)?art.Length-1:7] : enemy.body.sprite;
                 GameObject body = Draw("Defeated " + EnemyNames[(int)enemy.kind], sprite, enemy.position, Vector2.one, Color.white, enemy.body.sortingOrder);
                 SpriteRenderer renderer = body.GetComponent<SpriteRenderer>(); renderer.flipX = enemy.body.flipX;
                 fadingBodies.Add(new FadingBody { root = body, renderer = renderer, expires = clock + .55f });

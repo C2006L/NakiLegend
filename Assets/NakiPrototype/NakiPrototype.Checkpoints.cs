@@ -33,9 +33,9 @@ namespace NakiLegend.Prototype
         // read or write the player's real checkpoint by default.
         private bool allowBatchCheckpoints=false;
         private string checkpointPathOverride=null,checkpointStatus="尚未存档";
-        private bool CheckpointsEnabled { get { return enableDesertJourney&&!gatehouseSampleMode&&!bossPracticeMode&&!lightningTrialMode&&(!Application.isBatchMode||allowBatchCheckpoints); } }
+        private bool CheckpointsEnabled { get { return enableDesertJourney&&!thunderPrototypeMode&&!gatehouseSampleMode&&!bossPracticeMode&&!lightningTrialMode&&(!Application.isBatchMode||allowBatchCheckpoints); } }
         private string CheckpointPath { get { return string.IsNullOrEmpty(checkpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend","journey-v1.json"):checkpointPathOverride; } }
-        private void RequestCheckpoint(){if(!loadingCheckpoint&&CheckpointsEnabled&&origin!=Origin.Unchosen)checkpointPending=true;}
+        private void RequestCheckpoint(){if(thunderPrototypeMode){thunderSavePending=true;return;}if(!loadingCheckpoint&&CheckpointsEnabled&&origin!=Origin.Unchosen)checkpointPending=true;}
         private bool SafeCheckpointRoom { get { return world!=null&&journeyRooms.Count>currentRoom&&currentRoom>=0&&journeyRooms[currentRoom].cleared&&health>0&&enemies.Count==0&&pendingSpawns.Count==0&&gateWorkRemaining<=0&&doorTransition<=0; } }
         private void TickCheckpoint(){if(checkpointPending&&SafeCheckpointRoom){checkpointPending=false;SaveCheckpoint(false);}}
         private bool SaveCheckpoint(bool notify)
@@ -142,6 +142,7 @@ namespace NakiLegend.Prototype
         }
         private bool HandleCheckpointKeys()
         {
+            if(HandleThunderCheckpointKeys())return true;
             if(!CheckpointsEnabled)return false;bool save=false,load=false;
 #if ENABLE_INPUT_SYSTEM
             if(Keyboard.current!=null){save=Keyboard.current.f5Key.wasPressedThisFrame;load=Keyboard.current.f9Key.wasPressedThisFrame;}
@@ -151,6 +152,6 @@ namespace NakiLegend.Prototype
             if(save){SaveCheckpoint(true);return true;}if(load){LoadCheckpoint(true);return true;}return false;
         }
         private void TryResumeAtStartup(){if(CheckpointsEnabled&&File.Exists(CheckpointPath))LoadCheckpoint(false);}
-        private void OnApplicationQuit(){if(CheckpointsEnabled&&SafeCheckpointRoom)SaveCheckpoint(false);}
+        private void OnApplicationQuit(){if(thunderPrototypeMode){SaveThunderCheckpoint(false);return;}if(CheckpointsEnabled&&SafeCheckpointRoom)SaveCheckpoint(false);}
     }
 }

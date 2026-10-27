@@ -46,11 +46,17 @@ Unity 2D 地牢试玩，当前 **V14**。沙漠岛三小层共 39 房，四向�
 
 样板已开放三技能和两把武器用于比较，正式沙漠仍按进度学习。满元素时结晶留地；清沙 Esc 取消，转轮 Esc 跳过。运行进度保留在本轮，R / N 重开会重置。通过 81 项样板检查与 24 项真实脚本重载检查，见 [试玩说明](Docs/GATEHOUSE_PLAYTEST.md)。
 
+## 雷雨高原两房可玩原型 S1
+
+菜单 **Tools → Naki Legend → Open Thunder Plateau Prototype**，或打开 Assets/Scenes/NakiThunderPrototype.unity。选择光、暗或无技能零元素预设，A / D 选择从草坡或引雷坪开始，F 进入。两房用实际门廊往返，清理后免费复位铜手柄，检查风克雷、普通雷弹与落雷、奖励与回访。
+
+F5 / F9 使用独立的 thunder-prototype-v1.json，不读取或覆盖正常沙漠旅程；N 打开原型配置。见 [详细试玩说明](Docs/THUNDER_S1_PLAYTEST.md)。完整三层、Boss、雷技能与跨岛航行仍待制作。
+
 ## 第二岛设计：雷雨高原
 
-[D2 三层详细设计](Docs/THUNDER_PLATEAU_DESIGN.md) · [两房原型规格](Docs/THUNDER_PROTOTYPE_SPEC.md) · [环境、巨鹿和两类小怪概念图](Art/ThunderPlateauD2/README.md)。目标是三层 39 房走门探索，用风应对雷，修复引雷设施，让老人等到巡路员归家。先制作草坡与机关两房原型，再扩全岛；目前尚未开放第二岛试玩。
+[D2 三层详细设计](Docs/THUNDER_PLATEAU_DESIGN.md) · [两房原型规格](Docs/THUNDER_PROTOTYPE_SPEC.md) · [环境、巨鹿和两类小怪概念图](Art/ThunderPlateauD2/README.md)。目标是三层 39 房走门探索，用风应对雷，修复引雷设施，让老人等到巡路员归家。独立两房原型 S1 已开放；完整第二岛尚未开放。
 
-D3 新增：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Docs/THUNDER_MAP_D3.md) · [三场 Boss、六把武器与技能](Docs/THUNDER_COMBAT_D3.md)。设计数据位于 Docs，尚未被运行代码加载，不影响当前 V14 试玩。
+D3 新增：[剧情对白](Docs/THUNDER_STORY_D3.md) · [三层连接蓝图](Docs/THUNDER_MAP_D3.md) · [三场 Boss、六把武器与技能](Docs/THUNDER_COMBAT_D3.md)。D3 完整连接数据尚未加载到游戏；独立原型只实现两房。
 
 ## 开场与美术
 

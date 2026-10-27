@@ -6,6 +6,21 @@ namespace NakiLegend.Prototype.Editor
 {
     public static class NakiSampleScenes
     {
+        public const string ThunderPath="Assets/Scenes/NakiThunderPrototype.unity";
+        [MenuItem("Tools/Naki Legend/Open Thunder Plateau Prototype")]
+        public static void OpenThunder()
+        {
+            if(EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())EditorSceneManager.OpenScene(ThunderPath);
+        }
+        public static void BuildThunderScene()
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/Scenes/NakiTest.unity");
+            var p=Object.FindObjectOfType<NakiPrototype>();p.name="Thunder Plateau Two Room Prototype";
+            p.thunderPrototypeMode=true;p.enableDesertJourney=true;p.gatehouseSampleMode=p.bossPracticeMode=p.lightningTrialMode=false;
+            p.showOpeningOnStart=false;p.journeySeed=15001;p.thunderStartRoom=0;p.thunderPreset=NakiPrototype.ThunderPreset.Light;
+            EditorUtility.SetDirty(p);EditorSceneManager.MarkSceneDirty(scene);
+            if(!EditorSceneManager.SaveScene(scene,ThunderPath))throw new System.InvalidOperationException("Could not save thunder scene");
+        }
         public const string GatehousePath="Assets/Scenes/NakiGatehouseSample.unity";
         [MenuItem("Tools/Naki Legend/Open Old Canal Gatehouse")]
         public static void OpenGatehouse()

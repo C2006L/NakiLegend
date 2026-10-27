@@ -1,5 +1,6 @@
 # 雷雨高原 D3：房间连接与场地模块
 
+当前进展：独立 [两房原型 S1](THUNDER_S1_PLAYTEST.md) 已可试玩；本稿其余完整章节内容仍按设计推进。
 状态：2026-10-27，设计蓝图，未接入游戏。承接 [D2 的 39 个房间身份](THUNDER_PLATEAU_DESIGN.md)，剧情见 [D3 剧情](THUNDER_STORY_D3.md)，Boss、装备与资源见 [D3 战斗](THUNDER_COMBAT_D3.md)。图中的房间方框是制作蓝图，实际游戏仍沿门、短廊和石阶探索。
 
 本稿把 D2 的主路与环路要求展开为一个可验证的基准连接种子。位置与连接记录在 [room-graph.json](DesignData/ThunderPlateauD3/room-graph.json)；数据位于 Docs，不会被当前 Unity 运行代码加载。

@@ -175,6 +175,7 @@ namespace NakiLegend.Prototype
 
         private bool TryRoomInteraction()
         {
+            if(thunderPrototypeMode&&TryThunderInteraction())return true;
             if(GatehouseActive&&TryGatehouseInteraction())return true;
             if(stairs!=null&&journeyRooms[currentRoom].cleared&&Vector2.Distance(position,stairPosition)<1.6f){BeginDoorTransition(journeyRooms[currentRoom].stairsTo,-1);return true;}
             if(lessonAltar!=null&&Vector2.Distance(position,lessonPosition)<1.35f){LearnPendingLesson();return true;}

@@ -7,7 +7,7 @@ namespace NakiLegend.Prototype
         private enum Origin { Unchosen, Light, Dark }
         private Origin origin;
         private int originChoice;
-        private bool OriginChoiceReady { get { return enableDesertJourney&&!gatehouseSampleMode&&!bossPracticeMode&&origin==Origin.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&health>0; } }
+        private bool OriginChoiceReady { get { return enableDesertJourney&&!thunderPrototypeMode&&!gatehouseSampleMode&&!bossPracticeMode&&origin==Origin.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&health>0; } }
         private void ChooseOrigin(int choice)
         {
             if(origin!=Origin.Unchosen)return;

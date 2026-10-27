@@ -113,6 +113,7 @@ namespace NakiLegend.Prototype
 
         private void BuildExplorationRoom(RoomNode node)
         {
+            if(thunderPrototypeMode){BuildThunderRoom(node);return;}
             int floor=IsGatehouseRoom(node)?1:node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
             doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
             TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),floor,-1000);

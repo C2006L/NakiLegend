@@ -117,7 +117,7 @@ namespace NakiLegend.Prototype
             view.backgroundColor = C("252d36");
             view.cullingMask = ~0;
             ResetRoom();
-            TryResumeAtStartup();
+            TryResumeAtStartup();if(thunderPrototypeMode)thunderSetupMenu=true;
         }
 
         private Sprite MakeSprite(string[] rows, Dictionary<char, Color> palette, float pixelsPerUnit)
@@ -211,8 +211,8 @@ namespace NakiLegend.Prototype
             view.orthographicSize = enableDesertJourney ? Mathf.Max(5.1f, 9.7f / Mathf.Max(view.aspect, .1f)) : Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
             if(HandleCheckpointKeys())return;
             if (Pressed('r')) { ResetRoom(); return; }
-            if (enableDesertJourney && Pressed('n')) { BeginJourney(true); return; }
-            if (enableDesertJourney && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
+            if (enableDesertJourney && Pressed('n')) { if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
+            if (enableDesertJourney && !thunderPrototypeMode && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
             if (enableDesertJourney && HandleJourneyOverlayInput()) return;
             if (Pressed('e')) paused = !paused;
             if (paused) return;
@@ -401,7 +401,8 @@ namespace NakiLegend.Prototype
             Vector2 previous = shot.position;
             shot.position += shot.direction * (shot.speed > 0 ? shot.speed : shot.hostile ? 3.5f : 7f) * dt;
             bool outside = enableDesertJourney ? !WithinProjectileBounds(shot.position) : Mathf.Abs(shot.position.x) > 9.4f || shot.position.y > (illustratedArtReady ? 3.8f : 5.4f) || shot.position.y < (illustratedArtReady ? -3.85f : -5.4f);
-            bool remove = shot.life <= 0 || outside || ProjectilePathBlocked(previous, shot.position, shot.hostile ? .135f : .11f);
+            bool interrupted=TryThunderWindInterrupt(shot,previous,shot.position);
+            bool remove = interrupted || shot.life <= 0 || outside || ProjectilePathBlocked(previous, shot.position, shot.hostile ? .135f : .11f);
             if (!remove && shot.hostile && Vector2.Distance(shot.position, position) < .4f) { if (enableDesertJourney) TakeJourneyDamage(shot.damage > 0 ? shot.damage : 1, shot.element); else Hurt(); remove = true; }
             if (!remove && !shot.hostile)
                 for (int i = enemies.Count - 1; i >= 0; i--)
@@ -476,6 +477,7 @@ namespace NakiLegend.Prototype
                 case 'g': return keyboard.gKey.wasPressedThisFrame;
                 case '1': return keyboard.digit1Key.wasPressedThisFrame;
                 case '2': return keyboard.digit2Key.wasPressedThisFrame;
+                case '3': return keyboard.digit3Key.wasPressedThisFrame;
                 case ' ': return keyboard.spaceKey.wasPressedThisFrame;
                 case 'a': return keyboard.aKey.wasPressedThisFrame;
                 case 'd': return keyboard.dKey.wasPressedThisFrame;

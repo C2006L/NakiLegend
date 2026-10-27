@@ -1,8 +1,9 @@
 # 第二岛：雷雨高原《困在山巅的雷声》
 
-状态：D2 制作设计，2026-10-27；承接 [D1 概念](THUNDER_PLATEAU_CONCEPT.md) 与 [V14 沙漠流程](ADVENTURE_V14.md)。本文定义下一阶段目标；第二岛场景、敌人、雷技能与跨岛存档尚未实现。当前可玩内容仍是沙漠三层与归渠水道。
+当前进展：独立 [两房原型 S1](THUNDER_S1_PLAYTEST.md) 已可试玩；本稿其余完整章节内容仍按设计推进。
+状态：D2 制作设计，2026-10-27；承接 [D1 概念](THUNDER_PLATEAU_CONCEPT.md) 与 [V14 沙漠流程](ADVENTURE_V14.md)。本文定义下一阶段目标；完整第二岛三层、Boss、雷技能与跨岛存档尚未实现；可玩内容包括沙漠三层与归渠水道，以及独立 S1 两房样板。
 
-D3 已继续展开：[十段剧情与对白](THUNDER_STORY_D3.md)、[三层实际连接与模块](THUNDER_MAP_D3.md)、[三场 Boss、六把武器与技能配置](THUNDER_COMBAT_D3.md)。房间身份沿用本稿，细节以 D3 为准；新增技能与第二岛仍未接入运行。
+D3 已继续展开：[十段剧情与对白](THUNDER_STORY_D3.md)、[三层实际连接与模块](THUNDER_MAP_D3.md)、[三场 Boss、六把武器与技能配置](THUNDER_COMBAT_D3.md)。房间身份沿用本稿，细节以 D3 为准；新增雷技能与完整第二岛尚未接入运行。
 
 配套：[首个两房原型与验收](THUNDER_PROTOTYPE_SPEC.md)。概念图见 [美术目录](../Art/ThunderPlateauD2/README.md)，图中的摆设不直接作为碰撞或关卡数据。
 

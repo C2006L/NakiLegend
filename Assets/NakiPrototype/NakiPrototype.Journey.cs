@@ -44,7 +44,7 @@ namespace NakiLegend.Prototype
             journeyRock=JourneySprite("journey-cover-rock",130,new Vector2(.5f,.08f));
             rainCG=Resources.Load<Texture2D>("NakiArt/desert-rain-cg");
             journeyFont=Resources.Load<Font>("Fonts/FusionPixel");
-            LoadEnemyActionArt();LoadEquipmentArt();BuildRoomModules();LoadDesertV12Art();LoadGatehouseArt();SetupJourneyAudio();
+            LoadEnemyActionArt();LoadEquipmentArt();BuildRoomModules();LoadDesertV12Art();LoadGatehouseArt();LoadThunderArt();SetupJourneyAudio();
         }
         private Sprite JourneySprite(string name,float ppu,Vector2 pivot)
         {
@@ -64,12 +64,13 @@ namespace NakiLegend.Prototype
             clock=0;health=6;energy=100;journeyComplete=false;restoredCanals=0;doorTransition=0;
             nextSword=nextSpell=nextDash=dashUntil=invulnerableUntil=flashUntil=0;ResetPlayerProgression();
             origin=gatehouseSampleMode||bossPracticeMode?Origin.Light:Origin.Unchosen;originChoice=0;
+            if(thunderPrototypeMode){ConfigureThunderPlayer();EnterExplorationRoom(thunderStartRoom,-1);TellStory("雷雨高原两房原型：清理草坡后沿北门进入引雷坪。", "J 武器，H 换风杖，L 主属性，U 风刃，I 风波。落雷看地面圆圈躲开；清理引雷坪后靠近铜手柄按 F。N 配置，R 重试，F5 / F9 独立原型存档。");return;}
             EnterExplorationRoom(bossPracticeMode?stageEnds[2]:stageStarts[0],-1);
             if(gatehouseSampleMode){TellStory("少年：轮齿还在，沙把它卡住了。","清理闸室后可直接向北探索，或清开两处沙堆、转动手轮。元素结晶奖励只发一次；东侧检修闸需两端都安全才开放。样板已开放三种技能，可用 H 切换免费短剑与风牙法杖。");return;}
             if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 元气弹、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
             else if(!TryStartOpeningCinematic()) TellStory("老人：风曾把海上的云带过山口，如今只卷走井底最后一点凉气。","少年：我会让风重新认得回家的路。先沿着门后的旧渠，去寻找风铃台。");
         }
-        private void BuildJourneyGraph(System.Random random){if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
+        private void BuildJourneyGraph(System.Random random){if(thunderPrototypeMode)BuildThunderGraph();else if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
         private void ConnectRooms(int a,int b){journeyRooms[a].links.Add(b);journeyRooms[b].links.Add(a);}
         private void EnterJourneyRoom(int id){EnterExplorationRoom(id,-1);}
 
@@ -132,6 +133,7 @@ namespace NakiLegend.Prototype
         private void SpawnJourneyWave()
         {
             RoomNode node=journeyRooms[currentRoom];currentWave++;nextWaveAt=-1;
+            if(thunderPrototypeMode){SpawnThunderWave(node);return;}
             if(IsGatehouseRoom(node)){SpawnGatehouseWave(node);return;}
             var random=new System.Random(activeSeed^(currentRoom*503+currentWave*19));
             if(node.kind==RoomKind.Boss||node.kind==RoomKind.Guardian)
@@ -163,7 +165,7 @@ namespace NakiLegend.Prototype
         private void TickJourney(float dt)
         {
             TickJourneyEffects(dt);
-            TickGatehouseEnvironment();
+            TickGatehouseEnvironment();TickThunderEnvironment(dt);
             if(pendingBossClear){pendingBossClear=false;CompleteJourneyBoss();return;}
             TickPendingSpawns();TickGroundShocks();
             RoomNode node=journeyRooms[currentRoom];
@@ -179,7 +181,8 @@ namespace NakiLegend.Prototype
             RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;
             if(IsCombatRoom(node))clearedCombatRooms++;
             foreach(Shot shot in shots)if(shot.root!=null)Destroy(shot.root);shots.Clear();
-            if(!GatehouseActive){SeedRoomLoot(node);CheckPendingLesson();}UpdateJourneyPortal();RequestCheckpoint();
+            if(thunderPrototypeMode){ClearThunderHazards();thunderSavePending=true;}
+            else if(!GatehouseActive){SeedRoomLoot(node);CheckPendingLesson();}UpdateJourneyPortal();RequestCheckpoint();
         }
         private void UpdateJourneyPortal(){UpdateExplorationDoors();}
         private void FinishJourneyBoss(){pendingBossClear=true;}
@@ -205,6 +208,7 @@ namespace NakiLegend.Prototype
         private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
         private bool HandleJourneyOverlayInput()
         {
+            if(TickThunderOverlay(Time.unscaledDeltaTime))return true;
             if(TickOpeningCinematic(Time.unscaledDeltaTime))return true;
             if(HandleOriginChoice())return true;
             if(TickGatehouseInteraction(Time.unscaledDeltaTime))return true;

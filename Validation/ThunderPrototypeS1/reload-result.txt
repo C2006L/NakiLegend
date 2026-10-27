@@ -1,0 +1,1 @@
+PASS 18 checks; real dead/alive script reload restores independent dark prototype, repaired mechanism, resources, environment and enemy animation caches.

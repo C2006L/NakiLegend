@@ -1,0 +1,11 @@
+{
+  "scene": "Assets/Scenes/NakiThunderPrototype.unity",
+  "prototype_checks": 130,
+  "real_reload_checks": 18,
+  "normal_v14_checks": 51,
+  "map_regression_checks": 3121,
+  "canal_regression_checks": 398,
+  "local_runtime_copies_match": true,
+  "saved_test_files_excluded_from_git": true,
+  "assets_original_bytes_preserved": true
+}

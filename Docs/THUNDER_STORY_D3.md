@@ -1,5 +1,6 @@
 # 雷雨高原 D3：剧情、对白与演出
 
+当前进展：独立 [两房原型 S1](THUNDER_S1_PLAYTEST.md) 已可试玩；本稿其余完整章节内容仍按设计推进。
 状态：2026-10-27 制作稿，未接入运行。承接 [D2 章节设计](THUNDER_PLATEAU_DESIGN.md)，配套 [地图连接](THUNDER_MAP_D3.md) 与 [Boss、武器和技能](THUNDER_COMBAT_D3.md)。本轮只补设计，不修改当前 V14 试玩代码。
 
 ## 故事的因果

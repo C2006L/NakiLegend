@@ -7,7 +7,7 @@ namespace NakiLegend.Prototype.Editor
     {
         private const string ArtFolder = "Assets/NakiPrototype/Resources/NakiArt";
 
-        public override uint GetVersion() { return 2; }
+        public override uint GetVersion() { return 4; }
 
         private static bool IsArtwork(string path)
         {
@@ -22,13 +22,14 @@ namespace NakiLegend.Prototype.Editor
         private static void Configure(TextureImporter importer)
         {
             importer.textureType = TextureImporterType.Default;
+            importer.textureShape = TextureImporterShape.Texture2D;
             importer.npotScale = TextureImporterNPOTScale.None;
             importer.maxTextureSize = 4096;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.mipmapEnabled = false;
             importer.alphaSource = TextureImporterAlphaSource.FromInput;
             importer.alphaIsTransparency = true;
-            importer.filterMode = FilterMode.Bilinear;
+            importer.filterMode = importer.assetPath.Contains("/ThunderS1/")?FilterMode.Point:FilterMode.Bilinear;
             importer.wrapMode = TextureWrapMode.Clamp;
         }
 
@@ -48,7 +49,7 @@ namespace NakiLegend.Prototype.Editor
                 var importer = AssetImporter.GetAtPath(path) as TextureImporter;
                 if (importer == null) continue;
                 if (importer.npotScale == TextureImporterNPOTScale.None && importer.maxTextureSize == 4096 &&
-                    importer.textureType == TextureImporterType.Default && !importer.mipmapEnabled &&
+                    importer.textureType == TextureImporterType.Default && importer.textureShape == TextureImporterShape.Texture2D && !importer.mipmapEnabled &&
                     importer.textureCompression == TextureImporterCompression.Uncompressed && importer.alphaIsTransparency) continue;
                 Configure(importer);
                 importer.SaveAndReimport();
