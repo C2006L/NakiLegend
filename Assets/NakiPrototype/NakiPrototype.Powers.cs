@@ -14,7 +14,7 @@ namespace NakiLegend.Prototype
   private bool SpendPower(PowerPool pool,float cost)
   {
    float available=pool==PowerPool.Light?energy:pool==PowerPool.Elemental?elementPower:darkPower;
-   if(available+.001f<cost){JourneyHint(pool==PowerPool.Light?"光之力不足 · 等待内心的光恢复":"元素之力不足 · 拾取结晶或使用元素药剂");return false;}
+   if(available+.001f<cost){JourneyHint(pool==PowerPool.Light?"光之力不足 · 等待内心的光恢复":pool==PowerPool.Dark?"暗之力不足 · 击败有灵生物给贤者之石充能":"元素之力不足 · 拾取结晶或使用元素药剂");return false;}
    if(pool==PowerPool.Light)energy-=cost;else if(pool==PowerPool.Elemental)elementPower-=cost;else darkPower-=cost;return true;
   }
   private void BuildEssenceSprite()
@@ -39,7 +39,7 @@ namespace NakiLegend.Prototype
     EssenceDrop drop=essenceDrops[i];float d=Vector2.Distance(position,drop.data.at);
     if(elementPower<100&&clock>drop.data.born+.12f&&d<1.9f)drop.data.at=Vector2.MoveTowards(drop.data.at,position,dt*5.5f);
     if(elementPower<100&&Vector2.Distance(position,drop.data.at)<.43f)
-    {float added=Mathf.Min(100-elementPower,drop.data.value);elementPower+=added;AddFloatingHit("元素 +"+added.ToString("0"),position+Vector2.up*.8f,C("73e6cf"));journeyRooms[currentRoom].essence.Remove(drop.data);Destroy(drop.root);essenceDrops.RemoveAt(i);}
+    {float added=Mathf.Min(100-elementPower,drop.data.value);elementPower+=added;AddFloatingHit("元素 +"+added.ToString("0"),position+Vector2.up*.8f,C("73e6cf"));journeyRooms[currentRoom].essence.Remove(drop.data);Destroy(drop.root);essenceDrops.RemoveAt(i);RequestCheckpoint();}
     else if(drop.root!=null)drop.root.transform.position=drop.data.at+Vector2.up*(.07f+.035f*Mathf.Sin(clock*4+i));
    }
   }

@@ -1,0 +1,10 @@
+{
+  "origin_save_balance_checks": 51,
+  "checkpoint_reload_checks": 21,
+  "normal_epilogue_checks": 398,
+  "map_regression_checks": 3121,
+  "sample_regression_checks": 81,
+  "local_project": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend",
+  "verified_code_match": true,
+  "checkpoint_files_excluded_from_git": true
+}

@@ -29,3 +29,5 @@ Validation/**/*.rsp
 Validation/**/hero-atlas.png
 Validation/**/unity-*.png
 crash.dmp
+
+Validation/**/regression-runtime/

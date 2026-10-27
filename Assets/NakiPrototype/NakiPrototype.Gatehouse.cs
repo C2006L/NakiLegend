@@ -38,31 +38,25 @@ namespace NakiLegend.Prototype
         private void BuildGatehouseGraph()
         {
             journeyRooms.Clear(); bossPracticeMode=lightningTrialMode=false;
-            for(int i=0;i<2;i++)gateSandCleared[i]=false;
-            gateRepairCommitted=gateRewardCreated=gateTotalUnlocked=gateRainReturned=false;
-            gateWorkRemaining=gateWorkDuration=0;gateWorkKind=-1;
-            Vector2Int[] cells={new Vector2Int(2,1),new Vector2Int(2,2),new Vector2Int(2,3),new Vector2Int(3,2),new Vector2Int(3,3)};
-            for(int id=0;id<cells.Length;id++)journeyRooms.Add(new RoomNode {
-                id=id,stage=1,depth=3,cell=cells[id],layout=id,halfWidth=8,halfHeight=4.5f,
-                kind=id==1||id==3?RoomKind.Combat:RoomKind.Entrance,waves=id==1?2:1
-            });
-            ConnectRooms(0,1);ConnectRooms(1,2);ConnectRooms(2,4);ConnectRooms(4,3);ConnectRooms(1,3);
+            ResetGatehouseProgress();AddGatehouseRooms(0,1);
             for(int i=0;i<3;i++){stageStarts[i]=0;stageEnds[i]=2;}
             journeyRooms[0].discovered=true;
         }
 
         private bool GatehouseDoorLocked(int room,int direction)
         {
-            if(!gatehouseSampleMode||journeyRooms.Count!=5)return false;
-            bool shortcut=(room==1&&direction==2)||(room==3&&direction==3);
-            return shortcut&&(!gateRepairCommitted||gateWorkRemaining>0||!journeyRooms[1].cleared||!journeyRooms[3].cleared);
+            if(room<0||room>=journeyRooms.Count)return false;
+            int local=journeyRooms[room].gatehouseIndex;if(local<0)return false;
+            bool shortcut=(local==1&&direction==2)||(local==3&&direction==3);
+            return shortcut&&(!gateRepairCommitted||gateWorkRemaining>0||!GatehouseRoom(1).cleared||!GatehouseRoom(3).cleared);
         }
 
         private void BuildGatehouseScenery(RoomNode room)
         {
+            int local=room.gatehouseIndex;
             gateWaterVisuals.Clear();gateRainVisuals.Clear();gateWheelVisual=gateWorkRing=gateRotor=null;
             gateSandVisuals[0]=gateSandVisuals[1]=null;
-            if(room.id==1)
+            if(local==1)
             {
                 AddJourneyPillar(new Vector2(-3.3f,0));AddJourneyPillar(new Vector2(3.3f,0));
                 BuildGateChannel(1.2f,13.6f);
@@ -76,9 +70,8 @@ namespace NakiLegend.Prototype
             {
                 foreach(Vector2 at in new[]{new Vector2(-4.8f,-.5f),new Vector2(4.7f,1.1f)})if(!IntersectsTransit(at,new Vector2(1.3f,2.2f)))AddJourneyPillar(at);
                 BuildGateChannel(.8f,11.8f);
-                if(room.id==2){BuildTurningWheel(GateActionPoints[4],1.1f,gateTotalUnlocked);AddGateWheelCollision(GateActionPoints[4],new Vector2(1.5f,1.3f));}
-                if(room.id==4)Draw("Rain watching bell",lessonArtwork??windRingSprite,GateActionPoints[5],Vector2.one,C("c3dfcf"),DepthAt(1.4f));
-                if(room.id==0){Stretch("Camp rug",square,new Vector2(-3,1.7f),new Vector2(2.5f,1),C("486b6d"),-965);Draw("Camp wind emblem",windRingSprite,new Vector2(-3,1.7f),Vector2.one*.7f,C("d7c28d"),-964);}
+                if(local==2){BuildTurningWheel(GateActionPoints[4],1.1f,gateTotalUnlocked);AddGateWheelCollision(GateActionPoints[4],new Vector2(1.5f,1.3f));}
+                if(local==4)Draw("Rain watching bell",lessonArtwork??windRingSprite,GateActionPoints[5],Vector2.one,C("c3dfcf"),DepthAt(1.4f));
             }
             RefreshGatehouseWater();
         }
@@ -114,7 +107,7 @@ namespace NakiLegend.Prototype
         }
         private void TickGatehouseEnvironment()
         {
-            if(!gatehouseSampleMode)return;
+            if(!GatehouseActive)return;
             for(int i=1;i<gateWaterVisuals.Count;i++)if(gateWaterVisuals[i]!=null&&gateWaterVisuals[i].activeSelf)
             {Vector3 at=gateWaterVisuals[i].transform.position;at.x=-5.6f+Mathf.Repeat(i*1.35f+clock*.32f,11.2f);gateWaterVisuals[i].transform.position=at;}
             for(int i=0;i<gateRainVisuals.Count;i++)if(gateRainVisuals[i]!=null)gateRainVisuals[i].transform.position=new Vector2(-7.5f+Mathf.Repeat(i*2.731f+clock*.35f,15),4.2f-Mathf.Repeat(i*1.137f+clock*3.3f,8.4f));
@@ -130,7 +123,7 @@ namespace NakiLegend.Prototype
 
         private void SpawnGatehouseWave(RoomNode room)
         {
-            EnemyKind[] kinds=room.id==3?new[]{EnemyKind.SandScorpion,EnemyKind.SpearGuard}:
+            EnemyKind[] kinds=room.gatehouseIndex==3?new[]{EnemyKind.SandScorpion,EnemyKind.SpearGuard}:
                 currentWave==1?new[]{EnemyKind.SandScorpion,EnemyKind.SandScorpion,EnemyKind.SpearGuard,EnemyKind.SpearGuard}:
                 new[]{EnemyKind.SandScorpion,EnemyKind.SandScorpion,EnemyKind.SpearGuard,EnemyKind.SandKite};
             Vector2[] desired={new Vector2(-5,1.8f),new Vector2(4,-2.6f),new Vector2(-4,-.9f),new Vector2(5.2f,2.8f)};
@@ -150,14 +143,14 @@ namespace NakiLegend.Prototype
         private bool GatehouseSpawnValid(Vector2 at)
         {
             if(Blocked(at,.38f)||ProjectilePathBlocked(at,at,.38f)||Vector2.Distance(at,position)<3.5f||IntersectsTransit(at,Vector2.one)||SpawnTooClose(at,.38f))return false;
-            if(currentRoom==1)for(int i=0;i<3;i++)if(Vector2.Distance(at,GateActionPoints[i])<1.45f)return false;
+            if(CurrentGatehouseIndex==1)for(int i=0;i<3;i++)if(Vector2.Distance(at,GateActionPoints[i])<1.45f)return false;
             return true;
         }
 
         private int NearbyGatehouseAction()
         {
             int best=-1;float distance=1.35f;
-            int begin=currentRoom==1?0:currentRoom==2?4:currentRoom==4?5:6,end=currentRoom==1?4:begin+1;
+            int begin=CurrentGatehouseIndex==1?0:CurrentGatehouseIndex==2?4:CurrentGatehouseIndex==4?5:6,end=CurrentGatehouseIndex==1?4:begin+1;
             for(int i=begin;i<end&&i<6;i++)
             {
                 if(i<2&&gateSandCleared[i])continue;
@@ -179,12 +172,13 @@ namespace NakiLegend.Prototype
                 gateRepairCommitted=true;CreateGatehouseReward();gateWorkKind=2;gateWorkDuration=2;gateWorkRemaining=2;
                 if(gateWorkRing!=null)gateWorkRing.SetActive(true);UpdateExplorationDoors();return true;
             }
-            if(kind==3){JourneyHint(GatehouseDoorLocked(1,2)?gateRepairCommitted?"检修闸已修好 · 先沿北路清理另一侧庭院":"检修闸被卡住 · 清沙后转动手轮":"检修通路已开启 · 沿门向东前进");return true;}
+            if(kind==3){JourneyHint(GatehouseDoorLocked(GatehouseRoom(1).id,2)?gateRepairCommitted?"检修闸已修好 · 先沿北路清理另一侧庭院":"检修闸被卡住 · 清沙后转动手轮":"检修通路已开启 · 沿门向东前进");return true;}
             if(kind==4)
             {
                 if(gateTotalUnlocked){JourneyHint("总闸已打开 · 已修复的小渠可以通过存水");return true;}
-                gateTotalUnlocked=true;if(gateRotor!=null)gateRotor.transform.localRotation=Quaternion.Euler(0,0,90);RefreshGatehouseWater();TellStory("少年：总闸能动了。先让留下的水慢慢流过去。","总闸已解锁。修好闸室后回访，可见少量存水。向东绕行可以清理检修庭院。");return true;
+                gateTotalUnlocked=true;RequestCheckpoint();if(gateRotor!=null)gateRotor.transform.localRotation=Quaternion.Euler(0,0,90);RefreshGatehouseWater();TellStory("少年：总闸能动了。先让留下的水慢慢流过去。","总闸已解锁。修好闸室后回访，可见少量存水。向东绕行可以清理检修庭院。");return true;
             }
+            if(!gatehouseSampleMode)return TryCompleteCanalEpilogue();
             if(!gateTotalUnlocked){JourneyHint("先去分水总闸打开阀门，再回来守候初雨");return true;}
             if(gateRainReturned){JourneyHint("云已越过山口 · 回访闸室查看雨后的水渠");return true;}
             gateRainReturned=true;RefreshGatehouseWater();TellStory("少年：山口的云，终于朝这边来了。","样板已切换雨后回访景象。正式章节会由取回风石推进此变化。");return true;
@@ -194,12 +188,12 @@ namespace NakiLegend.Prototype
         {
             if(gateRewardCreated)return;gateRewardCreated=true;
             var data=new StoredEssence{at=FindFreeInteractionPoint(GateActionPoints[2]+Vector2.right*1.1f-Vector2.up*.2f),value=20,born=clock};
-            journeyRooms[1].essence.Add(data);DrawEssence(data);
+            GatehouseRoom(1).essence.Add(data);DrawEssence(data);
         }
 
         private bool TickGatehouseInteraction(float dt)
         {
-            if(!gatehouseSampleMode||gateWorkRemaining<=0)return false;
+            if(!GatehouseActive||gateWorkRemaining<=0)return false;
             if(Pressed('e')){FinishGatehouseInteraction(gateWorkKind==2);return true;}
             gateWorkRemaining=Mathf.Max(0,gateWorkRemaining-Mathf.Min(dt,.05f));
             if(gateWorkKind==2&&gateWorkRing!=null)gateWorkRing.transform.rotation=Quaternion.Euler(0,0,(1-gateWorkRemaining/gateWorkDuration)*180);
@@ -211,6 +205,7 @@ namespace NakiLegend.Prototype
         {
             int kind=gateWorkKind;gateWorkRemaining=0;gateWorkKind=-1;
             if(apply&&kind>=0&&kind<2){gateSandCleared[kind]=true;if(gateSandVisuals[kind]!=null)Destroy(gateSandVisuals[kind]);JourneyHint(gateSandCleared[0]&&gateSandCleared[1]?"沙已清开 · 靠近手轮按 F":"一处沙堆已清开 · 再检查另一处");}
+            if(apply)RequestCheckpoint();
             if(kind==2){if(gateWorkRing!=null)gateWorkRing.SetActive(false);if(gateRotor!=null)gateRotor.transform.localRotation=Quaternion.Euler(0,0,90);RefreshGatehouseWater();UpdateExplorationDoors();JourneyHint("手轮已修复 · 留下一枚20元素结晶，检修闸需两端安全");}
         }
 
@@ -221,6 +216,7 @@ namespace NakiLegend.Prototype
             if(k<2)return "F 清开沙堆";
             if(k==2)return gateRepairCommitted?"手轮已修复":gateSandCleared[0]&&gateSandCleared[1]?"F 转动手轮 · 获得20元素结晶":"F 检查卡住的手轮";
             if(k==3)return "F 查看检修闸";
+            if(k==5&&!gatehouseSampleMode)return CanalCompletionPrompt();
             return k==4?gateTotalUnlocked?"总闸已打开":"F 打开分水总闸":gateRainReturned?"雨已归来":"F 守候初雨 · 样板景象预览";
         }
 
@@ -228,11 +224,12 @@ namespace NakiLegend.Prototype
         {
             if(gateWorkRemaining>0)return gateWorkKind==2?"转动手轮 · ESC 跳过演出":"清开沙堆 · ESC 取消";
             if(!journeyRooms[currentRoom].cleared)return "第 "+currentWave+" / "+journeyRooms[currentRoom].waves+" 波 · 剩余 "+(enemies.Count+pendingSpawns.Count);
-            if(currentRoom==0)return "向北进入旧渠闸室 · 清理后可修闸或继续探索";
-            if(currentRoom==2)return gateTotalUnlocked?"向东绕行观雨台，再向南清理庭院":"靠近分水总闸按 F · 打开设施总锁";
-            if(currentRoom==4)return "向南清理检修庭院 · 可在铃台预览雨后回访";
+            if(!gatehouseSampleMode&&CurrentGatehouseIndex==4)return CanalCompletionHint();
+            if(CurrentGatehouseIndex==0)return "向北进入旧渠闸室 · 清理后可修闸或继续探索";
+            if(CurrentGatehouseIndex==2)return gateTotalUnlocked?"向东绕行观雨台，再向南清理庭院":"靠近分水总闸按 F · 打开设施总锁";
+            if(CurrentGatehouseIndex==4)return "向南清理检修庭院 · 可在铃台预览雨后回访";
             if(!gateRepairCommitted)return "可以沿北门前进 · 清开两处沙堆后转动手轮";
-            return GatehouseDoorLocked(1,2)?"手轮已修好 · 沿北路清理检修庭院以开放捷径":"检修捷径已开启 · 可回访水渠与未捡结晶";
+            return GatehouseDoorLocked(GatehouseRoom(1).id,2)?"手轮已修好 · 沿北路清理检修庭院以开放捷径":"检修捷径已开启 · 可回访水渠与未捡结晶";
         }
     }
 }

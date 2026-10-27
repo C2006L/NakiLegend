@@ -50,6 +50,7 @@ namespace NakiLegend.Prototype
 
         private void UpdateJourneyEnemy(Enemy enemy, float dt)
         {
+            enemy.position=MoveEnemyWithinRoom(enemy.position,Vector2.zero,enemy.radius);
             Vector2 previous = enemy.position, offset = position - enemy.position;
             if (enemy.boss && !enemy.secondPhase && enemy.hp <= enemy.maximum * .45f)
             {
@@ -58,7 +59,7 @@ namespace NakiLegend.Prototype
             if(enemy.phaseUntil>clock){UpdateJourneyEnemyPose(enemy,false);return;}
             if (enemy.chargeUntil > clock)
             {
-                enemy.position = Move(enemy.position, enemy.attackDirection * (enemy.kind == EnemyKind.Tumbleweed ? 6.2f : 5.2f) * dt, enemy.radius);
+                enemy.position = MoveEnemyWithinRoom(enemy.position, enemy.attackDirection * (enemy.kind == EnemyKind.Tumbleweed ? 6.2f : 5.2f) * dt, enemy.radius);
                 if ((enemy.position - previous).sqrMagnitude < .0001f) enemy.chargeUntil = clock;
                 if (DistanceToSegment(position, previous, enemy.position) < enemy.radius + .3f) TakeJourneyDamage(enemy.boss ? 2 : 1, enemy.attackElement);
             }
@@ -85,8 +86,8 @@ namespace NakiLegend.Prototype
                     }
                     if (!clearLine && (ranged || enemy.kind == EnemyKind.SpearGuard)) direction = new Vector2(-offset.normalized.y, offset.normalized.x);
                     if (ranged && offset.magnitude >= 3 && offset.magnitude < 5) direction = new Vector2(-direction.y, direction.x) * .55f;
-                    Vector2 next = Move(enemy.position, direction * enemy.speed * dt, enemy.radius);
-                    if ((next - enemy.position).sqrMagnitude < .00001f) next = Move(enemy.position, new Vector2(-direction.y, direction.x) * enemy.speed * dt, enemy.radius);
+                    Vector2 next = MoveEnemyWithinRoom(enemy.position, direction * enemy.speed * dt, enemy.radius);
+                    if ((next - enemy.position).sqrMagnitude < .00001f) next = MoveEnemyWithinRoom(enemy.position, new Vector2(-direction.y, direction.x) * enemy.speed * dt, enemy.radius);
                     enemy.position = next;
                 }
             }

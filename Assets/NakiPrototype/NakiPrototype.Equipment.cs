@@ -33,16 +33,16 @@ namespace NakiLegend.Prototype
                 blade = Sprite.Create(blade.texture, blade.rect, new Vector2(.165f, .5f), blade.rect.width, 0, SpriteMeshType.FullRect); ownedAssets.Add(blade);
             }
             Sprite spear = EquipmentSprite("equipment-spear-v9", new Vector2(.30f, .5f), false) ?? blade;
-            Sprite bow = EquipmentSprite("equipment-bow-v9", new Vector2(.39f,.5f), true) ?? blade;
+            Sprite bow = EquipmentSprite("equipment-bow-v9", new Vector2(.32f,.5f), true) ?? blade;
             Sprite staff = EquipmentSprite("equipment-staff-v9", new Vector2(.105f, .5f), false) ?? blade;
             weaponCatalog = new[] {
                 Weapon("旅人短剑",WeaponType.Sword,Element.Physical,18,.36f,1.45f,0,1,blade,"ffffff"),
-                Weapon("断渠长矛",WeaponType.Spear,Element.Physical,20,.55f,2.3f,0,1.85f,spear,"ffffff"),
-                Weapon("猎沙短弓",WeaponType.Bow,Element.Physical,12,.55f,10,0,1.05f,bow,"ffffff"),
-                Weapon("旧木法杖",WeaponType.Staff,Element.Light,12,.65f,10,2,1.3f,staff,"ffffff"),
+                Weapon("断渠长矛",WeaponType.Spear,Element.Physical,20,.55f,2.3f,1,1.85f,spear,"ffffff"),
+                Weapon("猎沙短弓",WeaponType.Bow,Element.Physical,12,.55f,10,1,1.05f,bow,"ffffff"),
+                Weapon("旧木法杖",WeaponType.Staff,Element.Light,12,.65f,10,1,1.3f,staff,"ffffff"),
                 Weapon("风纹剑",WeaponType.Sword,Element.Wind,18,.32f,1.55f,1,1.05f,blade,"85e7d2"),
-                Weapon("裂岩重剑",WeaponType.Sword,Element.Physical,28,.65f,1.8f,1,1.35f,blade,"d4baa0"),
-                Weapon("风牙法杖",WeaponType.Staff,Element.Wind,14,.7f,10,3,1.4f,staff,"85e7d2"),
+                Weapon("裂岩重剑",WeaponType.Sword,Element.Physical,28,.65f,1.8f,2,1.35f,blade,"d4baa0"),
+                Weapon("风牙法杖",WeaponType.Staff,Element.Wind,14,.7f,10,2,1.4f,staff,"85e7d2"),
                 Weapon("守渠风矛",WeaponType.Spear,Element.Wind,22,.65f,2.5f,1,2.05f,spear,"85e7d2")
             };
             weaponCatalog[2].scatter=3.5f;weaponCatalog[3].scatter=1.2f;weaponCatalog[6].scatter=.65f;
@@ -116,6 +116,7 @@ namespace NakiLegend.Prototype
             }
             if(action==HeroAction.Cast || action==HeroAction.Dodge)
                 angle=Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg;
+            if(weapon.type==WeaponType.Bow)angle+=180; // Source bow faces local -X; arrows and aim face +X.
             Vector2 grip=root+pose.grip*pixelHeroScale;
             sword.transform.position=grip;sword.transform.rotation=Quaternion.Euler(0,0,angle);
             sword.transform.localScale=Vector3.one*weapon.length*pixelHeroScale;
@@ -160,6 +161,7 @@ namespace NakiLegend.Prototype
 
         private void PickUpWeapon(WeaponDrop drop)
         {
+            RequestCheckpoint();
             RoomNode node=journeyRooms[currentRoom];
             int emptySlot=carriedWeapons[0]<0?0:carriedWeapons[1]<0?1:-1;
             if(emptySlot<0){if(reserveWeapons.Count<4){reserveWeapons.Add(drop.data.id);node.drops.Remove(drop.data);worldWeapons.Remove(drop);Destroy(drop.root);JourneyHint("已收入背包 · B 查看");return;}pendingWeaponPickup=drop;inventoryMenu=true;return;}
@@ -173,7 +175,7 @@ namespace NakiLegend.Prototype
 
         private bool TryRoomInteraction()
         {
-            if(gatehouseSampleMode&&TryGatehouseInteraction())return true;
+            if(GatehouseActive&&TryGatehouseInteraction())return true;
             if(stairs!=null&&journeyRooms[currentRoom].cleared&&Vector2.Distance(position,stairPosition)<1.6f){BeginDoorTransition(journeyRooms[currentRoom].stairsTo,-1);return true;}
             if(lessonAltar!=null&&Vector2.Distance(position,lessonPosition)<1.35f){LearnPendingLesson();return true;}
             WeaponDrop drop=NearestWeaponDrop();if(drop!=null){PickUpWeapon(drop);return true;}

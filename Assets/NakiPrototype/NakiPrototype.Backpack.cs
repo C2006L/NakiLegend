@@ -23,14 +23,14 @@ namespace NakiLegend.Prototype
   private int BagWeaponId(int slot){return slot<2?carriedWeapons[slot]:slot-2<reserveWeapons.Count?reserveWeapons[slot-2]:-1;}
   private void EquipBagWeapon(int slot)
   {
-   int id=BagWeaponId(bagSelection);if(id<0)return;
+   RequestCheckpoint();int id=BagWeaponId(bagSelection);if(id<0)return;
    if(bagSelection<2){int old=carriedWeapons[slot];carriedWeapons[slot]=id;carriedWeapons[bagSelection]=old;}
    else{int old=carriedWeapons[slot];carriedWeapons[slot]=id;if(old<0)reserveWeapons.RemoveAt(bagSelection-2);else reserveWeapons[bagSelection-2]=old;}
    equippedSlot=slot;swordHitPending=false;swordUntil=castPoseUntil=clock;nextSword=Mathf.Max(nextSword,clock+.15f);JourneyHint("已装备 "+CurrentWeapon.name);
   }
   private void DropBagWeapon()
   {
-   int id=BagWeaponId(bagSelection);if(id<0)return;
+   RequestCheckpoint();int id=BagWeaponId(bagSelection);if(id<0)return;
    if(bagSelection<2){if(carriedWeapons[1-bagSelection]<0){JourneyHint("至少保留一把武器");return;}carriedWeapons[bagSelection]=-1;equippedSlot=1-bagSelection;}
    else reserveWeapons.RemoveAt(bagSelection-2);
    StoreGroundWeapon(id);swordHitPending=false;swordUntil=castPoseUntil=clock;
@@ -45,7 +45,7 @@ namespace NakiLegend.Prototype
   }
   private void UseSupply(int kind)
   {
-   if(health<=0)return;
+   if(health<=0)return;RequestCheckpoint();
    if(kind==0){if(healingSupplies<=0||health>=6){JourneyHint(health>=6?"生命已满":"没有清泉药剂");return;}healingSupplies--;health=Mathf.Min(6,health+2);JourneyHint("清泉药剂 · 恢复2生命");}
    else{if(elementSupplies<=0||elementPower>=100){JourneyHint(elementPower>=100?"元素之力已满":"没有元素药剂");return;}elementSupplies--;elementPower=Mathf.Min(100,elementPower+40);JourneyHint("元素药剂 · 恢复40元素之力");}
   }

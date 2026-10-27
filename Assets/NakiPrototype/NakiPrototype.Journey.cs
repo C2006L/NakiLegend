@@ -13,7 +13,7 @@ namespace NakiLegend.Prototype
         private enum RoomKind { Entrance,Combat,Elite,Rest,Event,Reward,Guardian,Boss }
         private sealed class RoomNode
         {
-            public int id,stage,depth,layout,floor,waves,stairsTo=-1;
+            public int id,stage,depth,layout,floor,waves,stairsTo=-1,gatehouseIndex=-1;
             public Vector2Int cell;
             public float halfWidth,halfHeight;
             public RoomKind kind;
@@ -27,7 +27,7 @@ namespace NakiLegend.Prototype
         private Sprite journeyRock;
         private Texture2D rainCG;
         private int activeSeed,currentRoom,selectedBoss,currentWave,routeChoice,restoredCanals;
-        private float nextWaveAt=-1,journeyEnergyRegen=4;
+        private float nextWaveAt=-1,journeyEnergyRegen=6;
         private float initialSwordDamage,initialSpellDamage;
         private bool tuningCaptured,mapMenu,rewardMenu,showRainCG,journeyComplete,pendingBossClear,pendingRainCG;
         private string[] storyLines;
@@ -60,9 +60,10 @@ namespace NakiLegend.Prototype
             int previous=activeSeed;
             if(newSeed||activeSeed==0)activeSeed=!newSeed&&journeySeed!=0?journeySeed:(System.Environment.TickCount^(activeSeed*31))&0x7fffffff;
             if(newSeed&&activeSeed==previous)activeSeed=(activeSeed+7919)&0x7fffffff;if(activeSeed==0)activeSeed=1;
-            var random=new System.Random(activeSeed);selectedBoss=bossOverride>=0?Mathf.Clamp(bossOverride,0,2):random.Next(3);BuildJourneyGraph(random);
+            ResetGatehouseProgress();var random=new System.Random(activeSeed);selectedBoss=bossOverride>=0?Mathf.Clamp(bossOverride,0,2):random.Next(3);BuildJourneyGraph(random);
             clock=0;health=6;energy=100;journeyComplete=false;restoredCanals=0;doorTransition=0;
             nextSword=nextSpell=nextDash=dashUntil=invulnerableUntil=flashUntil=0;ResetPlayerProgression();
+            origin=gatehouseSampleMode||bossPracticeMode?Origin.Light:Origin.Unchosen;originChoice=0;
             EnterExplorationRoom(bossPracticeMode?stageEnds[2]:stageStarts[0],-1);
             if(gatehouseSampleMode){TellStory("少年：轮齿还在，沙把它卡住了。","清理闸室后可直接向北探索，或清开两处沙堆、转动手轮。元素结晶奖励只发一次；东侧检修闸需两端都安全才开放。样板已开放三种技能，可用 H 切换免费短剑与风牙法杖。");return;}
             if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 元气弹、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
@@ -104,7 +105,7 @@ namespace NakiLegend.Prototype
                 }
             }
             DrawRoomLoot(node);RestoreEssence(node);UpdateJourneyPortal();doorCooldownUntil=clock+.8f;
-            if(gatehouseSampleMode)OnGatehouseRoomEntered();
+            if(GatehouseActive)OnGatehouseRoomEntered();RequestCheckpoint();
         }
         private static bool IsCombatRoom(RoomNode node){return node.kind==RoomKind.Combat||node.kind==RoomKind.Elite||node.kind==RoomKind.Guardian||node.kind==RoomKind.Boss;}
 
@@ -131,7 +132,7 @@ namespace NakiLegend.Prototype
         private void SpawnJourneyWave()
         {
             RoomNode node=journeyRooms[currentRoom];currentWave++;nextWaveAt=-1;
-            if(gatehouseSampleMode){SpawnGatehouseWave(node);return;}
+            if(IsGatehouseRoom(node)){SpawnGatehouseWave(node);return;}
             var random=new System.Random(activeSeed^(currentRoom*503+currentWave*19));
             if(node.kind==RoomKind.Boss||node.kind==RoomKind.Guardian)
             {
@@ -178,7 +179,7 @@ namespace NakiLegend.Prototype
             RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;
             if(IsCombatRoom(node))clearedCombatRooms++;
             foreach(Shot shot in shots)if(shot.root!=null)Destroy(shot.root);shots.Clear();
-            if(!gatehouseSampleMode){SeedRoomLoot(node);CheckPendingLesson();}UpdateJourneyPortal();
+            if(!GatehouseActive){SeedRoomLoot(node);CheckPendingLesson();}UpdateJourneyPortal();RequestCheckpoint();
         }
         private void UpdateJourneyPortal(){UpdateExplorationDoors();}
         private void FinishJourneyBoss(){pendingBossClear=true;}
@@ -195,6 +196,7 @@ namespace NakiLegend.Prototype
                 if(node.stage==1&&!waveLearned){clearedCombatRooms=Mathf.Max(clearedCombatRooms,10);}
                 CheckPendingLesson();TellStory(node.stage==0?"守井者停下重锤，古井碑上的风纹亮了起来。靠近按 F 学习，再走向标注“前往第2层”的石阶，靠近按 F 前往断渠遗迹。":"风铃重新响起。先寻找风铃台学习风波，标注“前往第3层”的石阶通向古渠核心，靠近按 F 进入。");return;
             }
+            if(!bossPracticeMode&&!lightningTrialMode){UnlockCanalEpilogue(node);return;}
             journeyComplete=true;windEmpowered=true;elementPower=Mathf.Min(100,elementPower+30);
             TellStory("紫色裂纹熄灭，风元素碎片从守关者体内脱离。山口的云终于朝村庄而来。",restoredCanals>0?"你和村民修好的旧渠重新响起水声。孩子：井里有声音了！":"村民开始疏通旧渠。孩子伸手：这是……雨吗？","少年：风把它带回来了。第一瓢，记得留给树根。","获得风元素碎片：风刃强化，风波冷却缩短。愿长风所到之处，皆有甘泽。");pendingRainCG=true;
         }
@@ -204,6 +206,7 @@ namespace NakiLegend.Prototype
         private bool HandleJourneyOverlayInput()
         {
             if(TickOpeningCinematic(Time.unscaledDeltaTime))return true;
+            if(HandleOriginChoice())return true;
             if(TickGatehouseInteraction(Time.unscaledDeltaTime))return true;
             if(TickDoorTransition(Time.deltaTime))return true;
             if(HandleBackpackInput())return true;
@@ -216,6 +219,7 @@ namespace NakiLegend.Prototype
         private void ClaimJourneyReward(int choice)
         {
             RoomNode node=journeyRooms[currentRoom];if(node.claimed){rewardMenu=false;return;}node.claimed=true;rewardMenu=false;
+            RequestCheckpoint();
             if(choice==0){health=Mathf.Min(6,health+2);healingSupplies++;}else if(choice==1)swordDamage+=2;else{elementPower=Mathf.Min(100,elementPower+35);elementSupplies++;}
             if(rewardChest!=null)Destroy(rewardChest);rewardChest=null;
         }

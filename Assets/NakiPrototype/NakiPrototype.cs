@@ -117,6 +117,7 @@ namespace NakiLegend.Prototype
             view.backgroundColor = C("252d36");
             view.cullingMask = ~0;
             ResetRoom();
+            TryResumeAtStartup();
         }
 
         private Sprite MakeSprite(string[] rows, Dictionary<char, Color> palette, float pixelsPerUnit)
@@ -208,6 +209,7 @@ namespace NakiLegend.Prototype
             if (world == null) return;
             if (!enableDesertJourney && openingActive) StopOpeningCinematic();
             view.orthographicSize = enableDesertJourney ? Mathf.Max(5.1f, 9.7f / Mathf.Max(view.aspect, .1f)) : Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
+            if(HandleCheckpointKeys())return;
             if (Pressed('r')) { ResetRoom(); return; }
             if (enableDesertJourney && Pressed('n')) { BeginJourney(true); return; }
             if (enableDesertJourney && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
@@ -218,7 +220,7 @@ namespace NakiLegend.Prototype
             float dt = Mathf.Min(Time.deltaTime, .05f);
             clock += dt;
             if (enableDesertJourney) {TickPlayerDefenses(dt);TickEssence(dt);TickAutoTarget();if(Pressed('1'))UseSupply(0);if(Pressed('2'))UseSupply(1);}
-            energy = Mathf.Min(100, energy + (enableDesertJourney ? journeyEnergyRegen : 14) * dt);
+            if(origin!=Origin.Dark)energy = Mathf.Min(100, energy + (enableDesertJourney ? journeyEnergyRegen : 14) * dt);
             Vector2 input = new Vector2((Held('d') ? 1 : 0) - (Held('a') ? 1 : 0), (Held('w') ? 1 : 0) - (Held('s') ? 1 : 0)).normalized;
             if (input.sqrMagnitude > 0 && clock >= dashUntil) facing = input;
             if (Pressed('k') && clock >= nextDash)
@@ -241,7 +243,7 @@ namespace NakiLegend.Prototype
 
             for (int i = enemies.Count - 1; i >= 0; i--) UpdateEnemy(enemies[i], dt);
             for (int i = shots.Count - 1; i >= 0; i--) UpdateShot(i, dt);
-            if (enableDesertJourney) TickJourney(dt);
+            if (enableDesertJourney) {TickJourney(dt);TickCheckpoint();}
             if (!enableDesertJourney && !bossSpawned && defeated >= 2)
             {
                 bossSpawned = true;
@@ -417,7 +419,7 @@ namespace NakiLegend.Prototype
             if (enableDesertJourney) OnEnemyHit(enemy, amount);
             if (enemy.hp > 0) return;
             if (enemy.warning != null) Destroy(enemy.warning);
-            SpawnEssence(enemy);
+            SpawnEssence(enemy);ChargeDarkPower(enemy);
             if(enemy.armorSigil!=null)Destroy(enemy.armorSigil);
             Destroy(enemy.root); enemies.Remove(enemy); defeated++;
             if (enemy.shadow != null) Destroy(enemy.shadow);

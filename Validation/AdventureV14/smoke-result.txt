@@ -1,0 +1,1 @@
+PASS 51 checks: explicit light/dark origin, branch-specific lesson and projectiles; cheaper skills; eight weapon costs; four bow directions; six enemy types and closed doors; actual JSON save/load, inventory and map persistence, corruption backup; HD UI captures.

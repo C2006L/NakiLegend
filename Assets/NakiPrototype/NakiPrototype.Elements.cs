@@ -21,7 +21,7 @@ namespace NakiLegend.Prototype
         {
             shield = maximumShield; lastDamageAt = -10; windGuardUntil = waveReadyAt = bladeReadyAt = 0;
             orbLearned = bladeLearned = waveLearned = windEmpowered = false; clearedCombatRooms = pendingLesson = 0;
-            hintReadyAt = 0; journeyEnergyRegen = 4;journeyToast=null;journeyToastUntil=0;
+            hintReadyAt = 0; journeyEnergyRegen = 6;journeyToast=null;journeyToastUntil=0;
             if (bossPracticeMode) { orbLearned = bladeLearned = waveLearned = true; clearedCombatRooms = 12; }
             ResetEquipment();ResetPowers();ResetBackpack();
             if(gatehouseSampleMode){orbLearned=bladeLearned=waveLearned=true;carriedWeapons[1]=6;}
@@ -82,10 +82,11 @@ namespace NakiLegend.Prototype
 
         private void CastJourneyOrb()
         {
-            if (!orbLearned) { JourneyHint("元气弹尚未学会 · 清理3个战斗房后寻找古井碑"); nextSpell = clock + .35f; return; }
+            if(origin==Origin.Dark){CastDarkMeteor();return;}
+            if (!orbLearned) { JourneyHint("主属性技能尚未学会 · 清理3个战斗房后寻找古井碑"); nextSpell = clock + .35f; return; }
             foreach (Shot shot in shots) if (shot.orb) return;
-            if (clock < nextSpell || !SpendPower(PowerPool.Light,20)) return;
-             nextSpell = clock + 2.2f;
+            if (clock < nextSpell || !SpendPower(PowerPool.Light,8)) return;
+             nextSpell = clock + 1.2f;
             Enemy target; Vector2 direction=AutoAim(10,7,0,out target);
             int before = shots.Count; SpawnShot(position + direction * .4f, direction, false, target, position);
             if (shots.Count > before)
@@ -99,8 +100,8 @@ namespace NakiLegend.Prototype
         private void CastWindBlade()
         {
             if (!bladeLearned) { JourneyHint("风之刃尚未学会 · 继续探索旧渠"); return; }
-            if (clock < bladeReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,16)) return;
-            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 2.5f;
+            if (clock < bladeReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,6)) return;
+            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;
             int before = shots.Count; SpawnShot(position + direction * .45f, direction, false, null, position);
             if (shots.Count > before)
             {
@@ -114,8 +115,8 @@ namespace NakiLegend.Prototype
         private void CastWindWave()
         {
             if (!waveLearned) { JourneyHint("风波尚未学会 · 寻找第二层的守渠试炼"); return; }
-            if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,24)) return;
-             waveReadyAt = clock + (windEmpowered ? 8 : 9); windGuardUntil = clock + 1; waveStartedAt = clock;
+            if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,10)) return;
+             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + 1; waveStartedAt = clock;
             if (activeWindWave != null) Destroy(activeWindWave);
             activeWindWave = Draw("Wind wave", windRingSprite ?? disc, position + Vector2.up * .25f, Vector2.one * .3f, C("8aefd0"), 800);
             DispelProjectiles(position, .4f); castDirection = facing; castPoseUntil = clock + .32f;
@@ -135,6 +136,7 @@ namespace NakiLegend.Prototype
 
         private void CheckPendingLesson()
         {
+            if(origin==Origin.Unchosen)return;
             pendingLesson = !orbLearned && clearedCombatRooms >= 3 ? 1 : !bladeLearned && clearedCombatRooms >= 6 ? 2 : !waveLearned && clearedCombatRooms >= 10 ? 3 : 0;
             if (pendingLesson == 0 || lessonAltar != null) return;
             lessonPosition = FindFreeInteractionPoint(new Vector2(-2.2f, -1.6f));
@@ -143,10 +145,11 @@ namespace NakiLegend.Prototype
 
         private void LearnPendingLesson()
         {
-            if (pendingLesson == 1) { orbLearned = true; TellStory("古井碑：让内心的光在掌心汇聚，化作一颗元气弹。", "已学会 L 元气弹：自动瞄准，消耗20光之力，场上最多一颗。光之力随时间恢复。"); }
-            if (pendingLesson == 2) { bladeLearned = true; TellStory("守渠者：风刃能扰乱雷印的聚能。连续命中，就能打断它的蓄力。", "已学会 U 风之刃：自动瞄准，消耗16元素之力，可穿过两名敌人；对雷属性伤害提高。"); }
-            if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台：让风从身边散开，为下一次呼吸留出空隙。", "已学会 I 风波：消耗24元素之力，吹散附近普通飞弹并短暂减少雷伤；地面雷区仍需躲避。"); }
-            if (lessonAltar != null) Destroy(lessonAltar); lessonAltar = null; pendingLesson = 0; energy = Mathf.Min(100, energy + 20);
+            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("右眼的贤者之石映出紫光。力量来自被击败生灵留下的灵魂，机械没有灵魂。","已学会 L 流星：自动瞄准两颗紫色追踪球，消耗8暗之力，冷却1秒。暗之力越充盈，威力越强；消耗后需要再次充能。"); }
+            else if (pendingLesson == 1) { orbLearned = true; TellStory("古井碑：让内心的光在掌心汇聚，化作一颗元气弹。", "已学会 L 元气弹：自动瞄准，消耗8光之力，冷却1.2秒，场上最多一颗。光之力随时间恢复。"); }
+            if (pendingLesson == 2) { bladeLearned = true; TellStory("守渠者：风刃能扰乱雷印的聚能。连续命中，就能打断它的蓄力。", "已学会 U 风之刃：自动瞄准，消耗6元素之力，冷却1.2秒，可穿过两名敌人；对雷属性伤害提高。"); }
+            if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台：让风从身边散开，为下一次呼吸留出空隙。", "已学会 I 风波：消耗10元素之力，冷却4.5秒，吹散附近普通飞弹并短暂减少雷伤；地面雷区仍需躲避。"); }
+            if (lessonAltar != null) Destroy(lessonAltar); lessonAltar = null; pendingLesson = 0; if(origin==Origin.Light)energy = Mathf.Min(100, energy + 20);RequestCheckpoint();
         }
 
         private Vector2 FindFreeInteractionPoint(Vector2 preferred)

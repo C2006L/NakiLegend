@@ -56,8 +56,7 @@ namespace NakiLegend.Prototype
   }
   private Vector2 SafeEnemyLanding(Enemy e,Vector2 requested)
   {
-   Rect b=CurrentRoomBounds;Vector2 p=new Vector2(Mathf.Clamp(requested.x,b.xMin+1.2f,b.xMax-1.2f),Mathf.Clamp(requested.y,b.yMin+1.2f,b.yMax-1.2f));if(!Blocked(p,e.radius))return p;
-   for(int i=1;i<=4;i++)foreach(Vector2Int n in Cardinal){Vector2 at=p+(Vector2)n*(i*.5f);if(b.Contains(at)&&!Blocked(at,e.radius))return at;}return e.position;
+   return NearestEnemyFooting(requested,e.radius);
   }
   private void UpdateEliteSigil(Enemy e)
   {

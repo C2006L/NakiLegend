@@ -18,7 +18,7 @@ namespace NakiLegend.Prototype
         private bool transitionSwitched;
         private GameObject stairs;
         private Vector2 stairPosition;
-        private static readonly string[] StageNames={"沙丘边缘","断渠遗迹","古渠核心"};
+        private static readonly string[] StageNames={"沙丘边缘","断渠遗迹","古渠核心","归渠水道"};
 
         private Rect CurrentRoomBounds { get { RoomNode n=journeyRooms[currentRoom];return new Rect(-n.halfWidth,-n.halfHeight,n.halfWidth*2,n.halfHeight*2); } }
 
@@ -113,9 +113,9 @@ namespace NakiLegend.Prototype
 
         private void BuildExplorationRoom(RoomNode node)
         {
-            int floor=node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
+            int floor=IsGatehouseRoom(node)?1:node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
             doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
-            TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),node.stage,-1000);
+            TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),floor,-1000);
             // A continuous inset border keeps room edges readable without baking scenery into tiles.
             foreach(float sign in new[]{-1f,1f})
             {
@@ -125,7 +125,7 @@ namespace NakiLegend.Prototype
             for(int d=0;d<4;d++)
             {
                 bool doorway=HasDoor(d);float span=d<2?node.halfWidth:node.halfHeight;
-                if(doorway)BuildReadableGate(d,node.stage);
+                if(doorway)BuildReadableGate(d,floor);
                 float begin=-span;
                 while(begin<span-.01f)
                 {
@@ -135,7 +135,7 @@ namespace NakiLegend.Prototype
                     begin=end;
                 }
             }
-            if(gatehouseSampleMode){BuildGatehouseScenery(node);return;}
+            if(IsGatehouseRoom(node)){BuildGatehouseScenery(node);return;}
             Vector2[] positions=JourneyCoverPositions(node.layout%16);
             float flip=(node.layout&16)!=0?-1:1,offset=(node.layout&32)!=0?.18f:0;
             foreach(Vector2 source in positions)
@@ -174,6 +174,7 @@ namespace NakiLegend.Prototype
                 if(doorSeals[i]!=null)doorSeals[i].SetActive(locked);
                 if(locked){Rect block=DoorSealCollision(d);doorShotBlocks.Add(block);projectileObstacles.Add(block);}
             }
+            foreach(Enemy e in enemies)e.position=MoveEnemyWithinRoom(e.position,Vector2.zero,e.radius);
             CreateStairsIfReady();
         }
 

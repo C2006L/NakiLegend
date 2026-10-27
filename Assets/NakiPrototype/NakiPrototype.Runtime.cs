@@ -31,7 +31,7 @@ namespace NakiLegend.Prototype
             journeyTitleStyle = journeyTextStyle = journeySmallStyle = journeyButtonStyle = journeyNodeStyle = null;
             openingCaptionStyle = null;
             Start();
-            if (enableDesertJourney) JourneyHint("脚本已更新 · 已重新开始本轮旅程");
+            if (enableDesertJourney) JourneyHint(checkpointStatus.StartsWith("已读")?"脚本已更新 · 已恢复最近安全房间":"脚本已更新 · 已重新开始本轮旅程");
         }
     }
 }
