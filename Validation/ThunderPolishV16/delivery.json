@@ -1,0 +1,8 @@
+{
+  "copied": 4,
+  "verified_hashes": {
+    "Assets\\NakiPrototype\\NakiPrototype.Enemies.cs": "17cadd3ec2f8c2e379d42a697b9b53ebf77008d0ec643fd2d95b220f54b265b5",
+    "Assets\\NakiPrototype\\Resources\\NakiArt\\ThunderChapter\\rooms.json": "50d0b561db4c1c6ef2c2fbff2244eaee739e4f454e0f6778fe303e5449fe7084"
+  },
+  "note": "Only enemy death code and second-island wave data changed. Scenes and saves preserved."
+}

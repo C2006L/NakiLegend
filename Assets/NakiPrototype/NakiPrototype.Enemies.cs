@@ -212,7 +212,10 @@ namespace NakiLegend.Prototype
             {
                 Sprite[] art; Sprite sprite = enemyActionArt.TryGetValue(enemy.kind, out art) ? art[IsThunderEnemy(enemy.kind)?art.Length-1:7] : enemy.body.sprite;
                 GameObject body = Draw("Defeated " + EnemyNames[(int)enemy.kind], sprite, enemy.position, Vector2.one, Color.white, enemy.body.sortingOrder);
-                SpriteRenderer renderer = body.GetComponent<SpriteRenderer>(); renderer.flipX = enemy.body.flipX;
+                // Both objects share the world parent: keep the actor's authored scale during the pose change.
+                body.transform.localScale = enemy.root.transform.localScale;
+                body.transform.localRotation = enemy.root.transform.localRotation;
+                SpriteRenderer renderer = body.GetComponent<SpriteRenderer>(); renderer.flipX = enemy.body.flipX; renderer.flipY = enemy.body.flipY;
                 fadingBodies.Add(new FadingBody { root = body, renderer = renderer, expires = clock + .55f });
             }
             else if ((int)enemy.kind < 4 && !enemy.elite && enemy.windup > 0)

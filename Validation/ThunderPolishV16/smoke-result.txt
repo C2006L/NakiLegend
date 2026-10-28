@@ -1,0 +1,1 @@
+PASS 189 checks: real kill/fade paths for nine enemy types and champions, preserved render scale and direction, actual clearing of all 23 non-boss encounter rooms, 62 to 72 total waves, old-layout checkpoint continuity and native before/after screenshots.
