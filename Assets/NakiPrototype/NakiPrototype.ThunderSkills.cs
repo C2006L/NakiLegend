@@ -70,7 +70,7 @@ namespace NakiLegend.Prototype
                 int count=shots.Count;SpawnShot(position+aim*.45f,aim,false,null,position);if(shots.Count==count)return;
                 SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;
                 Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;
-                shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
+                shot.damage=SkillDamage(20);shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
             }
             castDirection=aim;castPoseUntil=clock+.3f;
         }
@@ -80,7 +80,7 @@ namespace NakiLegend.Prototype
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
                 ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;
-                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplyElementDamage(e,22,Element.Lightning);if(++hits==3)break;}}
+                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplyElementDamage(e,SkillDamage(22),Element.Lightning);if(++hits==3)break;}}
                 if(mark.root!=null)Destroy(mark.root);chapterMarks.RemoveAt(i);
             }
         }
@@ -92,7 +92,7 @@ namespace NakiLegend.Prototype
             if(best==null)return;Vector2 off=best.position-first.position;
             GameObject beam=Stretch("Single arc leap",square,(first.position+best.position)*.5f,new Vector2(off.magnitude,.05f),C("b2ebff"),570);
             beam.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(off.y,off.x)*Mathf.Rad2Deg);fadingBodies.Add(new FadingBody{root=beam,renderer=beam.GetComponent<SpriteRenderer>(),expires=clock+.16f});
-            ApplyElementDamage(best,chapterStone?15:12,Element.Lightning);
+            ApplyElementDamage(best,SkillDamage(chapterStone?15:12),Element.Lightning);
         }
         private void ClearChapterSkillEffects()
         {foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}

@@ -1,0 +1,1 @@
+PASS: standalone C# compilation with Unity 2022.3.62f3 / Roslyn, editor and legacy input symbols. Native Unity compilation and Play Mode checks passed separately.

@@ -66,7 +66,7 @@ namespace NakiLegend.Prototype
             if(p.carried==null||p.carried.Length!=2||p.reserves==null||p.reserves.Length>4||p.equipped<0||p.equipped>1||p.carried[p.equipped]<0||p.preset<0||p.preset>2)throw new InvalidDataException("Invalid chapter inventory");
             foreach(int id in p.carried)if(id< -1||id>=weaponCatalog.Length)throw new InvalidDataException("Invalid equipped weapon");
             foreach(int id in p.reserves)if(id<0||id>=weaponCatalog.Length)throw new InvalidDataException("Invalid reserve weapon");
-            if(!FiniteRange(p.clock,0,1e9f)||!FiniteRange(p.health,.01f,6)||!FiniteRange(p.shield,0,maximumShield)||!FiniteRange(p.light,0,100)||!FiniteRange(p.dark,0,100)||!FiniteRange(p.element,0,100)||!FiniteRange(p.position.x,-15,15)||!FiniteRange(p.position.y,-10,10)||p.healing<0||p.elementSupplies<0)throw new InvalidDataException("Invalid chapter resources");
+            if(!FiniteRange(p.clock,0,1e9f)||!FiniteRange(p.health,.01f,6)||!FiniteRange(p.shield,0,EffectiveMaximumShield)||!FiniteRange(p.light,0,100)||!FiniteRange(p.dark,0,100)||!FiniteRange(p.element,0,100)||!FiniteRange(p.position.x,-15,15)||!FiniteRange(p.position.y,-10,10)||p.healing<0||p.elementSupplies<0)throw new InvalidDataException("Invalid chapter resources");
             foreach(float ready in new[]{p.nextSword,p.nextSpell,p.nextDash,p.bladeReady,p.waveReady,p.lastDamage,s.markReady,s.arcReady})if(!FiniteRange(ready,-100,p.clock+1000))throw new InvalidDataException("Invalid saved cooldown");
             if(s.skills==null||s.skills.Length!=2||s.skills[0]<0||s.skills[0]>3||s.skills[1]<0||s.skills[1]>3||s.skills[0]==s.skills[1]||s.waymarks<0||s.waymarks>7||s.shortcuts<0||s.shortcuts>30||!FiniteRange(s.swordBonus,0,10000)||!FiniteRange(s.spellBonus,0,10000))throw new InvalidDataException("Invalid chapter skills");
             foreach(ChapterRoomState n in s.rooms)
@@ -91,7 +91,7 @@ namespace NakiLegend.Prototype
                 RoomNode n=journeyRooms[i];ChapterRoomState saved=s.rooms[i];n.cleared=saved.cleared;n.visited=saved.visited;n.discovered=saved.discovered;n.claimed=saved.claimed;n.lootSeeded=saved.loot;n.drops.Clear();n.essence.Clear();
                 foreach(CheckpointWeapon w in saved.weapons)n.drops.Add(new StoredWeapon{id=w.id,at=w.at});foreach(CheckpointEssence e in saved.crystals)n.essence.Add(new StoredEssence{at=e.at,value=e.value,born=e.born});
             }
-            ApplyChapterPlayer(s.player);origin=(Origin)s.origin;chapterWest=s.west;chapterEast=s.east;chapterRanger=s.ranger;chapterStone=s.stone;chapterEnding=s.ending;
+            ApplyChapterPlayer(s.player);origin=(Origin)s.origin;NormalizeOriginPower();chapterWest=s.west;chapterEast=s.east;chapterRanger=s.ranger;chapterStone=s.stone;chapterEnding=s.ending;
             chapterMarkKnown=s.mark;chapterArcKnown=s.arc;chapterWaymarks=s.waymarks;chapterShortcuts=s.shortcuts;chapterLampCarried=s.lampCarried;chapterLampGiven=s.lampGiven;
             orbLearned=s.orb;bladeLearned=s.blade;waveLearned=s.wave;windEmpowered=s.wind;chapterMarkReady=s.markReady;chapterArcReady=s.arcReady;
             Array.Copy(s.skills,chapterSkillSlots,2);swordDamage=initialSwordDamage+s.swordBonus;spellDamage=initialSpellDamage+s.spellBonus;
@@ -122,9 +122,9 @@ namespace NakiLegend.Prototype
             thunderChapterMode=true;thunderPrototypeMode=false;thunderChapterPracticeBoss=-1;thunderChapterStartFloor=0;chapterSetup=false;
             LoadThunderArt();thunderPreset=oldOrigin==Origin.Dark?ThunderPreset.Dark:ThunderPreset.Light;
             if(LoadChapterCheckpoint(false))return;
-            BeginThunderChapter(false);ApplyChapterPlayer(carried);origin=oldOrigin;orbLearned=oldOrb;bladeLearned=oldBlade;waveLearned=oldWave;
-            swordDamage=initialSwordDamage+oldSword;spellDamage=initialSpellDamage+oldSpell;
-            EnterExplorationRoom(0,-1);TellStory("船靠上湿石码头。山口有一盏暖灯，雷声却始终停在同一座山头。","你带着原来的武器、力量与技能来到雷雨高原。靠近灯匠按 F，沿石路寻找失联的巡路员。");RequestCheckpoint();
+            BeginThunderChapter(false);ApplyChapterPlayer(carried);origin=oldOrigin;NormalizeOriginPower();orbLearned=oldOrb;bladeLearned=oldBlade;waveLearned=oldWave;
+            swordDamage=initialSwordDamage+oldSword;spellDamage=initialSpellDamage+oldSpell;shield=Mathf.Min(EffectiveMaximumShield,shield+1);
+            EnterExplorationRoom(0,-1);TellStory("船靠上湿石码头。你将风石的微光引进护具，纹路沿着肩甲亮起，又慢慢隐入衣襟。","山口有一盏暖灯，雷声却始终停在同一座山头。少年收紧行装，走向守灯的人。");AnnounceDiscovery("风石共鸣 · 护盾上限 +1，技能基础威力 +15%");RequestCheckpoint();
         }
         private void ReturnToDesertCheckpoint()
         {

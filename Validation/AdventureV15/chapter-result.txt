@@ -1,0 +1,1 @@
+PASS 1584 checks: 39-room seeded graphs and arrivals, three terrain sets, real actor frames, free two-node repair, gate prerequisites, rewards, skills and cooldowns, three phased bosses, elemental break, guardian survival, isolated JSON checkpoints and corruption recovery, full chapter progression and native 1920x1080 captures.

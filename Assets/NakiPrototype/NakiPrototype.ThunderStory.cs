@@ -58,7 +58,7 @@ namespace NakiLegend.Prototype
         {
             chapterWork=0;chapterRewardMenu=false;chapterSkillsMenu=false;
             if(first&&n.kind==RoomKind.Rest&&!n.claimed)
-            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory("你在避雨棚下稍歇，恢复2生命与30元素之力。补给只留这一份。可在安全房整理技能，F5 保存旅程。");}
+            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory("避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
             BuildChapterActions();
         }
         private ChapterAction NearestChapterAction()
@@ -97,8 +97,8 @@ namespace NakiLegend.Prototype
                 case 3:case 4:
                     if(a.kind==3?chapterWest:chapterEast){JourneyHint("这处节点已经复位，雷流沿边槽通行");break;}
                     chapterFocusedAction=a.kind;chapterWork=1.2f;break;
-                case 5:chapterMarkKnown=true;TellStory("铜纹台：先记住雷落在哪里，再让力量抵达那一点。","已学会雷标：8元素，2秒冷却。U / I 当前配置保留，可从 B 行囊进入技能页更换。");BuildChapterActions();RequestCheckpoint();break;
-                case 6:chapterArcKnown=true;TellStory("巡路记录：电光走过一处，还能跃向附近另一处。","已学会跃电：10元素，3秒冷却，最多跳向一名附近可见敌人。当前配置保留。");BuildChapterActions();RequestCheckpoint();break;
+                case 5:chapterMarkKnown=true;TellStory("铜纹台上的凹痕，一处记风向，一处记落雷。你把手停在刻痕上，试着先留下一点电光。","远处的石面亮了一瞬，雷声才随后抵达。");AnnounceDiscovery("已领悟雷标 · 8元素，2秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
+                case 6:chapterArcKnown=true;TellStory("巡路记录里画着两枚相连的铜环：电光越过一处，还能借着余势，抵达另一处。","少年沿铜环轻轻一划，两点微光便接成了短暂的雷弧。");AnnounceDiscovery("已领悟跃电 · 10元素，3秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
                 case 7:EnterExplorationRoom(0,-1);TellStory("雷云越过山脊，巡路员沿修好的古道回到了灯棚。","靠近灯匠按 F，迎接归家的人。");RequestCheckpoint();break;
                 case 9:chapterSkillsMenu=true;break;
                 case 10:case 11:case 12:

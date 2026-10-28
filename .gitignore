@@ -31,3 +31,4 @@ Validation/**/unity-*.png
 crash.dmp
 
 Validation/**/regression-runtime/
+Validation/**/chapter-runtime/

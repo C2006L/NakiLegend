@@ -55,7 +55,7 @@ namespace NakiLegend.Prototype
             ResetGatehouseProgress();ResetPlayerProgression();LoadThunderChapterEquipment();BuildThunderChapterGraph();
             chapterWest=chapterEast=chapterRanger=chapterStone=chapterEnding=chapterCg=chapterMarkKnown=chapterArcKnown=chapterLampCarried=chapterLampGiven=false;
             chapterWaymarks=chapterShortcuts=0;chapterWork=0;chapterSavePending=false;chapterSkillsMenu=false;chapterSkillSlots[0]=0;chapterSkillSlots[1]=1;
-            clock=0;health=6;shield=maximumShield;elementPower=100;origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
+            clock=0;health=6;shield=EffectiveMaximumShield;elementPower=100;origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
             energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?24:0;orbLearned=bladeLearned=waveLearned=windEmpowered=true;
             carriedWeapons[1]=6;nextSword=nextSpell=nextDash=dashUntil=invulnerableUntil=flashUntil=bladeReadyAt=waveReadyAt=chapterMarkReady=chapterArcReady=0;
             journeyComplete=pendingBossClear=won=false;doorTransition=0;chapterSaveStatus="本轮尚未存档";

@@ -33,6 +33,7 @@ namespace NakiLegend.Prototype
             if(e.kind>=EnemyKind.CopperRoller){ConfigureChapterEnemy(e);return;}
             e.boss=e.elite=false;e.radius=.32f;e.hp=e.maximum=e.kind==EnemyKind.ChargeMoth?30:42;
             e.speed=e.kind==EnemyKind.ChargeMoth?1.5f:1.65f;e.affinity=e.attackElement=Element.Lightning;
+            if(thunderChapterMode){int tier=journeyRooms[currentRoom].stage;e.hp=e.maximum=(e.kind==EnemyKind.ChargeMoth?42:58)+tier*(e.kind==EnemyKind.ChargeMoth?6:8);e.speed+=.2f+tier*.08f;}
             e.nextAttack=clock+1.25f;e.root.transform.localScale=Vector3.one;
         }
         private void UpdateThunderEnemy(Enemy e,float dt)
@@ -49,9 +50,9 @@ namespace NakiLegend.Prototype
                     if(moth||e.attackNumber%2==0)
                     {
                         int first=shots.Count;JourneyFan(e,moth?3:1,16);
-                        for(int i=first;i<shots.Count;i++){shots[i].root.GetComponent<SpriteRenderer>().color=C("a7e6ff");shots[i].speed=3.4f;}
+                        for(int i=first;i<shots.Count;i++){shots[i].root.GetComponent<SpriteRenderer>().color=C("a7e6ff");shots[i].speed=thunderChapterMode?3.9f:3.4f;if(thunderChapterMode)shots[i].damage=1.25f;}
                     }
-                    else if(DistanceToSegment(position,e.position,e.position+e.attackDirection*2.1f)<.48f&&!ProjectilePathBlocked(e.position,position,.05f))TakeJourneyDamage(1,Element.Lightning);
+                    else if(DistanceToSegment(position,e.position,e.position+e.attackDirection*2.1f)<.48f&&!ProjectilePathBlocked(e.position,position,.05f))TakeJourneyDamage(thunderChapterMode?1.25f:1,Element.Lightning);
                 }
             }
             else if(clock>=e.recoveryUntil)
@@ -59,10 +60,10 @@ namespace NakiLegend.Prototype
                 bool ranged=moth||(e.attackNumber+1)%2==0;float reach=ranged?6.5f:2.15f;
                 int winding=0;foreach(Enemy other in enemies)if(other.windup>0)winding++;
                 bool clear=!ProjectilePathBlocked(e.position,position,.1f);
-                if(clock>=e.nextAttack&&clock>=thunderNextWindup&&off.magnitude<reach&&clear&&winding<(currentWave<3?1:2))
+                if(clock>=e.nextAttack&&clock>=thunderNextWindup&&off.magnitude<reach&&clear&&winding<(thunderChapterMode?2:currentWave<3?1:2))
                 {
                     e.attackNumber++;e.actionStarted=clock;e.attackDirection=off.sqrMagnitude>.001f?off.normalized:Vector2.down;
-                    e.windup=moth?.65f:e.attackNumber%2==0?.75f:.55f;e.nextAttack=clock+e.windup+1.65f;thunderNextWindup=clock+.6f;
+                    e.windup=moth?.65f:e.attackNumber%2==0?.75f:.55f;e.nextAttack=clock+e.windup+(thunderChapterMode?1.4f-journeyRooms[currentRoom].stage*.1f:1.65f);thunderNextWindup=clock+(thunderChapterMode?.5f:.6f);
                     if(!moth&&e.attackNumber%2!=0)
                     {
                         e.warning=Stretch("Copper spear thrust warning",square,e.position+e.attackDirection*1.05f,new Vector2(2.1f,.55f),new Color(1,.56f,.24f,.32f),-638);
@@ -104,7 +105,7 @@ namespace NakiLegend.Prototype
             for(int i=thunderStrikes.Count-1;i>=0;i--)
             {
                 ThunderStrike s=thunderStrikes[i];if(clock<s.when)continue;
-                if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(1,Element.Lightning);
+                if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(ChapterGroundDamage,Element.Lightning);
                 if(s.root!=null)Destroy(s.root);
                 GameObject bolt=Stretch("Ground lightning impact",square,s.at+Vector2.up*.9f,new Vector2(.07f,1.8f),C("d5f3ff"),650);
                 fadingBodies.Add(new FadingBody{root=bolt,renderer=bolt.GetComponent<SpriteRenderer>(),expires=clock+.18f});

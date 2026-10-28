@@ -1,0 +1,1 @@
+PASS 73 checks: boat arrival; narrative skill discovery; no early wheel/child repair; origin-specific rest and old-save normalization; canal-only rain ending; tutorial enemies; second-island shield, skills, stronger phased bosses; repeated-load growth; five viewport aspect/size cases; fitted weapon text; native HD/QHD/4:3 captures.

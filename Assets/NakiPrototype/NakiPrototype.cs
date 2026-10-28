@@ -208,7 +208,7 @@ namespace NakiLegend.Prototype
             if (RuntimeCachesMissing()) { RebuildRuntimeAfterReload(); return; }
             if (world == null) return;
             if (!enableDesertJourney && openingActive) StopOpeningCinematic();
-            view.orthographicSize = enableDesertJourney ? Mathf.Max(5.1f, 9.7f / Mathf.Max(view.aspect, .1f)) : Mathf.Max(6.8f, 10.5f / Mathf.Max(view.aspect, .1f));
+            if(enableDesertJourney)ConfigureJourneyView();else{view.rect=new Rect(0,0,1,1);view.orthographicSize=Mathf.Max(6.8f,10.5f/Mathf.Max(view.aspect,.1f));}
             if(HandleCheckpointKeys())return;
             if (Pressed('r')) { if(thunderChapterMode&&thunderChapterPracticeBoss<0){if(!LoadChapterCheckpoint(false))BeginThunderChapter(false);}else ResetRoom(); return; }
             if (enableDesertJourney && Pressed('n')) { if(thunderChapterMode){chapterSetup=true;paused=false;}else if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
@@ -220,7 +220,7 @@ namespace NakiLegend.Prototype
             float dt = Mathf.Min(Time.deltaTime, .05f);
             clock += dt;
             if (enableDesertJourney) {TickPlayerDefenses(dt);TickEssence(dt);TickAutoTarget();if(Pressed('1'))UseSupply(0);if(Pressed('2'))UseSupply(1);}
-            if(origin!=Origin.Dark)energy = Mathf.Min(100, energy + (enableDesertJourney ? journeyEnergyRegen : 14) * dt);
+            if(origin!=Origin.Dark)energy = Mathf.Min(100, energy + (enableDesertJourney ? journeyEnergyRegen : 14) * dt);else energy=0;
             Vector2 input = new Vector2((Held('d') ? 1 : 0) - (Held('a') ? 1 : 0), (Held('w') ? 1 : 0) - (Held('s') ? 1 : 0)).normalized;
             if (input.sqrMagnitude > 0 && clock >= dashUntil) facing = input;
             if (Pressed('k') && clock >= nextDash)

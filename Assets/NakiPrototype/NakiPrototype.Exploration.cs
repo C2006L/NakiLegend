@@ -223,8 +223,7 @@ namespace NakiLegend.Prototype
 
         private void FollowExplorationCamera(float dt)
         {
-            RoomNode node=journeyRooms[currentRoom];float maxX=Mathf.Max(0,node.halfWidth+1.9f-view.orthographicSize*view.aspect),maxY=Mathf.Max(0,node.halfHeight+1.9f-view.orthographicSize);
-            Vector3 target=new Vector3(Mathf.Clamp(position.x*.35f,-maxX,maxX),Mathf.Clamp(position.y*.25f,-maxY,maxY),-10);
+            Vector3 target=JourneyViewCenter;
             view.transform.position=Vector3.Lerp(view.transform.position,target,Mathf.Clamp01(dt*6));
             if(clock<cameraShakeUntil)view.transform.position+=Vector3.right*Mathf.Sin(clock*180)*.025f;
         }

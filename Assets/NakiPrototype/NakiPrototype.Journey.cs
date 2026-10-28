@@ -68,7 +68,7 @@ namespace NakiLegend.Prototype
             EnterExplorationRoom(bossPracticeMode?stageEnds[2]:stageStarts[0],-1);
             if(gatehouseSampleMode){TellStory("少年：轮齿还在，沙把它卡住了。","清理闸室后可直接向北探索，或清开两处沙堆、转动手轮。元素结晶奖励只发一次；东侧检修闸需两端都安全才开放。样板已开放三种技能，可用 H 切换免费短剑与风牙法杖。");return;}
             if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 元气弹、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
-            else if(!TryStartOpeningCinematic()) TellStory("老人：风曾把海上的云带过山口，如今只卷走井底最后一点凉气。","少年：我会让风重新认得回家的路。先沿着门后的旧渠，去寻找风铃台。");
+            else if(!TryStartOpeningCinematic()) TellDesertLanding();
         }
         private void BuildJourneyGraph(System.Random random){if(thunderChapterMode)BuildThunderChapterGraph();else if(thunderPrototypeMode)BuildThunderGraph();else if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
         private void ConnectRooms(int a,int b){journeyRooms[a].links.Add(b);journeyRooms[b].links.Add(a);}
@@ -99,14 +99,14 @@ namespace NakiLegend.Prototype
                     node.cleared=true;
                     if(first&&!node.claimed)
                     {
-                        if(!thunderChapterMode&&node.kind==RoomKind.Rest){health=Mathf.Min(6,health+2);energy=100;elementPower=Mathf.Min(100,elementPower+40);node.claimed=true;TellStory("你在树荫下补充饮水，恢复2生命、光之力，并补充40元素之力。");}
-                        if(!thunderChapterMode&&node.kind==RoomKind.Event){restoredCanals++;health=Mathf.Min(6,health+1);energy=Mathf.Min(100,energy+20);elementPower=Mathf.Min(100,elementPower+20);node.claimed=true;TellStory("你清开堵住旧渠的沙石，将水车的卡槽重新对齐。","孩子：等找到水，能先给树根留一瓢吗？","少年：好。也给村里的人留一份。");}
+                        if(!thunderChapterMode&&node.kind==RoomKind.Rest)VisitDesertRest(node);
+                        if(!thunderChapterMode&&node.kind==RoomKind.Event)VisitDesertTrace(node);
                         if(node.kind==RoomKind.Reward)SeedRoomLoot(node);
                     }
                 }
             }
             DrawRoomLoot(node);RestoreEssence(node);UpdateJourneyPortal();doorCooldownUntil=clock+.8f;
-            if(GatehouseActive)OnGatehouseRoomEntered();if(thunderChapterMode)OnChapterRoomEntered(node,first);RequestCheckpoint();
+            if(GatehouseActive)OnGatehouseRoomEntered();if(thunderChapterMode)OnChapterRoomEntered(node,first);ConfigureJourneyView();view.transform.position=JourneyViewCenter;RequestCheckpoint();
         }
         private static bool IsCombatRoom(RoomNode node){return node.kind==RoomKind.Combat||node.kind==RoomKind.Elite||node.kind==RoomKind.Guardian||node.kind==RoomKind.Boss;}
 
@@ -145,7 +145,7 @@ namespace NakiLegend.Prototype
                 return;
             }
             if(node.kind==RoomKind.Elite&&(currentWave==1||currentWave==node.waves))QueueEnemy(EnemyKind.StoneSentinel,FindJourneySpawn(random,.65f));
-            int count=node.kind==RoomKind.Elite?3+node.stage:4+node.stage+random.Next(2);
+            int count=node.kind==RoomKind.Elite?3+node.stage:clearedCombatRooms<3?3:4+node.stage+random.Next(2);
             int types=clearedCombatRooms<2?1:clearedCombatRooms<4?2:clearedCombatRooms<7?3:4;
             for(int i=0;i<count;i++){int kind=i==0?types-1:i<types?(i+currentWave-2)%types:random.Next(types);QueueEnemy((EnemyKind)kind,FindJourneySpawn(random,.38f),node.kind==RoomKind.Elite&&i==count-1);}
         }
@@ -204,11 +204,11 @@ namespace NakiLegend.Prototype
             }
             if(!bossPracticeMode&&!lightningTrialMode){UnlockCanalEpilogue(node);return;}
             journeyComplete=true;windEmpowered=true;elementPower=Mathf.Min(100,elementPower+30);
-            TellStory("紫色裂纹熄灭，风元素碎片从守关者体内脱离。山口的云终于朝村庄而来。",restoredCanals>0?"你和村民修好的旧渠重新响起水声。孩子：井里有声音了！":"村民开始疏通旧渠。孩子伸手：这是……雨吗？","少年：风把它带回来了。第一瓢，记得留给树根。","获得风元素碎片：风刃强化，风波冷却缩短。愿长风所到之处，皆有甘泽。");pendingRainCG=true;
+            TellStory("守关者试炼结束。剑锋上的风纹渐渐平息。","正式旅程中，取回风石后还需要疏通归渠水道、清理轮机并开启总闸，雨水才能回到沙城。");pendingRainCG=false;
         }
         private void TellStory(params string[] lines){storyLines=lines;storyIndex=0;}
         private bool StoryActive{get{return storyLines!=null&&storyIndex<storyLines.Length;}}
-        private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
+        private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;if(pendingRainCG&&!DesertEndingReady)pendingRainCG=false;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
         private bool HandleJourneyOverlayInput()
         {
             if(TickChapterOverlay(Time.unscaledDeltaTime))return true;

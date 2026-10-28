@@ -126,7 +126,7 @@ namespace NakiLegend.Prototype
                 }
                 activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
                 clearedCombatRooms=s.clearedRooms;restoredCanals=s.restored;healingSupplies=s.healSupplies;elementSupplies=s.elementSupplies;
-                canalEpilogueStart=s.canalStart;clock=s.clock;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;
+                canalEpilogueStart=s.canalStart;clock=s.clock;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;NormalizeOriginPower();
                 swordDamage=s.swordDamage;initialSwordDamage=s.baseSword;spellDamage=s.spellDamage;initialSpellDamage=s.baseSpell;tuningCaptured=true;
                 nextSword=s.nextSword;nextSpell=s.nextSpell;nextDash=s.nextDash;bladeReadyAt=s.bladeReady;waveReadyAt=s.waveReady;lastDamageAt=s.lastDamage;
                 orbLearned=s.orb;bladeLearned=s.blade;waveLearned=s.wave;windEmpowered=s.wind;desertStoneRecovered=s.stone;
@@ -135,7 +135,7 @@ namespace NakiLegend.Prototype
                 Array.Copy(s.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(s.reserves);Array.Copy(s.starts,stageStarts,3);Array.Copy(s.ends,stageEnds,3);
                 gateWorkRemaining=0;gateWorkKind=-1;flashUntil=0;doorTransition=0;
                 EnterExplorationRoom(s.room,-1);position=NearestSafeFooting(s.position);UpdatePixelHero(Vector2.zero);storyLines=null;
-                if(s.endingPending&&s.complete){TellStory("雨云越过山口，旧渠重新响起水声。","甘泽归沙 · 第一瓢水，留给树根。");pendingRainCG=true;}
+                if(s.endingPending&&DesertEndingReady){TellStory("雨云越过山口，旧渠重新响起水声。","甘泽归沙 · 第一瓢水，留给树根。");pendingRainCG=true;}
                 checkpointPending=false;checkpointStatus="已读："+JourneyRoomTitle(journeyRooms[currentRoom]);JourneyHint("已继续上次旅程 · N 开始新旅程");return true;
             }
             finally{loadingCheckpoint=false;}

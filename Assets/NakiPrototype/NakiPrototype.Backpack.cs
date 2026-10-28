@@ -51,8 +51,8 @@ namespace NakiLegend.Prototype
   }
   private bool FlatButton(Rect rect,string label,bool selected=false)
   {
-   HudRect(new Rect(rect.x-1,rect.y-1,rect.width+2,rect.height+2),selected?C("dec28b"):C("526c70"));HudRect(rect,selected?C("355e59"):C("192c36"));
-   GUI.Label(rect,label,new GUIStyle(journeyTextStyle){alignment=TextAnchor.MiddleCenter,wordWrap=true});return GUI.Button(rect,GUIContent.none,GUIStyle.none);
+   HudRect(new Rect(rect.x-1,rect.y-1,rect.width+2,rect.height+2),selected?C("d5bd87"):C("3d5961"));HudRect(rect,selected?C("294e4d"):C("182e39"));
+   FittedLabel(new Rect(rect.x+10,rect.y+6,rect.width-20,rect.height-12),label,journeyTextStyle,true,TextAnchor.MiddleCenter);return GUI.Button(rect,GUIContent.none,GUIStyle.none);
   }
   private string ElementName(Element e){switch(e){case Element.Wind:return "风";case Element.Light:return "光";case Element.Lightning:return "雷";case Element.Fire:return "火";case Element.Ice:return "冰";case Element.Wood:return "木";case Element.Dark:return "暗";default:return "物理";}}
   private string WeaponSummary(WeaponDef weapon)
@@ -66,15 +66,15 @@ namespace NakiLegend.Prototype
   {
    Rect panel=new Rect(w/2-450,h/2-285,900,570);HudRect(panel,new Color(.035f,.065f,.09f,.985f));
    GUI.Label(new Rect(panel.x+28,panel.y+18,840,35),"行囊 · 双武器与备用装备",journeyTitleStyle);
-   GUI.Label(new Rect(panel.x+28,panel.y+61,840,26),"光之力 "+energy.ToString("0")+" /100     元素之力 "+elementPower.ToString("0")+" /100     暗之力 "+darkPower.ToString("0")+" /100",journeySmallStyle);
+   FittedLabel(new Rect(panel.x+28,panel.y+61,840,26),ActivePowerLabel+" /100     元素之力 "+elementPower.ToString("0")+" /100     护盾上限 "+EffectiveMaximumShield,journeySmallStyle);
    bool wasEnabled=GUI.enabled;if(pendingWeaponPickup!=null)GUI.enabled=false;
    for(int i=0;i<6;i++)
    {
-    Rect card=i<2?new Rect(panel.x+28,panel.y+102+i*115,265,99):new Rect(panel.x+322+(i-2)%2*274,panel.y+102+(i-2)/2*115,253,99);
+    Rect card=i<2?new Rect(panel.x+28,panel.y+102+i*120,270,108):new Rect(panel.x+322+(i-2)%2*274,panel.y+102+(i-2)/2*120,253,108);
     int id=BagWeaponId(i);bool selected=i==bagSelection;
     if(FlatButton(card,"",selected))bagSelection=i;
-    GUI.Label(new Rect(card.x+10,card.y+7,card.width-20,26),(i<2?(i==equippedSlot?"◆ 当前 ":"携带 ")+(i+1):"备用 "+(i-1))+"  "+(id<0?"空位":weaponCatalog[id].name),journeyTextStyle);
-    if(id>=0){DrawSpriteUI(new Rect(card.x+12,card.y+39,72,46),weaponCatalog[id].sprite);GUI.Label(new Rect(card.x+94,card.y+43,card.width-100,40),ElementName(weaponCatalog[id].element)+" · 伤害 "+weaponCatalog[id].damage+"\n消耗 "+weaponCatalog[id].cost+" 元素之力",new GUIStyle(journeySmallStyle){wordWrap=true});}
+    FittedLabel(new Rect(card.x+12,card.y+9,card.width-24,26),(i<2?(i==equippedSlot?"◆ 当前 ":"携带 ")+(i+1):"备用 "+(i-1))+"  "+(id<0?"空位":weaponCatalog[id].name),journeyTextStyle);
+    if(id>=0){DrawSpriteUI(new Rect(card.x+14,card.y+44,62,46),weaponCatalog[id].sprite);FittedLabel(new Rect(card.x+90,card.y+43,card.width-102,24),ElementName(weaponCatalog[id].element)+" · 伤害 "+weaponCatalog[id].damage,journeySmallStyle);FittedLabel(new Rect(card.x+90,card.y+72,card.width-102,24),"消耗 "+weaponCatalog[id].cost+" 元素之力",journeySmallStyle);}
    }
    int selectedId=BagWeaponId(bagSelection);
    if(selectedId>=0)

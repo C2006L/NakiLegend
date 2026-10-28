@@ -19,7 +19,7 @@ namespace NakiLegend.Prototype
 
         private void ResetPlayerProgression()
         {
-            shield = maximumShield; lastDamageAt = -10; windGuardUntil = waveReadyAt = bladeReadyAt = 0;
+            shield = EffectiveMaximumShield; lastDamageAt = -10; windGuardUntil = waveReadyAt = bladeReadyAt = 0;
             orbLearned = bladeLearned = waveLearned = windEmpowered = false; clearedCombatRooms = pendingLesson = 0;
             hintReadyAt = 0; journeyEnergyRegen = 6;journeyToast=null;journeyToastUntil=0;
             if (bossPracticeMode) { orbLearned = bladeLearned = waveLearned = true; clearedCombatRooms = 12; }
@@ -29,7 +29,7 @@ namespace NakiLegend.Prototype
 
         private void TickPlayerDefenses(float dt)
         {
-            if (clock - lastDamageAt >= 5 && shield < maximumShield) shield = Mathf.Min(maximumShield, shield + dt);
+            if (clock - lastDamageAt >= 5 && shield < EffectiveMaximumShield) shield = Mathf.Min(EffectiveMaximumShield, shield + dt);
             if (activeWindWave != null)
             {
                 float phase = (clock - waveStartedAt) / .35f;
@@ -47,7 +47,7 @@ namespace NakiLegend.Prototype
         private void TakeJourneyDamage(float amount, Element element)
         {
             if (clock < invulnerableUntil || health <= 0) return;
-            if (element == Element.Lightning && clock < windGuardUntil) amount *= .7f;
+            if (element == Element.Lightning && clock < windGuardUntil) amount *= WindGuardMultiplier;
             float before = shield, absorbed = Mathf.Min(shield, amount);
             shield -= absorbed; health = Mathf.Max(0, health - (amount - absorbed)); lastDamageAt = clock;
             invulnerableUntil = clock + .8f; flashUntil = clock + .13f; pixelHurtUntil = clock + .16f;
@@ -83,7 +83,7 @@ namespace NakiLegend.Prototype
         private void CastJourneyOrb()
         {
             if(origin==Origin.Dark){CastDarkMeteor();return;}
-            if (!orbLearned) { JourneyHint("主属性技能尚未学会 · 清理3个战斗房后寻找古井碑"); nextSpell = clock + .35f; return; }
+            if (!orbLearned) { JourneyHint("掌心的光尚未凝聚 · 留意遗迹中的古井碑"); nextSpell = clock + .35f; return; }
             foreach (Shot shot in shots) if (shot.orb) return;
             if (clock < nextSpell || !SpendPower(PowerPool.Light,8)) return;
              nextSpell = clock + 1.2f;
@@ -91,7 +91,7 @@ namespace NakiLegend.Prototype
             int before = shots.Count; SpawnShot(position + direction * .4f, direction, false, target, position);
             if (shots.Count > before)
             {
-                Shot shot = shots[shots.Count - 1]; shot.orb = true; shot.element = Element.Light; shot.damage = 24; shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
+                Shot shot = shots[shots.Count - 1]; shot.orb = true; shot.element = Element.Light; shot.damage = SkillDamage(24); shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
                 shot.root.transform.localScale = Vector3.one * .29f;
             }
             castDirection = direction; castPoseUntil = clock + .32f;
@@ -105,7 +105,7 @@ namespace NakiLegend.Prototype
             int before = shots.Count; SpawnShot(position + direction * .45f, direction, false, null, position);
             if (shots.Count > before)
             {
-                Shot shot = shots[shots.Count - 1]; shot.tracking = false; shot.element = Element.Wind; shot.damage = windEmpowered ? 26 : 22; shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
+                Shot shot = shots[shots.Count - 1]; shot.tracking = false; shot.element = Element.Wind; shot.damage = SkillDamage(windEmpowered ? 26 : 22); shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
                 shot.root.GetComponent<SpriteRenderer>().sprite = pixelSlash ?? disc; shot.root.GetComponent<SpriteRenderer>().color = C("7ce7c4");
                 shot.root.transform.localScale = new Vector3(.32f, .55f, 1); shot.root.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
             }
@@ -116,7 +116,7 @@ namespace NakiLegend.Prototype
         {
             if (!waveLearned) { JourneyHint("风波尚未学会 · 寻找第二层的守渠试炼"); return; }
             if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,10)) return;
-             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + 1; waveStartedAt = clock;
+             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;
             if (activeWindWave != null) Destroy(activeWindWave);
             activeWindWave = Draw("Wind wave", windRingSprite ?? disc, position + Vector2.up * .25f, Vector2.one * .3f, C("8aefd0"), 800);
             DispelProjectiles(position, .4f); castDirection = facing; castPoseUntil = clock + .32f;
@@ -145,10 +145,10 @@ namespace NakiLegend.Prototype
 
         private void LearnPendingLesson()
         {
-            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("右眼的贤者之石映出紫光。力量来自被击败生灵留下的灵魂，机械没有灵魂。","已学会 L 流星：自动瞄准两颗紫色追踪球，消耗8暗之力，冷却1秒。暗之力越充盈，威力越强；消耗后需要再次充能。"); }
-            else if (pendingLesson == 1) { orbLearned = true; TellStory("古井碑：让内心的光在掌心汇聚，化作一颗元气弹。", "已学会 L 元气弹：自动瞄准，消耗8光之力，冷却1.2秒，场上最多一颗。光之力随时间恢复。"); }
-            if (pendingLesson == 2) { bladeLearned = true; TellStory("守渠者：风刃能扰乱雷印的聚能。连续命中，就能打断它的蓄力。", "已学会 U 风之刃：自动瞄准，消耗6元素之力，冷却1.2秒，可穿过两名敌人；对雷属性伤害提高。"); }
-            if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台：让风从身边散开，为下一次呼吸留出空隙。", "已学会 I 风波：消耗10元素之力，冷却4.5秒，吹散附近普通飞弹并短暂减少雷伤；地面雷区仍需躲避。"); }
+            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("碑上的刻痕像一道道坠落的星。你试着抬手，右眼的紫光便沿着指尖散开。","少年：原来，石头里那些不肯熄灭的微光，可以这样引出来。");AnnounceDiscovery("已领悟 L 流星 · 消耗8暗之力，自动追踪"); }
+            else if (pendingLesson == 1) { orbLearned = true; TellStory("碑文已经模糊，只剩一行浅刻：莫追逐光，让它先在心里停下。","你放慢呼吸。掌中的暖光渐渐收拢，凝成一颗明亮的光球。");AnnounceDiscovery("已领悟 L 元气弹 · 消耗8光之力，单颗追踪"); }
+            if (pendingLesson == 2) { bladeLearned = true; TellStory("断壁间的风把细沙裁成一道弧线。你顺着那道弧挥剑，剑锋外竟也留下一缕长风。","少年：若能让风沿着剑走，就能劈开前面的阻碍。");AnnounceDiscovery("已领悟 U 风之刃 · 消耗6元素之力，风克雷"); }
+            if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台四周，沙尘总在靠近铜环时向外散去。你站进环中，试着把气息送向四周。","一圈清风从脚下荡开。纷乱的沙粒，被推到了身外。");AnnounceDiscovery("已领悟 I 护身风波 · 消耗10元素，吹散普通飞弹"); }
             if (lessonAltar != null) Destroy(lessonAltar); lessonAltar = null; pendingLesson = 0; if(origin==Origin.Light)energy = Mathf.Min(100, energy + 20);RequestCheckpoint();
         }
 

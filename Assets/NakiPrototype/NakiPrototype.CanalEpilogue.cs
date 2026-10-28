@@ -38,8 +38,9 @@ namespace NakiLegend.Prototype
             canalEpilogueStart=journeyRooms.Count;AddGatehouseRooms(canalEpilogueStart,3);
             bossRoom.stairsTo=canalEpilogueStart;GatehouseRoom(0).stairsTo=bossRoom.id;
             pendingRainCG=false;UpdateJourneyPortal();
-            TellStory("紫色裂纹熄灭，风元素碎片从守关者体内脱离。风刃与风波得到强化。",
-                "少年：风回来了。可旧渠还堵着，我们得让水走完回家的路。\n前往亮起的石阶，靠近按 F 进入归渠水道。");
+            TellStory("紫色裂纹熄灭，风元素碎片从守关者体内脱离。石阶下传来空空的水声，旧渠里仍积着深沙。",
+                "少年：风回来了，可水还进不了城。先去清开轮机，再把总闸打开——让它走完回家的路。");
+            AnnounceDiscovery("风石共鸣 · 风之刃与护身风波强化；阶梯通往归渠水道");
         }
 
         private bool TryCompleteCanalEpilogue()

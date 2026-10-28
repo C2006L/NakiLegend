@@ -15,8 +15,8 @@ namespace NakiLegend.Prototype
             energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?24:0;
             orbLearned=false;
             TellStory(origin==Origin.Dark
-                ?"你选择暗之力。贤者之石将寄宿右眼，击败有灵生物可以充能。先用武器探索，三间战斗房后学习流星。"
-                :"你选择光之力。内心的光会自然恢复。先用武器探索，三间战斗房后学习元气弹。");
+                ?"紫石沉入右眼，微凉的脉动随之传来。你握紧剑柄：先去遗迹看看，或许旧碑上还留着驾驭这股力量的方法。"
+                :"你把手按在胸前，掌心亮起一线暖光。那道光还很微弱，但足以照见通往遗迹的旧路。");
             RequestCheckpoint();SaveCheckpoint(false);
         }
         private bool HandleOriginChoice()
@@ -44,7 +44,7 @@ namespace NakiLegend.Prototype
         }
         private void CastDarkMeteor()
         {
-            if(!orbLearned){JourneyHint("流星尚未学会 · 清理3个战斗房后寻找古井碑");return;}
+            if(!orbLearned){JourneyHint("贤者之石尚未回应 · 留意遗迹中的古井碑");return;}
             foreach(Shot old in shots)if(old.orb)return;
             float strength=1+darkPower/100*.35f;
             if(clock<nextSpell||!SpendPower(PowerPool.Dark,8))return;
@@ -54,7 +54,7 @@ namespace NakiLegend.Prototype
             {
                 Vector2 side=new Vector2(-aim.y,aim.x)*(i==0?-.16f:.16f);
                 int before=shots.Count;SpawnShot(position+aim*.4f+side,aim,false,target,position);
-                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.element=Element.Dark;s.damage=10*strength;s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");}
+                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");}
             }
             castDirection=aim;castPoseUntil=clock+.25f;
         }

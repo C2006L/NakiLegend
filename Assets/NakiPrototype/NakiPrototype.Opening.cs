@@ -20,7 +20,8 @@ namespace NakiLegend.Prototype
             new OpeningBeat(1,7,"圣所 · 破碎之夜","直到有人，想独占它的力量。",new Vector2(.57f,.56f),1.02f,1.07f),
             new OpeningBeat(1,6,"失衡 · 散落的元素","元素被抽离，散落各岛，落入强大的守关者体内。山海，从此失去平衡。",new Vector2(.48f,.59f),1.07f,1.10f),
             new OpeningBeat(2,10,"王宫 · 受命","国王：去把散落各岛的碎片带回来。我们的人民，需要它们。\n少年：我会尽力。",new Vector2(.53f,.56f),1.01f,1.04f),
-            new OpeningBeat(3,7,"启程 · 海上的少年","一卷航图，一柄剑。少年踏上了去往群岛的航路。",new Vector2(.60f,.55f),1.02f,1.06f),
+            new OpeningBeat(3,7,"启程 · 去往沙漠岛","一卷航图，一柄剑。少年登上渡船，航向失去雨季的沙漠岛。",new Vector2(.60f,.55f),1.02f,1.06f),
+            new OpeningBeat(3,4,"靠岸 · 沙城之外","船夫：前面便是沙城。过了浅滩，就沿旧石路上岸。",new Vector2(.35f,.55f),1.06f,1.08f),
             new OpeningBeat(4,6,"第一岛 · 井底余凉","木桶落到井底，只碰到沙。",new Vector2(.32f,.42f),1.03f,1.07f),
             new OpeningBeat(5,7,"村落 · 最后一口水","少年：你不渴吗？\n孩子：它也渴。",new Vector2(.48f,.55f),1.01f,1.025f),
             new OpeningBeat(4,7,"山口 · 不再归来的云","老人：从前，风会把海上的云带过来。如今，它只带走井里的凉气。",new Vector2(.76f,.62f),1.03f,1.07f),
@@ -108,7 +109,7 @@ namespace NakiLegend.Prototype
         private void CompleteOpeningCinematic()
         {
             StopOpeningCinematic(); openingGameReveal=1; paused=openingSavedPaused;
-            TellStory("孩子：要是找到水……给小树也留一份！", "沿旧渠前往遗迹，寻找异常风向的源头。WASD 移动，J 使用武器，K 闪避；清怪后走进打开的门继续探索。");
+            TellDesertLanding();
         }
         private void EnsureOpeningStyles()
         {
