@@ -57,7 +57,7 @@ namespace NakiLegend.Prototype
             if(skill==0){CastWindBlade();return;}if(skill==1){CastWindWave();return;}
             if(clock<ChapterSkillReady(skill)||clock<dashUntil)return;
             Enemy target;Vector2 aim=AutoAim(9,9,0,out target);if(target==null){JourneyHint("视线内没有可锁定的敌人");return;}
-            float cost=ChapterSkillCost(skill);if(elementPower<cost){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
+            float cost=ChapterSkillCost(skill);if(elementPower+.001f<ElementCost(cost)){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
             if(skill==2)
             {
                 if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;
@@ -112,7 +112,7 @@ namespace NakiLegend.Prototype
             string[] detail={"风克雷 ×1.3；三次风命中可破势","消普通飞弹，短暂减雷伤；不消地雷","锁定敌人旧位置，延迟小范围落雷","命中后向附近可见敌人跳一次"};
             for(int i=0;i<4;i++)
             {
-                float y=h/2-150+i*82;bool known=ChapterSkillKnown(i);GUI.Label(new Rect(w/2-420,y,560,28),ChapterSkillNames[i]+" · "+(known?ChapterSkillCost(i)+"元素":"未学会"),journeyTextStyle);
+                float y=h/2-150+i*82;bool known=ChapterSkillKnown(i);GUI.Label(new Rect(w/2-420,y,560,28),ChapterSkillNames[i]+" · "+(known?ElementCost(ChapterSkillCost(i)).ToString("0.##")+"元素":"未学会"),journeyTextStyle);
                 GUI.Label(new Rect(w/2-420,y+29,560,29),detail[i],journeySmallStyle);
                 if(FlatButton(new Rect(w/2+160,y,115,53),"装备 U",chapterSkillSlots[0]==i))EquipChapterSkill(i,0);
                 if(FlatButton(new Rect(w/2+290,y,115,53),"装备 I",chapterSkillSlots[1]==i))EquipChapterSkill(i,1);

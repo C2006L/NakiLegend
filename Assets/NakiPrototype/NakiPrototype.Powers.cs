@@ -11,8 +11,10 @@ namespace NakiLegend.Prototype
   private readonly List<EssenceDrop> essenceDrops=new List<EssenceDrop>();
   private Sprite essenceSprite;
   private void ResetPowers(){elementPower=100;darkPower=0;essenceDrops.Clear();}
+  private float ElementCost(float cost){return profession==Profession.Mage?cost*.85f:cost;}
   private bool SpendPower(PowerPool pool,float cost)
   {
+   if(pool==PowerPool.Elemental)cost=ElementCost(cost);
    float available=pool==PowerPool.Light?energy:pool==PowerPool.Elemental?elementPower:darkPower;
    if(available+.001f<cost){JourneyHint(pool==PowerPool.Light?"光之力不足 · 等待内心的光恢复":pool==PowerPool.Dark?"暗之力不足 · 击败有灵生物给贤者之石充能":"元素之力不足 · 拾取结晶或使用元素药剂");return false;}
    if(pool==PowerPool.Light)energy-=cost;else if(pool==PowerPool.Elemental)elementPower-=cost;else darkPower-=cost;return true;

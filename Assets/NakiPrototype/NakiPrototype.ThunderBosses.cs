@@ -119,8 +119,10 @@ namespace NakiLegend.Prototype
         private Vector2 SafeChapterLightning(Vector2 desired){return NearestEnemyFooting(desired,.85f);}
         private void AddChapterStrike(Vector2 at,float delay)
         {
-            GameObject warning=WarningCircle(at,.8f);foreach(SpriteRenderer sr in warning.GetComponentsInChildren<SpriteRenderer>())sr.color=new Color(.55f,.8f,1,.65f);
-            thunderStrikes.Add(new ThunderStrike{at=at,when=clock+delay,root=warning});
+            GameObject warning=WarningCircle(at,1.1f);
+            GameObject timer=Draw("Lightning countdown",windRingSprite??disc,at,Vector2.one*2.2f,C("ffce73"),-637);
+            timer.transform.SetParent(warning.transform,true);
+            thunderStrikes.Add(new ThunderStrike{at=at,born=clock,when=clock+delay,root=warning,timer=timer});
         }
         private void ResolveChapterBossMove(Enemy e)
         {

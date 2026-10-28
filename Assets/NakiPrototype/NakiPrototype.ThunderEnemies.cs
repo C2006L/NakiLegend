@@ -8,7 +8,7 @@ namespace NakiLegend.Prototype
     {
         [Serializable] private sealed class ThunderFrame { public int x=0,y=0,width=0,height=0;public float pivotX=.5f,pivotY=0; }
         [Serializable] private sealed class ThunderAtlas { public ThunderFrame[] moth=Array.Empty<ThunderFrame>(),guard=Array.Empty<ThunderFrame>(); }
-        private sealed class ThunderStrike { public Vector2 at;public float when;public GameObject root; }
+        private sealed class ThunderStrike { public Vector2 at;public float when,born;public GameObject root,timer; }
         private readonly List<ThunderStrike> thunderStrikes=new List<ThunderStrike>();
         private static bool IsThunderEnemy(EnemyKind kind){return kind>=EnemyKind.ChargeMoth&&kind<=EnemyKind.StormStag;}
         private void LoadThunderEnemyArt()
@@ -96,21 +96,46 @@ namespace NakiLegend.Prototype
         }
         private void QueueThunderStrike(Vector2 at)
         {
-            GameObject warning=WarningCircle(at,.8f);var sr=warning.GetComponent<SpriteRenderer>();sr.color=new Color(.35f,.75f,1,.15f);
-            foreach(SpriteRenderer child in warning.GetComponentsInChildren<SpriteRenderer>())if(child!=sr)child.color=C("9cdaff");
-            thunderStrikes.Add(new ThunderStrike{at=at,when=clock+.9f,root=warning});
+            AddChapterStrike(at,.9f);
         }
         private void TickThunderStrikes()
         {
             for(int i=thunderStrikes.Count-1;i>=0;i--)
             {
-                ThunderStrike s=thunderStrikes[i];if(clock<s.when)continue;
+                ThunderStrike s=thunderStrikes[i];
+                if(clock<s.when)
+                {
+                    float progress=Mathf.Clamp01((clock-s.born)/Mathf.Max(.01f,s.when-s.born));
+                    if(s.timer!=null)s.timer.transform.localScale=Vector3.one*Mathf.Max(.03f,1-progress);
+                    if(s.root!=null){var fill=s.root.GetComponent<SpriteRenderer>();fill.color=new Color(1,.48f,.16f,.10f+progress*.15f);}
+                    continue;
+                }
                 if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(ChapterGroundDamage,Element.Lightning);
                 if(s.root!=null)Destroy(s.root);
-                GameObject bolt=Stretch("Ground lightning impact",square,s.at+Vector2.up*.9f,new Vector2(.07f,1.8f),C("d5f3ff"),650);
-                fadingBodies.Add(new FadingBody{root=bolt,renderer=bolt.GetComponent<SpriteRenderer>(),expires=clock+.18f});
+                LightningImpact(s.at);
                 thunderStrikes.RemoveAt(i);
             }
+        }
+        private void LightningSegment(Vector2 a,Vector2 b,float width,Color tint,float lifetime)
+        {
+            Vector2 d=b-a;GameObject part=Stretch("Lightning arc",square,(a+b)*.5f,new Vector2(d.magnitude,width),tint,650);
+            part.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg);
+            fadingBodies.Add(new FadingBody{root=part,renderer=part.GetComponent<SpriteRenderer>(),expires=clock+lifetime});
+        }
+        private void LightningImpact(Vector2 at)
+        {
+            Vector2[] path={at+new Vector2(.18f,3.2f),at+new Vector2(-.17f,2.6f),at+new Vector2(.23f,1.95f),at+new Vector2(-.14f,1.3f),at+new Vector2(.12f,.65f),at};
+            for(int j=0;j<path.Length-1;j++)
+            {
+                LightningSegment(path[j],path[j+1],.16f,new Color(.3f,.65f,1,.55f),.25f);
+                LightningSegment(path[j],path[j+1],.045f,C("f5fcff"),.18f);
+            }
+            LightningSegment(path[2],at+new Vector2(.75f,1.4f),.035f,C("b8e8ff"),.2f);
+            LightningSegment(path[3],at+new Vector2(-.65f,.8f),.03f,C("b8e8ff"),.2f);
+            GameObject ring=Draw("Lightning impact boundary",windRingSprite??disc,at,Vector2.one*2.2f,C("d6f5ff"),-635);
+            fadingBodies.Add(new FadingBody{root=ring,renderer=ring.GetComponent<SpriteRenderer>(),expires=clock+.28f});
+            SpellSpark(at,new Color(.55f,.85f,1,.7f),.8f);
+            for(int j=0;j<6;j++){float a=j*Mathf.PI/3;Vector2 ray=new Vector2(Mathf.Cos(a),Mathf.Sin(a));LightningSegment(at+ray*.15f,at+ray*.65f,.025f,C("a4dcff"),.22f);}
         }
         private bool TryThunderWindInterrupt(Shot shot,Vector2 from,Vector2 to)
         {

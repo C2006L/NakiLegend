@@ -21,6 +21,7 @@ namespace NakiLegend.Prototype
         [Serializable] private sealed class CheckpointEssence { public Vector2 at;public float value,born; }
         [Serializable] private sealed class JourneyCheckpoint
         {
+            public int profession;
             public int version=1,seed,selectedBoss,room,origin,equipped,clearedRooms,restored,healSupplies,elementSupplies,canalStart;
             public float clock,health,shield,light,element,dark,swordDamage,baseSword,spellDamage,baseSpell;
             public float nextSword,nextSpell,nextDash,bladeReady,waveReady,lastDamage;
@@ -45,7 +46,7 @@ namespace NakiLegend.Prototype
             try
             {
                 var s=new JourneyCheckpoint {
-                    seed=activeSeed,selectedBoss=selectedBoss,room=currentRoom,origin=(int)origin,equipped=equippedSlot,
+                    profession=(int)profession,seed=activeSeed,selectedBoss=selectedBoss,room=currentRoom,origin=(int)origin,equipped=equippedSlot,
                     clearedRooms=clearedCombatRooms,restored=restoredCanals,healSupplies=healingSupplies,elementSupplies=elementSupplies,
                     canalStart=canalEpilogueStart,clock=clock,health=health,shield=shield,light=energy,element=elementPower,dark=darkPower,
                     swordDamage=swordDamage,baseSword=initialSwordDamage,spellDamage=spellDamage,baseSpell=initialSpellDamage,
@@ -124,7 +125,7 @@ namespace NakiLegend.Prototype
                     var room=new RoomNode{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(RoomKind)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded};
                     room.links.AddRange(n.links);foreach(var w in n.drops)room.drops.Add(new StoredWeapon{id=w.id,at=w.at});foreach(var d in n.essence)room.essence.Add(new StoredEssence{at=d.at,value=d.value,born=d.born});journeyRooms.Add(room);
                 }
-                activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
+                profession=(Profession)Mathf.Clamp(s.profession,0,3);activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
                 clearedCombatRooms=s.clearedRooms;restoredCanals=s.restored;healingSupplies=s.healSupplies;elementSupplies=s.elementSupplies;
                 canalEpilogueStart=s.canalStart;clock=s.clock;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;NormalizeOriginPower();
                 swordDamage=s.swordDamage;initialSwordDamage=s.baseSword;spellDamage=s.spellDamage;initialSpellDamage=s.baseSpell;tuningCaptured=true;

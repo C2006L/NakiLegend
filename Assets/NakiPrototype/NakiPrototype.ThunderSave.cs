@@ -13,6 +13,7 @@ namespace NakiLegend.Prototype
         [Serializable] private sealed class ThunderRoomSave { public bool cleared;public CheckpointWeapon[] drops;public CheckpointEssence[] essence; }
         [Serializable] private sealed class ThunderCheckpoint
         {
+            public int profession;
             public int version=1,preset,room,equipped,healing,elementSupplies;
             public float clock,health,shield,light,dark,element,nextSword,nextSpell,nextDash,bladeReady,waveReady,lastDamage;
             public bool repair,reward;public Vector2 position;public int[] carried,reserves;public ThunderRoomSave[] rooms;
@@ -28,7 +29,7 @@ namespace NakiLegend.Prototype
             if(!SafeThunderCheckpoint){if(notify)JourneyHint("原型请在清场后保存；战斗不覆盖最近安全存档");return false;}
             try
             {
-                var s=new ThunderCheckpoint{preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
+                var s=new ThunderCheckpoint{profession=(int)profession,preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
                     clock=clock,health=health,shield=shield,light=energy,dark=darkPower,element=elementPower,position=position,repair=thunderRepaired,reward=thunderRewardCreated,
                     carried=(int[])carriedWeapons.Clone(),reserves=reserveWeapons.ToArray(),nextSword=nextSword,nextSpell=nextSpell,nextDash=nextDash,
                     bladeReady=bladeReadyAt,waveReady=waveReadyAt,lastDamage=lastDamageAt,rooms=new ThunderRoomSave[2]};
@@ -77,7 +78,7 @@ namespace NakiLegend.Prototype
                 foreach(var w in s.rooms[i].drops)n.drops.Add(new StoredWeapon{id=w.id,at=w.at});
                 foreach(var e in s.rooms[i].essence)n.essence.Add(new StoredEssence{at=e.at,value=e.value,born=e.born});
             }
-            clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;
+            profession=(Profession)Mathf.Clamp(s.profession,0,3);clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;
             healingSupplies=s.healing;elementSupplies=s.elementSupplies;equippedSlot=s.equipped;Array.Copy(s.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(s.reserves);
             thunderRepaired=s.repair;thunderRewardCreated=s.reward;nextSword=s.nextSword;nextSpell=s.nextSpell;nextDash=s.nextDash;bladeReadyAt=s.bladeReady;waveReadyAt=s.waveReady;lastDamageAt=s.lastDamage;
             EnterExplorationRoom(s.room,-1);position=NearestSafeFooting(s.position);UpdatePixelHero(Vector2.zero);storyLines=null;thunderSavePending=false;

@@ -211,7 +211,7 @@ namespace NakiLegend.Prototype
             if (!enableDesertJourney && openingActive) StopOpeningCinematic();
             if(enableDesertJourney)ConfigureJourneyView();else{view.rect=new Rect(0,0,1,1);view.orthographicSize=Mathf.Max(6.8f,10.5f/Mathf.Max(view.aspect,.1f));}
             if(HandleCheckpointKeys())return;
-            if (Pressed('r')) { if(thunderChapterMode&&thunderChapterPracticeBoss<0){if(!LoadChapterCheckpoint(false))BeginThunderChapter(false);}else ResetRoom(); return; }
+            if (Pressed('r')) { if(thunderChapterMode&&thunderChapterPracticeBoss<0){if(!LoadChapterCheckpoint(false))BeginThunderChapter(false);}else if(CheckpointsEnabled){if(!LoadCheckpoint(false))ResetRoom();}else ResetRoom(); return; }
             if (enableDesertJourney && Pressed('n')) { if(thunderChapterMode){chapterSetup=true;paused=false;}else if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
             if (enableDesertJourney && !ThunderActive && !openingActive && paused && Pressed('v')) { ReplayOpeningCinematic(); return; }
             if (enableDesertJourney && HandleJourneyOverlayInput()) return;
@@ -228,7 +228,9 @@ namespace NakiLegend.Prototype
             {
                 BeginDodge(input);
             }
+            Vector2 beforeMove=position;
             position = Move(position, (clock < dashUntil ? dashDirection * dashSpeed : input * moveSpeed) * dt, .3f);
+            if(enableDesertJourney)TickWarriorRam(beforeMove);
             hero.transform.position = position;
             heroBody.flipX = facing.x < -.1f;
             heroBody.color = clock < flashUntil ? C("ff7777") : clock < invulnerableUntil ? C("a9e9ff") : Color.white;

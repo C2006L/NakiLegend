@@ -214,6 +214,7 @@ namespace NakiLegend.Prototype
             if(TickChapterOverlay(Time.unscaledDeltaTime))return true;
             if(TickThunderOverlay(Time.unscaledDeltaTime))return true;
             if(TickOpeningCinematic(Time.unscaledDeltaTime))return true;
+            if(HandleProfessionChoice())return true;
             if(HandleOriginChoice())return true;
             if(TickGatehouseInteraction(Time.unscaledDeltaTime))return true;
             if(TickDoorTransition(Time.deltaTime))return true;

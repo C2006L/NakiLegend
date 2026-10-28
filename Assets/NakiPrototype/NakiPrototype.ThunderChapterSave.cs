@@ -48,7 +48,7 @@ namespace NakiLegend.Prototype
         private bool SafeChapterCheckpoint { get { return thunderChapterMode&&!chapterSetup&&chapterWork<=0&&chapterMarks.Count==0&&thunderStrikes.Count==0&&SafeCheckpointRoom; } }
         private ThunderCheckpoint CaptureChapterPlayer()
         {
-            return new ThunderCheckpoint{preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
+            return new ThunderCheckpoint{profession=(int)profession,preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
                 clock=clock,health=health,shield=shield,light=energy,dark=darkPower,element=elementPower,position=position,
                 carried=(int[])carriedWeapons.Clone(),reserves=reserveWeapons.ToArray(),nextSword=nextSword,nextSpell=nextSpell,nextDash=nextDash,
                 bladeReady=bladeReadyAt,waveReady=waveReadyAt,lastDamage=lastDamageAt};
@@ -117,6 +117,7 @@ namespace NakiLegend.Prototype
         }
         private void ApplyChapterPlayer(ThunderCheckpoint p)
         {
+            profession=(Profession)Mathf.Clamp(p.profession,0,3);
             clock=p.clock;health=p.health;shield=p.shield;energy=p.light;darkPower=p.dark;elementPower=p.element;healingSupplies=p.healing;elementSupplies=p.elementSupplies;
             equippedSlot=p.equipped;Array.Copy(p.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(p.reserves);
             nextSword=p.nextSword;nextSpell=p.nextSpell;nextDash=p.nextDash;bladeReadyAt=p.bladeReady;waveReadyAt=p.waveReady;lastDamageAt=p.lastDamage;

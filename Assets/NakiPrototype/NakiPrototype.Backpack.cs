@@ -56,7 +56,7 @@ namespace NakiLegend.Prototype
   }
   private string ElementName(Element e){switch(e){case Element.Wind:return "风";case Element.Light:return "光";case Element.Lightning:return "雷";case Element.Fire:return "火";case Element.Ice:return "冰";case Element.Wood:return "木";case Element.Dark:return "暗";default:return "物理";}}
   private string WeaponSummary(WeaponDef weapon)
-  {return ElementName(weapon.element)+" · 伤害 "+weapon.damage.ToString("0")+" · "+weapon.cost.ToString("0")+" 元素之力";}
+  {return ElementName(weapon.element)+" · 伤害 "+weapon.damage.ToString("0")+" · "+ElementCost(weapon.cost).ToString("0.##")+" 元素之力";}
   private void DrawSpriteUI(Rect area,Sprite sprite)
   {
    if(sprite==null)return;Rect r=sprite.rect;float scale=Mathf.Min(area.width/r.width,area.height/r.height);Rect box=new Rect(area.center.x-r.width*scale/2,area.center.y-r.height*scale/2,r.width*scale,r.height*scale);
@@ -74,7 +74,7 @@ namespace NakiLegend.Prototype
     int id=BagWeaponId(i);bool selected=i==bagSelection;
     if(FlatButton(card,"",selected))bagSelection=i;
     FittedLabel(new Rect(card.x+12,card.y+9,card.width-24,26),(i<2?(i==equippedSlot?"◆ 当前 ":"携带 ")+(i+1):"备用 "+(i-1))+"  "+(id<0?"空位":weaponCatalog[id].name),journeyTextStyle);
-    if(id>=0){DrawSpriteUI(new Rect(card.x+14,card.y+44,62,46),weaponCatalog[id].sprite);FittedLabel(new Rect(card.x+90,card.y+43,card.width-102,24),ElementName(weaponCatalog[id].element)+" · 伤害 "+weaponCatalog[id].damage,journeySmallStyle);FittedLabel(new Rect(card.x+90,card.y+72,card.width-102,24),"消耗 "+weaponCatalog[id].cost+" 元素之力",journeySmallStyle);}
+    if(id>=0){DrawSpriteUI(new Rect(card.x+14,card.y+44,62,46),weaponCatalog[id].sprite);FittedLabel(new Rect(card.x+90,card.y+43,card.width-102,24),ElementName(weaponCatalog[id].element)+" · 伤害 "+weaponCatalog[id].damage,journeySmallStyle);FittedLabel(new Rect(card.x+90,card.y+72,card.width-102,24),"消耗 "+ElementCost(weaponCatalog[id].cost).ToString("0.##")+" 元素之力",journeySmallStyle);}
    }
    int selectedId=BagWeaponId(bagSelection);
    if(selectedId>=0)

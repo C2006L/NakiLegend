@@ -65,6 +65,7 @@ namespace NakiLegend.Prototype
 
         private void ResetEquipment()
         {
+            profession=Profession.Unchosen;ramHits.Clear();
             equippedSlot = 0; carriedWeapons[0] = 0; carriedWeapons[1] = bossPracticeMode ? 4 : -1;
         }
 
@@ -82,8 +83,9 @@ namespace NakiLegend.Prototype
             WeaponDef weapon = CurrentWeapon;
             if(!SpendPower(PowerPool.Elemental,weapon.cost)){nextSword=clock+.2f;return;}
             if (weapon.type == WeaponType.Sword || weapon.type == WeaponType.Spear) { Swing(); return; }
-            nextSword = clock + weapon.interval;
-            Enemy target; Vector2 aim=AutoAim(weapon.range,weapon.type==WeaponType.Bow?11:8,weapon.scatter,out target);
+            bool archer=profession==Profession.Archer&&weapon.type==WeaponType.Bow;
+            nextSword = clock + weapon.interval/(archer?1.1f:1);
+            Enemy target; Vector2 aim=AutoAim(weapon.range,weapon.type==WeaponType.Bow?11:8,weapon.scatter*(archer?.5f:1),out target);
             int before = shots.Count; SpawnShot(position + aim * .5f, aim, false, null, position);
             if (shots.Count > before)
             {

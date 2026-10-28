@@ -55,7 +55,7 @@ namespace NakiLegend.Prototype
     if(overlay)HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.035f,.55f));
     if((health<=0||paused)&&!StoryActive&&!mapMenu&&!rewardMenu&&!inventoryMenu)
     {HudRect(new Rect(w/2-250,h/2-60,500,120),C("10232d"));CenterLabel(new Rect(w/2-230,h/2-43,460,45),health<=0?"旅程未竟 · R 回到安全点":"暂歇片刻 · ESC 继续",journeyTitleStyle);if(paused&&!ThunderActive)CenterLabel(new Rect(w/2-230,h/2+12,460,30),"V 重播开场",journeySmallStyle);}
-    if(thunderChapterMode&&chapterSetup)DrawChapterSetup(w,h);else if(thunderChapterMode&&chapterSkillsMenu)DrawChapterSkills(w,h);else if(thunderChapterMode&&chapterRewardMenu)DrawChapterReward(w,h);else if(thunderPrototypeMode&&thunderSetupMenu)DrawThunderSetup(w,h);else if(OriginChoiceReady)DrawOriginChoice(w,h);else if(StoryActive)DrawJourneyDialogue(w,h);else if(inventoryMenu)DrawBackpack(w,h);else if(mapMenu)DrawJourneyMap(w,h);else if(rewardMenu)DrawJourneyReward(w,h);
+    if(thunderChapterMode&&chapterSetup)DrawChapterSetup(w,h);else if(thunderChapterMode&&chapterSkillsMenu)DrawChapterSkills(w,h);else if(thunderChapterMode&&chapterRewardMenu)DrawChapterReward(w,h);else if(thunderPrototypeMode&&thunderSetupMenu)DrawThunderSetup(w,h);else if(ProfessionReady)DrawProfessionChoice(w,h);else if(OriginChoiceReady)DrawOriginChoice(w,h);else if(StoryActive)DrawJourneyDialogue(w,h);else if(inventoryMenu)DrawBackpack(w,h);else if(mapMenu)DrawJourneyMap(w,h);else if(rewardMenu)DrawJourneyReward(w,h);
     if(doorTransition>0)HudRect(new Rect(0,HudTop,w,h-HudTop-HudBottom),new Color(0,0,0,Mathf.Sin(Mathf.Clamp01(doorTransition/.24f)*Mathf.PI)));
    }
    finally{GUI.matrix=saved;GUI.color=old;}
@@ -87,7 +87,7 @@ namespace NakiLegend.Prototype
    float y=h-73;DrawSpriteUI(new Rect(20,y,52,45),CurrentWeapon.sprite);
    FittedLabel(new Rect(84,y+1,290,25),CurrentWeapon.name,journeyTextStyle);
    int other=carriedWeapons[1-equippedSlot];FittedLabel(new Rect(84,y+29,290,22),"H 切换 · "+(other<0?"另一武器栏为空":weaponCatalog[other].name),journeySmallStyle);
-   KeyCap(new Rect(402,y+5,28,24),"K");FittedLabel(new Rect(442,y+5,185,26),clock<nextDash?"闪避 · "+(nextDash-clock).ToString("0.0")+"秒":"闪避 · 就绪",journeySmallStyle);
+   KeyCap(new Rect(402,y+5,28,24),"K");FittedLabel(new Rect(442,y+5,185,26),clock<nextDash?(profession==Profession.Warrior?"冲撞 · ":"闪避 · ")+(nextDash-clock).ToString("0.0")+"秒":ProfessionName+" · 就绪",journeySmallStyle);
    FittedLabel(new Rect(402,y+34,220,22),"B 行囊   "+(thunderChapterMode?"T 元素技能":"1 / 2 使用补给"),journeySmallStyle);
    SkillBox(w-576,y,origin==Origin.Unchosen?"L 主属性":origin==Origin.Dark?"L 流星":"L 元气弹",orbLearned,nextSpell,8,true);
    if(thunderChapterMode){for(int i=0;i<2;i++){int k=chapterSkillSlots[i];SkillBox(w-386+i*190,y,(i==0?"U ":"I ")+ChapterSkillNames[k],ChapterSkillKnown(k),ChapterSkillReady(k),ChapterSkillCost(k),false);}}
@@ -130,6 +130,7 @@ namespace NakiLegend.Prototype
   }
   private void SkillBox(float x,float y,string label,bool learned,float ready,float cost,bool light)
   {
+   if(!light)cost=ElementCost(cost);
    HudDivider(x,y+3,47);FittedLabel(new Rect(x+14,y,164,26),label,journeyTextStyle);
    Color c=light?ActivePowerColor:C("72d8bc");string detail=!learned?"尚未领悟":clock<ready?(ready-clock).ToString("0.0")+" 秒":(light?(origin==Origin.Dark?"暗之力 ":"光之力 "):"元素 ")+cost;
    FittedLabel(new Rect(x+14,y+29,164,23),detail,new GUIStyle(journeySmallStyle){normal={textColor=learned?c:C("758b94")}});
