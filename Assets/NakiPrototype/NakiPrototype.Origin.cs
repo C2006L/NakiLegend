@@ -54,7 +54,7 @@ namespace NakiLegend.Prototype
             {
                 Vector2 side=new Vector2(-aim.y,aim.x)*(i==0?-.16f:.16f);
                 int before=shots.Count;SpawnShot(position+aim*.4f+side,aim,false,target,position);
-                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");}
+                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
             }
             castDirection=aim;castPoseUntil=clock+.25f;
         }

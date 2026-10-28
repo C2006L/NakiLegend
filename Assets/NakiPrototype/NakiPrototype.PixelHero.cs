@@ -377,7 +377,11 @@ namespace NakiLegend.Prototype
             weaponTrail.SetActive(action == HeroAction.Attack && frameIndex >= 2 && frameIndex <= 3);
             if (weaponTrail.activeSelf)
             {
+                bool spear=enableDesertJourney&&CurrentWeapon.type==WeaponType.Spear;
+                weaponTrail.GetComponent<SpriteRenderer>().sprite=spear?square:pixelSlash;
+                weaponTrail.transform.localScale=spear?new Vector3(CurrentWeapon.range*.75f,.045f,1):Vector3.one*pixelHeroScale;
                 weaponTrail.transform.position = root + Vector2.up * .35f * pixelHeroScale;
+                if(spear)weaponTrail.transform.position+=(Vector3)(swingDirection*CurrentWeapon.range*.5f);
                 weaponTrail.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(swingDirection.y, swingDirection.x) * Mathf.Rad2Deg);
                 weaponTrail.GetComponent<SpriteRenderer>().sortingOrder = heroBody.sortingOrder + 2;
             }
@@ -405,8 +409,10 @@ namespace NakiLegend.Prototype
             {
                 Enemy enemy = enemies[i]; Vector2 offset = enemy.position - position;
                 float reach = enableDesertJourney ? CurrentWeapon.range : 1.4f;
-                float cone = enableDesertJourney && CurrentWeapon.type == WeaponType.Spear ? .86f : .25f;
-                if (offset.magnitude <= reach + enemy.radius && Vector2.Dot(swingDirection, offset.normalized) > cone &&
+                bool inStrike=enableDesertJourney&&CurrentWeapon.type==WeaponType.Spear
+                    ? DistanceToSegment(enemy.position,position,position+swingDirection*reach)<=enemy.radius+.14f
+                    : Vector2.Dot(swingDirection,offset.normalized)>.25f;
+                if (offset.magnitude <= reach + enemy.radius && inStrike &&
                     (!enableDesertJourney || !ProjectilePathBlocked(position, enemy.position, .02f)))
                 { if(enableDesertJourney) ApplyElementDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element); else DamageEnemy(enemy,swordDamage);if(enableDesertJourney&&CurrentWeapon.maxHits>0&&++hitCount>=CurrentWeapon.maxHits)break; }
             }

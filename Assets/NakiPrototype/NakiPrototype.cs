@@ -117,7 +117,8 @@ namespace NakiLegend.Prototype
             view.backgroundColor = C("252d36");
             view.cullingMask = ~0;
             ResetRoom();
-            TryResumeAtStartup();if(thunderPrototypeMode)thunderSetupMenu=true;if(thunderChapterMode)chapterSetup=thunderChapterPracticeBoss<0;
+            TryResumeAtStartup();if(thunderPrototypeMode)thunderSetupMenu=true;
+            if(thunderChapterMode)chapterSetup=thunderChapterPracticeBoss<0&&!LoadChapterCheckpoint(false);
         }
 
         private Sprite MakeSprite(string[] rows, Dictionary<char, Color> palette, float pixelsPerUnit)

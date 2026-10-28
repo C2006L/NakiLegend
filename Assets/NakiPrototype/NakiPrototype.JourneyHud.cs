@@ -6,7 +6,7 @@ namespace NakiLegend.Prototype
   private const float HudTop=96,HudBottom=104;
   private GUIStyle journeyNodeStyle;
   private string journeyToast;private float journeyToastUntil;
-  private static float HudScaleFor(float width,float height){return Mathf.Max(.1f,Mathf.Min(width/1280f,height/720f));}
+  private static float HudScaleFor(float width,float height){return Mathf.Max(.1f,Mathf.Min(width/1600f,height/900f));}
   private static Rect JourneyViewport(float width,float height)
   {
    float s=HudScaleFor(width,height);return new Rect(0,HudBottom*s/height,1,1-(HudTop+HudBottom)*s/height);
@@ -18,7 +18,7 @@ namespace NakiLegend.Prototype
    if(view==null||!enableDesertJourney||journeyRooms.Count==0)return;
    Rect area=JourneyViewport(Screen.width,Screen.height);if(view.rect!=area){view.rect=area;view.ResetAspect();}
    RoomNode n=journeyRooms[currentRoom];bool boss=n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian;
-   view.orthographicSize=Mathf.Max(n.halfHeight+(boss?2.4f:1.8f),(n.halfWidth+1.9f)/Mathf.Max(view.aspect,.1f));
+   view.orthographicSize=Mathf.Max(n.halfHeight+(boss?1.4f:1.05f),(n.halfWidth+.95f)/Mathf.Max(view.aspect,.1f));
   }
   private void EnsureJourneyStyles()
   {

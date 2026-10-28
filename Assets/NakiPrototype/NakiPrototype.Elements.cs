@@ -93,6 +93,7 @@ namespace NakiLegend.Prototype
             {
                 Shot shot = shots[shots.Count - 1]; shot.orb = true; shot.element = Element.Light; shot.damage = SkillDamage(24); shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
                 shot.root.transform.localScale = Vector3.one * .29f;
+                shot.root.GetComponent<SpriteRenderer>().color=C("fff1b2");AddShotRibbon(shot,C("ecd18e"),.13f);SpellSpark(position+direction*.4f,C("fff1b2"),.28f);
             }
             castDirection = direction; castPoseUntil = clock + .32f;
         }
@@ -108,6 +109,7 @@ namespace NakiLegend.Prototype
                 Shot shot = shots[shots.Count - 1]; shot.tracking = false; shot.element = Element.Wind; shot.damage = SkillDamage(windEmpowered ? 26 : 22); shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
                 shot.root.GetComponent<SpriteRenderer>().sprite = pixelSlash ?? disc; shot.root.GetComponent<SpriteRenderer>().color = C("7ce7c4");
                 shot.root.transform.localScale = new Vector3(.32f, .55f, 1); shot.root.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+                AddShotRibbon(shot,C("82e6cb"),.07f);
             }
             castDirection = direction; castPoseUntil = clock + .32f;
         }

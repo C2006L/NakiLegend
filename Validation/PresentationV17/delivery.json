@@ -1,0 +1,92 @@
+[
+  {
+    "File": "NakiPrototype.Elements.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.Elements.cs",
+    "SHA256": "54EEDEAA41DBF8F6841B8349E27B6AE91B9152BE952605FFD3A9F3DDFB8F1CC1"
+  },
+  {
+    "File": "NakiPrototype.Elements.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.Elements.cs",
+    "SHA256": "54EEDEAA41DBF8F6841B8349E27B6AE91B9152BE952605FFD3A9F3DDFB8F1CC1"
+  },
+  {
+    "File": "NakiPrototype.Equipment.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.Equipment.cs",
+    "SHA256": "9CFB8B85BFECA5A640283FE8C7A0338ACA0F13F0C7847A2AC6B7B10A5BF2BA20"
+  },
+  {
+    "File": "NakiPrototype.Equipment.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.Equipment.cs",
+    "SHA256": "9CFB8B85BFECA5A640283FE8C7A0338ACA0F13F0C7847A2AC6B7B10A5BF2BA20"
+  },
+  {
+    "File": "NakiPrototype.JourneyHud.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.JourneyHud.cs",
+    "SHA256": "D316781687397D05C83913E4B74BC31E05C2FEE97FBFA4707D7B4B193B146E82"
+  },
+  {
+    "File": "NakiPrototype.JourneyHud.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.JourneyHud.cs",
+    "SHA256": "D316781687397D05C83913E4B74BC31E05C2FEE97FBFA4707D7B4B193B146E82"
+  },
+  {
+    "File": "NakiPrototype.Origin.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.Origin.cs",
+    "SHA256": "848736FC9A4D3D9BAE4D2978E729F03E49D7BA66F026724C93F33A28F4710825"
+  },
+  {
+    "File": "NakiPrototype.Origin.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.Origin.cs",
+    "SHA256": "848736FC9A4D3D9BAE4D2978E729F03E49D7BA66F026724C93F33A28F4710825"
+  },
+  {
+    "File": "NakiPrototype.PixelHero.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.PixelHero.cs",
+    "SHA256": "C1923EA6C6207D7340A0BE5324021B1BB58A99DA07532335E5B5C2D6C1F70F03"
+  },
+  {
+    "File": "NakiPrototype.PixelHero.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.PixelHero.cs",
+    "SHA256": "C1923EA6C6207D7340A0BE5324021B1BB58A99DA07532335E5B5C2D6C1F70F03"
+  },
+  {
+    "File": "NakiPrototype.ThunderChapterSave.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.ThunderChapterSave.cs",
+    "SHA256": "27CD53D5557003688E7AB3DB31F139ED82C26E3411F0B95B9B2AA6107B0BA1E6"
+  },
+  {
+    "File": "NakiPrototype.ThunderChapterSave.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.ThunderChapterSave.cs",
+    "SHA256": "27CD53D5557003688E7AB3DB31F139ED82C26E3411F0B95B9B2AA6107B0BA1E6"
+  },
+  {
+    "File": "NakiPrototype.ThunderSkills.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.ThunderSkills.cs",
+    "SHA256": "EAEF8ECA68B48D02E661F302267B692E0E268BE89E94CBD7DB763178C9C35ADA"
+  },
+  {
+    "File": "NakiPrototype.ThunderSkills.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.ThunderSkills.cs",
+    "SHA256": "EAEF8ECA68B48D02E661F302267B692E0E268BE89E94CBD7DB763178C9C35ADA"
+  },
+  {
+    "File": "NakiPrototype.ThunderStory.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.ThunderStory.cs",
+    "SHA256": "BD53195AE721369D3239BFFCA1DFD6144BD7F1B63FA121FF79091CFD532798E8"
+  },
+  {
+    "File": "NakiPrototype.ThunderStory.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.ThunderStory.cs",
+    "SHA256": "BD53195AE721369D3239BFFCA1DFD6144BD7F1B63FA121FF79091CFD532798E8"
+  },
+  {
+    "File": "NakiPrototype.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiLegend\\Assets\\NakiPrototype\\NakiPrototype.cs",
+    "SHA256": "1FE132C445AB480032C9E462EBF4216A38DA0781F5F91CA22B716A5EE4A49918"
+  },
+  {
+    "File": "NakiPrototype.cs",
+    "Destination": "D:\\NakiLegend\\UnityPrototype\\Assets\\NakiPrototype\\NakiPrototype.cs",
+    "SHA256": "1FE132C445AB480032C9E462EBF4216A38DA0781F5F91CA22B716A5EE4A49918"
+  }
+]

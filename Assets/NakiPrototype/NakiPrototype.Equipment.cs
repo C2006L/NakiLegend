@@ -89,14 +89,29 @@ namespace NakiLegend.Prototype
             {
                 Shot shot = shots[shots.Count - 1]; shot.tracking = false; shot.damage = weapon.damage; shot.element = weapon.element; shot.speed = weapon.type == WeaponType.Bow ? 11 : 8;
                 shot.life = weapon.range / shot.speed;
-                if (weapon.type == WeaponType.Bow) { shot.root.GetComponent<SpriteRenderer>().sprite = arrowSprite; shot.root.transform.localScale = Vector3.one * .65f; shot.root.transform.rotation = Quaternion.Euler(0,0,Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg); }
+                if (weapon.type == WeaponType.Bow) { shot.root.GetComponent<SpriteRenderer>().sprite = arrowSprite; shot.root.transform.localScale = weapon.name.Contains("弩")?new Vector3(.48f,.34f,1):new Vector3(.65f,.45f,1); shot.root.transform.rotation = Quaternion.Euler(0,0,Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg); }
                 else shot.root.GetComponent<SpriteRenderer>().color = weapon.element == Element.Wind ? C("82e6cb") : C("f7e8b3");
             }
             if(shots.Count>before&&weapon.element==Element.Lightning)shots[shots.Count-1].root.GetComponent<SpriteRenderer>().color=C("b4eaff");
             castDirection = aim; castPoseUntil = clock + .24f;
+            if(shots.Count>before){AddShotRibbon(shots[shots.Count-1],weapon.type==WeaponType.Bow?C("d0c4a8"):weapon.element==Element.Wind?C("82e6cb"):C("b4eaff"),weapon.type==WeaponType.Bow?.025f:.07f);}
         }
 
         private float CurrentMeleeDamage { get { return CurrentWeapon.damage + (swordDamage - initialSwordDamage); } }
+
+        private void AddShotRibbon(Shot shot,Color tint,float width)
+        {
+            if(shot.root==null)return;
+            var trail=shot.root.AddComponent<TrailRenderer>();trail.sharedMaterial=shot.root.GetComponent<SpriteRenderer>().sharedMaterial;
+            trail.time=.13f;trail.minVertexDistance=.035f;trail.startWidth=width;trail.endWidth=0;
+            trail.startColor=new Color(tint.r,tint.g,tint.b,.65f);trail.endColor=new Color(tint.r,tint.g,tint.b,0);
+            trail.sortingOrder=shot.root.GetComponent<SpriteRenderer>().sortingOrder-1;trail.numCapVertices=2;
+        }
+        private void SpellSpark(Vector2 at,Color tint,float size)
+        {
+            GameObject glow=Draw("Brief spell glow",softDisc??disc,at,Vector2.one*size,tint,560);
+            fadingBodies.Add(new FadingBody{root=glow,renderer=glow.GetComponent<SpriteRenderer>(),expires=clock+.2f});
+        }
 
         private void DrawHeldEquipment(HeroAction action, int direction, int frameIndex, float phase, Vector2 root, Vector2 aim)
         {
@@ -119,6 +134,9 @@ namespace NakiLegend.Prototype
                 angle=Mathf.Atan2(aim.y,aim.x)*Mathf.Rad2Deg;
             if(weapon.type==WeaponType.Bow&&weapon.bowFacesLeft)angle+=180; // Source bow faces local -X; arrows and aim face +X.
             Vector2 grip=root+pose.grip*pixelHeroScale;
+            if(action==HeroAction.Attack&&weapon.type==WeaponType.Spear)
+            {float t=Mathf.Clamp01((clock-swingStarted)/meleeActionDuration);float reach=t<.34f?Mathf.Lerp(-.12f,.55f,t/.34f):Mathf.Lerp(.55f,0,(t-.34f)/.66f);grip+=aim*reach*pixelHeroScale;}
+            if(action==HeroAction.Cast&&weapon.type==WeaponType.Bow)grip-=aim*.12f*Mathf.Clamp01((castPoseUntil-clock)/.24f);
             sword.transform.position=grip;sword.transform.rotation=Quaternion.Euler(0,0,angle);
             sword.transform.localScale=Vector3.one*weapon.length*pixelHeroScale;
             renderer.sortingOrder=heroBody.sortingOrder+(direction==2?-1:1);

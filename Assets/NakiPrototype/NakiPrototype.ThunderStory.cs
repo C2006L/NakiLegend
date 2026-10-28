@@ -138,7 +138,8 @@ namespace NakiLegend.Prototype
             {
                 if(Pressed('1'))thunderPreset=ThunderPreset.Light;if(Pressed('2'))thunderPreset=ThunderPreset.Dark;
                 if(Pressed('a'))thunderChapterStartFloor=(thunderChapterStartFloor+2)%3;if(Pressed('d'))thunderChapterStartFloor=(thunderChapterStartFloor+1)%3;
-                if(Pressed('f')){chapterSetup=false;thunderChapterPracticeBoss=-1;BeginThunderChapter(false);}return true;
+                if(chapterConfirmRestart){if(Pressed('e'))chapterConfirmRestart=false;return true;}
+                if(Pressed('f')){if(HasChapterSave)LoadChapterCheckpoint(true);else StartChapterFromSetup();}return true;
             }
             if(chapterCg)
             {if(Pressed('f')||Pressed('e'))FinishChapterEnding();return true;}
@@ -157,7 +158,8 @@ namespace NakiLegend.Prototype
         private void DrawChapterSetup(float w,float h)
         {
             HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
-            CenterLabel(new Rect(w/2-430,125,860,30),"完整三层 39 房 · 选择测试起点，或继续第二岛存档",journeyTextStyle);
+            CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有第二岛安全存档 · F 继续原进度，清理过的房间不会重打":"尚无第二岛存档 · 选择起点开始旅程",journeyTextStyle);
+            bool backgroundEnabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;
             for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,181,280,65),i==0?"1 光之力 · 元气弹":"2 暗之力 · 流星",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
             for(int i=0;i<3;i++)
             {
@@ -165,9 +167,17 @@ namespace NakiLegend.Prototype
                 if(FlatButton(new Rect(w/2-430+i*290,277,275,73),"从第"+(i+1)+"层开始\n"+ThunderStages[i],thunderChapterStartFloor==i)){thunderChapterStartFloor=floor;}
                 if(FlatButton(new Rect(w/2-430+i*290,375,275,73),"直接练习\n"+new[]{"守路铜卫","引雷石卫长","巡雷巨鹿"}[i])){thunderChapterPracticeBoss=i;chapterSetup=false;BeginThunderChapter(false);}
             }
-            if(FlatButton(new Rect(w/2-285,485,270,60),"F 开始选定楼层")){thunderChapterPracticeBoss=-1;chapterSetup=false;BeginThunderChapter(false);}
-            if(FlatButton(new Rect(w/2+15,485,270,60),"继续第二岛存档"))LoadChapterCheckpoint(true);
-            CenterLabel(new Rect(w/2-420,565,840,60),"A / D 选楼层 · F 开始 · N 回到此页\nF5 / F9 使用第二岛存档；Boss 练习不覆盖旅程",journeySmallStyle);
+            if(FlatButton(new Rect(w/2-285,485,270,60),"开始选定楼层（新旅程）"))StartChapterFromSetup();
+            bool enabled=GUI.enabled;GUI.enabled=enabled&&HasChapterSave;
+            if(FlatButton(new Rect(w/2+15,485,270,60),"F 继续第二岛存档",HasChapterSave))LoadChapterCheckpoint(true);GUI.enabled=enabled;
+            CenterLabel(new Rect(w/2-420,565,840,60),"A / D 选楼层 · F 优先继续存档 · N 回到此页\n清房与 Boss 后自动保存；F5 手动保存，F9 读取",journeySmallStyle);
+            GUI.enabled=backgroundEnabled;
+            if(chapterConfirmRestart)
+            {
+                HudRect(new Rect(w/2-360,220,720,260),C("10232d"));CenterLabel(new Rect(w/2-330,240,660,90),"已有第二岛进度。确认开始新旅程？\n原存档会先保留一份历史副本。",journeyTextStyle);
+                if(FlatButton(new Rect(w/2-315,365,300,65),"保留进度，继续存档")){chapterConfirmRestart=false;LoadChapterCheckpoint(true);}
+                if(FlatButton(new Rect(w/2+15,365,300,65),"确认另起旅程"))StartChapterFromSetup(true);
+            }
         }
         private void DrawChapterCg(float w,float h)
         {

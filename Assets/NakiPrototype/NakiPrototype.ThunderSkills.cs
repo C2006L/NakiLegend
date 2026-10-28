@@ -71,6 +71,7 @@ namespace NakiLegend.Prototype
                 SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;
                 Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;
                 shot.damage=SkillDamage(20);shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
+                AddShotRibbon(shot,C("a8eaff"),.055f);SpellSpark(position+aim*.45f,C("a8eaff"),.22f);
             }
             castDirection=aim;castPoseUntil=clock+.3f;
         }
@@ -80,6 +81,8 @@ namespace NakiLegend.Prototype
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
                 ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;
+                GameObject flash=Stretch("Friendly mark lightning",square,mark.at+Vector2.up*.65f,new Vector2(.035f,1.3f),C("c6f1ff"),570);
+                fadingBodies.Add(new FadingBody{root=flash,renderer=flash.GetComponent<SpriteRenderer>(),expires=clock+.14f});SpellSpark(mark.at,C("a8eaff"),.45f);
                 for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplyElementDamage(e,SkillDamage(22),Element.Lightning);if(++hits==3)break;}}
                 if(mark.root!=null)Destroy(mark.root);chapterMarks.RemoveAt(i);
             }

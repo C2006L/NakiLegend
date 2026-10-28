@@ -25,6 +25,23 @@ namespace NakiLegend.Prototype
             public int[] skills;public ChapterRoomState[] rooms;
         }
         private bool chapterSavePending;
+        private bool chapterConfirmRestart;
+        private bool HasChapterSave { get { return (!Application.isBatchMode||allowBatchCheckpoints)&&(File.Exists(ChapterCheckpointPath)||File.Exists(ChapterCheckpointPath+".bak")); } }
+        private void StartChapterFromSetup(bool replace=false)
+        {
+            if(HasChapterSave&&!replace){chapterConfirmRestart=true;return;}
+            if(HasChapterSave)
+            {
+                string archive=ChapterCheckpointPath+"."+DateTime.UtcNow.ToString("yyyyMMddHHmmssfff")+".previous";
+                try
+                {
+                    if(File.Exists(ChapterCheckpointPath))File.Copy(ChapterCheckpointPath,archive,false);
+                    if(File.Exists(ChapterCheckpointPath+".bak"))File.Copy(ChapterCheckpointPath+".bak",archive+".bak",false);
+                }
+                catch(Exception){JourneyHint("原存档未能备份，已保留当前进度，请稍后再试");return;}
+            }
+            chapterConfirmRestart=false;thunderChapterPracticeBoss=-1;chapterSetup=false;BeginThunderChapter(false);
+        }
         private string chapterSaveStatus="尚无第二岛存档",chapterCheckpointPathOverride=null;
         private string ChapterCheckpointPath { get { return string.IsNullOrEmpty(chapterCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend","thunder-chapter-v1.json"):chapterCheckpointPathOverride; } }
         private bool ChapterDiskEnabled { get { return thunderChapterMode&&thunderChapterPracticeBoss<0&&(!Application.isBatchMode||allowBatchCheckpoints); } }
@@ -55,7 +72,7 @@ namespace NakiLegend.Prototype
                 }
                 ValidateChapterCheckpoint(s);string path=ChapterCheckpointPath;Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path+".tmp",JsonUtility.ToJson(s,true));
                 if(File.Exists(path))File.Replace(path+".tmp",path,path+".bak");else File.Move(path+".tmp",path);
-                chapterSavePending=false;chapterSaveStatus="已存 · "+chapterNames[currentRoom];if(notify)JourneyHint("第二岛旅程已保存 · F9 读取");return true;
+                chapterSavePending=false;chapterSaveStatus="已存 · 第"+(journeyRooms[currentRoom].stage+1)+"层 · "+chapterNames[currentRoom]+(chapterEnding?" · 已通关":chapterStone?" · 巨鹿已击败":"");if(notify)JourneyHint("第二岛旅程已保存 · F9 读取");return true;
             }
             catch(Exception e){chapterSaveStatus="第二岛存档写入失败";if(notify)JourneyHint(chapterSaveStatus);Debug.LogWarning("Thunder chapter save: "+e.Message);return false;}
         }
