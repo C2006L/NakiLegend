@@ -110,9 +110,9 @@ namespace NakiLegend.Prototype
                     if(s.root!=null){var fill=s.root.GetComponent<SpriteRenderer>();fill.color=new Color(1,.48f,.16f,.10f+progress*.15f);}
                     continue;
                 }
-                if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(ChapterGroundDamage,Element.Lightning);
+                if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(ChapterGroundDamage,woodlandMode?Element.Wood:Element.Lightning);
                 if(s.root!=null)Destroy(s.root);
-                LightningImpact(s.at);
+                if(woodlandMode)SpellSpark(s.at,C("a1c367"),1.2f);else LightningImpact(s.at);
                 thunderStrikes.RemoveAt(i);
             }
         }

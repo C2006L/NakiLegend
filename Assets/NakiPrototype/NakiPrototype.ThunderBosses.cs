@@ -23,7 +23,7 @@ namespace NakiLegend.Prototype
                 {
                     e.position=MoveEnemyWithinRoom(e.position,e.attackDirection*6.2f*dt,e.radius);
                     if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;
-                    if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(1.5f,Element.Lightning);
+                    if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(1.5f,woodlandMode?Element.Wood:Element.Lightning);
                 }
                 else{e.chargeUntil=0;e.recoveryUntil=clock+.9f;}
             }
@@ -62,7 +62,7 @@ namespace NakiLegend.Prototype
                 {
                     e.position=MoveEnemyWithinRoom(e.position,e.attackDirection*7.2f*dt,e.radius);
                     if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;
-                    if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(2,Element.Lightning);
+                    if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);
                 }
                 else
                 {
@@ -129,9 +129,9 @@ namespace NakiLegend.Prototype
             int move=(e.attackNumber-1)%3;e.actionStarted=clock;e.recoveryUntil=clock+(move==2?1.2f:1)-(e.secondPhase?.2f:0);
             if(e.kind==EnemyKind.CopperWarden)
             {
-                if(move==0){if(DistanceToSegment(position,e.position,e.position+e.attackDirection*3.2f)<.48f&&!ProjectilePathBlocked(e.position,position,.05f))TakeJourneyDamage(2,Element.Lightning);}
+                if(move==0){if(DistanceToSegment(position,e.position,e.position+e.attackDirection*3.2f)<.48f&&!ProjectilePathBlocked(e.position,position,.05f))TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);}
                 else if(move==1)ChapterBossFan(e,e.secondPhase?7:5);
-                else{Vector2 off=position-e.position;if(off.magnitude<2.4f&&Vector2.Dot(off.normalized,e.attackDirection)>Mathf.Cos(55*Mathf.Deg2Rad)&&!ProjectilePathBlocked(e.position,position,.04f))TakeJourneyDamage(2,Element.Lightning);}
+                else{Vector2 off=position-e.position;if(off.magnitude<2.4f&&Vector2.Dot(off.normalized,e.attackDirection)>Mathf.Cos(55*Mathf.Deg2Rad)&&!ProjectilePathBlocked(e.position,position,.04f))TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);}
             }
             else if(e.kind==EnemyKind.ThunderSentinel){if(move==1)ChapterBossFan(e,e.secondPhase?9:7);}
             else if(move==0)e.chargeUntil=clock+.65f;else if(move==2)ChapterBossFan(e,e.secondPhase?11:9);
@@ -139,7 +139,7 @@ namespace NakiLegend.Prototype
         private void ChapterBossFan(Enemy e,int count)
         {
             int start=shots.Count;JourneyFan(e,count,16);
-            for(int i=start;i<shots.Count;i++){shots[i].damage=2;shots[i].speed=e.secondPhase?4.4f:4;shots[i].root.GetComponent<SpriteRenderer>().color=C("b1e6ff");}
+            for(int i=start;i<shots.Count;i++){shots[i].damage=2;if(woodlandMode)shots[i].element=Element.Wood;shots[i].speed=e.secondPhase?4.4f:4;shots[i].root.GetComponent<SpriteRenderer>().color=C(woodlandMode?"a7c974":"b1e6ff");}
         }
         private void UpdateChapterEnemyPose(Enemy e)
         {

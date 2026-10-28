@@ -43,7 +43,7 @@ namespace NakiLegend.Prototype
             chapterConfirmRestart=false;thunderChapterPracticeBoss=-1;chapterSetup=false;BeginThunderChapter(false);
         }
         private string chapterSaveStatus="尚无第二岛存档",chapterCheckpointPathOverride=null;
-        private string ChapterCheckpointPath { get { return string.IsNullOrEmpty(chapterCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend","thunder-chapter-v1.json"):chapterCheckpointPathOverride; } }
+        private string ChapterCheckpointPath { get { return string.IsNullOrEmpty(chapterCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend",woodlandMode?"woodland-chapter-v1.json":"thunder-chapter-v1.json"):chapterCheckpointPathOverride; } }
         private bool ChapterDiskEnabled { get { return thunderChapterMode&&thunderChapterPracticeBoss<0&&(!Application.isBatchMode||allowBatchCheckpoints); } }
         private bool SafeChapterCheckpoint { get { return thunderChapterMode&&!chapterSetup&&chapterWork<=0&&chapterMarks.Count==0&&thunderStrikes.Count==0&&SafeCheckpointRoom; } }
         private ThunderCheckpoint CaptureChapterPlayer()
@@ -59,12 +59,12 @@ namespace NakiLegend.Prototype
             if(!SafeChapterCheckpoint){if(notify)JourneyHint("请在清房后保存；战斗和未完成机关保留上一个安全点");return false;}
             try
             {
-                var s=new ChapterCheckpoint{seed=activeSeed,room=currentRoom,origin=(int)origin,waymarks=chapterWaymarks,shortcuts=chapterShortcuts,player=CaptureChapterPlayer(),
+                var s=new ChapterCheckpoint{island=woodlandMode?"woodland":"thunder_plateau",map=woodlandMode?"w3-v1":"d3-v1",seed=activeSeed,room=currentRoom,origin=(int)origin,waymarks=chapterWaymarks,shortcuts=chapterShortcuts,player=CaptureChapterPlayer(),
                     west=chapterWest,east=chapterEast,ranger=chapterRanger,stone=chapterStone,ending=chapterEnding,cgPending=chapterCg,mark=chapterMarkKnown,arc=chapterArcKnown,
                     lampCarried=chapterLampCarried,lampGiven=chapterLampGiven,orb=orbLearned,blade=bladeLearned,wave=waveLearned,wind=windEmpowered,
                     markReady=chapterMarkReady,arcReady=chapterArcReady,swordBonus=swordDamage-initialSwordDamage,spellBonus=spellDamage-initialSpellDamage,
-                    skills=(int[])chapterSkillSlots.Clone(),rooms=new ChapterRoomState[39]};
-                for(int i=0;i<39;i++)
+                    skills=(int[])chapterSkillSlots.Clone(),rooms=new ChapterRoomState[woodlandMode?45:39]};
+                for(int i=0;i<(woodlandMode?45:39);i++)
                 {
                     RoomNode n=journeyRooms[i];var weapons=new List<CheckpointWeapon>();foreach(StoredWeapon w in n.drops)weapons.Add(new CheckpointWeapon{id=w.id,at=w.at});
                     var crystals=new List<CheckpointEssence>();foreach(StoredEssence e in n.essence)crystals.Add(new CheckpointEssence{at=e.at,value=e.value,born=e.born});
@@ -78,7 +78,7 @@ namespace NakiLegend.Prototype
         }
         private void ValidateChapterCheckpoint(ChapterCheckpoint s)
         {
-            if(s==null||s.version!=1||s.island!="thunder_plateau"||s.map!="d3-v1"||s.seed<1||s.room<0||s.room>=39||s.origin<1||s.origin>2||s.rooms==null||s.rooms.Length!=39||s.player==null)throw new InvalidDataException("Invalid chapter checkpoint");
+            if(s==null||s.version!=1||s.island!=(woodlandMode?"woodland":"thunder_plateau")||s.map!=(woodlandMode?"w3-v1":"d3-v1")||s.seed<1||s.room<0||s.room>=(woodlandMode?45:39)||s.origin<1||s.origin>2||s.rooms==null||s.rooms.Length!=(woodlandMode?45:39)||s.player==null)throw new InvalidDataException("Invalid chapter checkpoint");
             ThunderCheckpoint p=s.player;
             if(p.carried==null||p.carried.Length!=2||p.reserves==null||p.reserves.Length>4||p.equipped<0||p.equipped>1||p.carried[p.equipped]<0||p.preset<0||p.preset>2)throw new InvalidDataException("Invalid chapter inventory");
             foreach(int id in p.carried)if(id< -1||id>=weaponCatalog.Length)throw new InvalidDataException("Invalid equipped weapon");
@@ -103,7 +103,7 @@ namespace NakiLegend.Prototype
             }
             if(s==null){if(notify)JourneyHint("没有完整的第二岛安全存档，当前状态保持原样");return false;}
             thunderChapterPracticeBoss=-1;thunderChapterStartFloor=0;thunderPreset=(ThunderPreset)s.player.preset;chapterSetup=false;activeSeed=s.seed;BeginThunderChapter(false);
-            for(int i=0;i<39;i++)
+            for(int i=0;i<(woodlandMode?45:39);i++)
             {
                 RoomNode n=journeyRooms[i];ChapterRoomState saved=s.rooms[i];n.cleared=saved.cleared;n.visited=saved.visited;n.discovered=saved.discovered;n.claimed=saved.claimed;n.lootSeeded=saved.loot;n.drops.Clear();n.essence.Clear();
                 foreach(CheckpointWeapon w in saved.weapons)n.drops.Add(new StoredWeapon{id=w.id,at=w.at});foreach(CheckpointEssence e in saved.crystals)n.essence.Add(new StoredEssence{at=e.at,value=e.value,born=e.born});

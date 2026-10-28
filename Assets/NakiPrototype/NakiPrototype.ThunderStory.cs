@@ -17,8 +17,10 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return;chapterActions.Clear();if(chapterFocus!=null){chapterFocus.SetActive(false);Destroy(chapterFocus);}
             chapterFocus=new GameObject("Highland residents and interactions");chapterFocus.transform.SetParent(world,false);
             RoomNode n=journeyRooms[currentRoom];
+            if(woodlandMode){BuildWoodActions(n);return;}
             if(n.id==0)AddChapterAction(1,new Vector2(-3.4f,1.4f),"灯匠",chapterLampkeeper);
             if(n.id==0&&chapterStone&&chapterRanger)AddChapterAction(2,new Vector2(-1.8f,1.4f),"归来的巡路员",chapterRangerArt);
+            if(n.id==0&&chapterEnding)AddChapterAction(208,new Vector2(1,-2),"乘船前往青栖林海",lessonArtwork);
             if(n.id==0&&chapterEnding)AddChapterAction(16,new Vector2(3.4f,-1.4f),"返回沙漠存档",lessonArtwork);
             if(n.id==17&&n.cleared)AddChapterAction(2,new Vector2(-3,1.6f),"巡路员",chapterRangerArt);
             if(n.id==14||n.id==16)AddChapterAction(n.id==14?3:4,ThunderLeverAt,"复位引雷手柄");
@@ -58,7 +60,7 @@ namespace NakiLegend.Prototype
         {
             chapterWork=0;chapterRewardMenu=false;chapterSkillsMenu=false;
             if(first&&n.kind==RoomKind.Rest&&!n.claimed)
-            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory("避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
+            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory(woodlandMode?"阿苓留下了一壶草药茶。你扫开厚叶，靠着仍有温度的树根歇息。":"避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
             BuildChapterActions();
         }
         private ChapterAction NearestChapterAction()
@@ -82,6 +84,8 @@ namespace NakiLegend.Prototype
                 return false;
             }
             if(!n.cleared){JourneyHint("先确保房间安全，再检查路标与设施");return true;}
+            if(woodlandMode){WoodAction(a.kind);return true;}
+            if(a.kind==208){EmbarkWoodland();return true;}
             if(a.kind>=100)
             {
                 int code=a.kind-100;if(!ChapterGateReady(code)){JourneyHint("检修通路两端尚未清理；引雷节点也需复位。主路仍可通行。");return true;}
@@ -109,6 +113,7 @@ namespace NakiLegend.Prototype
                     if(chapterLampCarried||chapterLampGiven){JourneyHint("灯罩已经收好，不占武器格");break;}
                     chapterLampCarried=true;n.claimed=true;TellStory("油布里包着修好的灯罩。纸签写着：给山口那盏。","你收好灯罩，准备回程交给灯匠。任务物不占武器背包。");RequestCheckpoint();BuildChapterActions();break;
                 case 15:n.claimed=true;TellStory("远处山口的灯仍亮着。巡路员的旧记录写着：两人出发，一人留灯。","少年：山下的灯还在。我们也快些。");RequestCheckpoint();break;
+                case 208:EmbarkWoodland();break;
                 case 16:ReturnToDesertCheckpoint();break;
             }
             return true;
@@ -157,15 +162,15 @@ namespace NakiLegend.Prototype
         {chapterCg=false;chapterEnding=true;BuildChapterActions();RequestCheckpoint();SaveChapterCheckpoint(false);}
         private void DrawChapterSetup(float w,float h)
         {
-            HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
+            HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),woodlandMode?"青栖林海 · 不再发芽的种子":"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
             CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有第二岛安全存档 · F 继续原进度，清理过的房间不会重打":"尚无第二岛存档 · 选择起点开始旅程",journeyTextStyle);
             bool backgroundEnabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;
             for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,181,280,65),i==0?"1 光之力 · 元气弹":"2 暗之力 · 流星",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
             for(int i=0;i<3;i++)
             {
                 int floor=i;
-                if(FlatButton(new Rect(w/2-430+i*290,277,275,73),"从第"+(i+1)+"层开始\n"+ThunderStages[i],thunderChapterStartFloor==i)){thunderChapterStartFloor=floor;}
-                if(FlatButton(new Rect(w/2-430+i*290,375,275,73),"直接练习\n"+new[]{"守路铜卫","引雷石卫长","巡雷巨鹿"}[i])){thunderChapterPracticeBoss=i;chapterSetup=false;BeginThunderChapter(false);}
+                if(FlatButton(new Rect(w/2-430+i*290,277,275,73),"从第"+(i+1)+"层开始\n"+(woodlandMode?WoodlandStages:ThunderStages)[i],thunderChapterStartFloor==i)){thunderChapterStartFloor=floor;}
+                if(FlatButton(new Rect(w/2-430+i*290,375,275,73),"直接练习\n"+(woodlandMode?new[]{"棘甲母虫","菌冠孢囊","古树守望者"}:new[]{"守路铜卫","引雷石卫长","巡雷巨鹿"})[i])){thunderChapterPracticeBoss=i;chapterSetup=false;BeginThunderChapter(false);}
             }
             if(FlatButton(new Rect(w/2-285,485,270,60),"开始选定楼层（新旅程）"))StartChapterFromSetup();
             bool enabled=GUI.enabled;GUI.enabled=enabled&&HasChapterSave;

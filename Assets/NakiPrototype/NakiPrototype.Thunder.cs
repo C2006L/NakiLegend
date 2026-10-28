@@ -141,6 +141,7 @@ namespace NakiLegend.Prototype
         }
         private void AddThunderRock(Vector2 at)
         {
+            if(woodlandMode){DecorateWoodCover(at);return;}
             Draw("Mossy low stone cover",thunderRock??journeyRock,at,Vector2.one,Color.white,DepthAt(at.y));
             obstacles.Add(new Rect(at.x-.78f,at.y-.10f,1.56f,.28f));projectileObstacles.Add(new Rect(at.x-.78f,at.y-.08f,1.56f,.84f));
         }

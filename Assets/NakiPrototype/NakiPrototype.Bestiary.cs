@@ -13,9 +13,10 @@ namespace NakiLegend.Prototype
    if(e.eliteKind==2){e.affinity=Element.Lightning;e.attackElement=Element.Lightning;JourneyHint("雷印精英：风技能可破势；地面雷区需要躲避");}
   }
   private string EnemyTitle(Enemy e)
-  {return e.boss?EnemyNames[(int)e.kind]:e.elite?(e.eliteKind==2?"雷印 · ":e.kind==EnemyKind.StoneSentinel?"重甲 · ":"追猎 · ")+EnemyNames[(int)e.kind]:EnemyNames[(int)e.kind];}
+  {if(woodlandMode){int k=ArrayIndexWood(e.kind);if(k>=0)return WoodNames[k];}return e.boss?EnemyNames[(int)e.kind]:e.elite?(e.eliteKind==2?"雷印 · ":e.kind==EnemyKind.StoneSentinel?"重甲 · ":"追猎 · ")+EnemyNames[(int)e.kind]:EnemyNames[(int)e.kind];}
   private string EnemyMoveName(Enemy e)
   {
+   if(woodlandMode&&IsChapterBoss(e.kind))return new[]{"根须突进","孢潮落点","枝冠横扫"}[Mathf.Max(0,(e.attackNumber-1)%3)];
    if(IsChapterBoss(e.kind))return ChapterBossMove(e);
    int move=(e.attackNumber-1)%3;
    if(e.kind==EnemyKind.WindScorpion)return new[]{"尾刺落点","风钳横扫","风刃齐射"}[Mathf.Max(0,move)];

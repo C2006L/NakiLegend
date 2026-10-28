@@ -50,9 +50,10 @@ namespace NakiLegend.Prototype
         private bool ChapterSkillKnown(int skill)
         {return skill==0?bladeLearned:skill==1?waveLearned:skill==2?chapterMarkKnown:chapterArcKnown;}
         private float ChapterSkillReady(int skill){return skill==0?bladeReadyAt:skill==1?waveReadyAt:skill==2?chapterMarkReady:chapterArcReady;}
-        private float ChapterSkillCost(int skill){return skill==0?6:skill==1?10:skill==2?8:10;}
+        private float ChapterSkillCost(int skill){return skill==0?6:skill==1?10:woodlandMode?(skill==2?7:9):skill==2?8:10;}
         private void CastChapterSkill(int slot)
         {
+            if(woodlandMode){CastWoodSkill(slot);return;}
             int skill=chapterSkillSlots[slot];if(!ChapterSkillKnown(skill)){JourneyHint("这项元素技能尚未学会");return;}
             if(skill==0){CastWindBlade();return;}if(skill==1){CastWindWave();return;}
             if(clock<ChapterSkillReady(skill)||clock<dashUntil)return;
@@ -109,10 +110,10 @@ namespace NakiLegend.Prototype
         {
             HudRect(new Rect(w/2-455,h/2-282,910,564),C("10232d"));CenterLabel(new Rect(w/2-430,h/2-263,860,40),"元素技能 · U / I 配置",journeyTitleStyle);
             CenterLabel(new Rect(w/2-430,h/2-212,860,35),"U "+ChapterSkillNames[chapterSkillSlots[0]]+"    I "+ChapterSkillNames[chapterSkillSlots[1]]+"    L 保留主属性技能",journeyTextStyle);
-            string[] detail={"风克雷 ×1.3；三次风命中可破势","消普通飞弹，短暂减雷伤；不消地雷","锁定敌人旧位置，延迟小范围落雷","命中后向附近可见敌人跳一次"};
+            string[] detail=woodlandMode?new[]{"风刃 · 保留已习得的风元素能力","抵挡普通飞弹，保护近身空间","7元素 / 1.6秒 · 木伤害与短暂束缚","9元素 / 2.4秒 · 自动追踪孢种"}:new[]{"风克雷 ×1.3；三次风命中可破势","消普通飞弹，短暂减雷伤；不消地雷","锁定敌人旧位置，延迟小范围落雷","命中后向附近可见敌人跳一次"};
             for(int i=0;i<4;i++)
             {
-                float y=h/2-150+i*82;bool known=ChapterSkillKnown(i);GUI.Label(new Rect(w/2-420,y,560,28),ChapterSkillNames[i]+" · "+(known?ElementCost(ChapterSkillCost(i)).ToString("0.##")+"元素":"未学会"),journeyTextStyle);
+                float y=h/2-150+i*82;bool known=ChapterSkillKnown(i);GUI.Label(new Rect(w/2-420,y,560,28),(woodlandMode?new[]{"风之刃","护身风波","根刺","孢种"}:ChapterSkillNames)[i]+" · "+(known?ElementCost(ChapterSkillCost(i)).ToString("0.##")+"元素":"未学会"),journeyTextStyle);
                 GUI.Label(new Rect(w/2-420,y+29,560,29),detail[i],journeySmallStyle);
                 if(FlatButton(new Rect(w/2+160,y,115,53),"装备 U",chapterSkillSlots[0]==i))EquipChapterSkill(i,0);
                 if(FlatButton(new Rect(w/2+290,y,115,53),"装备 I",chapterSkillSlots[1]==i))EquipChapterSkill(i,1);

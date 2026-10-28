@@ -22,13 +22,14 @@ namespace NakiLegend.Prototype
         private GameObject chapterFocus;
         private bool ThunderActive { get { return thunderPrototypeMode||thunderChapterMode; } }
         private static readonly string[] ThunderStages={"雨中草坡","引雷遗址","雷鸣圣所"};
-        private bool HasThunderConductor { get { return thunderChapterMode?currentRoom==14||currentRoom==16:currentRoom==1; } }
+        private bool HasThunderConductor { get { return !woodlandMode&&(thunderChapterMode?currentRoom==14||currentRoom==16:currentRoom==1); } }
         private sealed class ChapterAction { public int kind;public Vector2 at;public string label; }
         [Serializable] private sealed class ChapterRoomDef { public int id=0,stage=0,kind=0,waves=0,layout=0,x=0,y=0,stairsTo=-1;public string title="",key="";public float width=8,height=5;public int[] links=Array.Empty<int>(); }
         [Serializable] private sealed class ChapterShortcut { public int a=0,b=0,code=0; }
         [Serializable] private sealed class ChapterGraph { public ChapterRoomDef[] rooms=Array.Empty<ChapterRoomDef>();public ChapterShortcut[] gates=Array.Empty<ChapterShortcut>(); }
         private void BuildThunderChapterGraph()
         {
+            if(woodlandMode){BuildWoodGraph();return;}
             TextAsset data=Resources.Load<TextAsset>("NakiArt/ThunderChapter/rooms");
             if(data==null)throw new InvalidOperationException("Missing Thunder Plateau room data");
             ChapterGraph g=JsonUtility.FromJson<ChapterGraph>(data.text);
@@ -52,7 +53,7 @@ namespace NakiLegend.Prototype
             swordDamage=initialSwordDamage;spellDamage=initialSpellDamage;
             if(newSeed||activeSeed==0)activeSeed=journeySeed!=0&&!newSeed?journeySeed:(Environment.TickCount&0x7fffffff);
             if(activeSeed==0)activeSeed=28001;
-            ResetGatehouseProgress();ResetPlayerProgression();LoadThunderChapterEquipment();BuildThunderChapterGraph();
+            ResetGatehouseProgress();ResetPlayerProgression();LoadThunderChapterEquipment();BuildThunderChapterGraph();if(woodlandMode)LoadWoodArt();
             chapterWest=chapterEast=chapterRanger=chapterStone=chapterEnding=chapterCg=chapterMarkKnown=chapterArcKnown=chapterLampCarried=chapterLampGiven=false;
             chapterWaymarks=chapterShortcuts=0;chapterWork=0;chapterSavePending=false;chapterSkillsMenu=false;chapterSkillSlots[0]=0;chapterSkillSlots[1]=1;
             clock=0;health=6;shield=EffectiveMaximumShield;elementPower=100;origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
@@ -74,12 +75,14 @@ namespace NakiLegend.Prototype
                 if(thunderChapterStartFloor>1){chapterWest=chapterEast=chapterRanger=chapterArcKnown=true;journeyRooms[18].cleared=true;journeyRooms[14].cleared=journeyRooms[14].lootSeeded=journeyRooms[16].cleared=journeyRooms[16].lootSeeded=journeyRooms[17].cleared=true;}
             }
             EnterExplorationRoom(room,-1);
-            if(room==0)TellStory("灯匠：以前这场雨过了，巡路的人就该回来。现在，雷声总停在同一个山头。","少年：我去看看。若能把路接上，也替你捎个平安。沿石路上山，先找到旧路标。");
+            if(woodlandMode)TellStory("船夫：雾里的灯还亮着，岸上的路却每晚换个样子。看着栈道走，别踩那些会呼吸的苔。","阿苓在码头守着一盒不再发芽的种子。少年收好行装，走向林缘。");
+            else if(room==0)TellStory("灯匠：以前这场雨过了，巡路的人就该回来。现在，雷声总停在同一个山头。","少年：我去看看。若能把路接上，也替你捎个平安。沿石路上山，先找到旧路标。");
             else TellStory(thunderChapterPracticeBoss>=0?"雷雨高原 Boss 练习：N 选择起点，R 重试；练习不覆盖正式章节存档。":"雷雨高原快速起点：此前必要节点已开放，可继续探索。N 可重选；F5 / F9 使用第二岛独立存档。");
         }
-        private string ChapterTitle { get { return "第 "+(journeyRooms[currentRoom].stage+1)+" 层 · "+ThunderStages[journeyRooms[currentRoom].stage]; } }
+        private string ChapterTitle { get { return "第 "+(journeyRooms[currentRoom].stage+1)+" 层 · "+(woodlandMode?WoodlandStages:ThunderStages)[journeyRooms[currentRoom].stage]; } }
         private string ChapterMapLabel(RoomNode n)
         {
+            if(woodlandMode)return n.kind==RoomKind.Boss?WoodNames[9+n.stage]:JourneyRoomType(n.kind);
             if(n.id==14||n.id==16)return (n.id==14?chapterWest:chapterEast)?"已修节点":"引雷节点";
             if(n.id==17)return "巡路员";
             if(n.id==0)return "灯棚";
@@ -92,7 +95,7 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return;
             LoadChapterActors();chapterLampkeeper=ChapterImage("lampkeeper",1.15f);chapterRangerArt=ChapterImage("ranger",1.15f);
             chapterEndingArt=Resources.Load<Texture2D>("NakiArt/ThunderChapter/ending");
-            LoadThunderChapterEquipment();
+            LoadThunderChapterEquipment();if(woodlandMode)LoadWoodArt();
         }
         private void BuildChapterCover(RoomNode n)
         {
@@ -128,6 +131,7 @@ namespace NakiLegend.Prototype
         }
         private bool ChapterDoorLocked(int room,int direction)
         {
+            if(woodlandMode){int target=-1;foreach(int link in journeyRooms[room].links)if(NeighborDirection(journeyRooms[room],journeyRooms[link])==direction)target=link;return target==18&&(!chapterRanger||System.Convert.ToString(chapterWaymarks,2).Replace("0","").Length<2);}
             if(!thunderChapterMode)return false;
             foreach(ChapterShortcut g in chapterDoors)
             {
@@ -139,6 +143,7 @@ namespace NakiLegend.Prototype
         private bool ExplorationDoorLocked(int room,int direction){return GatehouseDoorLocked(room,direction)||ChapterDoorLocked(room,direction);}
         private void SpawnChapterWave(RoomNode n)
         {
+            if(woodlandMode){SpawnWoodWave(n);return;}
             var random=new System.Random(activeSeed+n.id*191+currentWave*31);
             if(n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian)
             {
@@ -159,7 +164,7 @@ namespace NakiLegend.Prototype
         }
         private void OnChapterRoomCleared(RoomNode n)
         {
-            ClearThunderHazards();chapterSavePending=true;
+            ClearThunderHazards();chapterSavePending=true;if(woodlandMode){BuildChapterActions();return;}
             if(n.id==5&&!n.lootSeeded){n.lootSeeded=true;ChapterDrop(8,new Vector2(1.6f,-1.5f));}
             if(n.id==3&&!n.claimed){n.claimed=true;TellStory("旧路标的铜尺上，有和灯匠工具相同的三道刻痕。","少年：有人刚修过这里。她走的是山上那条路。");}
             if(n.id==17&&!chapterRanger){chapterRanger=true;TellStory("巡路员：下面的灯终于亮了……师父还在等？","少年：他一直擦着那盏灯。","巡路员：我把撤离的路标立好。山顶那头鹿，请你别把它当成只会伤人的怪物。");}
@@ -171,7 +176,8 @@ namespace NakiLegend.Prototype
             foreach(PendingSpawn s in pendingSpawns)if(s.mark!=null)Destroy(s.mark);pendingSpawns.Clear();
             foreach(Shot s in shots)if(s.root!=null)Destroy(s.root);shots.Clear();ClearThunderHazards();
             ClearJourneyRoom();health=Mathf.Max(1,health);RoomNode n=journeyRooms[currentRoom];
-            if(n.stage==0)TellStory("铜卫背后的灯变成通行纹，警戒雷声停了。","少年：它守的原本是路，不是困住人的门。靠近铜纹台可学习雷标，再沿亮起的石阶前往引雷遗址。");
+            if(woodlandMode)WoodBossCleared(n);
+            else if(n.stage==0)TellStory("铜卫背后的灯变成通行纹，警戒雷声停了。","少年：它守的原本是路，不是困住人的门。靠近铜纹台可学习雷标，再沿亮起的石阶前往引雷遗址。");
             else if(n.stage==1)TellStory("铜环缓缓落下，山顶石阶的封锁解除了。","巡路员：上面是古道守护兽。那些紫线不属于它。","少年：我看见了。先让它停下来。");
             else
             {
@@ -186,6 +192,7 @@ namespace NakiLegend.Prototype
         }
         private string ChapterObjective()
         {
+            if(woodlandMode)return WoodObjective();
             if(chapterWork>0)return "正在复位手柄 · ESC 取消";
             RoomNode n=journeyRooms[currentRoom];if(!n.cleared)return "第 "+currentWave+" / "+n.waves+" 波 · 剩余 "+(enemies.Count+pendingSpawns.Count);
             if(chapterStone)return chapterEnding?"灯下有归人 · 可回访高原支路":currentRoom==0?"回到灯匠身边 · F 迎接归人":"雷石已回收 · 山路风铃 F 返回灯棚";

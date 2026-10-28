@@ -1,5 +1,7 @@
 # Naki Legend
 
+**第三岛可玩首版**：青栖林海三层45房、十类小怪、三位Boss、根刺与孢种、调查及栽种尾声。Tools → Naki Legend → Play → 5 Woodland Adventure；6 为Boss练习。[实现范围与测试入口](Docs/WOODLAND_PLAYABLE_V1.md)。
+
 **V18 更新**：新增战士/法师/弓箭手专长，战士 K 冲撞伤敌，职业随存档保留；落雷预警与伤害范围统一，新增收圈倒计时、分叉电弧与地面闪光。[两座岛完整游玩与 Tools 菜单指南](Docs/PLAY_GUIDE_V18.md)。
 
 **V17 更新**：扩大房间视野、压薄状态栏，第二岛默认继续存档并保护重开，优化长矛、弩与元素特效。详见 [本轮修改](Docs/PRESENTATION_V17.md)。下一章节 [木岛“青栖林海”详细设计](Docs/WOOD_ISLAND_DESIGN.md)已完成，尚未接入可玩内容。

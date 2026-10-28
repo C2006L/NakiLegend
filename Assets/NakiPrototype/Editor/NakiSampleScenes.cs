@@ -16,6 +16,11 @@ namespace NakiLegend.Prototype.Editor
         public static void OpenChapterBoss(){OpenScene(ChapterBossPath);}
         [MenuItem("Tools/Naki Legend/Play/4 Desert Boss Practice")]
         public static void OpenDesertBoss(){OpenScene("Assets/Scenes/NakiBossPractice.unity");}
+        [MenuItem("Tools/Naki Legend/Play/5 Woodland Adventure")]
+        public static void OpenWood(){OpenScene("Assets/Scenes/NakiWoodlandChapter.unity");}
+        [MenuItem("Tools/Naki Legend/Play/6 Woodland Boss Practice")]
+        public static void OpenWoodBoss(){OpenScene("Assets/Scenes/NakiWoodlandBossPractice.unity");}
+        public static void BuildWoodScenes(){foreach(bool practice in new[]{false,true}){var scene=EditorSceneManager.OpenScene(ChapterPath);var p=Object.FindObjectOfType<NakiPrototype>();p.woodlandMode=true;p.thunderChapterMode=true;p.showOpeningOnStart=false;p.thunderChapterPracticeBoss=practice?2:-1;EditorUtility.SetDirty(p);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene,practice?"Assets/Scenes/NakiWoodlandBossPractice.unity":"Assets/Scenes/NakiWoodlandChapter.unity");}}
         private static void OpenScene(string path)
         {
             if(EditorApplication.isPlaying){Debug.LogWarning("请先停止 Play，再切换测试场景。");return;}

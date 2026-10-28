@@ -79,7 +79,7 @@ namespace NakiLegend.Prototype
         }
         private void ChargeDarkPower(Enemy enemy)
         {
-            if(!enableDesertJourney||origin!=Origin.Dark||enemy.kind==EnemyKind.StoneSentinel||enemy.kind==EnemyKind.Colossus||enemy.kind==EnemyKind.CopperRoller||enemy.kind==EnemyKind.ThunderStone||IsChapterBoss(enemy.kind))return;
+            if(!enableDesertJourney||origin!=Origin.Dark||woodlandMode&&(enemy.kind==EnemyKind.SpearGuard||enemy.kind==EnemyKind.Tumbleweed||enemy.kind==EnemyKind.StormGuard)||enemy.kind==EnemyKind.StoneSentinel||enemy.kind==EnemyKind.Colossus||enemy.kind==EnemyKind.CopperRoller||enemy.kind==EnemyKind.ThunderStone||IsChapterBoss(enemy.kind))return;
             darkPower=Mathf.Min(100,darkPower+(enemy.boss?24:12));
         }
         private void CastDarkMeteor()
