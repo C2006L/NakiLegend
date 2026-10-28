@@ -93,7 +93,7 @@ namespace NakiLegend.Prototype
         }
         private void BeginChapterBossMove(Enemy e)
         {
-            e.attackNumber++;int pattern=(e.attackNumber-1)%3;e.attackDirection=(position-e.position).sqrMagnitude>.01f?(position-e.position).normalized:Vector2.down;
+            Sfx("warn",true,.4f);e.attackNumber++;int pattern=(e.attackNumber-1)%3;e.attackDirection=(position-e.position).sqrMagnitude>.01f?(position-e.position).normalized:Vector2.down;
             e.actionStarted=clock;e.windup=e.kind==EnemyKind.CopperWarden?(pattern==0?.7f:pattern==1?.9f:.85f):e.kind==EnemyKind.ThunderSentinel?(pattern==1?1.2f:1):pattern==2?1.4f:.9f;
             e.nextAttack=clock+e.windup+(e.secondPhase?1.05f:1.3f);e.chapterCombo=e.kind==EnemyKind.StormStag&&e.secondPhase&&pattern==0?1:0;
             if(e.kind==EnemyKind.CopperWarden)
@@ -119,6 +119,7 @@ namespace NakiLegend.Prototype
         private Vector2 SafeChapterLightning(Vector2 desired){return NearestEnemyFooting(desired,.85f);}
         private void AddChapterStrike(Vector2 at,float delay)
         {
+            Sfx(woodlandMode?"root":"warn",true,.55f);
             GameObject warning=WarningCircle(at,1.1f);
             GameObject timer=Draw("Lightning countdown",windRingSprite??disc,at,Vector2.one*2.2f,C("ffce73"),-637);
             timer.transform.SetParent(warning.transform,true);

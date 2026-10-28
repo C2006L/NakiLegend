@@ -245,7 +245,7 @@ namespace NakiLegend.Prototype
         {
             if(openingAmbience==null) return;
             AudioClip target=OpeningBeats[openingBeat].art>=4?openingWind:openingSea;
-            openingAmbience.volume=openingAudioVolume;openingAccent.volume=openingAudioVolume;
+            openingAmbience.volume=openingAudioVolume*audioMaster*audioEnvironment;openingAccent.volume=openingAudioVolume*audioMaster*audioEffects;
             if(openingAmbience.clip!=target){openingAmbience.Stop();openingAmbience.clip=target;}
             if(!openingAmbience.isPlaying)openingAmbience.Play();
             if(openingBeat==0||openingBeat==2||openingBeat==5||openingBeat==10)openingAccent.PlayOneShot(openingBell,.6f);

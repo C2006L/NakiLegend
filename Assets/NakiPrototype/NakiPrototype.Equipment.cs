@@ -82,6 +82,7 @@ namespace NakiLegend.Prototype
         {
             WeaponDef weapon = CurrentWeapon;
             if(!SpendPower(PowerPool.Elemental,weapon.cost)){nextSword=clock+.2f;return;}
+            WeaponAudio();
             if (weapon.type == WeaponType.Sword || weapon.type == WeaponType.Spear) { Swing(); return; }
             bool archer=profession==Profession.Archer&&weapon.type==WeaponType.Bow;
             nextSword = clock + weapon.interval/(archer?1.1f:1);

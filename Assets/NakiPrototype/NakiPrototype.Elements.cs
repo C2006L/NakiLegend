@@ -29,7 +29,9 @@ namespace NakiLegend.Prototype
 
         private void TickPlayerDefenses(float dt)
         {
-            if (clock - lastDamageAt >= 5 && shield < EffectiveMaximumShield) shield = Mathf.Min(EffectiveMaximumShield, shield + dt);
+            bool recovering=clock-lastDamageAt>=5&&shield<EffectiveMaximumShield;
+            if(recovering&&!shieldWasRecovering)Sfx("recover",false,.35f);shieldWasRecovering=recovering;
+            if(recovering)shield=Mathf.Min(EffectiveMaximumShield,shield+dt);
             if (activeWindWave != null)
             {
                 float phase = (clock - waveStartedAt) / .35f;
@@ -54,7 +56,7 @@ namespace NakiLegend.Prototype
             swordHitPending = false; swordUntil = castPoseUntil = clock;
             if (before > 0 && shield <= .001f) AddFloatingHit("护盾破裂", position + Vector2.up, C("71cde5"));
             else if (absorbed > 0) AddFloatingHit("-" + amount.ToString("0.#"), position + Vector2.up, C("7bd6ee"));
-            PlayJourneySound(true);
+            Sfx(before>0&&shield<=.001f?"break":absorbed>0?"shield":"hurt",true,.85f);if(health<=0)Sfx("death",true);
         }
 
         private static float ElementMultiplier(Element attack, Element target)
@@ -86,7 +88,7 @@ namespace NakiLegend.Prototype
             if (!orbLearned) { JourneyHint("掌心的光尚未凝聚 · 留意遗迹中的古井碑"); nextSpell = clock + .35f; return; }
             foreach (Shot shot in shots) if (shot.orb) return;
             if (clock < nextSpell || !SpendPower(PowerPool.Light,8)) return;
-             nextSpell = clock + 1.2f;
+             nextSpell = clock + 1.2f;Sfx("light");
             Enemy target; Vector2 direction=AutoAim(10,7,0,out target);
             int before = shots.Count; SpawnShot(position + direction * .4f, direction, false, target, position);
             if (shots.Count > before)
@@ -102,7 +104,7 @@ namespace NakiLegend.Prototype
         {
             if (!bladeLearned) { JourneyHint("风之刃尚未学会 · 继续探索旧渠"); return; }
             if (clock < bladeReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,6)) return;
-            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;
+            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;Sfx("wind");
             int before = shots.Count; SpawnShot(position + direction * .45f, direction, false, null, position);
             if (shots.Count > before)
             {
@@ -118,7 +120,7 @@ namespace NakiLegend.Prototype
         {
             if (!waveLearned) { JourneyHint("风波尚未学会 · 寻找第二层的守渠试炼"); return; }
             if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,10)) return;
-             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;
+             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;Sfx("wind",false,.8f);
             if (activeWindWave != null) Destroy(activeWindWave);
             activeWindWave = Draw("Wind wave", windRingSprite ?? disc, position + Vector2.up * .25f, Vector2.one * .3f, C("8aefd0"), 800);
             DispelProjectiles(position, .4f); castDirection = facing; castPoseUntil = clock + .32f;

@@ -1,0 +1,480 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "file": "ambient_desert.wav",
+      "seconds": 12.0,
+      "peak": 0.03350830078125
+    },
+    {
+      "file": "ambient_thunder.wav",
+      "seconds": 12.0,
+      "peak": 0.165802001953125
+    },
+    {
+      "file": "ambient_water.wav",
+      "seconds": 12.0,
+      "peak": 0.120361328125
+    },
+    {
+      "file": "ambient_woodland.wav",
+      "seconds": 12.0,
+      "peak": 0.082244873046875
+    },
+    {
+      "file": "bow_0.wav",
+      "seconds": 0.22,
+      "peak": 0.324981689453125
+    },
+    {
+      "file": "bow_1.wav",
+      "seconds": 0.22,
+      "peak": 0.311492919921875
+    },
+    {
+      "file": "bow_2.wav",
+      "seconds": 0.22,
+      "peak": 0.347076416015625
+    },
+    {
+      "file": "break_0.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.30926513671875
+    },
+    {
+      "file": "break_1.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.35107421875
+    },
+    {
+      "file": "break_2.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.332000732421875
+    },
+    {
+      "file": "clear_0.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.22369384765625
+    },
+    {
+      "file": "clear_1.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.224029541015625
+    },
+    {
+      "file": "clear_2.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.22369384765625
+    },
+    {
+      "file": "crossbow_0.wav",
+      "seconds": 0.22,
+      "peak": 0.409027099609375
+    },
+    {
+      "file": "crossbow_1.wav",
+      "seconds": 0.22,
+      "peak": 0.4503173828125
+    },
+    {
+      "file": "crossbow_2.wav",
+      "seconds": 0.22,
+      "peak": 0.42047119140625
+    },
+    {
+      "file": "dark_0.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.22125244140625
+    },
+    {
+      "file": "dark_1.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.221923828125
+    },
+    {
+      "file": "dark_2.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.222381591796875
+    },
+    {
+      "file": "death_0.wav",
+      "seconds": 0.22,
+      "peak": 0.2117919921875
+    },
+    {
+      "file": "death_1.wav",
+      "seconds": 0.22,
+      "peak": 0.196929931640625
+    },
+    {
+      "file": "death_2.wav",
+      "seconds": 0.22,
+      "peak": 0.158477783203125
+    },
+    {
+      "file": "desert_boss.wav",
+      "seconds": 32.0,
+      "peak": 0.312347412109375
+    },
+    {
+      "file": "desert_combat.wav",
+      "seconds": 32.0,
+      "peak": 0.228790283203125
+    },
+    {
+      "file": "desert_explore.wav",
+      "seconds": 32.0,
+      "peak": 0.208282470703125
+    },
+    {
+      "file": "dodge_0.wav",
+      "seconds": 0.22,
+      "peak": 0.731231689453125
+    },
+    {
+      "file": "dodge_1.wav",
+      "seconds": 0.22,
+      "peak": 0.849945068359375
+    },
+    {
+      "file": "dodge_2.wav",
+      "seconds": 0.22,
+      "peak": 0.65673828125
+    },
+    {
+      "file": "electric_0.wav",
+      "seconds": 0.22,
+      "peak": 0.2813720703125
+    },
+    {
+      "file": "electric_1.wav",
+      "seconds": 0.22,
+      "peak": 0.2554931640625
+    },
+    {
+      "file": "electric_2.wav",
+      "seconds": 0.22,
+      "peak": 0.20770263671875
+    },
+    {
+      "file": "ending.wav",
+      "seconds": 16.0,
+      "peak": 0.391876220703125
+    },
+    {
+      "file": "flesh_0.wav",
+      "seconds": 0.22,
+      "peak": 0.1522216796875
+    },
+    {
+      "file": "flesh_1.wav",
+      "seconds": 0.22,
+      "peak": 0.169708251953125
+    },
+    {
+      "file": "flesh_2.wav",
+      "seconds": 0.22,
+      "peak": 0.189544677734375
+    },
+    {
+      "file": "heavy_0.wav",
+      "seconds": 0.22,
+      "peak": 0.345458984375
+    },
+    {
+      "file": "heavy_1.wav",
+      "seconds": 0.22,
+      "peak": 0.422760009765625
+    },
+    {
+      "file": "heavy_2.wav",
+      "seconds": 0.22,
+      "peak": 0.34002685546875
+    },
+    {
+      "file": "hurt_0.wav",
+      "seconds": 0.22,
+      "peak": 0.1861572265625
+    },
+    {
+      "file": "hurt_1.wav",
+      "seconds": 0.22,
+      "peak": 0.21234130859375
+    },
+    {
+      "file": "hurt_2.wav",
+      "seconds": 0.22,
+      "peak": 0.173126220703125
+    },
+    {
+      "file": "light_0.wav",
+      "seconds": 0.22,
+      "peak": 0.207916259765625
+    },
+    {
+      "file": "light_1.wav",
+      "seconds": 0.22,
+      "peak": 0.209014892578125
+    },
+    {
+      "file": "light_2.wav",
+      "seconds": 0.22,
+      "peak": 0.2078857421875
+    },
+    {
+      "file": "pickup_0.wav",
+      "seconds": 0.22,
+      "peak": 0.207916259765625
+    },
+    {
+      "file": "pickup_1.wav",
+      "seconds": 0.22,
+      "peak": 0.209014892578125
+    },
+    {
+      "file": "pickup_2.wav",
+      "seconds": 0.22,
+      "peak": 0.2078857421875
+    },
+    {
+      "file": "ram_0.wav",
+      "seconds": 0.22,
+      "peak": 0.344940185546875
+    },
+    {
+      "file": "ram_1.wav",
+      "seconds": 0.22,
+      "peak": 0.460845947265625
+    },
+    {
+      "file": "ram_2.wav",
+      "seconds": 0.22,
+      "peak": 0.4942626953125
+    },
+    {
+      "file": "recover_0.wav",
+      "seconds": 0.22,
+      "peak": 0.207916259765625
+    },
+    {
+      "file": "recover_1.wav",
+      "seconds": 0.22,
+      "peak": 0.209014892578125
+    },
+    {
+      "file": "recover_2.wav",
+      "seconds": 0.22,
+      "peak": 0.2078857421875
+    },
+    {
+      "file": "root_0.wav",
+      "seconds": 0.22,
+      "peak": 0.178802490234375
+    },
+    {
+      "file": "root_1.wav",
+      "seconds": 0.22,
+      "peak": 0.150665283203125
+    },
+    {
+      "file": "root_2.wav",
+      "seconds": 0.22,
+      "peak": 0.187255859375
+    },
+    {
+      "file": "shell_0.wav",
+      "seconds": 0.22,
+      "peak": 0.243621826171875
+    },
+    {
+      "file": "shell_1.wav",
+      "seconds": 0.22,
+      "peak": 0.240814208984375
+    },
+    {
+      "file": "shell_2.wav",
+      "seconds": 0.22,
+      "peak": 0.240234375
+    },
+    {
+      "file": "shield_0.wav",
+      "seconds": 0.22,
+      "peak": 0.23760986328125
+    },
+    {
+      "file": "shield_1.wav",
+      "seconds": 0.22,
+      "peak": 0.249053955078125
+    },
+    {
+      "file": "shield_2.wav",
+      "seconds": 0.22,
+      "peak": 0.283721923828125
+    },
+    {
+      "file": "spear_0.wav",
+      "seconds": 0.22,
+      "peak": 0.62713623046875
+    },
+    {
+      "file": "spear_1.wav",
+      "seconds": 0.22,
+      "peak": 0.735626220703125
+    },
+    {
+      "file": "spear_2.wav",
+      "seconds": 0.22,
+      "peak": 0.649688720703125
+    },
+    {
+      "file": "spore_0.wav",
+      "seconds": 0.22,
+      "peak": 0.207916259765625
+    },
+    {
+      "file": "spore_1.wav",
+      "seconds": 0.22,
+      "peak": 0.209014892578125
+    },
+    {
+      "file": "spore_2.wav",
+      "seconds": 0.22,
+      "peak": 0.2078857421875
+    },
+    {
+      "file": "staff_0.wav",
+      "seconds": 0.22,
+      "peak": 0.207916259765625
+    },
+    {
+      "file": "staff_1.wav",
+      "seconds": 0.22,
+      "peak": 0.209014892578125
+    },
+    {
+      "file": "staff_2.wav",
+      "seconds": 0.22,
+      "peak": 0.2078857421875
+    },
+    {
+      "file": "stone_0.wav",
+      "seconds": 0.22,
+      "peak": 0.313079833984375
+    },
+    {
+      "file": "stone_1.wav",
+      "seconds": 0.22,
+      "peak": 0.349884033203125
+    },
+    {
+      "file": "stone_2.wav",
+      "seconds": 0.22,
+      "peak": 0.370086669921875
+    },
+    {
+      "file": "sword_0.wav",
+      "seconds": 0.22,
+      "peak": 0.6251220703125
+    },
+    {
+      "file": "sword_1.wav",
+      "seconds": 0.22,
+      "peak": 0.727752685546875
+    },
+    {
+      "file": "sword_2.wav",
+      "seconds": 0.22,
+      "peak": 0.62274169921875
+    },
+    {
+      "file": "thunder_0.wav",
+      "seconds": 1.1,
+      "peak": 0.472686767578125
+    },
+    {
+      "file": "thunder_1.wav",
+      "seconds": 1.1,
+      "peak": 0.455108642578125
+    },
+    {
+      "file": "thunder_2.wav",
+      "seconds": 1.1,
+      "peak": 0.56103515625
+    },
+    {
+      "file": "thunder_boss.wav",
+      "seconds": 32.0,
+      "peak": 0.335418701171875
+    },
+    {
+      "file": "thunder_combat.wav",
+      "seconds": 32.0,
+      "peak": 0.237579345703125
+    },
+    {
+      "file": "thunder_explore.wav",
+      "seconds": 32.0,
+      "peak": 0.20257568359375
+    },
+    {
+      "file": "warn_0.wav",
+      "seconds": 0.22,
+      "peak": 0.241546630859375
+    },
+    {
+      "file": "warn_1.wav",
+      "seconds": 0.22,
+      "peak": 0.246246337890625
+    },
+    {
+      "file": "warn_2.wav",
+      "seconds": 0.22,
+      "peak": 0.28887939453125
+    },
+    {
+      "file": "wind_0.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.8360595703125
+    },
+    {
+      "file": "wind_1.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.849945068359375
+    },
+    {
+      "file": "wind_2.wav",
+      "seconds": 0.5499773242630386,
+      "peak": 0.699066162109375
+    },
+    {
+      "file": "wood_0.wav",
+      "seconds": 0.22,
+      "peak": 0.193145751953125
+    },
+    {
+      "file": "wood_1.wav",
+      "seconds": 0.22,
+      "peak": 0.255096435546875
+    },
+    {
+      "file": "wood_2.wav",
+      "seconds": 0.22,
+      "peak": 0.194549560546875
+    },
+    {
+      "file": "woodland_boss.wav",
+      "seconds": 32.0,
+      "peak": 0.345977783203125
+    },
+    {
+      "file": "woodland_combat.wav",
+      "seconds": 32.0,
+      "peak": 0.22674560546875
+    },
+    {
+      "file": "woodland_explore.wav",
+      "seconds": 32.0,
+      "peak": 0.211151123046875
+    }
+  ]
+}

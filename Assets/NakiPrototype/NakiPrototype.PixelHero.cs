@@ -420,7 +420,7 @@ namespace NakiLegend.Prototype
 
         private void BeginDodge(Vector2 input)
         {
-            ramHits.Clear();
+            ramHits.Clear();Sfx(profession==Profession.Warrior?"ram":"dodge",false,.65f);
             dashDirection = input.sqrMagnitude > 0 ? input.normalized : facing;
             dashUntil = clock + .17f;
             invulnerableUntil = Mathf.Max(invulnerableUntil, dashUntil + .07f);

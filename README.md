@@ -1,5 +1,7 @@
 # Naki Legend
 
+**音频首版已接入**：三岛探索/战斗/Boss 配乐、环境氛围、武器与材质命中、技能/护盾/落雷声音。游戏中 F10 调整声音并保存偏好。[音频内容及试听说明](Docs/AUDIO_V1.md)。
+
 **第三岛可玩首版**：青栖林海三层45房、十类小怪、三位Boss、根刺与孢种、调查及栽种尾声。Tools → Naki Legend → Play → 5 Woodland Adventure；6 为Boss练习。[实现范围与测试入口](Docs/WOODLAND_PLAYABLE_V1.md)。
 
 **V18 更新**：新增战士/法师/弓箭手专长，战士 K 冲撞伤敌，职业随存档保留；落雷预警与伤害范围统一，新增收圈倒计时、分叉电弧与地面闪光。[两座岛完整游玩与 Tools 菜单指南](Docs/PLAY_GUIDE_V18.md)。

@@ -47,6 +47,7 @@ namespace NakiLegend.Prototype
    float scale=HudScaleFor(Screen.width,Screen.height),w=Screen.width/scale,h=Screen.height/scale;GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1));GUI.color=Color.white;
    try
    {
+    if(audioSettingsMenu){DrawAudioSettings(w,h);return;}
     if(thunderChapterMode&&chapterCg){DrawChapterCg(w,h);return;}
     if(showRainCG&&!DesertEndingReady)showRainCG=false;
     if(showRainCG){HudRect(new Rect(0,0,w,h),Color.black);if(rainCG!=null)GUI.DrawTexture(new Rect(0,0,w,h),rainCG,ScaleMode.ScaleToFit);FittedLabel(new Rect(30,24,w-60,36),"甘泽归沙 · 愿长风携雨而来",journeyTitleStyle);if(StoryActive)DrawJourneyDialogue(w,h);else GUI.Label(new Rect(30,h-50,700,36),"F 继续探索",journeyTextStyle);return;}
@@ -54,7 +55,8 @@ namespace NakiLegend.Prototype
     bool overlay=StoryActive||mapMenu||rewardMenu||inventoryMenu||OriginChoiceReady||paused||health<=0||thunderPrototypeMode&&thunderSetupMenu||thunderChapterMode&&(chapterSetup||chapterSkillsMenu||chapterRewardMenu);
     if(overlay)HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.035f,.55f));
     if((health<=0||paused)&&!StoryActive&&!mapMenu&&!rewardMenu&&!inventoryMenu)
-    {HudRect(new Rect(w/2-250,h/2-60,500,120),C("10232d"));CenterLabel(new Rect(w/2-230,h/2-43,460,45),health<=0?"旅程未竟 · R 回到安全点":"暂歇片刻 · ESC 继续",journeyTitleStyle);if(paused&&!ThunderActive)CenterLabel(new Rect(w/2-230,h/2+12,460,30),"V 重播开场",journeySmallStyle);}
+    {HudRect(new Rect(w/2-250,h/2-60,500,120),C("10232d"));CenterLabel(new Rect(w/2-230,h/2-43,460,45),health<=0?"旅程未竟 · R 回到安全点":"暂歇片刻 · ESC 继续",journeyTitleStyle);if(paused&&!ThunderActive)CenterLabel(new Rect(w/2-230,h/2+12,460,30),"V 重播开场 · F10 声音设置",journeySmallStyle);}
+    if(paused&&FlatButton(new Rect(w/2-110,h/2+70,220,40),"F10 声音设置"))audioSettingsMenu=true;
     if(thunderChapterMode&&chapterSetup)DrawChapterSetup(w,h);else if(thunderChapterMode&&chapterSkillsMenu)DrawChapterSkills(w,h);else if(thunderChapterMode&&chapterRewardMenu)DrawChapterReward(w,h);else if(thunderPrototypeMode&&thunderSetupMenu)DrawThunderSetup(w,h);else if(ProfessionReady)DrawProfessionChoice(w,h);else if(OriginChoiceReady)DrawOriginChoice(w,h);else if(StoryActive)DrawJourneyDialogue(w,h);else if(inventoryMenu)DrawBackpack(w,h);else if(mapMenu)DrawJourneyMap(w,h);else if(rewardMenu)DrawJourneyReward(w,h);
     if(doorTransition>0)HudRect(new Rect(0,HudTop,w,h-HudTop-HudBottom),new Color(0,0,0,Mathf.Sin(Mathf.Clamp01(doorTransition/.24f)*Mathf.PI)));
    }

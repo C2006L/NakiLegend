@@ -210,6 +210,7 @@ namespace NakiLegend.Prototype
             if (world == null) return;
             if (!enableDesertJourney && openingActive) StopOpeningCinematic();
             if(enableDesertJourney)ConfigureJourneyView();else{view.rect=new Rect(0,0,1,1);view.orthographicSize=Mathf.Max(6.8f,10.5f/Mathf.Max(view.aspect,.1f));}
+            TickSoundscape();if(HandleAudioSettings())return;
             if(HandleCheckpointKeys())return;
             if (Pressed('r')) { if(thunderChapterMode&&thunderChapterPracticeBoss<0){if(!LoadChapterCheckpoint(false))BeginThunderChapter(false);}else if(CheckpointsEnabled){if(!LoadCheckpoint(false))ResetRoom();}else ResetRoom(); return; }
             if (enableDesertJourney && Pressed('n')) { if(thunderChapterMode){chapterSetup=true;paused=false;}else if(thunderPrototypeMode){thunderSetupMenu=true;paused=false;}else BeginJourney(true); return; }
@@ -242,7 +243,7 @@ namespace NakiLegend.Prototype
             UpdateSwordImpact();
             sword.SetActive(clock < swordUntil);
             if (clock < swordUntil) sword.transform.position = position + (Vector2)sword.transform.right * .7f;
-            UpdateIllustratedHero(input);
+            UpdateIllustratedHero(input);if(enableDesertJourney)AudioFootsteps(position-beforeMove);
 
             for (int i = enemies.Count - 1; i >= 0; i--) UpdateEnemy(enemies[i], dt);
             for (int i = shots.Count - 1; i >= 0; i--) UpdateShot(i, dt);

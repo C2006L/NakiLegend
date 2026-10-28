@@ -98,6 +98,7 @@ namespace NakiLegend.Prototype
 
         private void BeginJourneyAttack(Enemy enemy)
         {
+            if(enemy.boss||enemy.elite)Sfx("warn",true,.4f);
             int depth = journeyRooms[currentRoom].depth;
             enemy.attackDirection = (position - enemy.position).sqrMagnitude < .01f ? Vector2.down : (position - enemy.position).normalized;
             enemy.attackNumber++; enemy.actionStarted = clock;
@@ -207,7 +208,7 @@ namespace NakiLegend.Prototype
         private void OnEnemyHit(Enemy enemy, float amount)
         {
             enemy.hurtUntil = clock + .13f; cameraShakeUntil = clock + .08f;
-            AddFloatingHit(Mathf.CeilToInt(amount).ToString(), enemy.position + Vector2.up * .7f, C("fff0bb")); PlayJourneySound(false);
+            AddFloatingHit(Mathf.CeilToInt(amount).ToString(), enemy.position + Vector2.up * .7f, C("fff0bb")); HitAudio(enemy);
             if (enemy.hp <= 0)
             {
                 Sprite[] art; Sprite sprite = enemyActionArt.TryGetValue(enemy.kind, out art) ? art[IsThunderEnemy(enemy.kind)?art.Length-1:7] : enemy.body.sprite;
@@ -253,7 +254,7 @@ namespace NakiLegend.Prototype
         private void SetupJourneyAudio()
         {
             if (journeyAudio == null) journeyAudio = gameObject.AddComponent<AudioSource>();
-            journeyAudio.Stop(); journeyAudio.playOnAwake = false; journeyAudio.volume = .12f;
+            journeyAudio.Stop(); journeyAudio.playOnAwake = false; journeyAudio.volume = 0;SetupSoundscape();
             hitSound = JourneyTone("Sword hit", 510, .07f); hurtSound = JourneyTone("Player hurt", 165, .16f);
         }
 
@@ -266,8 +267,7 @@ namespace NakiLegend.Prototype
 
         private void PlayJourneySound(bool hurt)
         {
-            if (journeyAudio == null || clock < nextSoundAt) return;
-            nextSoundAt = clock + .055f; journeyAudio.PlayOneShot(hurt ? hurtSound : hitSound);
+            Sfx(hurt?"hurt":"flesh",hurt,.7f);
         }
     }
 }

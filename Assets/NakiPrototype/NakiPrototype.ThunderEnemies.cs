@@ -8,7 +8,7 @@ namespace NakiLegend.Prototype
     {
         [Serializable] private sealed class ThunderFrame { public int x=0,y=0,width=0,height=0;public float pivotX=.5f,pivotY=0; }
         [Serializable] private sealed class ThunderAtlas { public ThunderFrame[] moth=Array.Empty<ThunderFrame>(),guard=Array.Empty<ThunderFrame>(); }
-        private sealed class ThunderStrike { public Vector2 at;public float when,born;public GameObject root,timer; }
+        private sealed class ThunderStrike { public Vector2 at;public float when,born;public bool audioNear;public GameObject root,timer; }
         private readonly List<ThunderStrike> thunderStrikes=new List<ThunderStrike>();
         private static bool IsThunderEnemy(EnemyKind kind){return kind>=EnemyKind.ChargeMoth&&kind<=EnemyKind.StormStag;}
         private void LoadThunderEnemyArt()
@@ -106,13 +106,14 @@ namespace NakiLegend.Prototype
                 if(clock<s.when)
                 {
                     float progress=Mathf.Clamp01((clock-s.born)/Mathf.Max(.01f,s.when-s.born));
+                    if(progress>.72f&&!s.audioNear){s.audioNear=true;Sfx(woodlandMode?"root":"warn",true,.7f);}
                     if(s.timer!=null)s.timer.transform.localScale=Vector3.one*Mathf.Max(.03f,1-progress);
                     if(s.root!=null){var fill=s.root.GetComponent<SpriteRenderer>();fill.color=new Color(1,.48f,.16f,.10f+progress*.15f);}
                     continue;
                 }
                 if(Vector2.Distance(position,s.at)<1.1f)TakeJourneyDamage(ChapterGroundDamage,woodlandMode?Element.Wood:Element.Lightning);
                 if(s.root!=null)Destroy(s.root);
-                if(woodlandMode)SpellSpark(s.at,C("a1c367"),1.2f);else LightningImpact(s.at);
+                Sfx(woodlandMode?"root":"thunder",true);if(woodlandMode)SpellSpark(s.at,C("a1c367"),1.2f);else LightningImpact(s.at);
                 thunderStrikes.RemoveAt(i);
             }
         }

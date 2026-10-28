@@ -88,7 +88,7 @@ namespace NakiLegend.Prototype
             foreach(Shot old in shots)if(old.orb)return;
             float strength=1+darkPower/100*.35f;
             if(clock<nextSpell||!SpendPower(PowerPool.Dark,8))return;
-            nextSpell=clock+1;
+            nextSpell=clock+1;Sfx("dark");
             Enemy target;Vector2 aim=AutoAim(10,7,0,out target);
             for(int i=0;i<2;i++)
             {

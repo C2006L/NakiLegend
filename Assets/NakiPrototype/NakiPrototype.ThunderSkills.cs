@@ -61,7 +61,7 @@ namespace NakiLegend.Prototype
             float cost=ChapterSkillCost(skill);if(elementPower+.001f<ElementCost(cost)){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
             if(skill==2)
             {
-                if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;
+                if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;Sfx("electric");
                 Vector2 at=target.position;GameObject circle=WarningCircle(at,chapterStone?.75f:.6f);
                 foreach(SpriteRenderer r in circle.GetComponentsInChildren<SpriteRenderer>())r.color=new Color(.62f,.86f,1,.6f);
                 chapterMarks.Add(new ChapterMark{at=at,when=clock+.65f,root=circle});
@@ -69,7 +69,7 @@ namespace NakiLegend.Prototype
             else
             {
                 int count=shots.Count;SpawnShot(position+aim*.45f,aim,false,null,position);if(shots.Count==count)return;
-                SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;
+                SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;Sfx("electric");
                 Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;
                 shot.damage=SkillDamage(20);shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
                 AddShotRibbon(shot,C("a8eaff"),.055f);SpellSpark(position+aim*.45f,C("a8eaff"),.22f);

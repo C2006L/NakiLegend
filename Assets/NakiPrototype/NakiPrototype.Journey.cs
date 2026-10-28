@@ -96,7 +96,7 @@ namespace NakiLegend.Prototype
                 if(IsCombatRoom(node))SpawnJourneyWave();
                 else
                 {
-                    node.cleared=true;
+                    node.cleared=true;if(IsCombatRoom(node))Sfx("clear",false,.45f);
                     if(first&&!node.claimed)
                     {
                         if(!thunderChapterMode&&node.kind==RoomKind.Rest)VisitDesertRest(node);
@@ -179,7 +179,7 @@ namespace NakiLegend.Prototype
         }
         private void ClearJourneyRoom()
         {
-            RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;
+            RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;if(IsCombatRoom(node))Sfx("clear",false,.45f);
             if(IsCombatRoom(node))clearedCombatRooms++;
             foreach(Shot shot in shots)if(shot.root!=null)Destroy(shot.root);shots.Clear();
             if(thunderChapterMode){ClearChapterSkillEffects();OnChapterRoomCleared(node);}
