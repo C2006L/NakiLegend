@@ -17,9 +17,10 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return;chapterActions.Clear();if(chapterFocus!=null){chapterFocus.SetActive(false);Destroy(chapterFocus);}
             chapterFocus=new GameObject("Highland residents and interactions");chapterFocus.transform.SetParent(world,false);
             RoomNode n=journeyRooms[currentRoom];
-            if(woodlandMode){BuildWoodActions(n);return;}
+            if(iceSampleMode){BuildIceActions(n);return;}if(woodlandMode){BuildWoodActions(n);return;}
             if(n.id==0)AddChapterAction(1,new Vector2(-3.4f,1.4f),"灯匠",chapterLampkeeper);
             if(n.id==0&&chapterStone&&chapterRanger)AddChapterAction(2,new Vector2(-1.8f,1.4f),"归来的巡路员",chapterRangerArt);
+            if(n.id==0&&chapterEnding)AddChapterAction(305,new Vector2(0,2.5f),"乘船前往冰港 · 第三岛样板",IceSprite(6));
             if(n.id==0&&chapterEnding)AddChapterAction(208,new Vector2(1,-2),"森林岛试航 · 第五岛",WorldPropSprite(5));
             if(n.id==0&&chapterEnding)AddChapterAction(16,new Vector2(3.4f,-1.4f),"登船返回沙漠",WorldPropSprite(5));
             if(n.id==17&&n.cleared)AddChapterAction(2,new Vector2(-3,1.6f),"巡路员",chapterRangerArt);
@@ -59,6 +60,7 @@ namespace NakiLegend.Prototype
         private void OnChapterRoomEntered(RoomNode n,bool first)
         {
             chapterWork=0;chapterRewardMenu=false;chapterSkillsMenu=false;
+            if(iceSampleMode){BuildChapterActions();return;}
             if(first&&n.kind==RoomKind.Rest&&!n.claimed)
             {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory(woodlandMode?"阿苓留下了一壶草药茶。你扫开厚叶，靠着仍有温度的树根歇息。":"避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
             BuildChapterActions();
@@ -84,8 +86,8 @@ namespace NakiLegend.Prototype
                 return false;
             }
             if(!n.cleared){JourneyHint(woodlandMode&&a.kind==203?"先击败看守，取得牢笼钥匙":"先确保房间安全，再检查路标与设施");return true;}
-            if(woodlandMode){WoodAction(a.kind);return true;}
-            if(a.kind==208){EmbarkWoodland();return true;}
+            if(iceSampleMode){IceAction(a.kind);return true;}if(woodlandMode){WoodAction(a.kind);return true;}
+            if(a.kind==305){EmbarkIceSample();return true;}if(a.kind==208){EmbarkWoodland();return true;}
             if(a.kind>=100)
             {
                 int code=a.kind-100;if(!ChapterGateReady(code)){JourneyHint("检修通路两端尚未清理；引雷节点也需复位。主路仍可通行。");return true;}
@@ -141,6 +143,7 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return false;
             if(chapterSetup)
             {
+                if(iceSampleMode)return HandleIceSetup();
                 if(Pressed('1'))thunderPreset=ThunderPreset.Light;if(Pressed('2'))thunderPreset=ThunderPreset.Dark;
                 if(Pressed('a'))thunderChapterStartFloor=(thunderChapterStartFloor+2)%3;if(Pressed('d'))thunderChapterStartFloor=(thunderChapterStartFloor+1)%3;
                 if(chapterConfirmRestart){if(Pressed('e'))chapterConfirmRestart=false;return true;}
@@ -162,6 +165,7 @@ namespace NakiLegend.Prototype
         {chapterCg=false;chapterEnding=true;BuildChapterActions();RequestCheckpoint();SaveChapterCheckpoint(false);}
         private void DrawChapterSetup(float w,float h)
         {
+            if(iceSampleMode){DrawIceSetup(w,h);return;}
             HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),woodlandMode?"青栖林海 · 不再发芽的种子":"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
             CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有"+CurrentIsland.name+"安全存档 · F 继续原进度":"尚无本岛存档 · 选择起点开始旅程",journeyTextStyle);
             bool backgroundEnabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;

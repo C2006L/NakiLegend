@@ -39,7 +39,7 @@ namespace NakiLegend.Prototype
    if(!enableDesertJourney)return;SetupSoundscape();
    bool suspended=AudioSuspended;
    if(suspended!=audioWasSuspended){foreach(AudioSource voice in voices){if(suspended)voice.Pause();else voice.UnPause();}audioWasSuspended=suspended;}
-   string island=woodlandMode?"woodland":ThunderActive?"thunder":"desert";
+   string island=iceSampleMode?"woodland":woodlandMode?"woodland":ThunderActive?"thunder":"desert";
    bool boss=false;foreach(Enemy enemy in enemies)if(enemy.boss&&enemy.hp>0)boss=true;
    bool combat=journeyRooms.Count>currentRoom&&currentRoom>=0&&!journeyRooms[currentRoom].cleared;
    bool ending=showRainCG||chapterCg||woodlandMode&&chapterEnding;
@@ -52,7 +52,7 @@ namespace NakiLegend.Prototype
    }
    float dt=Mathf.Min(Time.unscaledDeltaTime,.1f),duck=StoryActive?.35f:1;
    for(int i=0;i<2;i++){float target=i==scoreSide&&!openingActive&&!suspended?audioMaster*audioMusic*duck:0;score[i].volume=Mathf.MoveTowards(score[i].volume,target,dt*.35f);}
-   string env=(!ThunderActive&&canalEpilogueComplete)?"water":island;
+   string env=iceSampleMode?"desert":(!ThunderActive&&canalEpilogueComplete)?"water":island;
    if(env!=ambientKey){ambience.Stop();ambience.clip=AudioAsset("ambient_"+env);if(ambience.clip!=null)ambience.Play();ambientKey=env;}
    ambience.volume=Mathf.MoveTowards(ambience.volume,openingActive||suspended?0:audioMaster*audioEnvironment*(StoryActive?.5f:1),dt*.4f);
    // Opening sources use the same master/environment controls.

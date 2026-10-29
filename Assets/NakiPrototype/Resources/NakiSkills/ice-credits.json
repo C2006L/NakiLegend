@@ -1,0 +1,81 @@
+{
+  "author": "JaggedStone",
+  "license": "CC0-1.0",
+  "source_page": "https://opengameart.org/content/magic-spell-sfx",
+  "source_manifest": "credits.json",
+  "edits": "Resampled, high-pass filtered, short echo on frost ring; faded and level matched. Existing audio untouched.",
+  "clips": [
+    {
+      "file": "skill_ice_spike_cast_0.wav",
+      "source_derivative": "skill_orb_cast_0.wav",
+      "source_sha256": "76d505ae904dd24e3729c917f1e600b7ff21aa66582b35c5ce80327cbc502cc1",
+      "seconds": 0.30968253968253967
+    },
+    {
+      "file": "skill_ice_spike_cast_1.wav",
+      "source_derivative": "skill_orb_cast_1.wav",
+      "source_sha256": "d454f12c2e6c344227122426748947519821514d8cdf5efb642970a13124e2c5",
+      "seconds": 0.3019047619047619
+    },
+    {
+      "file": "skill_ice_spike_cast_2.wav",
+      "source_derivative": "skill_orb_cast_2.wav",
+      "source_sha256": "5b8a0c29a21536451906973554df4aaeb06ddcd203bdd4a0fc99c30c274bcaf2",
+      "seconds": 0.2944897959183673
+    },
+    {
+      "file": "skill_ice_spike_hit_0.wav",
+      "source_derivative": "skill_orb_hit_0.wav",
+      "source_sha256": "d488d7306e002144bec621c060da6e0fe59adc67daa7583a73a3d72a2880e952",
+      "seconds": 0.19356009070294786
+    },
+    {
+      "file": "skill_ice_spike_hit_1.wav",
+      "source_derivative": "skill_orb_hit_1.wav",
+      "source_sha256": "5fd40a6f1522c31361bcc05dd532a55d1355e2a2c8607e9d6785d049cdfc5603",
+      "seconds": 0.18868480725623582
+    },
+    {
+      "file": "skill_ice_spike_hit_2.wav",
+      "source_derivative": "skill_orb_hit_2.wav",
+      "source_sha256": "4b320eb311c8aee339410fa42a38ac9789ce440b7a701bb90df9c56c19485584",
+      "seconds": 0.18405895691609978
+    },
+    {
+      "file": "skill_ice_ring_cast_0.wav",
+      "source_derivative": "skill_wave_cast_0.wav",
+      "source_sha256": "c34c6ab406dba39be628984f5f9d4df681651306740c6f10269d86625e053b3d",
+      "seconds": 0.6166666666666667
+    },
+    {
+      "file": "skill_ice_ring_cast_1.wav",
+      "source_derivative": "skill_wave_cast_1.wav",
+      "source_sha256": "4076b557d2279a2fd5d85b6fc0659914b394e3e34c4dac3194b3232b0a0717b2",
+      "seconds": 0.6034467120181406
+    },
+    {
+      "file": "skill_ice_ring_cast_2.wav",
+      "source_derivative": "skill_wave_cast_2.wav",
+      "source_sha256": "c5f9fc707e227fc0e142b08074de8493b66292ceeabc52872de325e1b8e6a238",
+      "seconds": 0.5908616780045352
+    },
+    {
+      "file": "skill_ice_ring_hit_0.wav",
+      "source_derivative": "skill_wave_hit_0.wav",
+      "source_sha256": "32c3b1757b4a2c050cfa722954a08edca262a48056ff86402a50fabe9a4256ca",
+      "seconds": 0.4083219954648526
+    },
+    {
+      "file": "skill_ice_ring_hit_1.wav",
+      "source_derivative": "skill_wave_hit_1.wav",
+      "source_sha256": "415bb1b15db435eacd9bce73ce070385c0cf06ffe912747db0419c7967b736e7",
+      "seconds": 0.4002040816326531
+    },
+    {
+      "file": "skill_ice_ring_hit_2.wav",
+      "source_derivative": "skill_wave_hit_2.wav",
+      "source_sha256": "38983333f108fc439dfe4cdddbeb21c84eaaebe05c2a2514cc3c55773e30e829",
+      "seconds": 0.3924489795918367
+    }
+  ]
+}

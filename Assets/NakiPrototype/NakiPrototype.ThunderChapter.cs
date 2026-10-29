@@ -22,14 +22,14 @@ namespace NakiLegend.Prototype
         private GameObject chapterFocus;
         private bool ThunderActive { get { return thunderPrototypeMode||thunderChapterMode; } }
         private static readonly string[] ThunderStages={"雨中草坡","引雷遗址","雷鸣圣所"};
-        private bool HasThunderConductor { get { return !woodlandMode&&(thunderChapterMode?currentRoom==14||currentRoom==16:currentRoom==1); } }
+        private bool HasThunderConductor { get { return !iceSampleMode&&!woodlandMode&&(thunderChapterMode?currentRoom==14||currentRoom==16:currentRoom==1); } }
         private sealed class ChapterAction { public int kind;public Vector2 at;public string label; }
         [Serializable] private sealed class ChapterRoomDef { public int id=0,stage=0,kind=0,waves=0,layout=0,x=0,y=0,stairsTo=-1;public string title="",key="";public float width=8,height=5;public int[] links=Array.Empty<int>(); }
         [Serializable] private sealed class ChapterShortcut { public int a=0,b=0,code=0; }
         [Serializable] private sealed class ChapterGraph { public ChapterRoomDef[] rooms=Array.Empty<ChapterRoomDef>();public ChapterShortcut[] gates=Array.Empty<ChapterShortcut>(); }
         private void BuildThunderChapterGraph()
         {
-            if(woodlandMode){BuildWoodGraph();return;}
+            if(iceSampleMode){BuildIceGraph();return;}if(woodlandMode){BuildWoodGraph();return;}
             TextAsset data=Resources.Load<TextAsset>("NakiArt/ThunderChapter/rooms");
             if(data==null)throw new InvalidOperationException("Missing Thunder Plateau room data");
             ChapterGraph g=JsonUtility.FromJson<ChapterGraph>(data.text);
@@ -48,6 +48,8 @@ namespace NakiLegend.Prototype
         }
         private void BeginThunderChapter(bool newSeed)
         {
+            if(iceSampleMode){BeginIceSample(newSeed);return;}
+            iceSpikeKnown=iceRingKnown=false;iceSpikeReady=iceRingReady=0;
             gatehouseSampleMode=bossPracticeMode=lightningTrialMode=thunderPrototypeMode=false;
             if(!tuningCaptured){initialSwordDamage=swordDamage;initialSpellDamage=spellDamage;tuningCaptured=true;}
             swordDamage=initialSwordDamage;spellDamage=initialSpellDamage;
@@ -79,9 +81,10 @@ namespace NakiLegend.Prototype
             else if(room==0)TellStory("灯匠：以前这场雨过了，巡路的人就该回来。现在，雷声总停在同一个山头。","少年：我去看看。若能把路接上，也替你捎个平安。沿石路上山，先找到旧路标。");
             else TellStory(thunderChapterPracticeBoss>=0?"雷雨高原 Boss 练习：N 选择起点，R 重试；练习不覆盖正式章节存档。":"雷雨高原快速起点：此前必要节点已开放，可继续探索。N 可重选；F5 / F9 使用第二岛独立存档。");
         }
-        private string ChapterTitle { get { return "第 "+(journeyRooms[currentRoom].stage+1)+" 层 · "+(woodlandMode?WoodlandStages:ThunderStages)[journeyRooms[currentRoom].stage]; } }
+        private string ChapterTitle { get { return iceSampleMode?"第三岛样板 · "+chapterNames[currentRoom]:"第 "+(journeyRooms[currentRoom].stage+1)+" 层 · "+(woodlandMode?WoodlandStages:ThunderStages)[journeyRooms[currentRoom].stage]; } }
         private string ChapterMapLabel(RoomNode n)
         {
+            if(iceSampleMode)return new[]{"码头","回廊","甲兽"}[n.id];
             if(woodlandMode)return n.id==17?(chapterRanger?"已获救":"牢笼"):n.id==0?"码头":n.id==4?"种床":n.kind==RoomKind.Boss?WoodNames[9+n.stage]:JourneyRoomType(n.kind);
             if(n.id==14||n.id==16)return (n.id==14?chapterWest:chapterEast)?"已修节点":"引雷节点";
             if(n.id==17)return "巡路员";
@@ -95,10 +98,11 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return;
             LoadChapterActors();chapterLampkeeper=ChapterImage("lampkeeper",1.15f);chapterRangerArt=ChapterImage("ranger",1.15f);
             chapterEndingArt=Resources.Load<Texture2D>("NakiArt/ThunderChapter/ending");
-            LoadThunderChapterEquipment();if(woodlandMode)LoadWoodArt();
+            LoadThunderChapterEquipment();if(iceSampleMode)LoadIceArt();else if(woodlandMode)LoadWoodArt();
         }
         private void BuildChapterCover(RoomNode n)
         {
+            if(iceSampleMode){BuildIceCover(n);return;}
             Vector2[][] variants={new[]{new Vector2(-4,-1),new Vector2(4,1)},new[]{new Vector2(-5,1),new Vector2(4,-1.8f)},
                 new[]{new Vector2(-4,-2),new Vector2(3.7f,1.2f),new Vector2(-4,1.2f)},new[]{new Vector2(-5,0),new Vector2(5,0)},
                 new[]{new Vector2(-3.5f,-1.6f),new Vector2(4,-.3f)},new[]{new Vector2(-5,-1.8f),new Vector2(4,1.7f)}};
@@ -109,9 +113,10 @@ namespace NakiLegend.Prototype
         private void ReserveChapterProps(RoomNode n)
         {
             if(!thunderChapterMode)return;
+            if(iceSampleMode){foreach(Vector2 at in new[]{new Vector2(-3,1),new Vector2(-3,2),new Vector2(3,-2)})transitReservations.Add(new Rect(at-new Vector2(1.3f,1),new Vector2(2.6f,2)));return;}
             if(woodlandMode){foreach(Vector2 at in new[]{new Vector2(-2,0),new Vector2(-2,1),new Vector2(2,-1)})transitReservations.Add(new Rect(at-new Vector2(1.7f,1.5f),new Vector2(3.4f,3)));return;}
             var points=new List<Vector2>();
-            if(n.id==0)points.Add(new Vector2(-3.4f,1.4f));
+            if(n.id==0)points.AddRange(new[]{new Vector2(-3.4f,1.4f),new Vector2(0,2.5f)});
             if(n.id==17)points.Add(new Vector2(-3,1.6f));
             if(n.id==14||n.id==16)points.Add(ThunderLeverAt);
             if(n.id==6||n.id==16||n.kind==RoomKind.Rest)points.Add(new Vector2(-2.2f,-.8f));
@@ -132,6 +137,7 @@ namespace NakiLegend.Prototype
         }
         private bool ChapterDoorLocked(int room,int direction)
         {
+            if(iceSampleMode)return false;
             if(woodlandMode){int target=-1;foreach(int link in journeyRooms[room].links)if(NeighborDirection(journeyRooms[room],journeyRooms[link])==direction)target=link;return target==18&&(!chapterRanger||System.Convert.ToString(chapterWaymarks,2).Replace("0","").Length<2);}
             if(!thunderChapterMode)return false;
             foreach(ChapterShortcut g in chapterDoors)
@@ -144,7 +150,7 @@ namespace NakiLegend.Prototype
         private bool ExplorationDoorLocked(int room,int direction){return GatehouseDoorLocked(room,direction)||ChapterDoorLocked(room,direction);}
         private void SpawnChapterWave(RoomNode n)
         {
-            if(woodlandMode){SpawnWoodWave(n);return;}
+            if(iceSampleMode){SpawnIceWave(n);return;}if(woodlandMode){SpawnWoodWave(n);return;}
             var random=new System.Random(activeSeed+n.id*191+currentWave*31);
             if(n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian)
             {
@@ -165,7 +171,7 @@ namespace NakiLegend.Prototype
         }
         private void OnChapterRoomCleared(RoomNode n)
         {
-            ClearThunderHazards();chapterSavePending=true;if(woodlandMode){if(n.id==17&&!chapterRanger)TellStory("看守倒下，一枚铁钥匙从腰间滑落。你拾起钥匙，牢笼里的采种人望了过来。");BuildChapterActions();return;}
+            ClearThunderHazards();chapterSavePending=true;if(iceSampleMode){BuildChapterActions();return;}if(woodlandMode){if(n.id==17&&!chapterRanger)TellStory("看守倒下，一枚铁钥匙从腰间滑落。你拾起钥匙，牢笼里的采种人望了过来。");BuildChapterActions();return;}
             if(n.id==5&&!n.lootSeeded){n.lootSeeded=true;ChapterDrop(8,new Vector2(1.6f,-1.5f));}
             if(n.id==3&&!n.claimed){n.claimed=true;TellStory("旧路标的铜尺上，有和灯匠工具相同的三道刻痕。","少年：有人刚修过这里。她走的是山上那条路。");}
             if(n.id==17&&!chapterRanger){chapterRanger=true;TellStory("巡路员：下面的灯终于亮了……师父还在等？","少年：他一直擦着那盏灯。","巡路员：我把撤离的路标立好。山顶那头鹿，请你别把它当成只会伤人的怪物。");}
@@ -173,6 +179,7 @@ namespace NakiLegend.Prototype
         }
         private void CompleteChapterBoss()
         {
+            if(iceSampleMode){CompleteIceBoss();return;}
             foreach(Enemy e in enemies){if(e.warning!=null)Destroy(e.warning);Destroy(e.root);if(e.shadow!=null)Destroy(e.shadow);}enemies.Clear();
             foreach(PendingSpawn s in pendingSpawns)if(s.mark!=null)Destroy(s.mark);pendingSpawns.Clear();
             foreach(Shot s in shots)if(s.root!=null)Destroy(s.root);shots.Clear();ClearThunderHazards();
@@ -193,7 +200,7 @@ namespace NakiLegend.Prototype
         }
         private string ChapterObjective()
         {
-            if(woodlandMode)return WoodObjective();
+            if(iceSampleMode)return IceObjective();if(woodlandMode)return WoodObjective();
             if(chapterWork>0)return "正在复位手柄 · ESC 取消";
             RoomNode n=journeyRooms[currentRoom];if(!n.cleared)return "第 "+currentWave+" / "+n.waves+" 波 · 剩余 "+(enemies.Count+pendingSpawns.Count);
             if(chapterStone)return chapterEnding?"灯下有归人 · 可回访高原支路":currentRoom==0?"回到灯匠身边 · F 迎接归人":"雷石已回收 · 山路风铃 F 返回灯棚";

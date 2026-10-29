@@ -5,7 +5,7 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer }
+        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer, IceGuard, IceWisp, IceBeast }
         private readonly Dictionary<EnemyKind, Sprite[]> enemyActionArt = new Dictionary<EnemyKind, Sprite[]>();
         private sealed class FloatingHit { public string text; public Vector2 at; public float expires; public Color color; }
         private sealed class FadingBody { public GameObject root; public SpriteRenderer renderer; public float expires; }
@@ -14,7 +14,7 @@ namespace NakiLegend.Prototype
         private AudioSource journeyAudio;
         private AudioClip hitSound, hurtSound;
         private float nextSoundAt, cameraShakeUntil;
-        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿" };
+        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿", "晶甲守卫", "浮冰晶灵", "裂冰甲兽" };
 
         private void LoadEnemyActionArt()
         {
@@ -45,11 +45,12 @@ namespace NakiLegend.Prototype
             Sprite sprite = enemyActionArt.TryGetValue(kind, out frames) ? frames[0] : boss ? bossSprite : kind == EnemyKind.SpearGuard ? skeletonSprite : smallEnemySprite;
             enemy.root = Draw(EnemyNames[(int)kind], sprite, at, Vector2.one, Color.white, DepthAt(at.y)); enemy.body = enemy.root.GetComponent<SpriteRenderer>();
             enemy.shadow = Draw("Enemy shadow", softDisc ?? disc, at, new Vector2(boss ? 1.8f : .7f, boss ? .45f : .2f), new Color(.08f, .06f, .04f, .35f), -799);
-            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemy.soulEligible=woodlandMode?(ArrayIndexWood(kind)==0||ArrayIndexWood(kind)==1||ArrayIndexWood(kind)==6||ArrayIndexWood(kind)==7||ArrayIndexWood(kind)==8||ArrayIndexWood(kind)==9||ArrayIndexWood(kind)==12):kind!=EnemyKind.StoneSentinel&&kind!=EnemyKind.Colossus&&kind!=EnemyKind.CopperRoller&&kind!=EnemyKind.ThunderStone&&!IsChapterBoss(kind);enemies.Add(enemy); return enemy;
+            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemy.soulEligible=woodlandMode?(ArrayIndexWood(kind)==0||ArrayIndexWood(kind)==1||ArrayIndexWood(kind)==6||ArrayIndexWood(kind)==7||ArrayIndexWood(kind)==8||ArrayIndexWood(kind)==9||ArrayIndexWood(kind)==12):kind!=EnemyKind.StoneSentinel&&kind!=EnemyKind.Colossus&&kind!=EnemyKind.CopperRoller&&kind!=EnemyKind.ThunderStone&&!IsChapterBoss(kind);if(IsIceEnemy(kind))ConfigureIceEnemy(enemy);enemies.Add(enemy); return enemy;
         }
 
         private void UpdateJourneyEnemy(Enemy enemy, float dt)
         {
+            if(IsIceEnemy(enemy.kind)){UpdateIceEnemy(enemy,dt);return;}
             if(IsThunderEnemy(enemy.kind)){UpdateThunderEnemy(enemy,dt);return;}
             enemy.position=MoveEnemyWithinRoom(enemy.position,Vector2.zero,enemy.radius);
             Vector2 previous = enemy.position, offset = position - enemy.position;

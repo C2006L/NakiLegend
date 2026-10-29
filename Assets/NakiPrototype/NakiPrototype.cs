@@ -30,7 +30,7 @@ namespace NakiLegend.Prototype
             public EnemyKind kind;
             public Vector2 attackDirection;
             public float actionStarted, recoveryUntil, hurtUntil, chargeUntil;
-            public int attackNumber;
+            public int attackNumber,iceArmor;public float iceSlowUntil;
             public bool secondPhase;public int chapterCombo;
             public GameObject shadow;
             public Element affinity, attackElement;
@@ -414,7 +414,7 @@ namespace NakiLegend.Prototype
             if (!remove && !shot.hostile)
                 for (int i = enemies.Count - 1; i >= 0; i--)
                     if (!shot.hitTargets.Contains(enemies[i]) && DistanceToSegment(enemies[i].position,previous,shot.position) < enemies[i].radius + .15f)
-                    { Enemy target = enemies[i]; shot.hitTargets.Add(target); if(enableDesertJourney&&shot.skillAudio!=null)ApplySkillHit(target,shot.damage,shot.element,shot.skillAudio);else if (enableDesertJourney) ApplyElementDamage(target, shot.damage > 0 ? shot.damage : spellDamage, shot.element); else DamageEnemy(target, shot.damage > 0 ? shot.damage : spellDamage); ResolveChapterArc(shot,target);shot.hitsLeft--; if (shot.hitsLeft <= 0) { remove = true; break; } }
+                    { Enemy target = enemies[i]; shot.hitTargets.Add(target);if(shot.skillAudio=="ice_spike")target.iceSlowUntil=clock+(target.boss?.6f:1.5f); if(enableDesertJourney&&shot.skillAudio!=null)ApplySkillHit(target,shot.damage,shot.element,shot.skillAudio);else if (enableDesertJourney) ApplyElementDamage(target, shot.damage > 0 ? shot.damage : spellDamage, shot.element); else DamageEnemy(target, shot.damage > 0 ? shot.damage : spellDamage); ResolveChapterArc(shot,target);shot.hitsLeft--; if (shot.hitsLeft <= 0) { remove = true; break; } }
             if (remove) { Destroy(shot.root); shots.RemoveAt(index); }
             else shot.root.transform.position = shot.position;
         }

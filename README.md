@@ -1,8 +1,10 @@
 # Naki Legend
 
+**第三岛冰港样板已接入**：码头→三波回廊→裂冰甲兽；雷击破晶甲，调查破冰队记录学习冰锥与霜环。Tools → Naki Legend → Play → 3 Ice Harbor Sample；Boss Practice → 3 Ice Beast 可直接测试。独立冰港安全点，原岛存档保留。[玩法、存档与当前范围](Docs/ICE_SAMPLE_V1.md)。目前是三房样板，完整冰山岛三层与最终 CG 尚待制作。
+
 **六岛改造第一阶段已实现**：贤者之石普通击杀+2/精英+3，流星每组1能量、每球15基础伤害、可并存两组；森林显示第五岛，旧档可继续；采种人改为钥匙开牢笼，学习、调查、栽种、登船使用对应物件。[本轮说明与入口](Docs/REVISION_A_IMPLEMENTED.md)。
 
-**本轮**：流星释放音缩短并重做，其他声音保持原版本。[六岛顺序、元素克制与贤者之石整体规划](Docs/SIX_ISLAND_REVISION_PLAN.md)已确认；数值与章节迁移尚未实装。
+**已完成的声音调整**：流星释放音缩短并重做，其他声音保持原版本。[六岛顺序、元素克制与贤者之石整体规划](Docs/SIX_ISLAND_REVISION_PLAN.md)中的第一阶段已落实，后续章节按顺序逐步制作。
 
 **职业与技能声音修正**：弓箭手开局持弓、法师开局持杖，备用短剑可 H 切换；八项技能增加独立释放及命中声音，保留已认可配乐与刀剑音色。[修改说明](Docs/STARTERS_AND_SKILL_AUDIO.md)。
 
@@ -10,7 +12,7 @@
 
 **音频首版已接入**：三岛探索/战斗/Boss 配乐、环境氛围、武器与材质命中、技能/护盾/落雷声音。游戏中 F10 调整声音并保存偏好。[音频内容及试听说明](Docs/AUDIO_V1.md)。
 
-**第三岛可玩首版**：青栖林海三层45房、十类小怪、三位Boss、根刺与孢种、调查及栽种尾声。Tools → Naki Legend → Play → 5 Woodland Adventure；6 为Boss练习。[实现范围与测试入口](Docs/WOODLAND_PLAYABLE_V1.md)。
+**第五岛已有可玩章节**：青栖林海三层45房、十类小怪、三位Boss、根刺与孢种、调查及栽种尾声。Tools → Naki Legend → Play → 5 Woodland Adventure；Boss Practice → 5 Woodland 为练习。[实现范围与测试入口](Docs/WOODLAND_PLAYABLE_V1.md)。
 
 **V18 更新**：新增战士/法师/弓箭手专长，战士 K 冲撞伤敌，职业随存档保留；落雷预警与伤害范围统一，新增收圈倒计时、分叉电弧与地面闪光。[两座岛完整游玩与 Tools 菜单指南](Docs/PLAY_GUIDE_V18.md)。
 

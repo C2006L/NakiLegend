@@ -29,7 +29,7 @@ namespace NakiLegend.Prototype.Editor
             importer.mipmapEnabled = false;
             importer.alphaSource = TextureImporterAlphaSource.FromInput;
             importer.alphaIsTransparency = true;
-            importer.filterMode = importer.assetPath.Contains("/ThunderS1/")||importer.assetPath.Contains("/ThunderChapter/")?FilterMode.Point:FilterMode.Bilinear;
+            importer.filterMode = importer.assetPath.Contains("/IceSample/")||importer.assetPath.Contains("/ThunderS1/")||importer.assetPath.Contains("/ThunderChapter/")?FilterMode.Point:FilterMode.Bilinear;
             importer.wrapMode = TextureWrapMode.Clamp;
         }
 
@@ -48,6 +48,10 @@ namespace NakiLegend.Prototype.Editor
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 var importer = AssetImporter.GetAtPath(path) as TextureImporter;
                 if (importer == null) continue;
+                // A running editor may import new PNGs before the revised
+                // postprocessor compiles; correct that first-import fallback.
+                if (path.Contains("/IceSample/") && importer.filterMode != FilterMode.Point)
+                { Configure(importer); importer.SaveAndReimport(); continue; }
                 if (importer.npotScale == TextureImporterNPOTScale.None && importer.maxTextureSize == 4096 &&
                     importer.textureType == TextureImporterType.Default && importer.textureShape == TextureImporterShape.Texture2D && !importer.mipmapEnabled &&
                     importer.textureCompression == TextureImporterCompression.Uncompressed && importer.alphaIsTransparency) continue;

@@ -66,7 +66,7 @@ namespace NakiLegend.Prototype
         {
             Sprite floor=thunderChapterMode?(chapterFloors[journeyRooms[currentRoom].stage]??thunderFloor):thunderFloor;
             GameObject o=Draw(name,floor??terrainV12[1],at,Vector2.one,Color.white,order);
-            var sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=size;sr.color=currentRoom==0?new Color(.87f,.96f,.9f):new Color(.9f,.94f,1);
+            var sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=size;sr.color=iceSampleMode?Color.white:currentRoom==0?new Color(.87f,.96f,.9f):new Color(.9f,.94f,1);
         }
         private void BuildThunderRoom(RoomNode node)
         {
@@ -98,17 +98,18 @@ namespace NakiLegend.Prototype
                 for(int i=0;i<11;i++)thunderFlow.Add(Stretch("Rerouted current",square,new Vector2(6.8f,-3.7f+i*.65f),new Vector2(.045f,.16f),C("7cd9e1"),-980));
                 RefreshThunderRepair();
             }
-            for(int i=0;i<26;i++)
+            if(!iceSampleMode){for(int i=0;i<26;i++)
             {
                 float x=i<13?-node.halfWidth+.7f:node.halfWidth-.7f;
                 Vector2 at=new Vector2(x,-node.halfHeight+.6f+(i%13)*(node.halfHeight*2-1.2f)/12);
                 if(!IntersectsTransit(at,new Vector2(.8f,.5f)))Draw("Highland grass and flowers",thunderGrass,at,Vector2.one*(node.id==0?1:.7f),Color.white,DepthAt(at.y));
             }
             foreach(Vector2 at in new[]{new Vector2(-4.6f,.25f),new Vector2(4.2f,-.8f),new Vector2(-6.5f,3.5f)})Draw("Grass beside low stones",thunderGrass,at,Vector2.one*.7f,Color.white,DepthAt(at.y));
+            }
             if(thunderChapterMode)BuildChapterActions();
             for(int i=0;i<32;i++)
             {
-                GameObject drop=Stretch("Highland rain",square,Vector2.zero,new Vector2(.012f,.15f),new Color(.65f,.82f,.88f,.17f),-610);
+                GameObject drop=Stretch(iceSampleMode?"Windblown snow":"Highland rain",square,Vector2.zero,iceSampleMode?Vector2.one*.035f:new Vector2(.012f,.15f),iceSampleMode?new Color(.9f,.97f,1,.45f):new Color(.65f,.82f,.88f,.17f),-610);
                 drop.transform.rotation=Quaternion.Euler(0,0,-13);thunderRain.Add(drop);
             }
         }
@@ -116,7 +117,7 @@ namespace NakiLegend.Prototype
         {
             if(end-begin<.02f)return;Vector2 normal=DoorNormal(d),tangent=new Vector2(normal.y,-normal.x);
             Vector2 at=DoorPoint(d,.35f)+tangent*((begin+end)*.5f);bool horizontal=d<2;
-            GameObject o=Draw("Mossy highland wall",thunderWall??thunderFloor,at,Vector2.one,new Color(.82f,.9f,.9f),DepthAt(at.y));
+            GameObject o=Draw("Mossy highland wall",thunderWall??thunderFloor,at,Vector2.one,iceSampleMode?new Color(.7f,.83f,1):new Color(.82f,.9f,.9f),DepthAt(at.y));
             SpriteRenderer sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=new Vector2(end-begin,.72f);
             if(!horizontal)o.transform.rotation=Quaternion.Euler(0,0,90);
             projectileObstacles.Add(new Rect(at-(horizontal?new Vector2((end-begin)/2,.36f):new Vector2(.36f,(end-begin)/2)),horizontal?new Vector2(end-begin,.72f):new Vector2(.72f,end-begin)));
@@ -161,7 +162,7 @@ namespace NakiLegend.Prototype
         private void TickThunderEnvironment(float dt)
         {
             if(!ThunderActive)return;
-            for(int i=0;i<thunderRain.Count;i++)if(thunderRain[i]!=null)thunderRain[i].transform.position=new Vector2(-8.8f+Mathf.Repeat(i*2.731f+clock*.25f,17.6f),5.2f-Mathf.Repeat(i*1.137f+clock*3,10.4f));
+            for(int i=0;i<thunderRain.Count;i++)if(thunderRain[i]!=null)thunderRain[i].transform.position=new Vector2(-8.8f+Mathf.Repeat(i*2.731f+clock*.25f,17.6f),5.2f-Mathf.Repeat(i*1.137f+clock*(iceSampleMode?.5f:3),10.4f));
             if(HasThunderConductor&&!thunderRepaired&&!journeyRooms[currentRoom].cleared&&clock>=thunderNextStrike&&thunderStrikes.Count==0)
             {
                 Vector2 at=NearestEnemyFooting(position+Vector2.up*.65f,.85f);

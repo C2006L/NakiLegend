@@ -4,7 +4,7 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private static bool IsChapterBoss(EnemyKind kind){return kind>=EnemyKind.CopperWarden&&kind<=EnemyKind.StormStag;}
+        private static bool IsChapterBoss(EnemyKind kind){return kind>=EnemyKind.CopperWarden&&kind<=EnemyKind.StormStag||kind==EnemyKind.IceBeast;}
         private void ConfigureChapterEnemy(Enemy e)
         {
             int stage=thunderChapterMode?journeyRooms[currentRoom].stage:0;e.affinity=e.attackElement=Element.Lightning;e.nextAttack=clock+1.6f;

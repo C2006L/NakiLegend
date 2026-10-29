@@ -48,12 +48,12 @@ namespace NakiLegend.Prototype
             weaponCatalog=items.ToArray();weaponCatalog[8].scatter=4;weaponCatalog[9].scatter=1;weaponCatalog[12].scatter=.6f;weaponCatalog[11].maxHits=2;
         }
         private bool ChapterSkillKnown(int skill)
-        {return skill==0?bladeLearned:skill==1?waveLearned:skill==2?chapterMarkKnown:chapterArcKnown;}
-        private float ChapterSkillReady(int skill){return skill==0?bladeReadyAt:skill==1?waveReadyAt:skill==2?chapterMarkReady:chapterArcReady;}
-        private float ChapterSkillCost(int skill){return skill==0?6:skill==1?10:woodlandMode?(skill==2?7:9):skill==2?8:10;}
+        {return iceSampleMode&&skill>=4?skill==4?iceSpikeKnown:iceRingKnown:skill==0?bladeLearned:skill==1?waveLearned:skill==2?chapterMarkKnown:chapterArcKnown;}
+        private float ChapterSkillReady(int skill){return iceSampleMode&&skill>=4?skill==4?iceSpikeReady:iceRingReady:skill==0?bladeReadyAt:skill==1?waveReadyAt:skill==2?chapterMarkReady:chapterArcReady;}
+        private float ChapterSkillCost(int skill){return iceSampleMode&&skill>=4?skill==4?6:12:skill==0?6:skill==1?10:woodlandMode?(skill==2?7:9):skill==2?8:10;}
         private void CastChapterSkill(int slot)
         {
-            if(woodlandMode){CastWoodSkill(slot);return;}
+            if(iceSampleMode&&chapterSkillSlots[slot]>=4){CastIceSkill(slot);return;}if(woodlandMode){CastWoodSkill(slot);return;}
             int skill=chapterSkillSlots[slot];if(!ChapterSkillKnown(skill)){JourneyHint("这项元素技能尚未学会");return;}
             if(skill==0){CastWindBlade();return;}if(skill==1){CastWindWave();return;}
             if(clock<ChapterSkillReady(skill)||clock<dashUntil)return;
@@ -78,7 +78,7 @@ namespace NakiLegend.Prototype
         }
         private void TickChapterSkills()
         {
-            if(!thunderChapterMode)return;
+            if(!thunderChapterMode)return;TickIceEffects();
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
                 ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;SkillSound("mark","hit");
@@ -99,7 +99,7 @@ namespace NakiLegend.Prototype
             ApplySkillHit(best,SkillDamage(chapterStone?15:12),Element.Lightning,"arc");
         }
         private void ClearChapterSkillEffects()
-        {foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
+        {if(iceRingVisual!=null)Destroy(iceRingVisual);iceRingVisual=null;foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
         private void EquipChapterSkill(int skill,int slot)
         {
             if(!journeyRooms[currentRoom].cleared){JourneyHint("战斗中只能查看，清房后再调整配置");return;}
@@ -108,6 +108,7 @@ namespace NakiLegend.Prototype
         }
         private void DrawChapterSkills(float w,float h)
         {
+            if(iceSampleMode){DrawIceSkills(w,h);return;}
             HudRect(new Rect(w/2-455,h/2-282,910,564),C("10232d"));CenterLabel(new Rect(w/2-430,h/2-263,860,40),"元素技能 · U / I 配置",journeyTitleStyle);
             CenterLabel(new Rect(w/2-430,h/2-212,860,35),"U "+ChapterSkillNames[chapterSkillSlots[0]]+"    I "+ChapterSkillNames[chapterSkillSlots[1]]+"    L 保留主属性技能",journeyTextStyle);
             string[] detail=woodlandMode?new[]{"风刃 · 保留已习得的风元素能力","抵挡普通飞弹，保护近身空间","7元素 / 1.6秒 · 木伤害与短暂束缚","9元素 / 2.4秒 · 自动追踪孢种"}:new[]{"风克雷 ×1.3；三次风命中可破势","消普通飞弹，短暂减雷伤；不消地雷","锁定敌人旧位置，延迟小范围落雷","命中后向附近可见敌人跳一次"};

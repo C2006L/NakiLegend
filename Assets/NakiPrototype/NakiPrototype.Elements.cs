@@ -68,7 +68,7 @@ namespace NakiLegend.Prototype
 
         private void ApplyElementDamage(Enemy enemy, float amount, Element element)
         {
-            float multiplier = ElementMultiplier(element, enemy.affinity);
+            amount=IceArmorDamage(enemy,amount,element);float multiplier = ElementMultiplier(element, enemy.affinity);
             if (multiplier > 1) AddFloatingHit(ElementName(element)+"克"+ElementName(enemy.affinity), enemy.position + Vector2.up * 1.1f, C("83edcf"));
             DamageEnemy(enemy, amount * multiplier);
             if (enemy.hp > 0 && element == Element.Wind && enemy.affinity == Element.Lightning && clock >= enemy.poiseReadyAt)
