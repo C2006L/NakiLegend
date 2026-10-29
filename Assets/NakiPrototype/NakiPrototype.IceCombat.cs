@@ -7,7 +7,7 @@ namespace NakiLegend.Prototype
   {
    bool boss=e.kind==EnemyKind.IceBeast;e.boss=boss;e.radius=boss?.9f:e.kind==EnemyKind.IceGuard?.4f:.3f;
    e.hp=e.maximum=boss?780:e.kind==EnemyKind.IceGuard?82:56;e.iceArmor=boss?4:e.kind==EnemyKind.IceGuard?2:0;
-   e.affinity=e.attackElement=Element.Ice;e.speed=boss?1.1f:e.kind==EnemyKind.IceGuard?1.3f:.9f;e.nextAttack=clock+1.6f;e.soulEligible=e.kind==EnemyKind.IceGuard;
+   e.affinity=e.attackElement=Element.Ice;e.speed=boss?1.1f:e.kind==EnemyKind.IceGuard?1.3f:.9f;e.nextAttack=clock+1.6f;e.soulEligible=e.kind==EnemyKind.IceGuard;if(IsExpandedIceEnemy(e.kind))ConfigureExpandedIceEnemy(e);
   }
   private float IceArmorDamage(Enemy e,float amount,Element element)
   {
@@ -22,7 +22,7 @@ namespace NakiLegend.Prototype
   }
   private void UpdateIceEnemy(Enemy e,float dt)
   {
-   Vector2 old=e.position,to=position-e.position;bool boss=e.kind==EnemyKind.IceBeast;
+   if(IsExpandedIceEnemy(e.kind)){UpdateExpandedIceEnemy(e,dt);return;}Vector2 old=e.position,to=position-e.position;bool boss=e.kind==EnemyKind.IceBeast;
    if(boss&&!e.secondPhase&&e.hp<=e.maximum*.5f){e.secondPhase=true;e.iceArmor=3;e.windup=e.chargeUntil=0;e.phaseUntil=clock+1.1f;e.nextAttack=e.phaseUntil+.4f;if(e.warning!=null)Destroy(e.warning);AddFloatingHit("碎冰暴走 · 新晶甲凝结",e.position+Vector2.up*1.6f,C("bfe8ff"));}
    float slow=clock<e.iceSlowUntil?(boss?.8f:.45f):1;
    if(clock>=e.phaseUntil)
@@ -50,7 +50,7 @@ namespace NakiLegend.Prototype
     }
    }
    e.velocity=dt>0?(e.position-old)/dt:Vector2.zero;e.root.transform.position=e.position+Vector2.up*(e.kind==EnemyKind.IceWisp?.22f+.04f*Mathf.Sin(clock*5):e.velocity.sqrMagnitude>.01f?.025f*Mathf.Sin(clock*12):0);
-   e.body.flipX=to.x<0;e.body.sortingOrder=DepthAt(e.position.y);e.body.color=clock<e.hurtUntil?C("ffe5dd"):e.iceArmor>0?C("b9d9ff"):Color.white;if(e.shadow!=null)e.shadow.transform.position=e.position;
+   e.body.flipX=(e.windup>0||e.chargeUntil>0?e.attackDirection:to).x<0;e.body.sortingOrder=DepthAt(e.position.y);e.body.color=clock<e.hurtUntil?C("ffe5dd"):e.iceArmor>0?C("b9d9ff"):Color.white;if(e.shadow!=null)e.shadow.transform.position=e.position;
   }
   private void ResolveIceMove(Enemy e)
   {

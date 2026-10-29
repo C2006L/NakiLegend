@@ -101,7 +101,7 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode||Application.isBatchMode&&!allowBatchCheckpoints)return false;ChapterCheckpoint s=null;
             foreach(string path in new[]{ChapterCheckpointPath,ChapterCheckpointPath+".bak"})
             {
-                if(!File.Exists(path))continue;try{var candidate=JsonUtility.FromJson<ChapterCheckpoint>(File.ReadAllText(path));ValidateChapterCheckpoint(candidate);s=candidate;break;}catch(Exception){}
+                if(!File.Exists(path))continue;try{var candidate=JsonUtility.FromJson<ChapterCheckpoint>(File.ReadAllText(path));MigrateIceSampleCheckpoint(candidate);ValidateChapterCheckpoint(candidate);s=candidate;break;}catch(Exception){}
             }
             if(s==null){if(notify)JourneyHint("没有完整的本岛安全存档，当前状态保持原样");return false;}
             thunderChapterPracticeBoss=-1;thunderChapterStartFloor=0;thunderPreset=(ThunderPreset)s.player.preset;chapterSetup=false;activeSeed=s.seed;BeginThunderChapter(false);

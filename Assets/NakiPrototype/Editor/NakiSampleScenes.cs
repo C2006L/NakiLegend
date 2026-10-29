@@ -35,7 +35,7 @@ namespace NakiLegend.Prototype.Editor
             }
         }
         [MenuItem("Tools/Naki Legend/World Route")]
-        public static void ShowRoute(){EditorUtility.DisplayDialog("Naki 群岛航线","1 沙漠岛（可玩） → 2 雷雨高原（可玩） → 3 冰山岛（冰港三房样板） → 4 烈焰岛（待制作） → 5 青栖林海（已有章节试航） → 6 大骑士的府邸（待制作） → 本土。\n\nPlay 打开章节，Boss Practice 只练习。现有森林存档可以继续，不要求补打新岛。","知道了");}
+        public static void ShowRoute(){EditorUtility.DisplayDialog("Naki 群岛航线","1 沙漠岛（可玩） → 2 雷雨高原（可玩） → 3 冰山岛（冰港五房样板） → 4 烈焰岛（待制作） → 5 青栖林海（已有章节试航） → 6 大骑士的府邸（待制作） → 本土。\n\nPlay 打开章节，Boss Practice 只练习。现有森林存档可以继续，不要求补打新岛。","知道了");}
         public static void BuildWoodScenes(){foreach(bool practice in new[]{false,true}){var scene=EditorSceneManager.OpenScene(ChapterPath);var p=Object.FindObjectOfType<NakiPrototype>();p.woodlandMode=true;p.thunderChapterMode=true;p.showOpeningOnStart=false;p.thunderChapterPracticeBoss=practice?2:-1;EditorUtility.SetDirty(p);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene,practice?"Assets/Scenes/NakiWoodlandBossPractice.unity":"Assets/Scenes/NakiWoodlandChapter.unity");}}
         private static void OpenScene(string path)
         {

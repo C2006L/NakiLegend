@@ -17,6 +17,7 @@ namespace NakiLegend.Prototype
   private string EnemyMoveName(Enemy e)
   {
    if(woodlandMode&&IsChapterBoss(e.kind))return new[]{"根须突进","孢潮落点","枝冠横扫"}[Mathf.Max(0,(e.attackNumber-1)%3)];
+   if(IsExpandedIceEnemy(e.kind))return e.kind==EnemyKind.FrostHound?"霜牙扑击":e.kind==EnemyKind.IceArcher?"双矢连射":"刻霜落点";
    if(IsIceEnemy(e.kind))return e.boss?new[]{"晶角冲锋","碎冰扇射","霜裂落点"}[Mathf.Max(0,(e.attackNumber-1)%3)]:e.kind==EnemyKind.IceGuard?"冰斧突刺":"冰晶扇射";
    if(IsChapterBoss(e.kind))return ChapterBossMove(e);
    int move=(e.attackNumber-1)%3;

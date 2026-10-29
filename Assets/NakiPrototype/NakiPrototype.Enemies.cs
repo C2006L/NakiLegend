@@ -5,7 +5,7 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer, IceGuard, IceWisp, IceBeast }
+        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer, IceGuard, IceWisp, IceBeast, FrostHound, IceArcher, IceRunecaster }
         private readonly Dictionary<EnemyKind, Sprite[]> enemyActionArt = new Dictionary<EnemyKind, Sprite[]>();
         private sealed class FloatingHit { public string text; public Vector2 at; public float expires; public Color color; }
         private sealed class FadingBody { public GameObject root; public SpriteRenderer renderer; public float expires; }
@@ -14,7 +14,7 @@ namespace NakiLegend.Prototype
         private AudioSource journeyAudio;
         private AudioClip hitSound, hurtSound;
         private float nextSoundAt, cameraShakeUntil;
-        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿", "晶甲守卫", "浮冰晶灵", "裂冰甲兽" };
+        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿", "晶甲守卫", "浮冰晶灵", "裂冰甲兽", "霜牙猎犬", "寒弓游猎者", "刻霜祭司" };
 
         private void LoadEnemyActionArt()
         {

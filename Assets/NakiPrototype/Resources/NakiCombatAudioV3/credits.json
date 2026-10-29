@@ -1,0 +1,633 @@
+{
+  "sources": [
+    {
+      "file": "continuousspark.wav",
+      "page": "https://opengameart.org/content/electricity-sound-effects-0",
+      "url": "https://opengameart.org/sites/default/files/continuousspark.wav",
+      "author": "BMacZero",
+      "license": "CC0-1.0",
+      "sha256": "4ec24045b4fb6a88b958d00f16cc39b8aa992cd6e6a5edb4ecb0f34b36ddb18b"
+    },
+    {
+      "file": "spark.wav",
+      "page": "https://opengameart.org/content/electricity-sound-effects-0",
+      "url": "https://opengameart.org/sites/default/files/spark.wav",
+      "author": "BMacZero",
+      "license": "CC0-1.0",
+      "sha256": "9a3d987bdf7f405570aa015f6da42596ce84c5073c18c0561be7cd3ae401bc97"
+    },
+    {
+      "file": "80-CC0-RPG-SFX_0.zip",
+      "page": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "url": "https://opengameart.org/sites/default/files/80-CC0-RPG-SFX_0.zip",
+      "author": "rubberduck",
+      "license": "CC0-1.0",
+      "sha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd"
+    },
+    {
+      "file": "medieval_sfx_textures_1_of_2.7z",
+      "page": "https://opengameart.org/content/medieval-sound-effects-weapon-textures",
+      "url": "https://opengameart.org/sites/default/files/medieval_sfx_textures_1_of_2.7z",
+      "author": "Ben Jaszczak & Brian Nelson",
+      "license": "CC0-1.0",
+      "sha256": "b5e2b2c86d811d983d15dbf8453df6a25275a2a0dc4e88e0dc5e1cb3046fd4ae"
+    }
+  ],
+  "edits": "Short isolated takes, band-pass filtering, layered foley and a fast dry release. No material from commercial games.",
+  "clips": [
+    {
+      "file": "skill_blade_cast_0.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_blade_cast_1.wav",
+      "seconds": 0.16666666666666666,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_blade_cast_2.wav",
+      "seconds": 0.16346938775510203,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_blade_hit_0.wav",
+      "seconds": 0.13,
+      "peak": 0.7,
+      "components": [
+        "blade_03.ogg",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_blade_hit_1.wav",
+      "seconds": 0.12746031746031747,
+      "peak": 0.7,
+      "components": [
+        "blade_03.ogg",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_blade_hit_2.wav",
+      "seconds": 0.12501133786848073,
+      "peak": 0.7,
+      "components": [
+        "blade_03.ogg",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_cast_0.wav",
+      "seconds": 0.27,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav",
+        "blade_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_cast_1.wav",
+      "seconds": 0.2647165532879819,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav",
+        "blade_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_cast_2.wav",
+      "seconds": 0.25963718820861675,
+      "peak": 0.7,
+      "components": [
+        "Katana Swing.wav",
+        "blade_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_hit_0.wav",
+      "seconds": 0.15,
+      "peak": 0.7,
+      "components": [
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_hit_1.wav",
+      "seconds": 0.1470748299319728,
+      "peak": 0.7,
+      "components": [
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_wave_hit_2.wav",
+      "seconds": 0.1442403628117914,
+      "peak": 0.7,
+      "components": [
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_cast_0.wav",
+      "seconds": 0.19,
+      "peak": 0.6509373878072671,
+      "components": [
+        "spell_fire_01.ogg",
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_cast_1.wav",
+      "seconds": 0.18628117913832198,
+      "peak": 0.6496077708140402,
+      "components": [
+        "spell_fire_01.ogg",
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_cast_2.wav",
+      "seconds": 0.1826984126984127,
+      "peak": 0.6477909737591181,
+      "components": [
+        "spell_fire_01.ogg",
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_hit_0.wav",
+      "seconds": 0.21,
+      "peak": 0.7,
+      "components": [
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_hit_1.wav",
+      "seconds": 0.2058956916099773,
+      "peak": 0.7,
+      "components": [
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_meteor_hit_2.wav",
+      "seconds": 0.20192743764172336,
+      "peak": 0.7000000000000001,
+      "components": [
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_mark_cast_0.wav",
+      "seconds": 0.12,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_mark_cast_1.wav",
+      "seconds": 0.11766439909297052,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_mark_cast_2.wav",
+      "seconds": 0.1153968253968254,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_mark_hit_0.wav",
+      "seconds": 0.19,
+      "peak": 0.7,
+      "components": [
+        "continuousspark.wav",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_mark_hit_1.wav",
+      "seconds": 0.18628117913832198,
+      "peak": 0.7,
+      "components": [
+        "continuousspark.wav",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_mark_hit_2.wav",
+      "seconds": 0.1826984126984127,
+      "peak": 0.7,
+      "components": [
+        "continuousspark.wav",
+        "stones_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_arc_cast_0.wav",
+      "seconds": 0.14,
+      "peak": 0.7,
+      "components": [
+        "continuousspark.wav",
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_arc_cast_1.wav",
+      "seconds": 0.13725623582766439,
+      "peak": 0.7,
+      "components": [
+        "continuousspark.wav",
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_arc_cast_2.wav",
+      "seconds": 0.13462585034013605,
+      "peak": 0.7000000000000001,
+      "components": [
+        "continuousspark.wav",
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_arc_hit_0.wav",
+      "seconds": 0.15,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_arc_hit_1.wav",
+      "seconds": 0.1470748299319728,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_arc_hit_2.wav",
+      "seconds": 0.1442403628117914,
+      "peak": 0.7,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "skill_orb_cast_0.wav",
+      "seconds": 0.19,
+      "peak": 0.7000000000000001,
+      "components": [
+        "blade_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_orb_cast_1.wav",
+      "seconds": 0.18628117913832198,
+      "peak": 0.7,
+      "components": [
+        "blade_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_orb_cast_2.wav",
+      "seconds": 0.1826984126984127,
+      "peak": 0.7,
+      "components": [
+        "blade_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_orb_hit_0.wav",
+      "seconds": 0.16,
+      "peak": 0.7000000000000001,
+      "components": [
+        "stones_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_orb_hit_1.wav",
+      "seconds": 0.15687074829931974,
+      "peak": 0.7,
+      "components": [
+        "stones_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_orb_hit_2.wav",
+      "seconds": 0.1538548752834467,
+      "peak": 0.7,
+      "components": [
+        "stones_01.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_cast_0.wav",
+      "seconds": 0.18,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg",
+        "stones_03.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_cast_1.wav",
+      "seconds": 0.17648526077097507,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg",
+        "stones_03.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_cast_2.wav",
+      "seconds": 0.17308390022675738,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg",
+        "stones_03.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_hit_0.wav",
+      "seconds": 0.15,
+      "peak": 0.6999999999999998,
+      "components": [
+        "item_wood_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_hit_1.wav",
+      "seconds": 0.1470748299319728,
+      "peak": 0.7,
+      "components": [
+        "item_wood_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_root_hit_2.wav",
+      "seconds": 0.1442403628117914,
+      "peak": 0.7,
+      "components": [
+        "item_wood_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_cast_0.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "item_wood_03.ogg",
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_cast_1.wav",
+      "seconds": 0.16666666666666666,
+      "peak": 0.7,
+      "components": [
+        "item_wood_03.ogg",
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_cast_2.wav",
+      "seconds": 0.16346938775510203,
+      "peak": 0.7,
+      "components": [
+        "item_wood_03.ogg",
+        "blade_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_hit_0.wav",
+      "seconds": 0.13,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_hit_1.wav",
+      "seconds": 0.12746031746031747,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_spore_hit_2.wav",
+      "seconds": 0.12501133786848073,
+      "peak": 0.7,
+      "components": [
+        "item_wood_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_cast_0.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "stones_04.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_cast_1.wav",
+      "seconds": 0.16666666666666666,
+      "peak": 0.7,
+      "components": [
+        "stones_04.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_cast_2.wav",
+      "seconds": 0.16346938775510203,
+      "peak": 0.7,
+      "components": [
+        "stones_04.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_hit_0.wav",
+      "seconds": 0.16,
+      "peak": 0.7,
+      "components": [
+        "stones_03.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_hit_1.wav",
+      "seconds": 0.15687074829931974,
+      "peak": 0.7,
+      "components": [
+        "stones_03.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_spike_hit_2.wav",
+      "seconds": 0.1538548752834467,
+      "peak": 0.7,
+      "components": [
+        "stones_03.ogg",
+        "item_gem_01.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_cast_0.wav",
+      "seconds": 0.25,
+      "peak": 0.6999999999999998,
+      "components": [
+        "stones_04.ogg",
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_cast_1.wav",
+      "seconds": 0.24510204081632653,
+      "peak": 0.6999999999999998,
+      "components": [
+        "stones_04.ogg",
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_cast_2.wav",
+      "seconds": 0.24038548752834468,
+      "peak": 0.7,
+      "components": [
+        "stones_04.ogg",
+        "Katana Swing.wav"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_hit_0.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "stones_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_hit_1.wav",
+      "seconds": 0.16666666666666666,
+      "peak": 0.7,
+      "components": [
+        "stones_02.ogg"
+      ]
+    },
+    {
+      "file": "skill_ice_ring_hit_2.wav",
+      "seconds": 0.16346938775510203,
+      "peak": 0.6999999999999998,
+      "components": [
+        "stones_02.ogg"
+      ]
+    },
+    {
+      "file": "bow_0.wav",
+      "seconds": 0.19,
+      "peak": 0.7,
+      "components": [
+        "English Longbow Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "crossbow_0.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "Crossbow Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "staff_electric_0.wav",
+      "seconds": 0.14,
+      "peak": 0.6999999999999998,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "bow_1.wav",
+      "seconds": 0.19,
+      "peak": 0.7,
+      "components": [
+        "Scythian Recurve Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "crossbow_1.wav",
+      "seconds": 0.17,
+      "peak": 0.7,
+      "components": [
+        "Crossbow Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "staff_electric_1.wav",
+      "seconds": 0.14,
+      "peak": 0.6999999999999998,
+      "components": [
+        "spark.wav"
+      ]
+    },
+    {
+      "file": "bow_2.wav",
+      "seconds": 0.19,
+      "peak": 0.6999999999999998,
+      "components": [
+        "English Longbow Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "crossbow_2.wav",
+      "seconds": 0.17,
+      "peak": 0.6999999999999998,
+      "components": [
+        "Crossbow Shoot.wav",
+        "Arrow Fletching.wav"
+      ]
+    },
+    {
+      "file": "staff_electric_2.wav",
+      "seconds": 0.14,
+      "peak": 0.6999999999999998,
+      "components": [
+        "spark.wav"
+      ]
+    }
+  ]
+}

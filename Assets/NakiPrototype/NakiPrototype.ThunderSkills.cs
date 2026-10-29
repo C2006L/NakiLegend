@@ -78,7 +78,7 @@ namespace NakiLegend.Prototype
         }
         private void TickChapterSkills()
         {
-            if(!thunderChapterMode)return;TickIceEffects();
+            if(!thunderChapterMode)return;TickIceEffects();TickIcePatches();
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
                 ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;SkillSound("mark","hit");
@@ -99,7 +99,7 @@ namespace NakiLegend.Prototype
             ApplySkillHit(best,SkillDamage(chapterStone?15:12),Element.Lightning,"arc");
         }
         private void ClearChapterSkillEffects()
-        {if(iceRingVisual!=null)Destroy(iceRingVisual);iceRingVisual=null;foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
+        {ClearIcePatches();if(iceRingVisual!=null)Destroy(iceRingVisual);iceRingVisual=null;foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
         private void EquipChapterSkill(int skill,int slot)
         {
             if(!journeyRooms[currentRoom].cleared){JourneyHint("战斗中只能查看，清房后再调整配置");return;}

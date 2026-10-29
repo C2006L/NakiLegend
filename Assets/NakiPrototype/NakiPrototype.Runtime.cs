@@ -25,7 +25,7 @@ namespace NakiLegend.Prototype
             if (world != null) { world.gameObject.SetActive(false); Destroy(world.gameObject); }
             world = null;
             foreach (Object asset in ownedAssets) if (asset != null) Destroy(asset);
-            ownedAssets.Clear(); heroFrames.Clear(); enemyActionArt.Clear();worldPropSprites.Clear();iceArt.Clear();iceRingVisual=null;woodPropBlocks.Clear();woodPropRoom=-1;
+            ownedAssets.Clear(); heroFrames.Clear(); enemyActionArt.Clear();worldPropSprites.Clear();iceArt.Clear();iceExpansionArt.Clear();iceFissures.Clear();icePatches.Clear();iceRingVisual=null;woodPropBlocks.Clear();woodPropRoom=-1;
             pixelHeroReady = polishedHeroReady = layeredHeroReady = false;
             windRingSprite = sectorWarning = essenceSprite = null;
             journeyTitleStyle = journeyTextStyle = journeySmallStyle = journeyButtonStyle = journeyNodeStyle = null;

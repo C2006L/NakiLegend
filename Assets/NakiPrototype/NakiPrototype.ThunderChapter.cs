@@ -84,7 +84,7 @@ namespace NakiLegend.Prototype
         private string ChapterTitle { get { return iceSampleMode?"第三岛样板 · "+chapterNames[currentRoom]:"第 "+(journeyRooms[currentRoom].stage+1)+" 层 · "+(woodlandMode?WoodlandStages:ThunderStages)[journeyRooms[currentRoom].stage]; } }
         private string ChapterMapLabel(RoomNode n)
         {
-            if(iceSampleMode)return new[]{"码头","回廊","甲兽"}[n.id];
+            if(iceSampleMode)return new[]{"码头","回廊","甲兽","货仓","瞭台"}[n.id];
             if(woodlandMode)return n.id==17?(chapterRanger?"已获救":"牢笼"):n.id==0?"码头":n.id==4?"种床":n.kind==RoomKind.Boss?WoodNames[9+n.stage]:JourneyRoomType(n.kind);
             if(n.id==14||n.id==16)return (n.id==14?chapterWest:chapterEast)?"已修节点":"引雷节点";
             if(n.id==17)return "巡路员";
@@ -113,7 +113,7 @@ namespace NakiLegend.Prototype
         private void ReserveChapterProps(RoomNode n)
         {
             if(!thunderChapterMode)return;
-            if(iceSampleMode){foreach(Vector2 at in new[]{new Vector2(-3,1),new Vector2(-3,2),new Vector2(3,-2)})transitReservations.Add(new Rect(at-new Vector2(1.3f,1),new Vector2(2.6f,2)));return;}
+            if(iceSampleMode){if(n.id==0||n.id==2)foreach(Vector2 at in new[]{new Vector2(-3,1),new Vector2(-3,2),new Vector2(3,-2)})transitReservations.Add(new Rect(at-new Vector2(1.3f,1),new Vector2(2.6f,2)));return;}
             if(woodlandMode){foreach(Vector2 at in new[]{new Vector2(-2,0),new Vector2(-2,1),new Vector2(2,-1)})transitReservations.Add(new Rect(at-new Vector2(1.7f,1.5f),new Vector2(3.4f,3)));return;}
             var points=new List<Vector2>();
             if(n.id==0)points.AddRange(new[]{new Vector2(-3.4f,1.4f),new Vector2(0,2.5f)});
@@ -171,7 +171,7 @@ namespace NakiLegend.Prototype
         }
         private void OnChapterRoomCleared(RoomNode n)
         {
-            ClearThunderHazards();chapterSavePending=true;if(iceSampleMode){BuildChapterActions();return;}if(woodlandMode){if(n.id==17&&!chapterRanger)TellStory("看守倒下，一枚铁钥匙从腰间滑落。你拾起钥匙，牢笼里的采种人望了过来。");BuildChapterActions();return;}
+            ClearThunderHazards();chapterSavePending=true;if(iceSampleMode){IceBranchCleared(n);BuildChapterActions();return;}if(woodlandMode){if(n.id==17&&!chapterRanger)TellStory("看守倒下，一枚铁钥匙从腰间滑落。你拾起钥匙，牢笼里的采种人望了过来。");BuildChapterActions();return;}
             if(n.id==5&&!n.lootSeeded){n.lootSeeded=true;ChapterDrop(8,new Vector2(1.6f,-1.5f));}
             if(n.id==3&&!n.claimed){n.claimed=true;TellStory("旧路标的铜尺上，有和灯匠工具相同的三道刻痕。","少年：有人刚修过这里。她走的是山上那条路。");}
             if(n.id==17&&!chapterRanger){chapterRanger=true;TellStory("巡路员：下面的灯终于亮了……师父还在等？","少年：他一直擦着那盏灯。","巡路员：我把撤离的路标立好。山顶那头鹿，请你别把它当成只会伤人的怪物。");}

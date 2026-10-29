@@ -5,18 +5,18 @@ namespace NakiLegend.Prototype
 {
  public sealed partial class NakiPrototype
  {
-  [Header("Ice harbor three-room sample")] public bool iceSampleMode;
+  [Header("Ice harbor exploration sample")] public bool iceSampleMode;
   private bool iceSpikeKnown,iceRingKnown;
   private float iceSpikeReady,iceRingReady,iceRingBorn;
   private GameObject iceRingVisual;
   private readonly Dictionary<int,Sprite> iceArt=new Dictionary<int,Sprite>();
   private static readonly string[] IceSkills={"风之刃","护身风波","雷标","跃电","冰锥","霜环"};
   private string[] ActiveSkillNames {get{return iceSampleMode?IceSkills:woodlandMode?new[]{"风之刃","护身风波","根刺","孢种"}:ChapterSkillNames;}}
-  private int ChapterRoomCount {get{return iceSampleMode?3:woodlandMode?45:39;}}
+  private int ChapterRoomCount {get{return iceSampleMode?5:woodlandMode?45:39;}}
   private int FinalChapterBossRoom {get{return iceSampleMode?2:31;}}
   private string ChapterIslandKey {get{return iceSampleMode?"ice_sample":woodlandMode?"woodland":"thunder_plateau";}}
-  private string ChapterMapKey {get{return iceSampleMode?"ice-s1-v1":woodlandMode?"w3-v1":"d3-v1";}}
-  private static bool IsIceEnemy(EnemyKind kind){return kind==EnemyKind.IceGuard||kind==EnemyKind.IceWisp||kind==EnemyKind.IceBeast;}
+  private string ChapterMapKey {get{return iceSampleMode?"ice-s2-v1":woodlandMode?"w3-v1":"d3-v1";}}
+  private static bool IsIceEnemy(EnemyKind kind){return kind>=EnemyKind.IceGuard&&kind<=EnemyKind.IceRunecaster;}
   private Sprite IceSprite(int index)
   {
    Sprite sprite;if(iceArt.TryGetValue(index,out sprite)&&sprite!=null)return sprite;
@@ -31,14 +31,14 @@ namespace NakiLegend.Prototype
   private void LoadIceArt()
   {
    foreach(EnemyKind kind in new[]{EnemyKind.IceGuard,EnemyKind.IceWisp,EnemyKind.IceBeast}){int index=kind==EnemyKind.IceGuard?0:kind==EnemyKind.IceWisp?1:2;var frames=new Sprite[16];for(int i=0;i<16;i++)frames[i]=IceSprite(index);enemyActionArt[kind]=frames;}
-   Texture2D floor=Resources.Load<Texture2D>("NakiArt/IceSample/floor");if(floor==null)throw new InvalidOperationException("Missing ice sample floor");floor.wrapMode=TextureWrapMode.Repeat;
+   LoadIceExpansionArt();Texture2D floor=Resources.Load<Texture2D>("NakiArt/IceSample/floor");if(floor==null)throw new InvalidOperationException("Missing ice sample floor");floor.wrapMode=TextureWrapMode.Repeat;floor.filterMode=FilterMode.Point;
    Sprite tile=Sprite.Create(floor,new Rect(0,0,floor.width,floor.height),Vector2.one*.5f,floor.width/4f,0,SpriteMeshType.FullRect);ownedAssets.Add(tile);thunderFloor=tile;for(int i=0;i<3;i++)chapterFloors[i]=tile;
   }
   private void BuildIceGraph()
   {
    journeyRooms.Clear();chapterDoors.Clear();chapterNames=new[]{"冰港码头","冰封回廊","裂冰甲兽 · 晶甲庭"};
    for(int i=0;i<3;i++){var n=new RoomNode{id=i,stage=0,floor=0,cell=new Vector2Int(i,0),halfWidth=8+i,halfHeight=4.5f+i*.5f,kind=i==0?RoomKind.Rest:i==1?RoomKind.Combat:RoomKind.Boss,waves=i==1?3:1,stairsTo=-1,depth=8,layout=i};if(i>0)n.links.Add(i-1);if(i<2)n.links.Add(i+1);journeyRooms.Add(n);}
-   for(int i=0;i<3;i++){stageStarts[i]=0;stageEnds[i]=2;}
+   AddIceBranches();for(int i=0;i<3;i++){stageStarts[i]=0;stageEnds[i]=2;}
   }
   private void BeginIceSample(bool newSeed)
   {
@@ -60,13 +60,12 @@ namespace NakiLegend.Prototype
   private void BuildIceCover(RoomNode n)
   {
    Vector2[] points=n.id==0?new[]{new Vector2(-5,-1),new Vector2(4,1)}:n.id==1?new[]{new Vector2(-4,1.4f),new Vector2(-1,-1.5f),new Vector2(3,1.6f)}:new[]{new Vector2(-6.5f,1),new Vector2(6.5f,-1)};
-   foreach(Vector2 at in points){if(IntersectsTransit(at,new Vector2(1.6f,1.5f)))continue;Draw("Solid ice crystal cover",IceSprite(4),at,Vector2.one,Color.white,DepthAt(at.y));obstacles.Add(new Rect(at.x-.65f,at.y-.12f,1.3f,.45f));projectileObstacles.Add(new Rect(at.x-.65f,at.y-.12f,1.3f,1.1f));}
+   foreach(Vector2 at in points){if(IntersectsTransit(at,new Vector2(1.6f,1.5f)))continue;Draw("Solid ice crystal cover",IceSprite(4),at,Vector2.one,Color.white,DepthAt(at.y));obstacles.Add(new Rect(at.x-.65f,at.y-.12f,1.3f,.45f));projectileObstacles.Add(new Rect(at.x-.65f,at.y-.12f,1.3f,1.1f));}BuildIceExpansionCover(n);
   }
   private void SpawnIceWave(RoomNode n)
   {
    if(n.id==2){SpawnJourneyEnemy(EnemyKind.IceBeast,Vector2.zero,8);return;}
-   var random=new System.Random(activeSeed+currentWave*113);int count=currentWave==1?2:3;
-   for(int i=0;i<count;i++){QueueEnemy(currentWave==1||i%2==0?EnemyKind.IceGuard:EnemyKind.IceWisp,FindJourneySpawn(random,.45f));pendingSpawns[pendingSpawns.Count-1].when=clock+1.2f+i*.3f;}
+   SpawnExpandedIceWave(n);
   }
   private void BuildIceActions(RoomNode n)
   {
@@ -104,7 +103,7 @@ namespace NakiLegend.Prototype
    SaveChapterCheckpoint(false);iceSampleMode=false;chapterSetup=false;LoadEquipmentArt();LoadThunderArt();BeginThunderChapter(false);
    if(!LoadChapterCheckpoint(false)){chapterSetup=true;TellStory("船回到高原港口。当前没有可继续的高原安全点，可选择试航配置。");}
   }
-  private string IceObjective(){return !chapterStone?currentRoom==0?"与守塔人交谈 · 沿东侧栈桥寻找破冰队":"雷击破晶甲 · 清理回廊，继续向东":!iceSpikeKnown?"拾起破冰队记录 · 领悟冰锥与霜环":chapterEnding?"冰港样板完成 · 破冰队的去向仍在岛屿深处":"沿栈道返回码头 · 将记录交给守塔人";}
+  private string IceObjective(){if(currentRoom>=3)return journeyRooms[currentRoom].cleared?"支路已清理 · 拾取补给和装备，再返回回廊":currentRoom==3?"借货箱挡箭 · 避开猎犬扑击":"避开霜纹落点 · 优先处理祭司";return !chapterStone?currentRoom==0?"与守塔人交谈 · 沿东侧栈桥寻找破冰队":"主路向东 · 南北支路可寻找物资":!iceSpikeKnown?"拾起破冰队记录 · 领悟冰锥与霜环":chapterEnding?"记录已交回 · 货仓与瞭台支路仍可探索":"沿栈道返回码头 · 将记录交给守塔人";}
   private bool HandleIceSetup()
   {
    if(chapterConfirmRestart){if(Pressed('e'))chapterConfirmRestart=false;return true;}
@@ -115,8 +114,8 @@ namespace NakiLegend.Prototype
   private void DrawIceSetup(float w,float h)
   {
    HudRect(new Rect(0,0,w,h),new Color(.02f,.05f,.09f,.96f));
-   CenterLabel(new Rect(w/2-430,90,860,48),"第三岛 · 冰港三房样板",journeyTitleStyle);
-   CenterLabel(new Rect(w/2-450,150,900,80),"覆雪码头 → 冰封回廊 → 裂冰甲兽\n雷击破晶甲；击退甲兽后，从破冰队记录学习冰锥与霜环。",journeyTextStyle);
+   CenterLabel(new Rect(w/2-430,90,860,48),"第三岛 · 冰港探索样板",journeyTitleStyle);
+   CenterLabel(new Rect(w/2-450,150,900,80),"码头 → 回廊 → 裂冰甲兽；南北支路：覆雪货仓 / 霜镜瞭台\n雷击破晶甲；调查记录学习冰法术，沿支路寻找装备与补给。",journeyTextStyle);
    bool enabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;
    for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,260,280,65),i==0?"1 光之力":"2 贤者之石",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
    if(FlatButton(new Rect(w/2-435,360,280,65),HasChapterSave?"继续冰港存档 · F":"开始冰港样板 · F")){if(HasChapterSave)LoadChapterCheckpoint(true);else StartChapterFromSetup();}

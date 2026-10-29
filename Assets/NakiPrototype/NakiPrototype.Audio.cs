@@ -15,7 +15,7 @@ namespace NakiLegend.Prototype
   private bool audioSettingsMenu,audioWasSuspended,shieldWasRecovering;
   private AudioClip AudioAsset(string key)
   {
-   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=(key.StartsWith("skill_")?Resources.Load<AudioClip>("NakiSkills/"+key):null)??Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
+   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=Resources.Load<AudioClip>("NakiCombatAudioV3/"+key)??(key.StartsWith("skill_")?Resources.Load<AudioClip>("NakiSkills/"+key):null)??Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
   }
   private AudioSource AudioBus(string name,bool loop)
   {
@@ -71,7 +71,7 @@ namespace NakiLegend.Prototype
    audioCooldowns[key]=now+(priority?.07f:.045f);var bus=voices[index];bus.volume=audioMaster*audioEffects;bus.pitch=1;bus.PlayOneShot(clip,Mathf.Clamp01(gain));
   }
   private bool skillImpactActive;
-  private void SkillSound(string skill,string phase){Sfx("skill_"+skill+"_"+phase,false,phase=="cast"?.95f:.8f,1);}
+  private void SkillSound(string skill,string phase){float gain=skill=="meteor"?.7f:skill=="mark"||skill=="arc"?.75f:.82f;Sfx("skill_"+skill+"_"+phase,false,gain*(phase=="hit"?.85f:1),1);}
   private void ApplySkillHit(Enemy target,float amount,Element element,string skill)
   {
    SkillSound(skill,"hit");bool previous=skillImpactActive;skillImpactActive=true;
@@ -79,7 +79,7 @@ namespace NakiLegend.Prototype
   }
   private void WeaponAudio()
   {
-   WeaponDef w=CurrentWeapon;Sfx(w.type==WeaponType.Spear?"spear":w.type==WeaponType.Bow?w.name.Contains("弩")?"crossbow":"bow":w.type==WeaponType.Staff?"staff":w.damage>=26?"heavy":"sword",false,.75f);
+   WeaponDef w=CurrentWeapon;string key=w.type==WeaponType.Spear?"spear":w.type==WeaponType.Bow?w.name.Contains("弩")?"crossbow":"bow":w.type==WeaponType.Staff?w.element==Element.Lightning?"staff_electric":"staff":w.damage>=26?"heavy":"sword";Sfx(key,false,.75f);
   }
   private void HitAudio(Enemy e)
   {

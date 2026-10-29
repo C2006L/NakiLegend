@@ -140,9 +140,16 @@ namespace NakiLegend.Prototype
   }
   private string JourneyRoomTitle(RoomNode n){if(thunderChapterMode)return chapterNames[n.id];if(thunderPrototypeMode)return n.id==0?"雨中草坡":"西引雷坪";if(IsGatehouseRoom(n))return GatehouseRoomName(n);return JourneyRoomType(n.kind)+" · "+RoomNames[n.layout%RoomNames.Length];}
   private static string JourneyRoomType(RoomKind k){switch(k){case RoomKind.Entrance:return "入口";case RoomKind.Rest:return "休憩";case RoomKind.Event:return "路迹";case RoomKind.Reward:return "补给";case RoomKind.Guardian:return "守卫";case RoomKind.Boss:return "首领";case RoomKind.Elite:return "精英";default:return "战斗";}}
+  private Vector3 JourneyMapLayout(Rect area)
+  {
+   int stage=journeyRooms[currentRoom].stage,minX=int.MaxValue,minY=int.MaxValue,maxX=int.MinValue,maxY=int.MinValue;
+   foreach(RoomNode n in journeyRooms)if(n.stage==stage){minX=Mathf.Min(minX,n.cell.x);maxX=Mathf.Max(maxX,n.cell.x);minY=Mathf.Min(minY,n.cell.y);maxY=Mathf.Max(maxY,n.cell.y);}
+   float step=Mathf.Min(area.width/(maxX-minX+1.5f),area.height/(maxY-minY+1.5f));
+   return new Vector3(area.center.x-(minX+maxX)*.5f*step,area.center.y+(minY+maxY)*.5f*step,step);
+  }
   private void DrawMapCells(Rect area,bool small)
   {
-   int stage=journeyRooms[currentRoom].stage;float step=Mathf.Min(area.width/6,area.height/6);Vector2 origin=new Vector2(area.center.x-2.5f*step,area.center.y+2.5f*step);
+   int stage=journeyRooms[currentRoom].stage;Vector3 layout=JourneyMapLayout(area);float step=layout.z;Vector2 origin=new Vector2(layout.x,layout.y);
    foreach(RoomNode n in journeyRooms)if(n.stage==stage&&n.visited)foreach(int link in n.links){RoomNode b=journeyRooms[link];if(!b.discovered)continue;JourneyMapLine(origin+new Vector2(n.cell.x,-n.cell.y)*step,origin+new Vector2(b.cell.x,-b.cell.y)*step,ExplorationDoorLocked(n.id,NeighborDirection(n,b))?C("c78962"):C("617e80"));}
    foreach(RoomNode n in journeyRooms)if(n.stage==stage&&n.discovered)
    {
@@ -157,7 +164,7 @@ namespace NakiLegend.Prototype
   private void DrawJourneyMap(float w,float h)
   {
    HudRect(new Rect(w/2-365,h/2-290,730,580),C("10212a"));FittedLabel(new Rect(w/2-334,h/2-270,670,38),RoomHeading(journeyRooms[currentRoom])+" · 探索记录",journeyTitleStyle);
-   DrawMapCells(new Rect(w/2-280,h/2-210,560,420),false);FittedLabel(new Rect(w/2-334,h/2+224,670,54),"金：所在房间   绿：已清理   ?：相邻未知房间\n沿石门探索；铜线为未开放检修道，S 为阶梯。M / ESC 返回",journeySmallStyle,true);
+   DrawMapCells(new Rect(w/2-280,h/2-210,560,420),false);FittedLabel(new Rect(w/2-334,h/2+224,670,54),"金：所在房间   绿：已清理   ?：相邻未知房间\n"+(iceSampleMode?"回廊南北支路可寻装备与补给。M / ESC 返回":"沿石门探索；铜线为未开放检修道，S 为阶梯。M / ESC 返回"),journeySmallStyle,true);
   }
   private void DrawJourneyDialogue(float w,float h)
   {
