@@ -1,0 +1,1 @@
+PASS 7 checks: meteor cast import and runtime trigger; existing meteor cost, projectile count and impact preserved.

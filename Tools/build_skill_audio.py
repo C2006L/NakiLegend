@@ -37,6 +37,7 @@ for key,(index,pitch) in profiles.items():
    gain=min(.19/max(np.sqrt(np.mean(x*x)),.001),.8/max(np.max(np.abs(x)),.001));x*=gain
    name=f'skill_{key}_{phase}_{variant}';write(out/(name+'.wav'),rate,(x*32767).astype(np.int16));records.append({'file':name+'.wav','seconds':len(x)/rate,'source':sources[index]['download']})
 (out/'credits.json').write_text(json.dumps({'sources':sources,'edits':'Trimmed, pitch-shifted, filtered and level-matched cast/impact variants.','clips':records},indent=2),encoding='utf-8')
+subprocess.run([sys.executable,str(repo/'Tools/revise_meteor_cast.py')],check=True)
 preview=repo/'Art/SkillAudio';preview.mkdir(parents=True,exist_ok=True)
 from scipy.io.wavfile import read
 mix=np.zeros(rate*16)

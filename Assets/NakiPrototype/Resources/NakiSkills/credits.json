@@ -84,18 +84,21 @@
     },
     {
       "file": "skill_meteor_cast_0.wav",
-      "seconds": 0.65,
-      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+      "seconds": 0.31,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg",
+      "additionalSource": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
     },
     {
       "file": "skill_meteor_cast_1.wav",
-      "seconds": 0.65,
-      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+      "seconds": 0.31,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg",
+      "additionalSource": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
     },
     {
       "file": "skill_meteor_cast_2.wav",
-      "seconds": 0.65,
-      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+      "seconds": 0.31,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg",
+      "additionalSource": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
     },
     {
       "file": "skill_meteor_hit_0.wav",
@@ -292,5 +295,41 @@
       "seconds": 0.3,
       "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
     }
-  ]
+  ],
+  "meteorCastRevision": {
+    "description": "Short filtered core and staggered twin launch layers; original cast only, impact unchanged.",
+    "sources": [
+      "https://opengameart.org/sites/default/files/magical_6_0.ogg",
+      "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    ],
+    "clips": [
+      {
+        "file": "skill_meteor_cast_0.wav",
+        "seconds": 0.31,
+        "peak": 0.6356420951331759,
+        "sourceSha256": [
+          "0a18ee3460cf3fd79c3771bbf94c20c26d34b65ab60d0b0e15694ffcad815955",
+          "2817da4f5df69ff993baffd6594a2f2a069f85ee2a02019f97db2246e350a76b"
+        ]
+      },
+      {
+        "file": "skill_meteor_cast_1.wav",
+        "seconds": 0.31,
+        "peak": 0.6902159866463535,
+        "sourceSha256": [
+          "0a18ee3460cf3fd79c3771bbf94c20c26d34b65ab60d0b0e15694ffcad815955",
+          "2817da4f5df69ff993baffd6594a2f2a069f85ee2a02019f97db2246e350a76b"
+        ]
+      },
+      {
+        "file": "skill_meteor_cast_2.wav",
+        "seconds": 0.31,
+        "peak": 0.5564805260635685,
+        "sourceSha256": [
+          "0a18ee3460cf3fd79c3771bbf94c20c26d34b65ab60d0b0e15694ffcad815955",
+          "2817da4f5df69ff993baffd6594a2f2a069f85ee2a02019f97db2246e350a76b"
+        ]
+      }
+    ]
+  }
 }
