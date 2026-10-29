@@ -1,5 +1,7 @@
 # Naki Legend
 
+**声音 V2 重做**：三岛配乐改为作者 CC0 授权的成套 RPG 乐曲，保留立体声；挥剑改用实录刀剑短音、命中另加碰撞声。[曲目与授权来源](Docs/AUDIO_V2.md)。
+
 **音频首版已接入**：三岛探索/战斗/Boss 配乐、环境氛围、武器与材质命中、技能/护盾/落雷声音。游戏中 F10 调整声音并保存偏好。[音频内容及试听说明](Docs/AUDIO_V1.md)。
 
 **第三岛可玩首版**：青栖林海三层45房、十类小怪、三位Boss、根刺与孢种、调查及栽种尾声。Tools → Naki Legend → Play → 5 Woodland Adventure；6 为Boss练习。[实现范围与测试入口](Docs/WOODLAND_PLAYABLE_V1.md)。

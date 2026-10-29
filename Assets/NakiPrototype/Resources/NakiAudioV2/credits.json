@@ -1,0 +1,170 @@
+[
+  {
+    "key": "desert_explore",
+    "title": "heat-adventure",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heat-adventure",
+    "download": "https://opengameart.org/sites/default/files/heat_adventure_bpm135_0.ogg",
+    "sourceSha256": "80b7279fb3c39b6143d2449909c33148f26778130e5155a8c94039ef61a17faf",
+    "seconds": 104.88888888888889,
+    "stereo": true
+  },
+  {
+    "key": "desert_combat",
+    "title": "heat-battle",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heat-battle",
+    "download": "https://opengameart.org/sites/default/files/heat_battle_bpm180_0.ogg",
+    "sourceSha256": "53d0a9d2ce830706af5c2cda0a62b02bfc1cab2a533a188a77006b034389232a",
+    "seconds": 90.66666666666667,
+    "stereo": true
+  },
+  {
+    "key": "desert_boss",
+    "title": "heat-boss-battle",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heat-boss-battle",
+    "download": "https://opengameart.org/sites/default/files/heat_boss_battle_bpm165_0.ogg",
+    "sourceSha256": "2d3df5f1d65de4c487c970e74d01779cd162290d1da83696d7453adca9f52a6c",
+    "seconds": 98.90909297052154,
+    "stereo": true
+  },
+  {
+    "key": "thunder_explore",
+    "title": "heavy-dungeon",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heavy-dungeon",
+    "download": "https://opengameart.org/sites/default/files/heavy_dungeon_bpm160_0.ogg",
+    "sourceSha256": "ae7855a22eefe0e3221f0d3bcde59049e438786212a64ab4310b79a403156556",
+    "seconds": 96.0,
+    "stereo": true
+  },
+  {
+    "key": "thunder_combat",
+    "title": "heavy-battle-1",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heavy-battle-1",
+    "download": "https://opengameart.org/sites/default/files/heavy_battle_1_bpm190_0.ogg",
+    "sourceSha256": "86b3328dbf87f68f2529191f9edb97bd9d4879fb62f01db232f6b791f085b924",
+    "seconds": 80.84210884353742,
+    "stereo": true
+  },
+  {
+    "key": "thunder_boss",
+    "title": "heavy-boss-battle-1",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/heavy-boss-battle-1",
+    "download": "https://opengameart.org/sites/default/files/heavy_boss_battle_1_bpm200_0.ogg",
+    "sourceSha256": "4db07e3d7c7ed1bc662cea9481b87d53ad29c105dd921d1006373242bf459b8d",
+    "seconds": 108.0,
+    "stereo": true
+  },
+  {
+    "key": "woodland_explore",
+    "title": "fairy-adventure",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/fairy-adventure",
+    "download": "https://opengameart.org/sites/default/files/fairy_adventure_bpm140_0.ogg",
+    "sourceSha256": "615c102a7bb04dea274f694658997a551a18536503f3c0587d6245218dac924f",
+    "seconds": 144.0,
+    "stereo": true
+  },
+  {
+    "key": "woodland_combat",
+    "title": "fairy-battles",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/fairy-battles",
+    "download": "https://opengameart.org/sites/default/files/fairy_battles_bpm180_0.ogg",
+    "sourceSha256": "3cb573bdd9ea449f8851d3249fa1ec1a8d0d843cbabcdfb060e97a3c132f0cde",
+    "seconds": 97.33333333333333,
+    "stereo": true
+  },
+  {
+    "key": "woodland_boss",
+    "title": "fairy-boss-battles",
+    "author": "MintoDog",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/fairy-boss-battles",
+    "download": "https://opengameart.org/sites/default/files/fairy_boss_battles_bpm185_0.ogg",
+    "sourceSha256": "1fb96b3c4f58a88c6ee1eb9d47ef91d251ae118dceada5c2e0c37b8b86fdc42e",
+    "seconds": 103.78378684807257,
+    "stereo": true
+  },
+  {
+    "key": "sword_0",
+    "author": "StarNinjas",
+    "title": "sword - StarNinjas/sword.1.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_-_starninjas_1.zip",
+    "sourceSha256": "87a1fe1cfeee5f282fe06a7a9c25ab9ebf24b7674fe19171b7f2762dffb628c1",
+    "seconds": 0.18
+  },
+  {
+    "key": "sword_1",
+    "author": "StarNinjas",
+    "title": "sword - StarNinjas/sword.10.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_-_starninjas_1.zip",
+    "sourceSha256": "87a1fe1cfeee5f282fe06a7a9c25ab9ebf24b7674fe19171b7f2762dffb628c1",
+    "seconds": 0.18
+  },
+  {
+    "key": "sword_2",
+    "author": "StarNinjas",
+    "title": "sword - StarNinjas/sword.2.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_-_starninjas_1.zip",
+    "sourceSha256": "87a1fe1cfeee5f282fe06a7a9c25ab9ebf24b7674fe19171b7f2762dffb628c1",
+    "seconds": 0.18
+  },
+  {
+    "key": "clash_0",
+    "author": "StarNinjas",
+    "title": "sword_clash.1.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_clash_-_starninjas_0.zip",
+    "sourceSha256": "f363c80ea1627548d336370750651b0d2d092978148ecfb3642717c2efb54b6b",
+    "seconds": 0.3
+  },
+  {
+    "key": "clash_1",
+    "author": "StarNinjas",
+    "title": "sword_clash.10.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_clash_-_starninjas_0.zip",
+    "sourceSha256": "f363c80ea1627548d336370750651b0d2d092978148ecfb3642717c2efb54b6b",
+    "seconds": 0.3
+  },
+  {
+    "key": "clash_2",
+    "author": "StarNinjas",
+    "title": "sword_clash.2.ogg",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes",
+    "download": "https://opengameart.org/sites/default/files/sword_clash_-_starninjas_0.zip",
+    "sourceSha256": "f363c80ea1627548d336370750651b0d2d092978148ecfb3642717c2efb54b6b",
+    "seconds": 0.2789342403628118
+  },
+  {
+    "key": "ending",
+    "author": "Cleyton Kauffman",
+    "title": "Forest Whisper Theme",
+    "license": "CC0-1.0",
+    "page": "https://opengameart.org/content/forest-whisper-theme",
+    "download": "https://opengameart.org/sites/default/files/forest_whisper_theme.zip",
+    "sourceSha256": "11516801f38f4b004fa9e3641ff287fa39cb998fc805d376b372cc03db4d573f"
+  }
+]

@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "assets": [
+    {
+      "file": "clash_0.wav",
+      "duration": 0.3,
+      "peak": 0.5797895789146423,
+      "sha256": "05d47dc3c01a863091574fc4efdfd5a32b7646354a32d4757cdeb1df2664d8aa"
+    },
+    {
+      "file": "clash_1.wav",
+      "duration": 0.3,
+      "peak": 0.5797895789146423,
+      "sha256": "356463008e8417f1c29041869385d569211c11b9b7c4df412f096a413c745c04"
+    },
+    {
+      "file": "clash_2.wav",
+      "duration": 0.2789342403628118,
+      "peak": 0.5797895789146423,
+      "sha256": "37e19238621f4201ba5121106f91daf12c2426ee250a5554fc6be37a70e01763"
+    },
+    {
+      "file": "desert_boss.ogg",
+      "duration": 98.90909297052154,
+      "peak": 0.6435427665710449,
+      "sha256": "eb6273280894906afc3f51852a2802680c6a15f53092595c966765f560028b92"
+    },
+    {
+      "file": "desert_combat.ogg",
+      "duration": 90.66666666666667,
+      "peak": 0.432257741689682,
+      "sha256": "49fd8eeb7a53613d89ada01a677849a4280bfbab3f6408c438ecf19fe7a6720b"
+    },
+    {
+      "file": "desert_explore.ogg",
+      "duration": 104.88888888888889,
+      "peak": 0.446455717086792,
+      "sha256": "04fbb5e8e9762a319300c54d6dbb4f5bcd1ee673b44b2e6114f36b0ed6c659df"
+    },
+    {
+      "file": "ending.ogg",
+      "duration": 82.28571428571429,
+      "peak": 0.4580318033695221,
+      "sha256": "7754277b7a894f5b2f4cbae59eb0a6da0b5d06bf14f8d8eb5fcb01b9f23ed6b7"
+    },
+    {
+      "file": "heavy_0.wav",
+      "duration": 0.21600907029478458,
+      "peak": 0.5179436206817627,
+      "sha256": "707f752918b906107dd75324b64e35c2dfa4cde3ff0e9325a04a0f7da68271c8"
+    },
+    {
+      "file": "heavy_1.wav",
+      "duration": 0.21600907029478458,
+      "peak": 0.5973550081253052,
+      "sha256": "7851ffb444553841466dd0bbf9c57b1799d7a2312e34936617e616fa81e80fb3"
+    },
+    {
+      "file": "heavy_2.wav",
+      "duration": 0.21600907029478458,
+      "peak": 0.5761642456054688,
+      "sha256": "bea8c867b5ecbf0046816c0eb7421d7e30a2f62b1723e9ded21b412e4fcb1cbb"
+    },
+    {
+      "file": "spear_0.wav",
+      "duration": 0.15,
+      "peak": 0.49813392758369446,
+      "sha256": "902ec5aa601f4dd5afb2d713058daf0d95568ce1617d0a53d955c724ad845dcd"
+    },
+    {
+      "file": "spear_1.wav",
+      "duration": 0.15,
+      "peak": 0.578041672706604,
+      "sha256": "b7720ed182a8b8519a5637535c9f35a0bbf821e974585cb97b51c122266e4f86"
+    },
+    {
+      "file": "spear_2.wav",
+      "duration": 0.15,
+      "peak": 0.5454139113426208,
+      "sha256": "06d523bbc458bafce6529dab8ffd3ee47769aee804380d75b6978274b9524f07"
+    },
+    {
+      "file": "sword_0.wav",
+      "duration": 0.18,
+      "peak": 0.536285936832428,
+      "sha256": "6e25c95a5bf24771d561a89401b4f78bcbeb06cdb450c84cf1ac03cf8a67acda"
+    },
+    {
+      "file": "sword_1.wav",
+      "duration": 0.18,
+      "peak": 0.5797895789146423,
+      "sha256": "2e3cfd8f49fb7427cb4a8cf87b6d7364e28bf237bd2e9a316072fc85d2334c7a"
+    },
+    {
+      "file": "sword_2.wav",
+      "duration": 0.18,
+      "peak": 0.5757758617401123,
+      "sha256": "557fa2a09e60812f6b318ebe4bafc40f06b4a0d7d3fe80f3930a2cb97caafb8c"
+    },
+    {
+      "file": "thunder_boss.ogg",
+      "duration": 108.0,
+      "peak": 0.4111679494380951,
+      "sha256": "967f25dce9c4b566984267e1005a2d2fd0db36a474b2b3dab867123c99f85221"
+    },
+    {
+      "file": "thunder_combat.ogg",
+      "duration": 80.84210884353742,
+      "peak": 0.41242775321006775,
+      "sha256": "82556b1527215ba1fc76c4b2a062bdc8092c16d2aa5458c920707cf33cc8c2c8"
+    },
+    {
+      "file": "thunder_explore.ogg",
+      "duration": 96.0,
+      "peak": 0.4579063057899475,
+      "sha256": "45801efdd761270fe944cc125651297d734b0760c96f7d2e71dab1b292d62192"
+    },
+    {
+      "file": "woodland_boss.ogg",
+      "duration": 103.78378684807257,
+      "peak": 0.49780336022377014,
+      "sha256": "f9e04d0d3fdd5c2f84ad5b00e0713c539972c1129f58b66873bf2797776bfafb"
+    },
+    {
+      "file": "woodland_combat.ogg",
+      "duration": 97.33333333333333,
+      "peak": 0.3767392635345459,
+      "sha256": "d4e9d44582c06d7ca97f037ee9e2886fb1fdba6fd801682a047e282828a424d9"
+    },
+    {
+      "file": "woodland_explore.ogg",
+      "duration": 144.0,
+      "peak": 0.5571742057800293,
+      "sha256": "044dff0a6a2d8d5accd5805ab72acba72f0dd5ce962824b26b320e406bbcdff4"
+    }
+  ]
+}
