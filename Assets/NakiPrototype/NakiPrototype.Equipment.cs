@@ -46,7 +46,7 @@ namespace NakiLegend.Prototype
                 Weapon("守渠风矛",WeaponType.Spear,Element.Wind,22,.65f,2.5f,1,2.05f,spear,"85e7d2")
             };
             weaponCatalog[2].bowFacesLeft=true;weaponCatalog[2].scatter=3.5f;weaponCatalog[3].scatter=1.2f;weaponCatalog[6].scatter=.65f;
-            lessonArtwork = JourneySprite("lesson-altar-v9", 180, new Vector2(.5f, .08f));
+            lessonArtwork = WorldPropSprite(2);
             arrowSprite = MakeSprite(new[] { "..........kk...", "kkkkkkkkkkIIkk.", "kLLLLLLLLLIIIwk", "kkkkkkkkkkIIkk.", "..........kk..." },
                 new Dictionary<char, Color> { { 'k', C("383147") }, { 'L', C("bd8749") }, { 'I', C("e6dac1") }, { 'w', Color.white } }, 18);
             BuildWindRing();

@@ -12,14 +12,16 @@ namespace NakiLegend.Prototype.Editor
         public static void OpenDesert(){OpenScene("Assets/Scenes/NakiTest.unity");}
         [MenuItem("Tools/Naki Legend/Play/2 Thunder Plateau Adventure")]
         public static void OpenChapter(){OpenScene(ChapterPath);}
-        [MenuItem("Tools/Naki Legend/Play/3 Thunder Boss Practice")]
+        [MenuItem("Tools/Naki Legend/Boss Practice/2 Thunder Plateau")]
         public static void OpenChapterBoss(){OpenScene(ChapterBossPath);}
-        [MenuItem("Tools/Naki Legend/Play/4 Desert Boss Practice")]
+        [MenuItem("Tools/Naki Legend/Boss Practice/1 Desert")]
         public static void OpenDesertBoss(){OpenScene("Assets/Scenes/NakiBossPractice.unity");}
         [MenuItem("Tools/Naki Legend/Play/5 Woodland Adventure")]
         public static void OpenWood(){OpenScene("Assets/Scenes/NakiWoodlandChapter.unity");}
-        [MenuItem("Tools/Naki Legend/Play/6 Woodland Boss Practice")]
+        [MenuItem("Tools/Naki Legend/Boss Practice/5 Woodland")]
         public static void OpenWoodBoss(){OpenScene("Assets/Scenes/NakiWoodlandBossPractice.unity");}
+        [MenuItem("Tools/Naki Legend/World Route")]
+        public static void ShowRoute(){EditorUtility.DisplayDialog("Naki 群岛航线","1 沙漠岛（可玩） → 2 雷雨高原（可玩） → 3 冰山岛（待制作） → 4 烈焰岛（待制作） → 5 青栖林海（已有章节试航） → 6 大骑士的府邸（待制作） → 本土。\n\nPlay 打开章节，Boss Practice 只练习。现有森林存档可以继续，不要求补打新岛。","知道了");}
         public static void BuildWoodScenes(){foreach(bool practice in new[]{false,true}){var scene=EditorSceneManager.OpenScene(ChapterPath);var p=Object.FindObjectOfType<NakiPrototype>();p.woodlandMode=true;p.thunderChapterMode=true;p.showOpeningOnStart=false;p.thunderChapterPracticeBoss=practice?2:-1;EditorUtility.SetDirty(p);EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene,practice?"Assets/Scenes/NakiWoodlandBossPractice.unity":"Assets/Scenes/NakiWoodlandChapter.unity");}}
         private static void OpenScene(string path)
         {

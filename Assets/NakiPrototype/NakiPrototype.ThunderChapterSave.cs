@@ -18,6 +18,7 @@ namespace NakiLegend.Prototype
         [Serializable] private sealed class ChapterCheckpoint
         {
             public int version=1,seed,room,origin,waymarks,shortcuts;
+            public int routeVersion,islandOrdinal;
             public string island="thunder_plateau",map="d3-v1";
             public ThunderCheckpoint player;
             public bool west,east,ranger,stone,ending,cgPending,mark,arc,lampCarried,lampGiven,orb,blade,wave,wind;
@@ -43,7 +44,7 @@ namespace NakiLegend.Prototype
             chapterConfirmRestart=false;thunderChapterPracticeBoss=-1;chapterSetup=false;BeginThunderChapter(false);
         }
         private string chapterSaveStatus="尚无第二岛存档",chapterCheckpointPathOverride=null;
-        private string ChapterCheckpointPath { get { return string.IsNullOrEmpty(chapterCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend",woodlandMode?"woodland-chapter-v1.json":"thunder-chapter-v1.json"):chapterCheckpointPathOverride; } }
+        private string ChapterCheckpointPath { get { return string.IsNullOrEmpty(chapterCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend",CurrentIsland.saveKey):chapterCheckpointPathOverride; } }
         private bool ChapterDiskEnabled { get { return thunderChapterMode&&thunderChapterPracticeBoss<0&&(!Application.isBatchMode||allowBatchCheckpoints); } }
         private bool SafeChapterCheckpoint { get { return thunderChapterMode&&!chapterSetup&&chapterWork<=0&&chapterMarks.Count==0&&thunderStrikes.Count==0&&SafeCheckpointRoom; } }
         private ThunderCheckpoint CaptureChapterPlayer()
@@ -59,7 +60,7 @@ namespace NakiLegend.Prototype
             if(!SafeChapterCheckpoint){if(notify)JourneyHint("请在清房后保存；战斗和未完成机关保留上一个安全点");return false;}
             try
             {
-                var s=new ChapterCheckpoint{island=woodlandMode?"woodland":"thunder_plateau",map=woodlandMode?"w3-v1":"d3-v1",seed=activeSeed,room=currentRoom,origin=(int)origin,waymarks=chapterWaymarks,shortcuts=chapterShortcuts,player=CaptureChapterPlayer(),
+                var s=new ChapterCheckpoint{routeVersion=2,islandOrdinal=CurrentIsland.ordinal,island=woodlandMode?"woodland":"thunder_plateau",map=woodlandMode?"w3-v1":"d3-v1",seed=activeSeed,room=currentRoom,origin=(int)origin,waymarks=chapterWaymarks,shortcuts=chapterShortcuts,player=CaptureChapterPlayer(),
                     west=chapterWest,east=chapterEast,ranger=chapterRanger,stone=chapterStone,ending=chapterEnding,cgPending=chapterCg,mark=chapterMarkKnown,arc=chapterArcKnown,
                     lampCarried=chapterLampCarried,lampGiven=chapterLampGiven,orb=orbLearned,blade=bladeLearned,wave=waveLearned,wind=windEmpowered,
                     markReady=chapterMarkReady,arcReady=chapterArcReady,swordBonus=swordDamage-initialSwordDamage,spellBonus=spellDamage-initialSpellDamage,
@@ -72,7 +73,7 @@ namespace NakiLegend.Prototype
                 }
                 ValidateChapterCheckpoint(s);string path=ChapterCheckpointPath;Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path+".tmp",JsonUtility.ToJson(s,true));
                 if(File.Exists(path))File.Replace(path+".tmp",path,path+".bak");else File.Move(path+".tmp",path);
-                chapterSavePending=false;chapterSaveStatus="已存 · 第"+(journeyRooms[currentRoom].stage+1)+"层 · "+chapterNames[currentRoom]+(chapterEnding?" · 已通关":chapterStone?" · 巨鹿已击败":"");if(notify)JourneyHint("第二岛旅程已保存 · F9 读取");return true;
+                chapterSavePending=false;chapterSaveStatus="已存 · 第"+(journeyRooms[currentRoom].stage+1)+"层 · "+chapterNames[currentRoom]+(chapterEnding?" · 已通关":chapterStone?woodlandMode?" · 古树已解救":" · 巨鹿已击败":"");if(notify)JourneyHint("第二岛旅程已保存 · F9 读取");return true;
             }
             catch(Exception e){chapterSaveStatus="第二岛存档写入失败";if(notify)JourneyHint(chapterSaveStatus);Debug.LogWarning("Thunder chapter save: "+e.Message);return false;}
         }
@@ -155,7 +156,7 @@ namespace NakiLegend.Prototype
             if(!GatehouseActive||gatehouseSampleMode||!canalEpilogueComplete||journeyRooms[currentRoom].gatehouseIndex!=4)return;
             if(world.Find("Boat to Thunder Plateau")!=null)return;
             GameObject dock=new GameObject("Boat to Thunder Plateau");dock.transform.SetParent(world,false);
-            GameObject bell=Draw("Highland departure windbell",lessonArtwork,ThunderDockAt,Vector2.one,Color.white,DepthAt(ThunderDockAt.y));bell.transform.SetParent(dock.transform,true);
+            GameObject bell=Draw("Boat at the lookout",WorldPropSprite(5),ThunderDockAt,Vector2.one,Color.white,DepthAt(ThunderDockAt.y));bell.transform.SetParent(dock.transform,true);
             transitReservations.Add(new Rect(ThunderDockAt-Vector2.one,new Vector2(2,2)));
         }
     }

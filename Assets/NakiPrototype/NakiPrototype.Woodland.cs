@@ -20,7 +20,7 @@ namespace NakiLegend.Prototype
   }
   private void ConfigureWoodEnemy(Enemy e)
   {
-   int k=ArrayIndexWood(e.kind);if(k<0)return;e.affinity=Element.Wood;e.attackElement=Element.Wood;
+   int k=ArrayIndexWood(e.kind);if(k<0)return;e.affinity=k==2||k==3||k==4||k==5||k==10||k==11?Element.Wood:Element.Physical;e.attackElement=Element.Wood;
    float[] hp={38,80,52,62,36,100,64,70,44,560,900,1700,96};e.hp=e.maximum=hp[k];e.root.transform.localScale=Vector3.one;
    e.speed=k==2?.15f:k==5?.7f:k>=9&&k<=11?1:1.3f;e.root.name=WoodNames[k];
   }
@@ -51,6 +51,7 @@ namespace NakiLegend.Prototype
     journeyRooms[id]=n;chapterNames[id]=WoodlandStages[floor]+" · "+(i==0?"营地":i==14?WoodNames[9+floor]:i==4?"旧种床":i==10?"采种小径":"林径 "+(i+1));
    }
    journeyRooms[6].stairsTo=12;journeyRooms[12].stairsTo=6;journeyRooms[18].stairsTo=25;journeyRooms[25].stairsTo=18;
+   chapterNames[17]="朽木腹地 · 看守牢笼";
    stageStarts[0]=0;stageStarts[1]=12;stageStarts[2]=25;stageEnds[0]=6;stageEnds[1]=18;stageEnds[2]=31;
   }
   private void LoadWoodArt()
@@ -75,15 +76,17 @@ namespace NakiLegend.Prototype
   }
   private void BuildWoodActions(RoomNode n)
   {
+   ClearWoodPropBlocks();
+   if(n.id==17)BuildSeedCollectorCage();
    if(!n.cleared)return;
-   if(n.id==0&&chapterEnding)AddChapterAction(209,new Vector2(2,-1),"返回雷雨高原",lessonArtwork);
-   if(n.id==0)AddChapterAction(201,new Vector2(-2,1),chapterStone?"交还林册":"阿苓与种子木盒",lessonArtwork);
-   if(n.id==6&&!chapterMarkKnown)AddChapterAction(202,new Vector2(-2,0),"研读林册 · 根刺",lessonArtwork);
-   if(n.id==17)AddChapterAction(203,new Vector2(-2,0),"救出采种人",lessonArtwork);
-   if(n.id==14||n.id==16||n.id==21)AddChapterAction(204,new Vector2(-2,0),"调查菌丝与幼芽",lessonArtwork);
-   if(n.id==18&&!chapterArcKnown)AddChapterAction(205,new Vector2(-2,0),"领悟孢种",lessonArtwork);
-   if(n.id==31&&chapterStone)AddChapterAction(206,new Vector2(-2,0),"返回旧种床",lessonArtwork);
-   if(n.id==4&&chapterStone)AddChapterAction(207,new Vector2(-2,0),chapterLampGiven?"返回码头":"栽下种子",lessonArtwork);
+   if(n.id==0&&chapterEnding)WoodPropAction(209,5,new Vector2(2,-1),"登船 · 返回雷雨高原试航点");
+   if(n.id==0){WoodPropAction(201,6,new Vector2(-2,1),chapterStone?"将林册交还阿苓":"查看种子木盒 · 与阿苓交谈");GameObject npc=Draw("Herbalist A Ling",chapterLampkeeper,new Vector2(-3.2f,1.1f),Vector2.one,Color.white,DepthAt(1.1f));npc.transform.SetParent(chapterFocus.transform,true);}
+   if(n.id==6&&!chapterMarkKnown)WoodPropAction(202,2,new Vector2(-2,0),"翻阅林册 · 领悟根刺");
+   if(n.id==14||n.id==16||n.id==21)WoodPropAction(204,4,new Vector2(-2,0),"检查腐木 · 调查菌丝与幼芽");
+   if(n.id==18&&!chapterArcKnown)WoodPropAction(205,7,new Vector2(-2,0),"拾取孢种 · 领悟木元素法术");
+   if(n.id==31&&chapterStone)WoodTrailSign(new Vector2(-2,0),206,"沿林间小径返回旧种床");
+   if(n.id==4){WoodProp(3,new Vector2(-2,0),chapterLampGiven?"New seedling in restored bed":"Old seedbed");if(chapterStone)AddChapterAction(207,new Vector2(-2,-.6f),chapterLampGiven?"沿小径返回码头":"在种床栽下种子");}
+
   }
   private void WoodAction(int kind)
   {
@@ -92,7 +95,8 @@ namespace NakiLegend.Prototype
     case 209:SaveChapterCheckpoint(false);woodlandMode=false;LoadEquipmentArt();LoadThunderArt();BeginThunderChapter(false);LoadChapterCheckpoint(false);return;
     case 201:if(chapterStone&&chapterLampGiven){chapterEnding=true;TellStory("阿苓：今年的种子，不用再锁在盒子里了。","旧叶落处，新芽有声。森林终于重新有了春天。");}else TellStory("阿苓：叶子一年比一年厚，可我埋下的种子再没有探过头。","少年：还有根活着，就还有办法。先带我看看那块种床。");break;
     case 202:chapterMarkKnown=true;TellStory("林册：根会往有空隙的地方去。先听见它，再替它留一条路。");JourneyHint("已领悟根刺 · T 装备到 U / I");break;
-    case 203:chapterRanger=true;TellStory("采种人：别把白丝当成树根。树根知道什么时候停，它不知道。");break;
+    case 203:if(currentRoom!=17||!journeyRooms[currentRoom].cleared||chapterRanger)return;chapterRanger=true;Sfx("clear",false,.5f);TellStory("你解开笼门的锁扣，推开锈蚀的铁门。采种人弯腰走出牢笼。","采种人：别把白丝当成树根。树根知道什么时候停，它不知道。");break;
+    case 210:TellStory("采种人：笼门终于开了……谢谢。那些白丝的尽头，就是古树的庭院。");break;
     case 204:chapterWaymarks|=1<<(currentRoom==14?0:currentRoom==16?1:2);TellStory("枯木孔被白色菌丝封住，旁边一枚幼芽仍朝光伸展。木石的脉络通往树冠。");break;
     case 205:chapterArcKnown=true;TellStory("少年将孢种收进掌心：腐解也有自己的季节，不能让它吞掉所有新生。");JourneyHint("已领悟孢种 · T 配置");break;
     case 206:EnterExplorationRoom(4,-1);break;
@@ -106,6 +110,6 @@ namespace NakiLegend.Prototype
    else if(n.stage==1)TellStory("菌冠裂开，菌丝终于松开树洞。","采种人：古树还醒着。它已经很久没有睡过了。");
    else{chapterStone=true;journeyComplete=false;TellStory("守望者：我听见每一片叶子的饥饿……可我已经不能让它们落下。","少年剥离胸前的寄生结，取回木石。守望者缓缓收拢枝条。","少年：你可以歇一歇了。剩下的路，让新枝自己去长。返回种床，将种子栽下。");}
   }
-  private string WoodObjective(){return chapterEnding?"新芽有声 · 木岛尾声完成":chapterStone?chapterLampGiven?"回码头 · 交还林册":"返回旧种床 · 栽下种子":journeyRooms[currentRoom].stage==1?"救出采种人，调查两处痕迹，再向树冠进发":"循林径探索 · 解除过度生长";}
+  private string WoodObjective(){return chapterEnding?"新芽有声 · 木岛尾声完成":chapterStone?chapterLampGiven?"回码头 · 交还林册":"返回旧种床 · 栽下种子":journeyRooms[currentRoom].stage==1?(!chapterRanger?"找到看守牢笼 · 清理看守并用钥匙开锁":System.Convert.ToString(chapterWaymarks,2).Replace("0","").Length<2?"采种人已获救 · 继续调查两处菌丝痕迹":"调查已完成 · 前往菌冠深处"):"循林径探索 · 解除过度生长";}
  }
 }

@@ -20,8 +20,8 @@ namespace NakiLegend.Prototype
             if(woodlandMode){BuildWoodActions(n);return;}
             if(n.id==0)AddChapterAction(1,new Vector2(-3.4f,1.4f),"灯匠",chapterLampkeeper);
             if(n.id==0&&chapterStone&&chapterRanger)AddChapterAction(2,new Vector2(-1.8f,1.4f),"归来的巡路员",chapterRangerArt);
-            if(n.id==0&&chapterEnding)AddChapterAction(208,new Vector2(1,-2),"乘船前往青栖林海",lessonArtwork);
-            if(n.id==0&&chapterEnding)AddChapterAction(16,new Vector2(3.4f,-1.4f),"返回沙漠存档",lessonArtwork);
+            if(n.id==0&&chapterEnding)AddChapterAction(208,new Vector2(1,-2),"森林岛试航 · 第五岛",WorldPropSprite(5));
+            if(n.id==0&&chapterEnding)AddChapterAction(16,new Vector2(3.4f,-1.4f),"登船返回沙漠",WorldPropSprite(5));
             if(n.id==17&&n.cleared)AddChapterAction(2,new Vector2(-3,1.6f),"巡路员",chapterRangerArt);
             if(n.id==14||n.id==16)AddChapterAction(n.id==14?3:4,ThunderLeverAt,"复位引雷手柄");
             if(n.cleared&&(n.id==6||n.kind==RoomKind.Rest))
@@ -30,7 +30,7 @@ namespace NakiLegend.Prototype
                 else if(chapterEast&&!chapterArcKnown)AddChapterAction(6,new Vector2(-2.2f,-.8f),"学习跃电",lessonArtwork);
             }
             if(n.id==16&&chapterEast&&!chapterArcKnown)AddChapterAction(6,new Vector2(-2.2f,-.8f),"学习跃电",lessonArtwork);
-            if(n.id==31&&chapterStone)AddChapterAction(7,new Vector2(-2.5f,-1.5f),"沿已修古道回山口",lessonArtwork);
+            if(n.id==31&&chapterStone){AddChapterAction(7,new Vector2(-2.5f,-1.5f),"沿已修古道回山口");DrawWorldSign(new Vector2(-2.5f,-1.1f),chapterFocus.transform);}
             if(n.id==31&&chapterStone)
             {
                 Sprite[] poses;if(chapterArt.TryGetValue("stag",out poses)&&poses.Length>7){GameObject guardian=Draw("Living guardian resting",poses[7],new Vector2(1,.1f),Vector2.one,Color.white,DepthAt(.1f));guardian.transform.SetParent(chapterFocus.transform,true);}
@@ -83,7 +83,7 @@ namespace NakiLegend.Prototype
                 {chapterRewardMenu=true;chapterRewardChoice=0;return true;}
                 return false;
             }
-            if(!n.cleared){JourneyHint("先确保房间安全，再检查路标与设施");return true;}
+            if(!n.cleared){JourneyHint(woodlandMode&&a.kind==203?"先击败看守，取得牢笼钥匙":"先确保房间安全，再检查路标与设施");return true;}
             if(woodlandMode){WoodAction(a.kind);return true;}
             if(a.kind==208){EmbarkWoodland();return true;}
             if(a.kind>=100)
@@ -163,7 +163,7 @@ namespace NakiLegend.Prototype
         private void DrawChapterSetup(float w,float h)
         {
             HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),woodlandMode?"青栖林海 · 不再发芽的种子":"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
-            CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有第二岛安全存档 · F 继续原进度，清理过的房间不会重打":"尚无第二岛存档 · 选择起点开始旅程",journeyTextStyle);
+            CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有"+CurrentIsland.name+"安全存档 · F 继续原进度":"尚无本岛存档 · 选择起点开始旅程",journeyTextStyle);
             bool backgroundEnabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;
             for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,181,280,65),i==0?"1 光之力 · 元气弹":"2 暗之力 · 流星",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
             for(int i=0;i<3;i++)
@@ -174,12 +174,12 @@ namespace NakiLegend.Prototype
             }
             if(FlatButton(new Rect(w/2-285,485,270,60),"开始选定楼层（新旅程）"))StartChapterFromSetup();
             bool enabled=GUI.enabled;GUI.enabled=enabled&&HasChapterSave;
-            if(FlatButton(new Rect(w/2+15,485,270,60),"F 继续第二岛存档",HasChapterSave))LoadChapterCheckpoint(true);GUI.enabled=enabled;
+            if(FlatButton(new Rect(w/2+15,485,270,60),"F 继续本岛存档",HasChapterSave))LoadChapterCheckpoint(true);GUI.enabled=enabled;
             CenterLabel(new Rect(w/2-420,565,840,60),"A / D 选楼层 · F 优先继续存档 · N 回到此页\n清房与 Boss 后自动保存；F5 手动保存，F9 读取",journeySmallStyle);
             GUI.enabled=backgroundEnabled;
             if(chapterConfirmRestart)
             {
-                HudRect(new Rect(w/2-360,220,720,260),C("10232d"));CenterLabel(new Rect(w/2-330,240,660,90),"已有第二岛进度。确认开始新旅程？\n原存档会先保留一份历史副本。",journeyTextStyle);
+                HudRect(new Rect(w/2-360,220,720,260),C("10232d"));CenterLabel(new Rect(w/2-330,240,660,90),"已有本岛进度。确认开始新旅程？\n原存档会先保留一份历史副本。",journeyTextStyle);
                 if(FlatButton(new Rect(w/2-315,365,300,65),"保留进度，继续存档")){chapterConfirmRestart=false;LoadChapterCheckpoint(true);}
                 if(FlatButton(new Rect(w/2+15,365,300,65),"确认另起旅程"))StartChapterFromSetup(true);
             }

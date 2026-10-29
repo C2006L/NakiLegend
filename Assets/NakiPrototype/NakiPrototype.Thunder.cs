@@ -53,7 +53,7 @@ namespace NakiLegend.Prototype
         private void ConfigureThunderPlayer()
         {
             origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
-            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?24:0;
+            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?6:0;
             orbLearned=true;bladeLearned=waveLearned=windEmpowered=thunderPreset!=ThunderPreset.BasicWeapons;
             if(thunderPreset==ThunderPreset.BasicWeapons){orbLearned=false;energy=elementPower=darkPower=0;}
             carriedWeapons[1]=thunderPreset==ThunderPreset.BasicWeapons?-1:6;

@@ -45,7 +45,7 @@ namespace NakiLegend.Prototype
             Sprite sprite = enemyActionArt.TryGetValue(kind, out frames) ? frames[0] : boss ? bossSprite : kind == EnemyKind.SpearGuard ? skeletonSprite : smallEnemySprite;
             enemy.root = Draw(EnemyNames[(int)kind], sprite, at, Vector2.one, Color.white, DepthAt(at.y)); enemy.body = enemy.root.GetComponent<SpriteRenderer>();
             enemy.shadow = Draw("Enemy shadow", softDisc ?? disc, at, new Vector2(boss ? 1.8f : .7f, boss ? .45f : .2f), new Color(.08f, .06f, .04f, .35f), -799);
-            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemies.Add(enemy); return enemy;
+            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemy.soulEligible=woodlandMode?(ArrayIndexWood(kind)==0||ArrayIndexWood(kind)==1||ArrayIndexWood(kind)==6||ArrayIndexWood(kind)==7||ArrayIndexWood(kind)==8||ArrayIndexWood(kind)==9||ArrayIndexWood(kind)==12):kind!=EnemyKind.StoneSentinel&&kind!=EnemyKind.Colossus&&kind!=EnemyKind.CopperRoller&&kind!=EnemyKind.ThunderStone&&!IsChapterBoss(kind);enemies.Add(enemy); return enemy;
         }
 
         private void UpdateJourneyEnemy(Enemy enemy, float dt)
@@ -174,7 +174,7 @@ namespace NakiLegend.Prototype
         private void SummonJourneyAdds(EnemyKind kind, int count)
         {
             var random = new System.Random(activeSeed ^ (int)(clock * 100) ^ currentRoom);
-            for (int i = 0; i < count && enemies.Count < 7; i++) QueueEnemy(kind, FindJourneySpawn(random, .34f));
+            for (int i = 0; i < count && enemies.Count < 7; i++){QueueEnemy(kind, FindJourneySpawn(random, .34f));pendingSpawns[pendingSpawns.Count-1].summoned=true;}
         }
 
         private void JourneyAreaHit(Enemy enemy, Vector2 at, float radius)

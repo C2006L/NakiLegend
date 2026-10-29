@@ -54,12 +54,14 @@ namespace NakiLegend.Prototype
             }
         }
         private int originChoice;
+        private int nextMeteorGroup;
+        private readonly System.Collections.Generic.HashSet<int> meteorGroups=new System.Collections.Generic.HashSet<int>();
         private bool OriginChoiceReady { get { return enableDesertJourney&&!ThunderActive&&!gatehouseSampleMode&&!bossPracticeMode&&origin==Origin.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&health>0; } }
         private void ChooseOrigin(int choice)
         {
             if(origin!=Origin.Unchosen)return;
             origin=choice==1?Origin.Dark:Origin.Light;
-            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?24:0;
+            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?6:0;
             orbLearned=false;
             TellStory(origin==Origin.Dark
                 ?"紫石沉入右眼，微凉的脉动随之传来。你握紧手中的武器：先去遗迹看看，或许旧碑上还留着驾驭这股力量的方法。"
@@ -86,23 +88,28 @@ namespace NakiLegend.Prototype
         }
         private void ChargeDarkPower(Enemy enemy)
         {
-            if(!enableDesertJourney||origin!=Origin.Dark||woodlandMode&&(enemy.kind==EnemyKind.SpearGuard||enemy.kind==EnemyKind.Tumbleweed||enemy.kind==EnemyKind.StormGuard)||enemy.kind==EnemyKind.StoneSentinel||enemy.kind==EnemyKind.Colossus||enemy.kind==EnemyKind.CopperRoller||enemy.kind==EnemyKind.ThunderStone||IsChapterBoss(enemy.kind))return;
-            darkPower=Mathf.Min(100,darkPower+(enemy.boss?24:12));
+            if(!enableDesertJourney||origin!=Origin.Dark||enemy.hp>0||!enemy.soulEligible||enemy.summoned||enemy.soulClaimed)return;
+            enemy.soulClaimed=true;int amount=enemy.boss||enemy.elite?3:2;
+            float added=Mathf.Min(100-darkPower,amount);darkPower+=added;
+            if(added>0)AddFloatingHit("灵魂能量 +"+added.ToString("0"),enemy.position+Vector2.up,C("b88ae8"));
         }
         private void CastDarkMeteor()
         {
             if(!orbLearned){JourneyHint("贤者之石尚未回应 · 留意遗迹中的古井碑");return;}
-            foreach(Shot old in shots)if(old.orb)return;
-            float strength=1+darkPower/100*.35f;
-            if(clock<nextSpell||!SpendPower(PowerPool.Dark,8))return;
-            nextSpell=clock+1;SkillSound("meteor","cast");
+            if(clock<nextSpell)return;
+            meteorGroups.Clear();foreach(Shot old in shots)if(old.skillAudio=="meteor")meteorGroups.Add(old.meteorGroup);
+            if(meteorGroups.Count>=2)return;
+            if(darkPower<1){SpendPower(PowerPool.Dark,1);return;}
+            float strength=1+darkPower/100*.2f;int group=++nextMeteorGroup,beforeAll=shots.Count;
             Enemy target;Vector2 aim=AutoAim(10,7,0,out target);
             for(int i=0;i<2;i++)
             {
                 Vector2 side=new Vector2(-aim.y,aim.x)*(i==0?-.16f:.16f);
                 int before=shots.Count;SpawnShot(position+aim*.4f+side,aim,false,target,position);
-                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.skillAudio="meteor";s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
+                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.meteorGroup=group;s.skillAudio="meteor";s.element=Element.Dark;s.damage=SkillDamage(15*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
             }
+            if(shots.Count==beforeAll)return;
+            SpendPower(PowerPool.Dark,1);nextSpell=clock+1;SkillSound("meteor","cast");
             castDirection=aim;castPoseUntil=clock+.25f;
         }
     }

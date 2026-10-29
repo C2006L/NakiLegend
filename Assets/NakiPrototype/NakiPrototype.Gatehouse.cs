@@ -71,7 +71,7 @@ namespace NakiLegend.Prototype
                 foreach(Vector2 at in new[]{new Vector2(-4.8f,-.5f),new Vector2(4.7f,1.1f)})if(!IntersectsTransit(at,new Vector2(1.3f,2.2f)))AddJourneyPillar(at);
                 BuildGateChannel(.8f,11.8f);
                 if(local==2){BuildTurningWheel(GateActionPoints[4],1.1f,gateTotalUnlocked);AddGateWheelCollision(GateActionPoints[4],new Vector2(1.5f,1.3f));}
-                if(local==4)Draw("Rain watching bell",lessonArtwork??windRingSprite,GateActionPoints[5],Vector2.one,C("c3dfcf"),DepthAt(1.4f));
+                if(local==4)DrawWorldSign(GateActionPoints[5],world);
             }
             RefreshGatehouseWater();
         }

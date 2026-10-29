@@ -62,14 +62,14 @@ namespace NakiLegend.Prototype
         private static float ElementMultiplier(Element attack, Element target)
         {
             if (attack == Element.Wind && target == Element.Lightning) return 1.3f;
-            if (attack == Element.Lightning && target == Element.Wind) return .85f;
+            if ((attack==Element.Lightning&&target==Element.Ice)||(attack==Element.Ice&&target==Element.Fire)||(attack==Element.Fire&&target==Element.Wood)||(attack==Element.Wood&&target==Element.Wind)) return 1.3f;
             return 1;
         }
 
         private void ApplyElementDamage(Enemy enemy, float amount, Element element)
         {
             float multiplier = ElementMultiplier(element, enemy.affinity);
-            if (multiplier > 1) AddFloatingHit("风克雷", enemy.position + Vector2.up * 1.1f, C("83edcf"));
+            if (multiplier > 1) AddFloatingHit(ElementName(element)+"克"+ElementName(enemy.affinity), enemy.position + Vector2.up * 1.1f, C("83edcf"));
             DamageEnemy(enemy, amount * multiplier);
             if (enemy.hp > 0 && element == Element.Wind && enemy.affinity == Element.Lightning && clock >= enemy.poiseReadyAt)
             {
@@ -149,7 +149,7 @@ namespace NakiLegend.Prototype
 
         private void LearnPendingLesson()
         {
-            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("碑上的刻痕像一道道坠落的星。你试着抬手，右眼的紫光便沿着指尖散开。","少年：原来，石头里那些不肯熄灭的微光，可以这样引出来。");AnnounceDiscovery("已领悟 L 流星 · 消耗8暗之力，自动追踪"); }
+            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("碑上的刻痕像一道道坠落的星。你试着抬手，右眼的紫光便沿着指尖散开。","少年：原来，石头里那些不肯熄灭的微光，可以这样引出来。");AnnounceDiscovery("已领悟 L 流星 · 消耗1灵魂能量，自动追踪"); }
             else if (pendingLesson == 1) { orbLearned = true; TellStory("碑文已经模糊，只剩一行浅刻：莫追逐光，让它先在心里停下。","你放慢呼吸。掌中的暖光渐渐收拢，凝成一颗明亮的光球。");AnnounceDiscovery("已领悟 L 元气弹 · 消耗8光之力，单颗追踪"); }
             if (pendingLesson == 2) { bladeLearned = true; TellStory("断壁间的风把细沙裁成一道弧线。你顺着那道弧挥剑，剑锋外竟也留下一缕长风。","少年：若能让风沿着剑走，就能劈开前面的阻碍。");AnnounceDiscovery("已领悟 U 风之刃 · 消耗6元素之力，风克雷"); }
             if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台四周，沙尘总在靠近铜环时向外散去。你站进环中，试着把气息送向四周。","一圈清风从脚下荡开。纷乱的沙粒，被推到了身外。");AnnounceDiscovery("已领悟 I 护身风波 · 消耗10元素，吹散普通飞弹"); }

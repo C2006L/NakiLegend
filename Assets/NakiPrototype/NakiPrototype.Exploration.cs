@@ -11,7 +11,7 @@ namespace NakiLegend.Prototype
         private readonly List<int> doorSealDirections = new List<int>();
         private readonly List<Rect> doorShotBlocks = new List<Rect>();
         private readonly List<PendingSpawn> pendingSpawns = new List<PendingSpawn>();
-        private sealed class PendingSpawn { public EnemyKind kind; public bool champion;public Vector2 at; public float when; public GameObject mark; }
+        private sealed class PendingSpawn { public EnemyKind kind; public bool champion,summoned;public Vector2 at; public float when; public GameObject mark; }
         private readonly Sprite[] floorModules=new Sprite[4],wallModules=new Sprite[4],sideModules=new Sprite[4],corridorModules=new Sprite[4];
         private int transitionTarget=-1,transitionEntry=-1;
         private float doorTransition,doorCooldownUntil;
@@ -212,7 +212,7 @@ namespace NakiLegend.Prototype
         private void TickPendingSpawns()
         {
             for(int i=pendingSpawns.Count-1;i>=0;i--)
-                if(clock>=pendingSpawns[i].when){PendingSpawn spawn=pendingSpawns[i];Destroy(spawn.mark);Enemy e=SpawnJourneyEnemy(spawn.kind,spawn.at,journeyRooms[currentRoom].depth);if(spawn.champion)MakeChampion(e);pendingSpawns.RemoveAt(i);}
+                if(clock>=pendingSpawns[i].when){PendingSpawn spawn=pendingSpawns[i];Destroy(spawn.mark);Enemy e=SpawnJourneyEnemy(spawn.kind,spawn.at,journeyRooms[currentRoom].depth);e.summoned=spawn.summoned;if(spawn.champion)MakeChampion(e);pendingSpawns.RemoveAt(i);}
         }
 
         private void QueueEnemy(EnemyKind kind,Vector2 at,bool champion=false)

@@ -40,7 +40,7 @@ namespace NakiLegend.Prototype
   private void KeyCap(Rect box,string text){HudRect(box,C("293d47"));CenterLabel(box,text,journeySmallStyle);}
   private string ActivePowerLabel {get{return origin==Origin.Dark?"贤者之石 "+Mathf.FloorToInt(darkPower):origin==Origin.Light?"光之力 "+Mathf.FloorToInt(energy):"主属性待选择";}}
   private Color ActivePowerColor {get{return origin==Origin.Dark?C("b88ae8"):C("ecd18e");}}
-  private string RoomHeading(RoomNode node){return thunderChapterMode?(woodlandMode?"青栖林海 · "+WoodlandStages[node.stage]:"雷雨高原 · "+ThunderStages[node.stage]):thunderPrototypeMode?ThunderTitle:IsGatehouseRoom(node)?GatehouseHeading(node):"沙漠岛 · "+StageNames[node.stage];}
+  private string RoomHeading(RoomNode node){return thunderChapterMode?(woodlandMode?"第五岛 · 青栖林海 · "+WoodlandStages[node.stage]:"雷雨高原 · "+ThunderStages[node.stage]):thunderPrototypeMode?ThunderTitle:IsGatehouseRoom(node)?GatehouseHeading(node):"沙漠岛 · "+StageNames[node.stage];}
   private void DrawJourneyHud()
   {
    if(world==null||journeyRooms.Count==0)return;EnsureJourneyStyles();Matrix4x4 saved=GUI.matrix;Color old=GUI.color;
@@ -91,7 +91,7 @@ namespace NakiLegend.Prototype
    int other=carriedWeapons[1-equippedSlot];FittedLabel(new Rect(84,y+29,290,22),"H 切换 · "+(other<0?"另一武器栏为空":weaponCatalog[other].name),journeySmallStyle);
    KeyCap(new Rect(402,y+5,28,24),"K");FittedLabel(new Rect(442,y+5,185,26),clock<nextDash?(profession==Profession.Warrior?"冲撞 · ":"闪避 · ")+(nextDash-clock).ToString("0.0")+"秒":ProfessionName+" · 就绪",journeySmallStyle);
    FittedLabel(new Rect(402,y+34,220,22),"B 行囊   "+(thunderChapterMode?"T 元素技能":"1 / 2 使用补给"),journeySmallStyle);
-   SkillBox(w-576,y,origin==Origin.Unchosen?"L 主属性":origin==Origin.Dark?"L 流星":"L 元气弹",orbLearned,nextSpell,8,true);
+   SkillBox(w-576,y,origin==Origin.Unchosen?"L 主属性":origin==Origin.Dark?"L 流星":"L 元气弹",orbLearned,nextSpell,origin==Origin.Dark?1:8,true);
    if(thunderChapterMode){for(int i=0;i<2;i++){int k=chapterSkillSlots[i];SkillBox(w-386+i*190,y,(i==0?"U ":"I ")+(woodlandMode?new[]{"风之刃","护身风波","根刺","孢种"}:ChapterSkillNames)[k],ChapterSkillKnown(k),ChapterSkillReady(k),ChapterSkillCost(k),false);}}
    else{SkillBox(w-386,y,"U 风之刃",bladeLearned,bladeReadyAt,6,false);SkillBox(w-196,y,"I 护身风波",waveLearned,waveReadyAt,10,false);}
    FittedLabel(new Rect(20,h-20,w-340,18),"WASD 移动   J 武器   F 交互   ESC 暂停   M 地图   F5 / F9 存读   R 重试   N "+(ThunderActive?"测试配置":"新旅程"),new GUIStyle(journeySmallStyle){fontSize=11,normal={textColor=muted}});

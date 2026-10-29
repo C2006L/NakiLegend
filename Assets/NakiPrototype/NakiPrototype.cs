@@ -24,6 +24,7 @@ namespace NakiLegend.Prototype
             public Vector2 position;
             public float hp, maximum, radius, speed, nextAttack, windup;
             public bool boss;
+            public bool soulEligible,soulClaimed,summoned;
             public Vector2 strikePoint;
             public GameObject warning;
             public EnemyKind kind;
@@ -44,6 +45,7 @@ namespace NakiLegend.Prototype
             public Enemy target;
             public float life;
             public string skillAudio;
+            public int meteorGroup;
             public bool hostile;
             public float damage;
             public Element element;
