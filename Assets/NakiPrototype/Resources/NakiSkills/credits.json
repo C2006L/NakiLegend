@@ -1,0 +1,296 @@
+{
+  "sources": [
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_1_0.ogg",
+      "sha256": "119f9061a566c72c1c58444b03f8685b833079ef268dda02fe742eb34d3bc68f"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_2.ogg",
+      "sha256": "84a70f63f3f21e5ba4a48285b760a663d422ad3feddba2f3cbadd94b76cdc52e"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_3.ogg",
+      "sha256": "9fac648a1de869cf9ca2f4b3f1cd47f1766a3ee9d2fdec45831234401d7b2392"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_4.ogg",
+      "sha256": "b7862d109b4013dfb2a389a10f8917203beb0efc458444bc5a1b8ada605cc118"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_5.ogg",
+      "sha256": "69aaaaed729cacb518005a5d24074196db3c5fffc0ed2cd01ad864fbed4a62be"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_6_0.ogg",
+      "sha256": "0a18ee3460cf3fd79c3771bbf94c20c26d34b65ab60d0b0e15694ffcad815955"
+    },
+    {
+      "author": "JaggedStone",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/magic-spell-sfx",
+      "download": "https://opengameart.org/sites/default/files/magical_7_0.ogg",
+      "sha256": "2817da4f5df69ff993baffd6594a2f2a069f85ee2a02019f97db2246e350a76b"
+    }
+  ],
+  "edits": "Trimmed, pitch-shifted, filtered and level-matched cast/impact variants.",
+  "clips": [
+    {
+      "file": "skill_orb_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_orb_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_orb_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_orb_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_orb_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_orb_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_1_0.ogg"
+    },
+    {
+      "file": "skill_meteor_cast_0.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_meteor_cast_1.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_meteor_cast_2.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_meteor_hit_0.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_meteor_hit_1.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_meteor_hit_2.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_4.ogg"
+    },
+    {
+      "file": "skill_blade_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_blade_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_blade_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_blade_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_blade_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_blade_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_7_0.ogg"
+    },
+    {
+      "file": "skill_wave_cast_0.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_wave_cast_1.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_wave_cast_2.wav",
+      "seconds": 0.65,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_wave_hit_0.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_wave_hit_1.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_wave_hit_2.wav",
+      "seconds": 0.4,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_mark_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_mark_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_mark_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_mark_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_mark_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_mark_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_2.ogg"
+    },
+    {
+      "file": "skill_arc_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_arc_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_arc_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_arc_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_arc_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_arc_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_6_0.ogg"
+    },
+    {
+      "file": "skill_root_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_root_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_root_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_root_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_root_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_root_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_3.ogg"
+    },
+    {
+      "file": "skill_spore_cast_0.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_spore_cast_1.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_spore_cast_2.wav",
+      "seconds": 0.48,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_spore_hit_0.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_spore_hit_1.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    },
+    {
+      "file": "skill_spore_hit_2.wav",
+      "seconds": 0.3,
+      "source": "https://opengameart.org/sites/default/files/magical_5.ogg"
+    }
+  ]
+}

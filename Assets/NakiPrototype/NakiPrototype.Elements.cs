@@ -88,12 +88,12 @@ namespace NakiLegend.Prototype
             if (!orbLearned) { JourneyHint("掌心的光尚未凝聚 · 留意遗迹中的古井碑"); nextSpell = clock + .35f; return; }
             foreach (Shot shot in shots) if (shot.orb) return;
             if (clock < nextSpell || !SpendPower(PowerPool.Light,8)) return;
-             nextSpell = clock + 1.2f;Sfx("light");
+             nextSpell = clock + 1.2f;SkillSound("orb","cast");
             Enemy target; Vector2 direction=AutoAim(10,7,0,out target);
             int before = shots.Count; SpawnShot(position + direction * .4f, direction, false, target, position);
             if (shots.Count > before)
             {
-                Shot shot = shots[shots.Count - 1]; shot.orb = true; shot.element = Element.Light; shot.damage = SkillDamage(24); shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
+                Shot shot = shots[shots.Count - 1];shot.skillAudio="orb"; shot.orb = true; shot.element = Element.Light; shot.damage = SkillDamage(24); shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
                 shot.root.transform.localScale = Vector3.one * .29f;
                 shot.root.GetComponent<SpriteRenderer>().color=C("fff1b2");AddShotRibbon(shot,C("ecd18e"),.13f);SpellSpark(position+direction*.4f,C("fff1b2"),.28f);
             }
@@ -104,11 +104,11 @@ namespace NakiLegend.Prototype
         {
             if (!bladeLearned) { JourneyHint("风之刃尚未学会 · 继续探索旧渠"); return; }
             if (clock < bladeReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,6)) return;
-            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;Sfx("wind");
+            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;SkillSound("blade","cast");
             int before = shots.Count; SpawnShot(position + direction * .45f, direction, false, null, position);
             if (shots.Count > before)
             {
-                Shot shot = shots[shots.Count - 1]; shot.tracking = false; shot.element = Element.Wind; shot.damage = SkillDamage(windEmpowered ? 26 : 22); shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
+                Shot shot = shots[shots.Count - 1];shot.skillAudio="blade"; shot.tracking = false; shot.element = Element.Wind; shot.damage = SkillDamage(windEmpowered ? 26 : 22); shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
                 shot.root.GetComponent<SpriteRenderer>().sprite = pixelSlash ?? disc; shot.root.GetComponent<SpriteRenderer>().color = C("7ce7c4");
                 shot.root.transform.localScale = new Vector3(.32f, .55f, 1); shot.root.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
                 AddShotRibbon(shot,C("82e6cb"),.07f);
@@ -120,7 +120,7 @@ namespace NakiLegend.Prototype
         {
             if (!waveLearned) { JourneyHint("风波尚未学会 · 寻找第二层的守渠试炼"); return; }
             if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,10)) return;
-             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;Sfx("wind",false,.8f);
+             waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;SkillSound("wave","cast");
             if (activeWindWave != null) Destroy(activeWindWave);
             activeWindWave = Draw("Wind wave", windRingSprite ?? disc, position + Vector2.up * .25f, Vector2.one * .3f, C("8aefd0"), 800);
             DispelProjectiles(position, .4f); castDirection = facing; castPoseUntil = clock + .32f;
@@ -130,7 +130,7 @@ namespace NakiLegend.Prototype
         {
             for (int i = shots.Count - 1; i >= 0; i--)
                 if (shots[i].hostile && shots[i].dispellable && Vector2.Distance(shots[i].position, at) <= radius)
-                { Destroy(shots[i].root); shots.RemoveAt(i); }
+                { SkillSound("wave","hit");Destroy(shots[i].root); shots.RemoveAt(i); }
         }
 
         private void JourneyHint(string message)

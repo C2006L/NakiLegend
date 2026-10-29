@@ -30,9 +30,9 @@ namespace NakiLegend.Prototype
    if(!ChapterSkillKnown(skill)||clock<ChapterSkillReady(skill))return;
    Enemy target;Vector2 aim=AutoAim(9,9,0,out target);if(target==null)return;
    if(!SpendPower(PowerPool.Elemental,skill==2?7:9))return;
-   Sfx(skill==2?"root":"spore");
-   if(skill==2){chapterMarkReady=clock+1.6f;ApplyElementDamage(target,SkillDamage(24),Element.Wood);target.recoveryUntil=Mathf.Max(target.recoveryUntil,clock+.6f);SpellSpark(target.position,C("a4e589"),.7f);}
-   else{chapterArcReady=clock+2.4f;SpawnShot(position+aim*.4f,aim,false,target,position);Shot shot=shots[shots.Count-1];shot.element=Element.Wood;shot.damage=SkillDamage(28);shot.tracking=true;shot.speed=7;shot.root.GetComponent<SpriteRenderer>().color=C("b7d37b");AddShotRibbon(shot,C("8bbf69"),.07f);}
+   SkillSound(skill==2?"root":"spore","cast");
+   if(skill==2){chapterMarkReady=clock+1.6f;ApplySkillHit(target,SkillDamage(24),Element.Wood,"root");target.recoveryUntil=Mathf.Max(target.recoveryUntil,clock+.6f);SpellSpark(target.position,C("a4e589"),.7f);}
+   else{chapterArcReady=clock+2.4f;int before=shots.Count;SpawnShot(position+aim*.4f,aim,false,target,position);if(shots.Count==before)return;Shot shot=shots[shots.Count-1];shot.element=Element.Wood;shot.skillAudio="spore";shot.damage=SkillDamage(28);shot.tracking=true;shot.speed=7;shot.root.GetComponent<SpriteRenderer>().color=C("b7d37b");AddShotRibbon(shot,C("8bbf69"),.07f);}
   }
   private void DecorateWoodCover(Vector2 at)
   {

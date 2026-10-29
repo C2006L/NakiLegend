@@ -125,7 +125,7 @@ namespace NakiLegend.Prototype
                     var room=new RoomNode{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(RoomKind)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded};
                     room.links.AddRange(n.links);foreach(var w in n.drops)room.drops.Add(new StoredWeapon{id=w.id,at=w.at});foreach(var d in n.essence)room.essence.Add(new StoredEssence{at=d.at,value=d.value,born=d.born});journeyRooms.Add(room);
                 }
-                profession=(Profession)Mathf.Clamp(s.profession,0,3);activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
+                professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
                 clearedCombatRooms=s.clearedRooms;restoredCanals=s.restored;healingSupplies=s.healSupplies;elementSupplies=s.elementSupplies;
                 canalEpilogueStart=s.canalStart;clock=s.clock;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;NormalizeOriginPower();
                 swordDamage=s.swordDamage;initialSwordDamage=s.baseSword;spellDamage=s.spellDamage;initialSpellDamage=s.baseSpell;tuningCaptured=true;

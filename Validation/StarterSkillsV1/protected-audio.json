@@ -1,0 +1,473 @@
+{
+  "unchanged": true,
+  "files": [
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ambient_desert.wav",
+      "sha256": "c81c59619dbbf160d41e4fa991f199e684cadba4dfda50c4201039be33aad5c1"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ambient_thunder.wav",
+      "sha256": "4e3e9a874f5e8adb47b4cb26d26e06d15f99503dd94ed5393fc24b172bd46ea1"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ambient_water.wav",
+      "sha256": "da289e6286519361ec557f5df46d09945b2ba74ab431c261ecbcf3e7ce711a5b"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ambient_woodland.wav",
+      "sha256": "218154bc53e3fb1aa94429fda4a969e7da0952e5e14afed5f39fc80e6f51decb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/bow_0.wav",
+      "sha256": "10494c4779ef7877691b64e020b163d0db9ec66873d89577e55a72825334a453"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/bow_1.wav",
+      "sha256": "477462dd5c1d128ed35846e9e2f8942575d8aabda8bbf54330cf6a079a84f848"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/bow_2.wav",
+      "sha256": "1372e4c34a31cb3c52e259b6a92cce7d51d9e3c41279443804d52c05f7a8b51b"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/break_0.wav",
+      "sha256": "6f03173b1c53ce7647617c78e4a8d80a8710c615a7292da82ca258b231c29fd4"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/break_1.wav",
+      "sha256": "e3244773b87d8ed23914d292ea718936a9e56e09b04cb756eb80dee7374590b0"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/break_2.wav",
+      "sha256": "b6f8ff9d6e7dc15b9fc7f5aca3cf50c51f91d728a3ec9cc26500230739c7815b"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/clear_0.wav",
+      "sha256": "84042392067aafb4a39d379bee50f065e2ed46660ccc8cea783ac7be1fd3691e"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/clear_1.wav",
+      "sha256": "1e83eb18fa5ef1c7bcce7c354b015fdccb020f2e0cee9b553283151f940def36"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/clear_2.wav",
+      "sha256": "8e4cefad0d9d1293c4b59587efaccf3f092543e9c1308bcdd330f9839a6785b5"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/crossbow_0.wav",
+      "sha256": "6ea223dc4e69549bcc28c126d543b960b14bcc58b9be11dfecf007910461c1dd"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/crossbow_1.wav",
+      "sha256": "864e977e169b5b34a2c0bfa4f4378e624cbf0c78ed1d58f11a01ec76eba40efa"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/crossbow_2.wav",
+      "sha256": "a34b1aef2c0bd0612f4695e4c93d589be45a7e8b65fb40f2949a19ed744f7f4c"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dark_0.wav",
+      "sha256": "bcdf989bef3b8e7cf1048c76ea2acd545755f2fe75cdbdc5cd0a5a6c5adae725"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dark_1.wav",
+      "sha256": "e4bcb06227b2955471c9e611114761c1926e00e8df6773b2b952033df53b8569"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dark_2.wav",
+      "sha256": "c3ad1a725201ddacade751c3491e06f0c220970bd82d9f22f5ac40b32c1e5f95"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/death_0.wav",
+      "sha256": "93e32eea3423e6e5062dd6fc9561622255431359fd9377d2ba2a72d19a7d1ed3"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/death_1.wav",
+      "sha256": "5824039e884a087e3f3603f979237612e101028c26f18cc3cc97243ba449be90"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/death_2.wav",
+      "sha256": "c4f4e1d65e576a5128df5103c5b1692978f83df61a8bce7baf0af70adc55ecf4"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/desert_boss.wav",
+      "sha256": "39a91ee4ecf9b1a3ae0ca8c13f692e3c714d4d2efa6bbb8718c68a163b62b5f5"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/desert_combat.wav",
+      "sha256": "8cd761751d27eabffc38b0a879154cd7bd3f79fc2b24dcac9d506ffdd51bd3d5"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/desert_explore.wav",
+      "sha256": "e0fececc687c8a74bc51ef69ce7eceb625a7a7f22a9ba4380778d30d9cb3dd25"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dodge_0.wav",
+      "sha256": "0467bbad276c064cd73d0a4a22e8a6fc4babf9e24a75267fdaf81ed22d7f9e09"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dodge_1.wav",
+      "sha256": "80da22df3a92815ea573d05f5c4b6850e7d96e4add8657a334acf20c479bb5d5"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/dodge_2.wav",
+      "sha256": "2b0c5087995b45396ae2e3d19c600db0a7fe8e526802d099339ad8d9db0a3671"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/electric_0.wav",
+      "sha256": "d2bc74200844dc9b7b41a7a6ee0c796af3c36444d98698234888ac37f07e36b5"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/electric_1.wav",
+      "sha256": "3654f71a12de4ac5e51e2eccd6e6a0d1595b13f60c01d74570f4dc47bbe4ced3"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/electric_2.wav",
+      "sha256": "3981a13a5effd73d51309ecbdae602e75232b810d70d94bc559306166a0520af"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ending.wav",
+      "sha256": "9070828c85b8527ee85f8e8bb713daef1e9d2e8cb0f94c60058989b8358e12da"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/flesh_0.wav",
+      "sha256": "f6db91ac42d5316192aa217c84f98692a31cbdddcf300e51bd6abaa439a67e79"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/flesh_1.wav",
+      "sha256": "c098ea3de121a9320d02fc6a155b24f1c9a8689f5fc15123734b3be8c54dbfa8"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/flesh_2.wav",
+      "sha256": "ce9b23a130fb74824918e241e1b13a3de529ac1999f7519815811bdf455dd486"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/heavy_0.wav",
+      "sha256": "edb195cdcd5efde468cc6a46c3ebc0724ab59a3f10c3f3e5364d1fd71fe399b6"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/heavy_1.wav",
+      "sha256": "f2724f690d016f100db399a0adc11db09b00f60e81db891ed4f33a9905e565d1"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/heavy_2.wav",
+      "sha256": "c6d8ef4aaf2fbc9aadd194600a3656660a61df6f0853322bfa95b6b870d7fe35"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/hurt_0.wav",
+      "sha256": "063e37d4452402ca2e0611c96989b34b02d26258a0d87e8b12b62e5021108469"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/hurt_1.wav",
+      "sha256": "b92d110a1fd1e3e75c9fce9e41bbe2383f9bad6f5643c0e0388bfa9129e9e21f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/hurt_2.wav",
+      "sha256": "ff57095aa239b572218d25009c0047bb95e96450c25b85b4275fb8615169b7a1"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/light_0.wav",
+      "sha256": "cf5e359172804e689a7d3561ebd168a0c600c7a8422b2b7c0d516d0966b3cc52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/light_1.wav",
+      "sha256": "d47a17128d5d5d23ae85bb7aed6e14635289ae6ed9ecfc66fda4b8d2a3fd5a2f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/light_2.wav",
+      "sha256": "f147f2edf580d1d4ef519025232adc0d35be9ca4d96d0283134432fd9d76bf2d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/pickup_0.wav",
+      "sha256": "cf5e359172804e689a7d3561ebd168a0c600c7a8422b2b7c0d516d0966b3cc52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/pickup_1.wav",
+      "sha256": "d47a17128d5d5d23ae85bb7aed6e14635289ae6ed9ecfc66fda4b8d2a3fd5a2f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/pickup_2.wav",
+      "sha256": "f147f2edf580d1d4ef519025232adc0d35be9ca4d96d0283134432fd9d76bf2d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ram_0.wav",
+      "sha256": "d681421f1efd01353b0d388b48afbe8509f61c7046575eb71db0bc5f64d18add"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ram_1.wav",
+      "sha256": "62676abbfae5464f4c330973a993ec2a5b7b18c9024c1b5682c3a917c1640354"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/ram_2.wav",
+      "sha256": "1b6bd93e794155079ea0d750266b3514bef58684ef3a4db1e55ff119fd431efd"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/recover_0.wav",
+      "sha256": "cf5e359172804e689a7d3561ebd168a0c600c7a8422b2b7c0d516d0966b3cc52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/recover_1.wav",
+      "sha256": "d47a17128d5d5d23ae85bb7aed6e14635289ae6ed9ecfc66fda4b8d2a3fd5a2f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/recover_2.wav",
+      "sha256": "f147f2edf580d1d4ef519025232adc0d35be9ca4d96d0283134432fd9d76bf2d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/root_0.wav",
+      "sha256": "fe98c5e09b4abfb53356a2766f9a9f1bdaeea04ecb3e3746c774d3515f4892eb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/root_1.wav",
+      "sha256": "5dfca6ecf9ff936ce68bbbea50eb80fe72cc5968d6019a1f46e0f835f59d4957"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/root_2.wav",
+      "sha256": "22f88a9e54461b223d36f78344895209d16cf4a9e0a047581bb859568a604a4b"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shell_0.wav",
+      "sha256": "2923a31e35ae8115782a209571eef6b3c7374e2d12df85672aeb314bff79ae92"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shell_1.wav",
+      "sha256": "2504c8fa5f49116de4508ce44825ee0cf8e4eed26a6c6690b69994e2d91b18fd"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shell_2.wav",
+      "sha256": "002542a913dc05ef26b85925593050c9085488b613101205bd7c24c659937320"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shield_0.wav",
+      "sha256": "418b334f70fec276515bdf21a07b2ad897d1c171d481ac8c25cf610c132ccafc"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shield_1.wav",
+      "sha256": "fc3950d40802342094537aac5fcfab30cd8b5ce353601851126dad91579973ac"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/shield_2.wav",
+      "sha256": "2d6ef1f0ad44d6ec253a4fa987fa778c93f7e8386066a1d5748381852ad29c79"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spear_0.wav",
+      "sha256": "d1e714b6c40cdfc24b1ee994cd610c22b056dfd4a96d8f1f62aadcbec380da02"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spear_1.wav",
+      "sha256": "746af574d537452792751b64bb0b89a3fdbe4b52680cfecd70d48d46e52c5277"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spear_2.wav",
+      "sha256": "fe62c1ec7144887963082be5237b81568d2563647b1864cecad4d2d9467f7203"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spore_0.wav",
+      "sha256": "cf5e359172804e689a7d3561ebd168a0c600c7a8422b2b7c0d516d0966b3cc52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spore_1.wav",
+      "sha256": "d47a17128d5d5d23ae85bb7aed6e14635289ae6ed9ecfc66fda4b8d2a3fd5a2f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/spore_2.wav",
+      "sha256": "f147f2edf580d1d4ef519025232adc0d35be9ca4d96d0283134432fd9d76bf2d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/staff_0.wav",
+      "sha256": "cf5e359172804e689a7d3561ebd168a0c600c7a8422b2b7c0d516d0966b3cc52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/staff_1.wav",
+      "sha256": "d47a17128d5d5d23ae85bb7aed6e14635289ae6ed9ecfc66fda4b8d2a3fd5a2f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/staff_2.wav",
+      "sha256": "f147f2edf580d1d4ef519025232adc0d35be9ca4d96d0283134432fd9d76bf2d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/stone_0.wav",
+      "sha256": "107df88696452febb990034b28c13920ab23e3617d353ea59f578b7f39303edc"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/stone_1.wav",
+      "sha256": "05691ab1be912b4d84412f1dfb1757ae15792b965c0b6204a996e299880040bf"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/stone_2.wav",
+      "sha256": "6f86941f3fc941a6ade4c8e53bca2c82b6b55a7ec507b70d2fe4af6eae4d31c9"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/sword_0.wav",
+      "sha256": "e77fe8e313e78758b0a4af9a6ea90b475e192cae170151fd8febf6f119a7a690"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/sword_1.wav",
+      "sha256": "411d3603ade8b570835cd200b8bd21b905f5a2edbfd06c29ca0e8c87bd073f53"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/sword_2.wav",
+      "sha256": "6933038dc92cb95f3109d12b721ecd983bedfd4d64875df2f66b258c4a6183eb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_0.wav",
+      "sha256": "a7550e857456c19b39aa2dd21b535078fd68cc5dae8125a5ce403ce7e4ccc64f"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_1.wav",
+      "sha256": "4bf36d976ae9f31c271b60ebd715630d925da04d6a775122ab6a6652d269d496"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_2.wav",
+      "sha256": "6414b463d79112ed51d314d61ca48bbf77a00cb5d96b4cd7b30b06a4c94de231"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_boss.wav",
+      "sha256": "6cf991ae35a1b2000ec5877f6dcf21a50cfaf62d66ebaa37ab5c8c5f6720b6a9"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_combat.wav",
+      "sha256": "75f1dff9340e825255fb2a1cdb3d15edba116f31ac27d7b12fa173466cbba98c"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/thunder_explore.wav",
+      "sha256": "cdaef5d224faf5a1c1ede21963155426995826e78aefcbad187b7c46bea27ec4"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/warn_0.wav",
+      "sha256": "25012dbac56a2d93bcff414422a9e7eacfac5a93d2322cd652421c4e4f12b2ce"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/warn_1.wav",
+      "sha256": "8657533643a73fb23bd46968c8441413103b22f4a3d07f658ab012eb1f2dcf5d"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/warn_2.wav",
+      "sha256": "aca49dbb5a644a0e503700db32b0b55c190fd9772b079d6df9f30b16e1778f02"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wind_0.wav",
+      "sha256": "543fce8900942456e204e17628f60951627146af27bbe901d42bb7e9dfc5374a"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wind_1.wav",
+      "sha256": "2d31ed263083d0d292328c12fac66a43f47d685b9d992d0982f4ec977cb427ca"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wind_2.wav",
+      "sha256": "59b4f052e78de198e0da4d8f9dade651a6fb2b6694f7d2c4a4a55957254de807"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/woodland_boss.wav",
+      "sha256": "ce575d0f67bb3a0c03dcf137723c75f727ce2ffb83d3daed2c6215b7a00e5923"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/woodland_combat.wav",
+      "sha256": "e6fde842658422e3c461faa620183fabb0d920603ff4066c869f3e57a2dcfbad"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/woodland_explore.wav",
+      "sha256": "9f6448054e0f68989cb70554e802ecca6837bbf66bbc6c4b4bfae432b1239c51"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wood_0.wav",
+      "sha256": "96347fcc966042e94c93ac3465d16cf8b8d2bb312f89ceec8fe2f25219b85e52"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wood_1.wav",
+      "sha256": "a0aff2146909c03861ef4e1a34f7b7fa1dc81fea5d71a1a10e787b3b6bd5ed57"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudio/wood_2.wav",
+      "sha256": "e84cd3ed8d77cce70a6738c78a5a26245d4f847afebae3257d09e8ef7244b6eb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/clash_0.wav",
+      "sha256": "05d47dc3c01a863091574fc4efdfd5a32b7646354a32d4757cdeb1df2664d8aa"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/clash_1.wav",
+      "sha256": "356463008e8417f1c29041869385d569211c11b9b7c4df412f096a413c745c04"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/clash_2.wav",
+      "sha256": "37e19238621f4201ba5121106f91daf12c2426ee250a5554fc6be37a70e01763"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/desert_boss.ogg",
+      "sha256": "eb6273280894906afc3f51852a2802680c6a15f53092595c966765f560028b92"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/desert_combat.ogg",
+      "sha256": "49fd8eeb7a53613d89ada01a677849a4280bfbab3f6408c438ecf19fe7a6720b"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/desert_explore.ogg",
+      "sha256": "04fbb5e8e9762a319300c54d6dbb4f5bcd1ee673b44b2e6114f36b0ed6c659df"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/ending.ogg",
+      "sha256": "7754277b7a894f5b2f4cbae59eb0a6da0b5d06bf14f8d8eb5fcb01b9f23ed6b7"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/heavy_0.wav",
+      "sha256": "707f752918b906107dd75324b64e35c2dfa4cde3ff0e9325a04a0f7da68271c8"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/heavy_1.wav",
+      "sha256": "7851ffb444553841466dd0bbf9c57b1799d7a2312e34936617e616fa81e80fb3"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/heavy_2.wav",
+      "sha256": "bea8c867b5ecbf0046816c0eb7421d7e30a2f62b1723e9ded21b412e4fcb1cbb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/spear_0.wav",
+      "sha256": "902ec5aa601f4dd5afb2d713058daf0d95568ce1617d0a53d955c724ad845dcd"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/spear_1.wav",
+      "sha256": "b7720ed182a8b8519a5637535c9f35a0bbf821e974585cb97b51c122266e4f86"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/spear_2.wav",
+      "sha256": "06d523bbc458bafce6529dab8ffd3ee47769aee804380d75b6978274b9524f07"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/sword_0.wav",
+      "sha256": "6e25c95a5bf24771d561a89401b4f78bcbeb06cdb450c84cf1ac03cf8a67acda"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/sword_1.wav",
+      "sha256": "2e3cfd8f49fb7427cb4a8cf87b6d7364e28bf237bd2e9a316072fc85d2334c7a"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/sword_2.wav",
+      "sha256": "557fa2a09e60812f6b318ebe4bafc40f06b4a0d7d3fe80f3930a2cb97caafb8c"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/thunder_boss.ogg",
+      "sha256": "967f25dce9c4b566984267e1005a2d2fd0db36a474b2b3dab867123c99f85221"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/thunder_combat.ogg",
+      "sha256": "82556b1527215ba1fc76c4b2a062bdc8092c16d2aa5458c920707cf33cc8c2c8"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/thunder_explore.ogg",
+      "sha256": "45801efdd761270fe944cc125651297d734b0760c96f7d2e71dab1b292d62192"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/woodland_boss.ogg",
+      "sha256": "f9e04d0d3fdd5c2f84ad5b00e0713c539972c1129f58b66873bf2797776bfafb"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/woodland_combat.ogg",
+      "sha256": "d4e9d44582c06d7ca97f037ee9e2886fb1fdba6fd801682a047e282828a424d9"
+    },
+    {
+      "file": "Assets/NakiPrototype/Resources/NakiAudioV2/woodland_explore.ogg",
+      "sha256": "044dff0a6a2d8d5accd5805ab72acba72f0dd5ce962824b26b320e406bbcdff4"
+    }
+  ]
+}

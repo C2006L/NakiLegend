@@ -1,0 +1,293 @@
+{
+  "passed": true,
+  "clips": [
+    {
+      "file": "skill_arc_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "e540e01da03a2173c38e0e2b58001145a33534aa7ef80d4d58e0174e60bb7b19"
+    },
+    {
+      "file": "skill_arc_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "b6b941bfdbe0adaaeeccefafaa9be2e6814873a55a1d666d23afc5af300979dc"
+    },
+    {
+      "file": "skill_arc_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "c27ccf3fb8d3baeecb606a475299c906e4e0f403e68b7d280ae4bf3a51f20bbc"
+    },
+    {
+      "file": "skill_arc_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "23e90462b895fd7761c782abaa442dadb717f270059fe36cb764614e75ff0796"
+    },
+    {
+      "file": "skill_arc_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "1175aabe2e15982db2bbea6b99380aa9c962c5478d90cd9ef0f1a1cf3566d8a6"
+    },
+    {
+      "file": "skill_arc_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "de7b0fa39117f2833f6e119427ff1ffe07725aae6ccc08460888681ed1283c39"
+    },
+    {
+      "file": "skill_blade_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "2fe79e85a0a51bb6b43d2719aaac9c55fa81c05140d68abc1f7203089cbc586c"
+    },
+    {
+      "file": "skill_blade_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "3c3ba9ce18ada05a90c2a5a1bddca49d191bfa0793e9d574be1c9a00c77470be"
+    },
+    {
+      "file": "skill_blade_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "001b4faf452e45f3aaf3ac8b1e94e104cbefce878d6e6a8df06fbe23f6691102"
+    },
+    {
+      "file": "skill_blade_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "1e87bb976d2a7d5e783853a505b8e114bb5a40578c06beb0ab36bfd2793d16d2"
+    },
+    {
+      "file": "skill_blade_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "6d52498dee48b299688ef52a0ad655596154c19218976194d9bf496b6603cfb9"
+    },
+    {
+      "file": "skill_blade_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "91de7f6b183f4929fab31f3d553e783063e685f19e7c4142e44d79b3a1e871dc"
+    },
+    {
+      "file": "skill_mark_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.7666015625,
+      "sha256": "cef073eeb2e499d7cc41db79d387af38801e6787bec15cf74d6b583f4ee24ec3"
+    },
+    {
+      "file": "skill_mark_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.775482177734375,
+      "sha256": "da81ce0fcb9e2aceaaff6d7d322b2480b262b64fa5270a6c22a6687e25954a24"
+    },
+    {
+      "file": "skill_mark_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.77081298828125,
+      "sha256": "c6e4c40fa55f0a8223add6e042d861e1153cd8dfe0f9cd0405ff5e6c5cc7a5e3"
+    },
+    {
+      "file": "skill_mark_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "9530c691b3378bd7c43d510490f85bdebc67266967963356a512af5da04acb55"
+    },
+    {
+      "file": "skill_mark_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "b9fb38db82e6d3d7b2108ea8bc018cb593962004854dff7c64cbba4a0117c66b"
+    },
+    {
+      "file": "skill_mark_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "0f59e07d346aeb3f97bb5bdad76994c24db749098b70fd528dc02de862222da1"
+    },
+    {
+      "file": "skill_meteor_cast_0.wav",
+      "seconds": 0.65,
+      "peak": 0.799957275390625,
+      "sha256": "2aaf5f4b320cccb9c34625a5673c5d598e2d28adfb55900039d7435e2297e934"
+    },
+    {
+      "file": "skill_meteor_cast_1.wav",
+      "seconds": 0.65,
+      "peak": 0.799957275390625,
+      "sha256": "8e9e1a2914eb5d4c7c51c55278a296657457f9947e79e3c644e7cb20db397f9d"
+    },
+    {
+      "file": "skill_meteor_cast_2.wav",
+      "seconds": 0.65,
+      "peak": 0.799957275390625,
+      "sha256": "bf0a73d12b013cc07a6fc60422a990d9467deec6f8633be786f88872734b5874"
+    },
+    {
+      "file": "skill_meteor_hit_0.wav",
+      "seconds": 0.4,
+      "peak": 0.734710693359375,
+      "sha256": "31a0cabdb79310eaff659bd1cf2a48198105ac9d4d0b5263b1c7c728698d7561"
+    },
+    {
+      "file": "skill_meteor_hit_1.wav",
+      "seconds": 0.4,
+      "peak": 0.733489990234375,
+      "sha256": "3abb202daec8cad977d1551a691f42f92640943da32d784898fa97506fbf7f87"
+    },
+    {
+      "file": "skill_meteor_hit_2.wav",
+      "seconds": 0.4,
+      "peak": 0.7301025390625,
+      "sha256": "4e2dd11d89e3a9404031c323c683ae45204e3d4b4d5a9b0ae813436c61d87369"
+    },
+    {
+      "file": "skill_orb_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.790283203125,
+      "sha256": "76d505ae904dd24e3729c917f1e600b7ff21aa66582b35c5ce80327cbc502cc1"
+    },
+    {
+      "file": "skill_orb_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.790924072265625,
+      "sha256": "d454f12c2e6c344227122426748947519821514d8cdf5efb642970a13124e2c5"
+    },
+    {
+      "file": "skill_orb_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.791534423828125,
+      "sha256": "5b8a0c29a21536451906973554df4aaeb06ddcd203bdd4a0fc99c30c274bcaf2"
+    },
+    {
+      "file": "skill_orb_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.69927978515625,
+      "sha256": "d488d7306e002144bec621c060da6e0fe59adc67daa7583a73a3d72a2880e952"
+    },
+    {
+      "file": "skill_orb_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.70843505859375,
+      "sha256": "5fd40a6f1522c31361bcc05dd532a55d1355e2a2c8607e9d6785d049cdfc5603"
+    },
+    {
+      "file": "skill_orb_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.71087646484375,
+      "sha256": "4b320eb311c8aee339410fa42a38ac9789ce440b7a701bb90df9c56c19485584"
+    },
+    {
+      "file": "skill_root_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.51153564453125,
+      "sha256": "f40af23b7782accfdd9bed4a801466034a5e5b9dffc1463e0ad4ebb7eea1b482"
+    },
+    {
+      "file": "skill_root_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.509124755859375,
+      "sha256": "6d18874909191b61f5123c8bddd21d3e7d9f99b75e39bb3d1bb8cbaecb6941cd"
+    },
+    {
+      "file": "skill_root_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.51409912109375,
+      "sha256": "8fc0aac2f2582487e697910cca1b37b950f84d75456bd3934155750e6b17c610"
+    },
+    {
+      "file": "skill_root_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.499176025390625,
+      "sha256": "6def4325eb0d26512b5ca72496f18568b18e814a3b74d6c7d8932d6748e1af7d"
+    },
+    {
+      "file": "skill_root_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.499603271484375,
+      "sha256": "b309536be305601821b8aa7d9d957519fa923e7c9c1d5bb131de2789e71d7748"
+    },
+    {
+      "file": "skill_root_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.49896240234375,
+      "sha256": "a5350449ec16daabd04d38c87373e386512b380946d8de8844c58902e80d54ed"
+    },
+    {
+      "file": "skill_spore_cast_0.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "1eca1cd58163eb315ec836702af3574326e656b8b7c194776687447df431be90"
+    },
+    {
+      "file": "skill_spore_cast_1.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "8b001557e9dca52f7423c911532299878779cbacfe154145d65a7210e802c728"
+    },
+    {
+      "file": "skill_spore_cast_2.wav",
+      "seconds": 0.48,
+      "peak": 0.799957275390625,
+      "sha256": "7cb425f2fd28c6ee7cd7a8d1322992a370d9d91e6a35b605c3e7fc5b9bd37fe4"
+    },
+    {
+      "file": "skill_spore_hit_0.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "00b357350cf53050bdf9bb2a7c831309cd8e1c34d37f26c1f796a04d9bb31395"
+    },
+    {
+      "file": "skill_spore_hit_1.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "06cec1b98b61da2d4d90446dae543fe7c647aae22fbf9de49900ecdb229198b6"
+    },
+    {
+      "file": "skill_spore_hit_2.wav",
+      "seconds": 0.3,
+      "peak": 0.799957275390625,
+      "sha256": "16795d3ed3b2bebd1c21317d0b9e7d74b998db8dd91d6989cfe1049fdf5a96bf"
+    },
+    {
+      "file": "skill_wave_cast_0.wav",
+      "seconds": 0.65,
+      "peak": 0.70098876953125,
+      "sha256": "c34c6ab406dba39be628984f5f9d4df681651306740c6f10269d86625e053b3d"
+    },
+    {
+      "file": "skill_wave_cast_1.wav",
+      "seconds": 0.65,
+      "peak": 0.6947021484375,
+      "sha256": "4076b557d2279a2fd5d85b6fc0659914b394e3e34c4dac3194b3232b0a0717b2"
+    },
+    {
+      "file": "skill_wave_cast_2.wav",
+      "seconds": 0.65,
+      "peak": 0.701812744140625,
+      "sha256": "c5f9fc707e227fc0e142b08074de8493b66292ceeabc52872de325e1b8e6a238"
+    },
+    {
+      "file": "skill_wave_hit_0.wav",
+      "seconds": 0.4,
+      "peak": 0.713104248046875,
+      "sha256": "32c3b1757b4a2c050cfa722954a08edca262a48056ff86402a50fabe9a4256ca"
+    },
+    {
+      "file": "skill_wave_hit_1.wav",
+      "seconds": 0.4,
+      "peak": 0.7249755859375,
+      "sha256": "415bb1b15db435eacd9bce73ce070385c0cf06ffe912747db0419c7967b736e7"
+    },
+    {
+      "file": "skill_wave_hit_2.wav",
+      "seconds": 0.4,
+      "peak": 0.7293701171875,
+      "sha256": "38983333f108fc439dfe4cdddbeb21c84eaaebe05c2a2514cc3c55773e30e829"
+    }
+  ]
+}

@@ -61,7 +61,7 @@ namespace NakiLegend.Prototype
             float cost=ChapterSkillCost(skill);if(elementPower+.001f<ElementCost(cost)){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
             if(skill==2)
             {
-                if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;Sfx("electric");
+                if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;SkillSound("mark","cast");
                 Vector2 at=target.position;GameObject circle=WarningCircle(at,chapterStone?.75f:.6f);
                 foreach(SpriteRenderer r in circle.GetComponentsInChildren<SpriteRenderer>())r.color=new Color(.62f,.86f,1,.6f);
                 chapterMarks.Add(new ChapterMark{at=at,when=clock+.65f,root=circle});
@@ -69,8 +69,8 @@ namespace NakiLegend.Prototype
             else
             {
                 int count=shots.Count;SpawnShot(position+aim*.45f,aim,false,null,position);if(shots.Count==count)return;
-                SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;Sfx("electric");
-                Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;
+                SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;SkillSound("arc","cast");
+                Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;shot.skillAudio="arc";
                 shot.damage=SkillDamage(20);shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
                 AddShotRibbon(shot,C("a8eaff"),.055f);SpellSpark(position+aim*.45f,C("a8eaff"),.22f);
             }
@@ -81,10 +81,10 @@ namespace NakiLegend.Prototype
             if(!thunderChapterMode)return;
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
-                ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;
+                ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;SkillSound("mark","hit");
                 GameObject flash=Stretch("Friendly mark lightning",square,mark.at+Vector2.up*.65f,new Vector2(.035f,1.3f),C("c6f1ff"),570);
                 fadingBodies.Add(new FadingBody{root=flash,renderer=flash.GetComponent<SpriteRenderer>(),expires=clock+.14f});SpellSpark(mark.at,C("a8eaff"),.45f);
-                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplyElementDamage(e,SkillDamage(22),Element.Lightning);if(++hits==3)break;}}
+                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplySkillHit(e,SkillDamage(22),Element.Lightning,"mark");if(++hits==3)break;}}
                 if(mark.root!=null)Destroy(mark.root);chapterMarks.RemoveAt(i);
             }
         }
@@ -96,7 +96,7 @@ namespace NakiLegend.Prototype
             if(best==null)return;Vector2 off=best.position-first.position;
             GameObject beam=Stretch("Single arc leap",square,(first.position+best.position)*.5f,new Vector2(off.magnitude,.05f),C("b2ebff"),570);
             beam.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(off.y,off.x)*Mathf.Rad2Deg);fadingBodies.Add(new FadingBody{root=beam,renderer=beam.GetComponent<SpriteRenderer>(),expires=clock+.16f});
-            ApplyElementDamage(best,SkillDamage(chapterStone?15:12),Element.Lightning);
+            ApplySkillHit(best,SkillDamage(chapterStone?15:12),Element.Lightning,"arc");
         }
         private void ClearChapterSkillEffects()
         {foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}

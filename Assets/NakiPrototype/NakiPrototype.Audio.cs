@@ -15,7 +15,7 @@ namespace NakiLegend.Prototype
   private bool audioSettingsMenu,audioWasSuspended,shieldWasRecovering;
   private AudioClip AudioAsset(string key)
   {
-   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
+   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=(key.StartsWith("skill_")?Resources.Load<AudioClip>("NakiSkills/"+key):null)??Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
   }
   private AudioSource AudioBus(string name,bool loop)
   {
@@ -28,8 +28,8 @@ namespace NakiLegend.Prototype
    foreach(Transform child in transform)if(child.name.StartsWith("Naki audio "))Destroy(child.gameObject);
    audioClips.Clear();audioCooldowns.Clear();scorePositions.Clear();musicKey=ambientKey=null;
    score=new[]{AudioBus("Naki audio score A",true),AudioBus("Naki audio score B",true)};
-   ambience=AudioBus("Naki audio environment",true);voices=new AudioSource[10];
-   for(int i=0;i<voices.Length;i++){voices[i]=AudioBus("Naki audio voice "+i,false);voices[i].priority=i>=8?32:160;}
+   ambience=AudioBus("Naki audio environment",true);voices=new AudioSource[14];
+   for(int i=0;i<voices.Length;i++){voices[i]=AudioBus("Naki audio voice "+i,false);voices[i].priority=i>=12?32:i>=8?80:160;}
    audioMaster=PlayerPrefs.GetFloat("Naki.Audio.Master",.8f);audioMusic=PlayerPrefs.GetFloat("Naki.Audio.Music",.45f);audioEnvironment=PlayerPrefs.GetFloat("Naki.Audio.Environment",.4f);audioEffects=PlayerPrefs.GetFloat("Naki.Audio.Effects",.75f);
    audioWasSuspended=false;
   }
@@ -60,15 +60,22 @@ namespace NakiLegend.Prototype
    if(openingAccent!=null)openingAccent.volume=openingAudioVolume*audioMaster*audioEffects;
    foreach(AudioSource voice in voices)voice.volume=audioMaster*audioEffects;
   }
-  private void Sfx(string key,bool priority=false,float gain=1)
+  private void Sfx(string key,bool priority=false,float gain=1,int group=0)
   {
    if(!enableDesertJourney||voices==null||AudioSuspended||openingActive)return;
    float now=Time.unscaledTime,ready;if(audioCooldowns.TryGetValue(key,out ready)&&now<ready)return;
-   int start=priority?8:0,end=priority?10:8,index=-1;
+   int start=priority?12:group==1?8:0,end=priority?14:group==1?12:8,index=-1;
    for(int i=start;i<end;i++)if(!voices[i].isPlaying){index=i;break;}
-   if(index<0){if(!priority)return;index=8;voices[index].Stop();}
+   if(index<0){if(!priority)return;index=12;voices[index].Stop();}
    AudioClip clip=AudioAsset(key+"_"+(audioVariant++%3));if(clip==null)return;
    audioCooldowns[key]=now+(priority?.07f:.045f);var bus=voices[index];bus.volume=audioMaster*audioEffects;bus.pitch=1;bus.PlayOneShot(clip,Mathf.Clamp01(gain));
+  }
+  private bool skillImpactActive;
+  private void SkillSound(string skill,string phase){Sfx("skill_"+skill+"_"+phase,false,phase=="cast"?.95f:.8f,1);}
+  private void ApplySkillHit(Enemy target,float amount,Element element,string skill)
+  {
+   SkillSound(skill,"hit");bool previous=skillImpactActive;skillImpactActive=true;
+   try{ApplyElementDamage(target,amount,element);}finally{skillImpactActive=previous;}
   }
   private void WeaponAudio()
   {
@@ -76,6 +83,7 @@ namespace NakiLegend.Prototype
   }
   private void HitAudio(Enemy e)
   {
+   if(skillImpactActive)return;
    string material=woodlandMode?(e.kind==EnemyKind.CopperRoller||e.kind==EnemyKind.CopperWarden?"shell":"wood"):e.kind==EnemyKind.StoneSentinel||e.kind==EnemyKind.Colossus||e.kind==EnemyKind.ThunderStone?"stone":IsChapterBoss(e.kind)||e.kind==EnemyKind.CopperRoller?"shell":"flesh";
    bool melee=CurrentWeapon.type==WeaponType.Sword||CurrentWeapon.type==WeaponType.Spear;
    Sfx(material=="shell"&&melee?"clash":material,false,.65f);

@@ -117,7 +117,7 @@ namespace NakiLegend.Prototype
         }
         private void ApplyChapterPlayer(ThunderCheckpoint p)
         {
-            profession=(Profession)Mathf.Clamp(p.profession,0,3);
+            professionFromSave=true;profession=(Profession)Mathf.Clamp(p.profession,0,3);
             clock=p.clock;health=p.health;shield=p.shield;energy=p.light;darkPower=p.dark;elementPower=p.element;healingSupplies=p.healing;elementSupplies=p.elementSupplies;
             equippedSlot=p.equipped;Array.Copy(p.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(p.reserves);
             nextSword=p.nextSword;nextSpell=p.nextSpell;nextDash=p.nextDash;bladeReadyAt=p.bladeReady;waveReadyAt=p.waveReady;lastDamageAt=p.lastDamage;

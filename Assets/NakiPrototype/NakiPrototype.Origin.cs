@@ -9,14 +9,21 @@ namespace NakiLegend.Prototype
         private enum Profession { Unchosen, Warrior, Mage, Archer }
         private Profession profession;
         private int professionChoice;
+        private bool professionFromSave;
         private readonly System.Collections.Generic.HashSet<Enemy> ramHits=new System.Collections.Generic.HashSet<Enemy>();
         private bool ProfessionReady { get { return enableDesertJourney&&profession==Profession.Unchosen&&!openingActive&&!StoryActive&&!showRainCG&&!chapterSetup&&!thunderSetupMenu&&health>0; } }
         private string ProfessionName { get { return profession==Profession.Warrior?"战士":profession==Profession.Mage?"法师":profession==Profession.Archer?"弓箭手":"待选专长"; } }
         private void ChooseProfession(int choice)
         {
+            bool starting=profession==Profession.Unchosen&&!professionFromSave;
             profession=(Profession)(Mathf.Clamp(choice,0,2)+1);
-            // Only fill an empty slot: existing equipment and progress remain intact.
-            if(carriedWeapons[1]<0&&profession!=Profession.Warrior)carriedWeapons[1]=profession==Profession.Mage?3:2;
+            int starter=profession==Profession.Mage?3:profession==Profession.Archer?2:0;
+            if(starting&&starter!=0)
+            {
+                foreach(int id in carriedWeapons)if(id>0&&id!=starter&&!reserveWeapons.Contains(id)&&reserveWeapons.Count<4)reserveWeapons.Add(id);
+                carriedWeapons[0]=starter;carriedWeapons[1]=0;equippedSlot=0;
+            }
+            else if(profession!=Profession.Warrior&&carriedWeapons[1]<0){carriedWeapons[1]=starter;equippedSlot=1;}
             RequestCheckpoint();JourneyHint(ProfessionName+" · H 切换武器；所有专长都能使用短剑");
         }
         private bool HandleProfessionChoice()
@@ -31,7 +38,7 @@ namespace NakiLegend.Prototype
         {
             HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.04f,.9f));
             CenterLabel(new Rect(w/2-420,h/2-195,840,45),"战斗专长 · 武器与光暗选择不受限制",journeyTitleStyle);
-            string[] cards={"战士\n\nK 冲撞 · 每目标12物理伤害\n普通敌人轻微击退\n保留闪避保护","法师\n\n元素消耗降低15%\n光与贤者之石消耗不变\n空武器栏补发旧木法杖","弓箭手\n\n弓类散射降低50%\n弓类射速提高10%\n空武器栏补发猎沙短弓"};
+            string[] cards={"战士\n\n初始武器：旅人短剑\nK 冲撞伤敌并轻微击退\n保留闪避保护","法师\n\n开局持旧木法杖\n元素消耗降低15%\nH 可切换备用短剑","弓箭手\n\n开局持猎沙短弓\n弓类更准，射速提高10%\nH 可切换备用短剑"};
             for(int i=0;i<3;i++)if(FlatButton(new Rect(w/2-450+i*305,h/2-120,290,220),cards[i],professionChoice==i))ChooseProfession(i);
             CenterLabel(new Rect(w/2-450,h/2+125,900,50),"A / D 选择 · F 确认 · 旧存档保留进度与装备；H 可切刀反击",journeySmallStyle);
         }
@@ -55,7 +62,7 @@ namespace NakiLegend.Prototype
             energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?24:0;
             orbLearned=false;
             TellStory(origin==Origin.Dark
-                ?"紫石沉入右眼，微凉的脉动随之传来。你握紧剑柄：先去遗迹看看，或许旧碑上还留着驾驭这股力量的方法。"
+                ?"紫石沉入右眼，微凉的脉动随之传来。你握紧手中的武器：先去遗迹看看，或许旧碑上还留着驾驭这股力量的方法。"
                 :"你把手按在胸前，掌心亮起一线暖光。那道光还很微弱，但足以照见通往遗迹的旧路。");
             RequestCheckpoint();SaveCheckpoint(false);
         }
@@ -88,13 +95,13 @@ namespace NakiLegend.Prototype
             foreach(Shot old in shots)if(old.orb)return;
             float strength=1+darkPower/100*.35f;
             if(clock<nextSpell||!SpendPower(PowerPool.Dark,8))return;
-            nextSpell=clock+1;Sfx("dark");
+            nextSpell=clock+1;SkillSound("meteor","cast");
             Enemy target;Vector2 aim=AutoAim(10,7,0,out target);
             for(int i=0;i<2;i++)
             {
                 Vector2 side=new Vector2(-aim.y,aim.x)*(i==0?-.16f:.16f);
                 int before=shots.Count;SpawnShot(position+aim*.4f+side,aim,false,target,position);
-                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
+                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.skillAudio="meteor";s.element=Element.Dark;s.damage=SkillDamage(10*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
             }
             castDirection=aim;castPoseUntil=clock+.25f;
         }

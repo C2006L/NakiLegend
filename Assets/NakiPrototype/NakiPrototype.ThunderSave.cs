@@ -78,7 +78,7 @@ namespace NakiLegend.Prototype
                 foreach(var w in s.rooms[i].drops)n.drops.Add(new StoredWeapon{id=w.id,at=w.at});
                 foreach(var e in s.rooms[i].essence)n.essence.Add(new StoredEssence{at=e.at,value=e.value,born=e.born});
             }
-            profession=(Profession)Mathf.Clamp(s.profession,0,3);clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;
+            professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;
             healingSupplies=s.healing;elementSupplies=s.elementSupplies;equippedSlot=s.equipped;Array.Copy(s.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(s.reserves);
             thunderRepaired=s.repair;thunderRewardCreated=s.reward;nextSword=s.nextSword;nextSpell=s.nextSpell;nextDash=s.nextDash;bladeReadyAt=s.bladeReady;waveReadyAt=s.waveReady;lastDamageAt=s.lastDamage;
             EnterExplorationRoom(s.room,-1);position=NearestSafeFooting(s.position);UpdatePixelHero(Vector2.zero);storyLines=null;thunderSavePending=false;

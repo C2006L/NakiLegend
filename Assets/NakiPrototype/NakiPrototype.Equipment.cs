@@ -65,7 +65,7 @@ namespace NakiLegend.Prototype
 
         private void ResetEquipment()
         {
-            profession=Profession.Unchosen;ramHits.Clear();
+            profession=Profession.Unchosen;professionFromSave=false;ramHits.Clear();
             equippedSlot = 0; carriedWeapons[0] = 0; carriedWeapons[1] = bossPracticeMode ? 4 : -1;
         }
 
