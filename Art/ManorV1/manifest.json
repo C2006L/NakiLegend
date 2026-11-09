@@ -1,0 +1,20 @@
+[
+  {
+    "file": "Assets\\NakiPrototype\\Resources\\NakiArt\\ManorV1\\opening.png",
+    "sha256": "ed8723a70fa6663034574c5dddd28682ddb73294845407d6390fb463d1ee7932",
+    "source": "Original image_gen output",
+    "purpose": "opening CG"
+  },
+  {
+    "file": "Assets\\NakiPrototype\\Resources\\NakiArt\\ManorV1\\enemies-concept.png",
+    "sha256": "811e92294dff316e19a0ebcd505d83ed18f8ef21a945a714a11dfa4ea19f43f5",
+    "source": "Original image_gen output",
+    "purpose": "concept sheet, not runtime animation"
+  },
+  {
+    "file": "Assets\\NakiPrototype\\Resources\\NakiArt\\ManorV1\\bosses-concept.png",
+    "sha256": "b58b0cc88e9e79a49f095e9f4a093ad8fc5cb45aa497bfba91e2afd1cd28895e",
+    "source": "Original image_gen output",
+    "purpose": "concept sheet, not runtime animation"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "license": "Derived from project CC0 Foley. See NakiAudioV2/credits.json and NakiCombatAudioV3/credits.json.",
+  "method": "Dry spear body and brass contact, filtered/resampled with a short metal transient.",
+  "records": [
+    {
+      "file": "weapon_132_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "sha256": "197ad7f7bea503634a5ea0d591fa15bb1b430e0d9162ca39fdc3c3f0cb5b945e"
+    },
+    {
+      "file": "weapon_132_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "9bc4b7ab850395c941e2d21da97c8a032529d58cf92c414f4b47aeb6e3443cfa"
+    }
+  ]
+}

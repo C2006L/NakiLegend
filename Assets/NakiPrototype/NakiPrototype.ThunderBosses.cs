@@ -4,12 +4,13 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private static bool IsChapterBoss(EnemyKind kind){return kind>=EnemyKind.CopperWarden&&kind<=EnemyKind.StormStag||kind==EnemyKind.IceBeast;}
+        private static bool IsChapterBoss(EnemyKind kind){return kind>=EnemyKind.CopperWarden&&kind<=EnemyKind.StormStag||kind==EnemyKind.IceBeast||kind==EnemyKind.FrostMirror||kind==EnemyKind.TideGuardian||kind==EnemyKind.RedSpineLizard||kind==EnemyKind.ForgeMaster||kind==EnemyKind.MagmaTortoise;}
         private void ConfigureChapterEnemy(Enemy e)
         {
             int stage=thunderChapterMode?journeyRooms[currentRoom].stage:0;e.affinity=e.attackElement=Element.Lightning;e.nextAttack=clock+1.6f;
             e.boss=IsChapterBoss(e.kind);e.radius=e.boss?.9f:e.kind==EnemyKind.ThunderStone?.5f:.34f;e.speed=e.kind==EnemyKind.StormStag?1.5f:e.kind==EnemyKind.CopperRoller?1.5f:.85f;
             float hp=e.kind==EnemyKind.CopperWarden?360:e.kind==EnemyKind.ThunderSentinel?620:e.kind==EnemyKind.StormStag?1250:e.kind==EnemyKind.CopperRoller?70+stage*10:92+stage*12;
+            if(e.kind==EnemyKind.CopperWarden)e.speed=1.8f;
             if(!e.boss)e.speed*=1.15f;
             e.hp=e.maximum=hp;if(e.kind==EnemyKind.ThunderStone)e.root.transform.localScale=Vector3.one*.45f;
         }
@@ -21,7 +22,7 @@ namespace NakiLegend.Prototype
             {
                 if(clock<e.chargeUntil)
                 {
-                    e.position=MoveEnemyWithinRoom(e.position,e.attackDirection*6.2f*dt,e.radius);
+                    e.position=MoveEnemyCharge(e,e.attackDirection*6.2f*dt);
                     if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;
                     if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(1.5f,woodlandMode?Element.Wood:Element.Lightning);
                 }
@@ -48,7 +49,7 @@ namespace NakiLegend.Prototype
         private void UpdateChapterBoss(Enemy e,float dt)
         {
             e.position=MoveEnemyWithinRoom(e.position,Vector2.zero,e.radius);Vector2 old=e.position;
-            if(!e.secondPhase&&e.hp<=e.maximum*(e.kind==EnemyKind.CopperWarden?.5f:.45f))
+            if(!e.secondPhase&&e.hp<=e.maximum*.7f)
             {
                 e.secondPhase=true;e.phaseUntil=clock+1.5f;e.windup=e.chargeUntil=0;e.nextAttack=e.phaseUntil+.35f;e.recoveryUntil=e.phaseUntil;
                 if(e.warning!=null)Destroy(e.warning);ClearThunderHazards();
@@ -60,13 +61,13 @@ namespace NakiLegend.Prototype
             {
                 if(clock<e.chargeUntil)
                 {
-                    e.position=MoveEnemyWithinRoom(e.position,e.attackDirection*7.2f*dt,e.radius);
+                    e.position=MoveEnemyCharge(e,e.attackDirection*7.2f*dt);
                     if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;
                     if(DistanceToSegment(position,old,e.position)<e.radius+.3f)TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);
                 }
                 else
                 {
-                    e.chargeUntil=0;e.recoveryUntil=clock+1;
+                    e.chargeUntil=0;e.recoveryUntil=clock+1;if(e.kind==EnemyKind.CopperWarden)e.nextAttack=Mathf.Max(e.nextAttack,e.recoveryUntil+.65f);
                     if(e.chapterCombo>0)
                     {e.chapterCombo=0;e.windup=.7f;e.actionStarted=clock;e.attackDirection=(position-e.position).normalized;e.warning=ChapterLineWarning(e.position,e.attackDirection,4.8f,1.6f);e.nextAttack=clock+2.5f;}
                 }
@@ -88,6 +89,7 @@ namespace NakiLegend.Prototype
         }
         private GameObject ChapterLineWarning(Vector2 at,Vector2 direction,float length,float width)
         {
+            if(width<.5f)return EnemyMuzzleTell(at,direction);
             GameObject o=Stretch("Locked attack path",square,at+direction*length*.5f,new Vector2(length,width),new Color(.95f,.61f,.32f,.26f),-640);
             o.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);return o;
         }
@@ -98,7 +100,7 @@ namespace NakiLegend.Prototype
             e.nextAttack=clock+e.windup+(e.secondPhase?1.05f:1.3f);e.chapterCombo=e.kind==EnemyKind.StormStag&&e.secondPhase&&pattern==0?1:0;
             if(e.kind==EnemyKind.CopperWarden)
             {
-                if(pattern==0)e.warning=ChapterLineWarning(e.position,e.attackDirection,3.2f,.65f);
+                if(pattern==0)e.warning=ChapterLineWarning(e.position,e.attackDirection,e.secondPhase?4.3f:3.25f,1.8f);
                 if(pattern==2)e.warning=WarningSector(e.position,e.attackDirection,2.1f);
             }
             else if(e.kind==EnemyKind.ThunderSentinel)
@@ -130,12 +132,13 @@ namespace NakiLegend.Prototype
             int move=(e.attackNumber-1)%3;e.actionStarted=clock;e.recoveryUntil=clock+(move==2?1.2f:1)-(e.secondPhase?.2f:0);
             if(e.kind==EnemyKind.CopperWarden)
             {
-                if(move==0){if(DistanceToSegment(position,e.position,e.position+e.attackDirection*3.2f)<.48f&&!ProjectilePathBlocked(e.position,position,.05f))TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);}
-                else if(move==1)ChapterBossFan(e,e.secondPhase?7:5);
+                if(move==0)e.chargeUntil=clock+(e.secondPhase?.6f:.45f);
+                else if(move==1)ChapterBossFan(e,e.secondPhase?11:7);
                 else{Vector2 off=position-e.position;if(off.magnitude<2.4f&&Vector2.Dot(off.normalized,e.attackDirection)>Mathf.Cos(55*Mathf.Deg2Rad)&&!ProjectilePathBlocked(e.position,position,.04f))TakeJourneyDamage(2,woodlandMode?Element.Wood:Element.Lightning);}
             }
             else if(e.kind==EnemyKind.ThunderSentinel){if(move==1)ChapterBossFan(e,e.secondPhase?9:7);}
             else if(move==0)e.chargeUntil=clock+.65f;else if(move==2)ChapterBossFan(e,e.secondPhase?11:9);
+            if(e.kind==EnemyKind.CopperWarden)e.nextAttack=Mathf.Max(e.nextAttack,e.recoveryUntil+.65f);
         }
         private void ChapterBossFan(Enemy e,int count)
         {

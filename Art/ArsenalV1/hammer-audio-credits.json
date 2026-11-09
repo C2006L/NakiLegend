@@ -1,0 +1,23 @@
+{
+  "method": "existing licensed metal contact, lowpass, dry envelope and short authored impact body; no sword swing samples",
+  "sources": [
+    {
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "05d47dc3c01a863091574fc4efdfd5a32b7646354a32d4757cdeb1df2664d8aa",
+      "license": "CC0-1.0; existing NakiAudioV2 credits.json attribution retained",
+      "variant": 0
+    },
+    {
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "356463008e8417f1c29041869385d569211c11b9b7c4df412f096a413c745c04",
+      "license": "CC0-1.0; existing NakiAudioV2 credits.json attribution retained",
+      "variant": 1
+    },
+    {
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "37e19238621f4201ba5121106f91daf12c2426ee250a5554fc6be37a70e01763",
+      "license": "CC0-1.0; existing NakiAudioV2 credits.json attribution retained",
+      "variant": 2
+    }
+  ]
+}

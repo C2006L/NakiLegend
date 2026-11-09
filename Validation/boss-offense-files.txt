@@ -1,0 +1,6 @@
+Assets/NakiPrototype/NakiPrototype.EncounterDirector.cs
+Assets/NakiPrototype/NakiPrototype.BossBreathing.cs
+Assets/NakiPrototype/NakiPrototype.CombatV3.cs
+Assets/NakiPrototype/NakiPrototype.ManorCombat.cs
+Assets/NakiPrototype/NakiPrototype.EncounterRefresh.cs
+Assets/NakiPrototype/NakiPrototype.BossSignatures.cs

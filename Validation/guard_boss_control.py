@@ -1,0 +1,3 @@
+from pathlib import Path
+r=Path('D:/NakiLegend/Repository');p=r/'Assets/NakiPrototype/NakiPrototype.BossBreathing.cs';s=p.read_text(encoding='utf-8-sig').replace('!RootedBoss(e)&&e.windup<=0','!RootedBoss(e)&&clock>=e.tacticControlUntil&&e.windup<=0').replace('if(e.boss&&!RootedBoss(e)&&dt>0)','if(e.boss&&!RootedBoss(e)&&clock>=e.tacticControlUntil&&dt>0)').replace('float speed=1.6f+e.difficultyPhase*.2f;','float speed=(1.6f+e.difficultyPhase*.2f)*(clock<e.iceSlowUntil?.65f:1);');p.write_text(s,encoding='utf-8')
+p=r/'Validation/prepare_boss_offense.py';s=p.read_text(encoding='utf-8-sig').replace("p.with_suffix('.cs.v9-verified-disabled')","p.with_suffix('.cs.v9-control-disabled')");p.write_text(s,encoding='utf-8')

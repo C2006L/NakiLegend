@@ -1,0 +1,8 @@
+Assets/NakiPrototype/NakiPrototype.cs
+Assets/NakiPrototype/NakiPrototype.FullJourneyV40.cs
+Assets/NakiPrototype/NakiPrototype.JourneyHud.cs
+Assets/NakiPrototype/NakiPrototype.CapitalStory.cs
+Assets/NakiPrototype/NakiPrototype.ManorFinale.cs
+Assets/NakiPrototype/NakiPrototype.ReplayV45.cs
+Assets/NakiPrototype/NakiPrototype.ReplayV45.cs.meta
+Docs/PLAY_GUIDE_V18.md

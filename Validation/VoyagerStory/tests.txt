@@ -1,0 +1,19 @@
+ static void VoyagerStoryTests(){
+  p.woodlandMode=false;Fresh();Select(false);Quiet();Check(Get(((Array)Get("IslandProfiles")).GetValue(0),"name").ToString()=="鸣沙洲"&&((string[])Get("AtlasNames"))[0]=="鸣沙洲","Mingsha naming agrees between region map and live island profile");
+  foreach(bool dark in new[]{false,true}){
+   p.woodlandMode=false;Fresh();Select(dark);Enter(0);Set("originLoreBits",0);Set("orbLearned",false);Quiet();Check((int)Get("AvailableVoyagerNotes")==0,"Undiscovered records stay blank for either origin");
+   foreach(int i in new[]{0,1,2,3,4}){
+    Quiet();Call("QueueOriginMoment",i);Call("TickOriginLegacy");string text=Story();Check((bool)Get("StoryActive")&&((int)Get("AvailableVoyagerNotes")&(1<<i))!=0,"Evidence is narrated and journalled at its real origin milestone: "+dark+" / "+i);
+    Check(text.Contains(new[]{"王命","巡路簿","船单","淬炼图","府邸"}[i]),"Both origins receive the shared material evidence: "+dark+" / "+i);
+    Quiet();Call("QueueOriginMoment",i);Call("TickOriginLegacy");Check(!(bool)Get("StoryActive"),"Revisiting a recorded milestone does not force its exposition again");
+   }
+   Quiet();float reserve=F("darkPower"),light=F("energy"),element=F("elementPower");Call("OpenVoyagerJournal");Check((bool)Get("voyagerJournal")&&(int)Get("AvailableVoyagerNotes")==31,"Legacy saved lore opens all five revised journal entries without redoing islands");Check(F("darkPower")==reserve&&F("energy")==light&&F("elementPower")==element,"Reviewing material evidence does not spend or award energy");Set("voyagerJournal",false);
+  }
+  Forest(2);Set("originLoreBits",0);Set("chapterLampGiven",false);Quiet();Call("OpenWorldAtlas",4);Check(((int)Get("AvailableVoyagerNotes")&16)==0,"Jumping to Forest on the atlas does not award its sealed letter");Call("CloseWorldAtlas");Enter(31);KillCurrent();Quiet();Enter(4);Set(Room(4),"cleared",true);Quiet();Call("WoodAction",207);Check(Story().Contains("暮钟岛")&&(bool)Get("chapterLampGiven"),"Actual planting supplies the northern address and the next story motive");Call("AdvanceJourneyStory",true);Call("TickOriginLegacy");Check(Story().Contains("府邸")&&!Story().Contains("就是大骑士"),"Forest letter points north without prematurely naming its writer");
+  Quiet();Call("OpenVoyagerJournal");Check((int)Get("voyagerSelection")==4&&!(bool)Get("AtlasAllowed"),"Forest journal opens its relevant page and prevents an overlapping travel overlay");Set("voyagerJournal",false);
+  Set("allowBatchCheckpoints",true);Set("chapterCheckpointPathOverride",Out+"save/journal.json");Check((bool)Call("SaveChapterCheckpoint",false)&&(bool)Call("LoadChapterCheckpoint",false)&&((int)Get("AvailableVoyagerNotes")&16)!=0,"Forest evidence persists through the existing save format");Set("allowBatchCheckpoints",false);Set("chapterCheckpointPathOverride",null);
+  p.woodlandMode=false;Fresh();Select();Quiet();Set("originLoreBits",31);Set("orbLearned",false);Set("allowBatchCheckpoints",true);Set("checkpointPathOverride",Out+"save/legacy-journal.json");Check((bool)Call("SaveCheckpoint",false)&&(bool)Call("LoadCheckpoint",false)&&(int)Get("AvailableVoyagerNotes")==31,"Historical Desert save retains the complete cross-island record without a schema migration");Set("allowBatchCheckpoints",false);
+  Chapter();Set("originLoreBits",0);Set("originKnowledge",31);Quiet();Check((int)Get("AvailableVoyagerNotes")==0,"Inferred primary-skill eligibility does not fabricate collected narrative evidence");
+  p.woodlandMode=false;Fresh();Select();Quiet();
+ }
+ static void VoyagerJournalPose(){Forest();Enter(0);Quiet();Set("originLoreBits",31);Call("OpenVoyagerJournal");Set("voyagerSelection",4);}

@@ -1,0 +1,11 @@
+ static void MingshaPolishTests(){
+  p.woodlandMode=false;Fresh();Select();Check(Mathf.Abs((float)Call("EnemyHealthScale",false)-1.30f)<.001f&&Mathf.Abs((float)Call("EnemyHealthScale",true)-5.2f)<.001f,"Mingsha health is increased modestly for normal enemies and more for bosses");
+  RainQuayPose();Check((bool)Call("HasDoor",0)&&(bool)Call("HasDoor",3)&&!(bool)Call("HasDoor",1),"Rain quay connects to the court on its north bank and the waterworks on its west bank, never through the sea pier");
+  Set("position",new Vector2(-.176f,-4.3f));Set("doorCooldownUntil",0f);Set("doorTransition",0f);Call("TryAutomaticExit");Check(F("doorTransition")==0,"Walking down the sea pier does not teleport into the inland inspection court");
+  bool complete=(bool)Get("canalEpilogueComplete");foreach(object n in List("journeyRooms"))if((int)Get(n,"gatehouseIndex")>=0){Vector2Int cell=(Vector2Int)Get(n,"cell");Set(n,"cell",new Vector2Int(cell.x,4-cell.y));}
+  Call("NormalizeCanalShoreLayout");Check(((Vector2Int)Get(Room(43),"cell")).y<((Vector2Int)Get(Room(42),"cell")).y&&(bool)Get("canalEpilogueComplete")==complete,"Legacy canal layout migrates without changing the completed ending");
+  Vector2Int migrated=(Vector2Int)Get(Room(43),"cell");Call("NormalizeCanalShoreLayout");Check((Vector2Int)Get(Room(43),"cell")==migrated,"Canal layout migration is idempotent");
+  Set("allowBatchCheckpoints",true);Set("checkpointPathOverride",Out+"save/quay-migration.json");Check((bool)Call("SaveCheckpoint",false)&&(bool)Call("LoadCheckpoint",false)&&!(bool)Call("HasDoor",1),"Updated canal connections survive actual checkpoint validation and reload");Set("allowBatchCheckpoints",false);Set("checkpointPathOverride",null);
+  Quiet();Call("SetupSoundscape");Set("profession",EnumVal("Profession","Warrior"));Call("BeginDodge",Vector2.right);Check(((AudioSource[])Get("voices")).Any(v=>v.isPlaying),"Warrior K starts a real audible launch on an available priority voice");foreach(int i in new[]{0,1,2}){AudioClip cue=(AudioClip)Call("AudioAsset","warrior_dash_"+i);Check(cue!=null&&cue.length>.2f,"Warrior dash variant is imported: "+i);}
+  Chapter();Check(Mathf.Abs((float)Call("EnemyHealthScale",false)-1.48f)<.001f,"Other islands retain their existing enemy health tuning");p.woodlandMode=false;Fresh();Select();Quiet();
+ }

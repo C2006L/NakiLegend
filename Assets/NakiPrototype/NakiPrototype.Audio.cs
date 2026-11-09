@@ -15,7 +15,7 @@ namespace NakiLegend.Prototype
   private bool audioSettingsMenu,audioWasSuspended,shieldWasRecovering;
   private AudioClip AudioAsset(string key)
   {
-   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=Resources.Load<AudioClip>("NakiCombatAudioV3/"+key)??(key.StartsWith("skill_")?Resources.Load<AudioClip>("NakiSkills/"+key):null)??Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
+   AudioClip clip;if(!audioClips.TryGetValue(key,out clip)){clip=Resources.Load<AudioClip>("NakiSoundV25/"+key)??Resources.Load<AudioClip>("NakiCombatAudioV3/"+key)??(key.StartsWith("skill_")?Resources.Load<AudioClip>("NakiSkills/"+key):null)??Resources.Load<AudioClip>("NakiAudioV2/"+key)??Resources.Load<AudioClip>("NakiAudio/"+key);audioClips[key]=clip;}return clip;
   }
   private AudioSource AudioBus(string name,bool loop)
   {
@@ -23,68 +23,47 @@ namespace NakiLegend.Prototype
   }
   private void SetupSoundscape()
   {
-   if(score!=null&&score.Length==2&&score[0]!=null)return;
+   if(score!=null&&score.Length==2&&score[0]!=null&&scorePressure!=null&&voices!=null&&voices.Length==32&&voiceGains!=null)return;
    // Dedicated child buses are replaced together after an assembly reload.
    foreach(Transform child in transform)if(child.name.StartsWith("Naki audio "))Destroy(child.gameObject);
    audioClips.Clear();audioCooldowns.Clear();scorePositions.Clear();musicKey=ambientKey=null;
    score=new[]{AudioBus("Naki audio score A",true),AudioBus("Naki audio score B",true)};
-   ambience=AudioBus("Naki audio environment",true);voices=new AudioSource[14];
-   for(int i=0;i<voices.Length;i++){voices[i]=AudioBus("Naki audio voice "+i,false);voices[i].priority=i>=12?32:i>=8?80:160;}
+   scorePressure=new[]{AudioBus("Naki audio pressure A",true),AudioBus("Naki audio pressure B",true)};
+   ambience=AudioBus("Naki audio environment",true);voices=new AudioSource[32];
+   voiceGains=new float[32];voiceKeys=new string[32];voiceStarted=new float[32];
+   for(int i=0;i<voices.Length;i++){voices[i]=AudioBus("Naki audio voice "+i,false);voices[i].priority=i>=26?16:i>=22?32:i>=14?64:i>=8?100:160;}
+   soundActors.Clear();soundLetterState=null;soundWasNarrative=false;soundDuckUntil=0;originChannelAudio=null;
    audioMaster=PlayerPrefs.GetFloat("Naki.Audio.Master",.8f);audioMusic=PlayerPrefs.GetFloat("Naki.Audio.Music",.45f);audioEnvironment=PlayerPrefs.GetFloat("Naki.Audio.Environment",.4f);audioEffects=PlayerPrefs.GetFloat("Naki.Audio.Effects",.75f);
    audioWasSuspended=false;
   }
-  private bool AudioSuspended {get{return paused||audioSettingsMenu||inventoryMenu||mapMenu||rewardMenu||chapterSkillsMenu||chapterRewardMenu||chapterSetup||thunderSetupMenu||ProfessionReady||OriginChoiceReady;}}
-  private void TickSoundscape()
-  {
-   if(!enableDesertJourney)return;SetupSoundscape();
-   bool suspended=AudioSuspended;
-   if(suspended!=audioWasSuspended){foreach(AudioSource voice in voices){if(suspended)voice.Pause();else voice.UnPause();}audioWasSuspended=suspended;}
-   string island=iceSampleMode?"woodland":woodlandMode?"woodland":ThunderActive?"thunder":"desert";
-   bool boss=false;foreach(Enemy enemy in enemies)if(enemy.boss&&enemy.hp>0)boss=true;
-   bool combat=journeyRooms.Count>currentRoom&&currentRoom>=0&&!journeyRooms[currentRoom].cleared;
-   bool ending=showRainCG||chapterCg||woodlandMode&&chapterEnding;
-   string wanted=ending?"ending":island+(boss?"_boss":combat?"_combat":"_explore");
-   if(!openingActive&&wanted!=musicKey)
-   {
-    AudioSource old=score[scoreSide];if(musicKey!=null&&old.clip!=null)scorePositions[musicKey]=old.time;
-    scoreSide=1-scoreSide;AudioSource next=score[scoreSide];next.Stop();next.clip=AudioAsset(wanted);next.volume=0;
-    if(next.clip!=null){float resume;if(scorePositions.TryGetValue(wanted,out resume))next.time=Mathf.Clamp(resume,0,Mathf.Max(0,next.clip.length-.1f));next.Play();}musicKey=wanted;
-   }
-   float dt=Mathf.Min(Time.unscaledDeltaTime,.1f),duck=StoryActive?.35f:1;
-   for(int i=0;i<2;i++){float target=i==scoreSide&&!openingActive&&!suspended?audioMaster*audioMusic*duck:0;score[i].volume=Mathf.MoveTowards(score[i].volume,target,dt*.35f);}
-   string env=iceSampleMode?"desert":(!ThunderActive&&canalEpilogueComplete)?"water":island;
-   if(env!=ambientKey){ambience.Stop();ambience.clip=AudioAsset("ambient_"+env);if(ambience.clip!=null)ambience.Play();ambientKey=env;}
-   ambience.volume=Mathf.MoveTowards(ambience.volume,openingActive||suspended?0:audioMaster*audioEnvironment*(StoryActive?.5f:1),dt*.4f);
-   // Opening sources use the same master/environment controls.
-   if(openingAmbience!=null)openingAmbience.volume=openingAudioVolume*audioMaster*audioEnvironment;
-   if(openingAccent!=null)openingAccent.volume=openingAudioVolume*audioMaster*audioEffects;
-   foreach(AudioSource voice in voices)voice.volume=audioMaster*audioEffects;
-  }
+  private bool AudioSuspended {get{return voyagerJournal||worldAtlasMenu||challengeMenu||originAbilityMenu||pendingIceVoyage>=0||talentMenu||paused||audioSettingsMenu||inventoryMenu||mapMenu||rewardMenu||chapterSkillsMenu||chapterRewardMenu||chapterSetup||thunderSetupMenu||ProfessionReady||OriginChoiceReady;}}
+  private void TickSoundscape(){TickSoundV25();}
   private void Sfx(string key,bool priority=false,float gain=1,int group=0)
   {
-   if(!enableDesertJourney||voices==null||AudioSuspended||openingActive)return;
-   float now=Time.unscaledTime,ready;if(audioCooldowns.TryGetValue(key,out ready)&&now<ready)return;
-   int start=priority?12:group==1?8:0,end=priority?14:group==1?12:8,index=-1;
-   for(int i=start;i<end;i++)if(!voices[i].isPlaying){index=i;break;}
-   if(index<0){if(!priority)return;index=12;voices[index].Stop();}
-   AudioClip clip=AudioAsset(key+"_"+(audioVariant++%3));if(clip==null)return;
-   audioCooldowns[key]=now+(priority?.07f:.045f);var bus=voices[index];bus.volume=audioMaster*audioEffects;bus.pitch=1;bus.PlayOneShot(clip,Mathf.Clamp01(gain));
+   if(!enableDesertJourney||AudioSuspended||AudioNarrative||openingActive)return;SetupSoundscape();
+   int lane=key=="hurt"||key=="shield"||key=="break"||key=="death"||key=="warrior_dash"||key=="dodge"?4:key=="warn"||key.StartsWith("boss_")?3:group==1?2:0;
+   PlaySoundCue(key,lane,gain,true);
   }
-  private bool skillImpactActive;
-  private void SkillSound(string skill,string phase){float gain=skill=="meteor"?.7f:skill=="mark"||skill=="arc"?.75f:.82f;Sfx("skill_"+skill+"_"+phase,false,gain*(phase=="hit"?.85f:1),1);}
+  private bool skillImpactActive;private float lightImpactSoundReady;
+  private void SkillSound(string skill,string phase)
+  {
+   if(skill=="lightbeam"&&phase=="hit"){if(clock<lightImpactSoundReady)return;lightImpactSoundReady=clock+.18f;}
+   float gain=skill=="lightbeam"?(phase=="hit"?.4f:.65f):skill=="meteor"?.64f:skill=="soulseal"?.78f:.78f;
+   Sfx("skill_"+skill+"_"+phase,false,gain,1);
+  }
   private void ApplySkillHit(Enemy target,float amount,Element element,string skill)
   {
    SkillSound(skill,"hit");bool previous=skillImpactActive;skillImpactActive=true;
-   try{ApplyElementDamage(target,amount,element);}finally{skillImpactActive=previous;}
+   try{ApplyElementDamage(target,amount,element);if(skill=="spore"&&target.hp>0){target.woodPoisonUntil=clock+3;target.woodPoisonNext=Mathf.Max(target.woodPoisonNext,clock+.7f);}}finally{skillImpactActive=previous;}
   }
   private void WeaponAudio()
   {
-   WeaponDef w=CurrentWeapon;string key=w.type==WeaponType.Spear?"spear":w.type==WeaponType.Bow?w.name.Contains("弩")?"crossbow":"bow":w.type==WeaponType.Staff?w.element==Element.Lightning?"staff_electric":"staff":w.damage>=26?"heavy":"sword";Sfx(key,false,.75f);
+   if(PlayWeaponIdentitySound(HeldWeaponIdentity,false))return;WeaponDef w=CurrentWeapon;string key=IsHammer?"hammer":w.type==WeaponType.Spear?"spear":w.type==WeaponType.Bow?w.name.Contains("弩")?"crossbow":"bow":w.type==WeaponType.Staff?w.element==Element.Lightning?"staff_electric":"staff":w.damage>=26?"heavy":"sword";Sfx(key,false,.75f);
   }
   private void HitAudio(Enemy e)
   {
-   if(skillImpactActive)return;
-   string material=woodlandMode?(e.kind==EnemyKind.CopperRoller||e.kind==EnemyKind.CopperWarden?"shell":"wood"):e.kind==EnemyKind.StoneSentinel||e.kind==EnemyKind.Colossus||e.kind==EnemyKind.ThunderStone?"stone":IsChapterBoss(e.kind)||e.kind==EnemyKind.CopperRoller?"shell":"flesh";
+   if(skillImpactActive||weaponImpactSource>=0)return;if(IsHammer){Sfx("hammer_hit",false,.7f);return;}
+   string material=woodlandMode?(e.kind==EnemyKind.CopperRoller||e.kind==EnemyKind.CopperWarden?"shell":"wood"):e.kind==EnemyKind.FrostLens||e.kind==EnemyKind.StoneSentinel||e.kind==EnemyKind.Colossus||e.kind==EnemyKind.ThunderStone?"stone":IsChapterBoss(e.kind)||e.kind==EnemyKind.CopperRoller?"shell":"flesh";
    bool melee=CurrentWeapon.type==WeaponType.Sword||CurrentWeapon.type==WeaponType.Spear;
    Sfx(material=="shell"&&melee?"clash":material,false,.65f);
   }

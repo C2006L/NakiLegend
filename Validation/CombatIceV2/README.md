@@ -2,7 +2,7 @@
 
 Unity 2022.3.62f3 in the isolated smoke project. `build_smoke.py` derives `Smoke.cs` from the previous ice sample harness, adjusts the revised map expectations, and adds new functional coverage. Execute `NakiCombatIceV2Smoke.Run` in the QA project with current runtime sources and resources.
 
-Final native result: **PASS — 654 checks**, including actual HUD screenshots without runtime errors. Screenshot review caught and fixed the negative-coordinate branch reaching the map legend; the final capture confirms centered cells with clear legend space. New enemy/prop atlas regions, silhouettes and relative scale were also inspected in the real Game view.
+Final native result: **PASS — 659 checks**, including actual HUD screenshots without runtime errors. Screenshot review caught and fixed the negative-coordinate branch reaching the map legend; the final capture confirms centered cells with clear legend space. New enemy/prop atlas regions, silhouettes and relative scale were also inspected in the real Game view.
 
 Coverage includes old island regressions plus:
 
@@ -16,3 +16,5 @@ Coverage includes old island regressions plus:
 - Map cells fit both minimap and full-map content bounds, including the negative-coordinate branch.
 
 `runtime/` is ignored and contains the native log, PASS result, source-audio protection hashes and actual screenshots. All 82 protected old audio files remain SHA-256 identical. The new WAVs have zero clipped samples and peak at or below 0.70; longest clip is 0.27 seconds. Listening preference is assessed separately using the supplied audition.
+
+Latest regression also reproduces a wisp inside the tall ice-column silhouette and a close-range wisp separated by a solid wall. Recovery, path around cover and actual projectile emission pass. Runtime sources and revised lightning WAVs synced to both local distributions (40 files). See Docs/COMBAT_AUDIO_AND_ICE_V2.md for continue-save steps.

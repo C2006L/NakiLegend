@@ -1,0 +1,16 @@
+{
+  "mode": "built-in image_gen",
+  "transparent_background": true,
+  "asset": "Assets/NakiPrototype/Resources/NakiArt/FireWorkshop/readability-v2.png",
+  "source": "C:/Users/15853/.codex/generated_images/01a1764d-2b16-7840-a400-e14f3ffe5ffd/exec-6b000eb7-4eb9-481d-8e13-958499dfbd33.png",
+  "prompt_specification": "Original 16-bit pixel-art modular environment atlas for a three-quarter overhead 2D forge dungeon in Naki Legend. Transparent background, no people, UI, text or floor. Four separate subjects in a strict two-by-two layout, generous transparent gutters, controlled bronze and charcoal palette. Top left: a horizontal black iron safety railing with bronze fittings and basalt end posts. Top right: matching vertical north-south safety railing. Bottom left: a wide shallow ash drainage trench, roughly 4:1 ratio, thin basalt rim and ember grit, no flowing lava. Bottom right: a small decorative route sign with bridge and handwheel pictograms, no letters. Crisp readable isolated game assets, consistent overhead perspective, original designs.",
+  "prompt_record_note": "Production specification retained for reproducibility; the source PNG is kept unedited. No Python pixel editing was used.",
+  "source_size": [1536, 1024],
+  "runtime_regions_top_left_origin": {
+    "horizontal_rail": [60, 200, 850, 300],
+    "vertical_rail": [1100, 0, 155, 560],
+    "ash_trench": [60, 670, 850, 245]
+  },
+  "unused": "The decorative route sign is not used. Runtime chevrons and map markers are code-native UI.",
+  "integration": "NakiPrototype.ForgeGuidance.cs crops the original atlas with Sprite.Create; the original alpha is preserved. NakiPrototype.FireWorkshop.cs replaces the placeholder trench. IceCampWall shares the rail visual."
+}

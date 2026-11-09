@@ -1,0 +1,24 @@
+{
+  "revision": "V44",
+  "native_checks": 174,
+  "visual_review": [
+    "return-boarding.png",
+    "single-study.png",
+    "king-ground-seals.png"
+  ],
+  "changes": [
+    "Persistent explicit Manor boarding and narrative transition to capital, including old saves and cancellation",
+    "One bound study archive, ordered full-page completion, NPC/cabinet story interactions and automatic preparation reflection",
+    "Bounded telegraphed royal ground denial, no simultaneous new zones with lasers, stronger king sword follow-ups"
+  ],
+  "cadence_last_run": [
+    "CapitalCommander, attacks=16, seals=16, recovery_seconds=12.00003",
+    "CapitalMagistrate, attacks=12, seals=10, recovery_seconds=10.50002",
+    "CapitalKing, attacks=9, seals=9, recovery_seconds=9.700019"
+  ],
+  "limitations": [
+    "60-second scripted cadence checks use invulnerability and do not measure player difficulty or time to kill",
+    "Existing chapter saves are retained; final parity with Manor needs player trial feedback"
+  ],
+  "hp_and_skill_damage": "Unchanged from approved V43 values; no new global damage scaling"
+}

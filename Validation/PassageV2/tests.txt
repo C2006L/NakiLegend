@@ -1,0 +1,40 @@
+ static void PassageV2Tests(){
+  p.woodlandMode=false;Fire();Set("clock",6200f);foreach(string timer in new[]{"chapterMarkReady","chapterArcReady","iceSpikeReady","iceRingReady","fireBoltReady","emberRingReady"})Set(timer,6205f);
+  Chapter();Quiet();Set("allowBatchCheckpoints",true);Set("chapterCheckpointPathOverride",Out+"save/reset-cooldowns.json");
+  Check((bool)Call("SaveChapterCheckpoint",false),"A new Thunder run after high-clock Fire skills produces a valid first save");
+  foreach(string timer in new[]{"chapterMarkReady","chapterArcReady","iceSpikeReady","iceRingReady","fireBoltReady","emberRingReady"})Check(F(timer)<=F("clock"),"Reset clears old island timestamp: "+timer);
+  Set("chapterCheckpointPathOverride",null);Set("chapterBatchSaveDirectory",Out+"save/session-"+Guid.NewGuid().ToString("N"));
+  Set("clock",13000f);Set("chapterMarkKnown",true);Set("chapterArcKnown",true);Set("fireBoltKnown",true);Set("fireBoltReady",13001f);Set("elementPower",57f);Set("healingSupplies",4);
+  ((int[])Get("carriedWeapons"))[0]=8;((int[])Get("carriedWeapons"))[1]=12;List("reserveWeapons").Clear();foreach(int id in new[]{6,9,16,17})List("reserveWeapons").Add(id);
+  Call("OpenWorldAtlas",0);Check((bool)Call("TravelAtlas",0,-1),"High-clock traveller can land on Desert without saving obsolete cooldowns");Quiet();
+  Check((bool)Call("SaveCheckpoint",false),"Desert persists the carried inventory and learned foreign elements");
+  Set("checkpointPathOverride",null);Set("fireBoltKnown",false);((int[])Get("carriedWeapons"))[0]=0;List("reserveWeapons").Clear();
+  Check((bool)Call("TryResumeJourneySession")&&(bool)Get("fireBoltKnown")&&((int[])Get("carriedWeapons"))[0]==8&&List("reserveWeapons").Count==4,"Main adventure resumes the last island with all six bag slots and foreign skills");
+  Quiet();Call("OpenWorldAtlas",2);Check((bool)Call("TravelAtlas",2,-1),"Free atlas travel reaches a fresh Ice harbor after Desert");Quiet();Check((bool)Get("chapterMarkKnown"),"Learned lightning remains available on a fresh destination");
+  Set("checkpointPathOverride",null);Check((bool)Call("SaveChapterCheckpoint",false),"Ice safe point and active-island marker commit together");
+  var sessionDir=Get("chapterBatchSaveDirectory");Set("allowBatchCheckpoints",false);p.woodlandMode=false;Fresh();Select();Quiet();Set("chapterBatchSaveDirectory",sessionDir);Set("allowBatchCheckpoints",true);
+  Check((bool)Call("TryResumeJourneySession")&&p.iceSampleMode&&!(bool)Get("chapterSetup")&&((int[])Get("carriedWeapons"))[0]==8&&List("reserveWeapons").Count==4,"Restarting main adventure returns to Ice, not a stale Desert bag");
+  foreach(int island in new[]{1,2,3,4}){
+   Set("allowBatchCheckpoints",false);if(island==1){p.woodlandMode=false;Chapter();}else if(island==2)FullIce();else if(island==3)Fire();else Forest();Enter(0);Quiet();
+   foreach(int link in (IList)Get(Room(0),"links")){int d=(int)Call("NeighborDirection",Room(0),Room(link));ProbeQuayExit(d,island);}
+  }
+  RainQuayPose();foreach(int link in (IList)Get(Room(43),"links")){int d=(int)Call("NeighborDirection",Room(43),Room(link));ProbeQuayExit(d,0);}
+  Chapter();Enter(9);KillCurrent();Quiet();Check(((GameObject)Get("chapterFocus")).GetComponentsInChildren<SpriteRenderer>().Any(r=>r.gameObject.name.StartsWith("Authored storm fixture")),"Real carved waymarkers replace rectangular trail signs");
+  foreach(int island in new[]{0,1,2,3,4}){
+   if(island==0){p.woodlandMode=false;Fresh();Select();Enter(Find("Combat"));}else if(island==1)Chapter();else if(island==2)FullIce();else if(island==3)Fire();else Forest();
+   if(island>0)Enter(1);Quiet();bool found=false;foreach(GameObject gate in List("doorSeals"))if(gate!=null&&gate.activeSelf){found=true;Check(gate.GetComponent<SpriteRenderer>()!=null&&gate.name=="Island sealed gate","Closed barrier uses authored island art: "+island);}
+   Check(found,"Combat gates exist for island "+island);
+  }
+  Set("allowBatchCheckpoints",false);Set("checkpointPathOverride",null);Set("chapterCheckpointPathOverride",null);p.woodlandMode=false;Fresh();Select();Quiet();
+ }
+ static void ProbeQuayExit(int direction,int island){
+  Vector2 n=(Vector2)Call("DoorNormal",direction),t=new Vector2(-n.y,n.x),door=(Vector2)Call("DoorPoint",direction,0f);
+  foreach(float edge in new[]{-.65f,0f,.65f}){
+   Vector2 at=door-n*1.2f+t*edge;Check(!(bool)Call("Blocked",at,.3f),"Harbor door has full-width dry inside approach: "+island+" / "+direction+" / "+edge);
+   Vector2 end=at;for(int k=0;k<45;k++)end=(Vector2)Call("MoveInExploration",end,n*.06f,.3f);
+   Set("position",end);Set("doorCooldownUntil",0f);Set("doorTransition",0f);Set("clock",F("clock")+1);Call("TryAutomaticExit");
+   Check(F("doorTransition")>0,"Walking through an off-centre harbor exit actually starts transition: "+island+" / "+direction+" / "+edge);Set("doorTransition",0f);
+  }
+ }
+ static void PassageRainPose(){RainQuayPose();Set("position",Call("SafeArrivalPoint",3));Call("UpdatePixelHero",Vector2.zero);}
+ static void PassageStormPose(){p.woodlandMode=false;Chapter();Enter(1);Set("clock",F("clock")+2);Call("TickPendingSpawns");Quiet();Call("UpdatePixelHero",Vector2.zero);}

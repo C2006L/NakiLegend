@@ -3,22 +3,22 @@ namespace NakiLegend.Prototype
 {
  public sealed partial class NakiPrototype
  {
-  private const float HudTop=96,HudBottom=104;
+  private const float HudTop=0,HudBottom=0;
   private GUIStyle journeyNodeStyle;
   private string journeyToast;private float journeyToastUntil;
   private static float HudScaleFor(float width,float height){return Mathf.Max(.1f,Mathf.Min(width/1600f,height/900f));}
   private static Rect JourneyViewport(float width,float height)
   {
-   float s=HudScaleFor(width,height);return new Rect(0,HudBottom*s/height,1,1-(HudTop+HudBottom)*s/height);
+   return new Rect(0,0,1,1);
   }
   private Vector3 JourneyViewCenter
-  {get{RoomNode n=journeyRooms[currentRoom];return new Vector3(0,n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian?1:.45f,-10);}}
+  {get{if(LocalCombatView)return LocalCombatCenter();RoomNode n=journeyRooms[currentRoom];return new Vector3(0,n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian?1:.45f,-10);}}
   private void ConfigureJourneyView()
   {
    if(view==null||!enableDesertJourney||journeyRooms.Count==0)return;
    Rect area=JourneyViewport(Screen.width,Screen.height);if(view.rect!=area){view.rect=area;view.ResetAspect();}
    RoomNode n=journeyRooms[currentRoom];bool boss=n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian;
-   view.orthographicSize=Mathf.Max(n.halfHeight+(boss?1.4f:1.05f),(n.halfWidth+.95f)/Mathf.Max(view.aspect,.1f));
+   view.orthographicSize=Mathf.Max(n.halfHeight+(boss?1.4f:1.05f),(n.halfWidth+.95f)/Mathf.Max(view.aspect,.1f));ApplyLocalCombatView();
   }
   private void EnsureJourneyStyles()
   {
@@ -35,74 +35,51 @@ namespace NakiLegend.Prototype
   }
   private void FittedLabel(Rect box,string text,GUIStyle style,bool wrap=false,TextAnchor anchor=TextAnchor.UpperLeft){GUI.Label(box,text,FitLabel(box,text,style,wrap,anchor));}
   private void CenterLabel(Rect box,string text,GUIStyle style){FittedLabel(box,text,style,true,TextAnchor.MiddleCenter);}
-  private void PowerBar(Rect box,float value,Color color){HudRect(box,C("243d48"));HudRect(new Rect(box.x,box.y,box.width*Mathf.Clamp01(value/100),box.height),color);}
+  private void PowerBar(Rect box,float value,Color color,float maximum=100){HudRect(box,C("243d48"));HudRect(new Rect(box.x,box.y,box.width*Mathf.Clamp01(value/maximum),box.height),color);}
   private void HudDivider(float x,float y,float height){HudRect(new Rect(x,y,1,height),C("30434a"));}
   private void KeyCap(Rect box,string text){HudRect(box,C("293d47"));CenterLabel(box,text,journeySmallStyle);}
-  private string ActivePowerLabel {get{return origin==Origin.Dark?"贤者之石 "+Mathf.FloorToInt(darkPower):origin==Origin.Light?"光之力 "+Mathf.FloorToInt(energy):"主属性待选择";}}
+  private string ActivePowerLabel {get{return origin==Origin.Dark?"贤者之石 "+darkPower.ToString("0"):origin==Origin.Light?"光之力 "+Mathf.FloorToInt(energy):"主属性待选择";}}
   private Color ActivePowerColor {get{return origin==Origin.Dark?C("b88ae8"):C("ecd18e");}}
-  private string RoomHeading(RoomNode node){return thunderChapterMode?(iceSampleMode?"第三岛样板 · 冰港":woodlandMode?"第五岛 · 青栖林海 · "+WoodlandStages[node.stage]:"雷雨高原 · "+ThunderStages[node.stage]):thunderPrototypeMode?ThunderTitle:IsGatehouseRoom(node)?GatehouseHeading(node):"沙漠岛 · "+StageNames[node.stage];}
+  private string RoomHeading(RoomNode node){return thunderChapterMode?ActiveLayerName(node.stage):thunderPrototypeMode?ThunderTitle:IsGatehouseRoom(node)?"鸣沙洲 · 尾声 · 归渠水道":"鸣沙洲 · 第 "+(node.stage+1)+" 层 · "+StageNames[node.stage];}
   private void DrawJourneyHud()
   {
    if(world==null||journeyRooms.Count==0)return;EnsureJourneyStyles();Matrix4x4 saved=GUI.matrix;Color old=GUI.color;
    float scale=HudScaleFor(Screen.width,Screen.height),w=Screen.width/scale,h=Screen.height/scale;GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1));GUI.color=Color.white;
    try
    {
+    if(replayMenu>0){DrawReplayMenu(w,h);return;}
+    if(CapitalTerminal&&worldAtlasMenu){DrawWorldAtlas(w,h);return;}if(CapitalOverlay){DrawCapitalOverlay(w,h);return;}
+    if(manorCourtyardMode&&(manorLetter>=0||manorVictoryCg)){DrawManorReading(w,h);return;}
+    if(manorCourtyardMode&&manorIntro){DrawManorOpening(w,h);return;}
+    if(manorCourtyardMode&&manorChoiceMode>0){DrawManorFinaleChoice(w,h);return;}if(manorCourtyardMode&&manorEnding>=2&&manorEndingSeen){DrawManorEnding(w,h);return;}
+    if(voyagerJournal){DrawVoyagerJournal(w,h);return;}
+    if(worldAtlasMenu){DrawWorldAtlas(w,h);return;}
     if(audioSettingsMenu){DrawAudioSettings(w,h);return;}
+    if(challengeMenu){DrawOptionalChallengeMenu(w,h);return;}if(originAbilityMenu){DrawOriginAbilityMenu(w,h);return;}if(chapterRewardMenu){DrawJourneyRails(w,h);HudRect(new Rect(0,0,w,h),new Color(.01f,.02f,.03f,.6f));DrawChapterReward(w,h);return;}if(pendingIceVoyage>=0){DrawIceVoyage(w,h);return;}
+    if(talentMenu){DrawTalentChoice(w,h);return;}
     if(thunderChapterMode&&chapterCg){DrawChapterCg(w,h);return;}
     if(showRainCG&&!DesertEndingReady)showRainCG=false;
     if(showRainCG){HudRect(new Rect(0,0,w,h),Color.black);if(rainCG!=null)GUI.DrawTexture(new Rect(0,0,w,h),rainCG,ScaleMode.ScaleToFit);FittedLabel(new Rect(30,24,w-60,36),"甘泽归沙 · 愿长风携雨而来",journeyTitleStyle);if(StoryActive)DrawJourneyDialogue(w,h);else GUI.Label(new Rect(30,h-50,700,36),"F 继续探索",journeyTextStyle);return;}
-    DrawJourneyRails(w,h);DrawCombatAnnotations(w,h,scale);
-    bool overlay=StoryActive||mapMenu||rewardMenu||inventoryMenu||OriginChoiceReady||paused||health<=0||thunderPrototypeMode&&thunderSetupMenu||thunderChapterMode&&(chapterSetup||chapterSkillsMenu||chapterRewardMenu);
+    DrawCombatAnnotations(w,h,scale);DrawJourneyRails(w,h);
+    bool overlay=chapterSkillsMenu||StoryActive||mapMenu||rewardMenu||inventoryMenu||OriginChoiceReady||paused||health<=0||thunderPrototypeMode&&thunderSetupMenu||thunderChapterMode&&(chapterSetup||chapterSkillsMenu||chapterRewardMenu);
     if(overlay)HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.035f,.55f));
     if((health<=0||paused)&&!StoryActive&&!mapMenu&&!rewardMenu&&!inventoryMenu)
     {HudRect(new Rect(w/2-250,h/2-60,500,120),C("10232d"));CenterLabel(new Rect(w/2-230,h/2-43,460,45),health<=0?"旅程未竟 · R 回到安全点":"暂歇片刻 · ESC 继续",journeyTitleStyle);if(paused&&!ThunderActive)CenterLabel(new Rect(w/2-230,h/2+12,460,30),"V 重播开场 · F10 声音设置",journeySmallStyle);}
     if(paused&&FlatButton(new Rect(w/2-110,h/2+70,220,40),"F10 声音设置"))audioSettingsMenu=true;
-    if(thunderChapterMode&&chapterSetup)DrawChapterSetup(w,h);else if(thunderChapterMode&&chapterSkillsMenu)DrawChapterSkills(w,h);else if(thunderChapterMode&&chapterRewardMenu)DrawChapterReward(w,h);else if(thunderPrototypeMode&&thunderSetupMenu)DrawThunderSetup(w,h);else if(ProfessionReady)DrawProfessionChoice(w,h);else if(OriginChoiceReady)DrawOriginChoice(w,h);else if(StoryActive)DrawJourneyDialogue(w,h);else if(inventoryMenu)DrawBackpack(w,h);else if(mapMenu)DrawJourneyMap(w,h);else if(rewardMenu)DrawJourneyReward(w,h);
+    if(paused&&FlatButton(new Rect(w/2-150,h/2+120,300,40),"重玩与其他结局 · N"))OpenReplayMenu();
+    if(paused&&!Application.isEditor&&FlatButton(new Rect(w/2-150,h/2+170,300,40),"退出游戏"))Application.Quit();
+    if(thunderChapterMode&&chapterSetup)DrawChapterSetup(w,h);else if(chapterSkillsMenu)DrawChapterSkills(w,h);else if(thunderChapterMode&&chapterRewardMenu)DrawChapterReward(w,h);else if(thunderPrototypeMode&&thunderSetupMenu)DrawThunderSetup(w,h);else if(ProfessionReady)DrawProfessionChoice(w,h);else if(OriginChoiceReady)DrawOriginChoice(w,h);else if(StoryActive)DrawJourneyDialogue(w,h);else if(inventoryMenu)DrawBackpack(w,h);else if(mapMenu)DrawJourneyMap(w,h);else if(rewardMenu)DrawJourneyReward(w,h);
     if(doorTransition>0)HudRect(new Rect(0,HudTop,w,h-HudTop-HudBottom),new Color(0,0,0,Mathf.Sin(Mathf.Clamp01(doorTransition/.24f)*Mathf.PI)));
    }
    finally{GUI.matrix=saved;GUI.color=old;}
   }
   private void DrawJourneyRails(float w,float h)
   {
-   Color rail=C("101d26"),muted=C("8ea8aa");RoomNode node=journeyRooms[currentRoom];
-   HudRect(new Rect(0,0,w,HudTop),rail);HudRect(new Rect(0,h-HudBottom,w,HudBottom),rail);
-   HudRect(new Rect(0,HudTop-2,w,2),C("51636a"));HudRect(new Rect(0,h-HudBottom,w,2),C("51636a"));
-   FittedLabel(new Rect(20,10,300,27),RoomHeading(node),journeyTextStyle);
-   FittedLabel(new Rect(20,42,70,22),"生命 "+health.ToString("0.#"),journeySmallStyle);
-   for(int i=0;i<6;i++){HudRect(new Rect(100+i*32,49,27,8),C("3e3c43"));HudRect(new Rect(100+i*32,49,27*Mathf.Clamp01(health-i),8),C("e78c75"));}
-   FittedLabel(new Rect(20,67,70,22),"护盾 "+shield.ToString("0.#"),journeySmallStyle);
-   int count=Mathf.Max(1,Mathf.CeilToInt(EffectiveMaximumShield));float step=192f/count;
-   for(int i=0;i<count;i++){HudRect(new Rect(100+i*step,74,step-5,6),C("263e4a"));HudRect(new Rect(100+i*step,74,(step-5)*Mathf.Clamp01(shield-i),6),C("74d4e2"));}
-   HudDivider(318,16,65);
-   FittedLabel(new Rect(340,18,274,23),ActivePowerLabel,new GUIStyle(journeySmallStyle){normal={textColor=ActivePowerColor}});PowerBar(new Rect(340,45,272,5),origin==Origin.Dark?darkPower:origin==Origin.Light?energy:0,ActivePowerColor);
-   FittedLabel(new Rect(340,58,274,22),"元素之力 "+Mathf.FloorToInt(elementPower),journeySmallStyle);PowerBar(new Rect(340,83,272,4),elementPower,C("72d8bc"));
-   HudDivider(638,16,65);Enemy boss=null;foreach(Enemy e in enemies)if(e.boss){boss=e;break;}
-   if(boss!=null)DrawBossHud(boss,w,rail);
-   else
-   {
-    FittedLabel(new Rect(662,15,w-830,27),JourneyRoomTitle(node),journeyTextStyle);
-    string message=node.cleared?(thunderChapterMode?ChapterObjective():GatehouseActive?GatehouseObjective():stairs!=null?"阶梯已开启 · "+StairDestination():"石门已开启 · 沿旧路继续探索"):"留意蓄力与地面预警";
-    FittedLabel(new Rect(662,47,w-830,40),message,journeySmallStyle,true);
-   }
-   DrawMapCells(new Rect(w-148,9,128,66),true);FittedLabel(new Rect(w-149,76,132,20),"M 地图",journeySmallStyle,false,TextAnchor.MiddleCenter);
-   DrawContextGuidance(w,h,1,rail);
-   float y=h-73;DrawSpriteUI(new Rect(20,y,52,45),CurrentWeapon.sprite);
-   FittedLabel(new Rect(84,y+1,290,25),CurrentWeapon.name,journeyTextStyle);
-   int other=carriedWeapons[1-equippedSlot];FittedLabel(new Rect(84,y+29,290,22),"H 切换 · "+(other<0?"另一武器栏为空":weaponCatalog[other].name),journeySmallStyle);
-   KeyCap(new Rect(402,y+5,28,24),"K");FittedLabel(new Rect(442,y+5,185,26),clock<nextDash?(profession==Profession.Warrior?"冲撞 · ":"闪避 · ")+(nextDash-clock).ToString("0.0")+"秒":ProfessionName+" · 就绪",journeySmallStyle);
-   FittedLabel(new Rect(402,y+34,220,22),"B 行囊   "+(thunderChapterMode?"T 元素技能":"1 / 2 使用补给"),journeySmallStyle);
-   SkillBox(w-576,y,origin==Origin.Unchosen?"L 主属性":origin==Origin.Dark?"L 流星":"L 元气弹",orbLearned,nextSpell,origin==Origin.Dark?1:8,true);
-   if(thunderChapterMode){for(int i=0;i<2;i++){int k=chapterSkillSlots[i];SkillBox(w-386+i*190,y,(i==0?"U ":"I ")+ActiveSkillNames[k],ChapterSkillKnown(k),ChapterSkillReady(k),ChapterSkillCost(k),false);}}
-   else{SkillBox(w-386,y,"U 风之刃",bladeLearned,bladeReadyAt,6,false);SkillBox(w-196,y,"I 护身风波",waveLearned,waveReadyAt,10,false);}
-   FittedLabel(new Rect(20,h-20,w-340,18),"WASD 移动   J 武器   F 交互   ESC 暂停   M 地图   F5 / F9 存读   R 重试   N "+(ThunderActive?"测试配置":"新旅程"),new GUIStyle(journeySmallStyle){fontSize=11,normal={textColor=muted}});
-   string status=thunderChapterMode?thunderChapterPracticeBoss>=0?"Boss 练习 · 不写旅程存档":chapterSaveStatus:thunderPrototypeMode?thunderSaveStatus:checkpointStatus;
-   FittedLabel(new Rect(w-315,h-20,295,18),status,new GUIStyle(journeySmallStyle){fontSize=11,normal={textColor=muted}},false,TextAnchor.MiddleRight);
+   DrawCompactHud(w,h);
   }
   private void DrawBossHud(Enemy e,float w,Color panel)
   {
-   float width=w-830;FittedLabel(new Rect(662,10,width,27),EnemyTitle(e)+(e.secondPhase?" · II":" · I"),journeyTextStyle);
-   string move=e.phaseUntil>clock?"力量涌动 · 即将变招":e.windup>0?"蓄力 · "+EnemyMoveName(e):clock<e.recoveryUntil?"收招 · 反击机会":"观察前摇，留意下一次攻击";
-   FittedLabel(new Rect(662,41,width,27),move,journeySmallStyle);HudRect(new Rect(662,76,width,6),C("41383b"));HudRect(new Rect(662,76,width*Mathf.Clamp01(e.hp/e.maximum),6),e.secondPhase?C("c69bce"):C("dfa77d"));
+   DrawCompactBoss(e,w);
   }
   private void DrawCombatAnnotations(float w,float h,float scale)
   {
@@ -110,8 +87,9 @@ namespace NakiLegend.Prototype
    foreach(Enemy e in enemies)if(!e.boss)
    {
     Vector3 at=view.WorldToScreenPoint((Vector3)e.position+Vector3.up*(e.kind==EnemyKind.ThunderStone?1.45f:e.kind==EnemyKind.StoneSentinel?1.85f:1.35f));float x=at.x/scale,y=(Screen.height-at.y)/scale-area.y;
-    Rect bar=new Rect(x-22,y,44,4);HudRect(bar,C("343c40"));bar.width*=Mathf.Clamp01(e.hp/e.maximum);HudRect(bar,e.elite?C("d8b278"):C("dc8569"));if(e.elite)CenterLabel(new Rect(x-95,y-25,190,24),EnemyTitle(e),journeySmallStyle);
+    Rect bar=new Rect(x-22,y,44,4);HudRect(bar,C("343c40"));bar.width*=Mathf.Clamp01(e.hp/e.maximum);HudRect(bar,e.elite?C("d8b278"):C("dc8569"));if(e.elite||e.tacticRole>=3)CenterLabel(new Rect(x-95,y-25,190,24),EnemyTitle(e),journeySmallStyle);
    }
+   if(fireChapterMode&&journeyRooms[currentRoom].cleared&&WorkshopGoal==currentRoom&&(currentRoom==20||currentRoom==23||currentRoom==28)){Vector2 point=currentRoom==20?new Vector2(-3.8f,-.4f):currentRoom==23?EvacuationWinchAt:new Vector2(-2,0);Vector3 label=view.WorldToScreenPoint(point+Vector2.up*1.5f);GUI.color=C("f4d68a");CenterLabel(new Rect(label.x/scale-130,(Screen.height-label.y)/scale-area.y,260,30),currentRoom==23?"撤离桥绞盘 · 靠近按 F 放桥":currentRoom==20?"救援绞盘 · 靠近按 F 开门":"炉道出口 · 靠近按 F 回港",journeySmallStyle);GUI.color=Color.white;}
    foreach(var hit in floatingHits){Vector3 at=view.WorldToScreenPoint(hit.at);GUI.color=hit.color;CenterLabel(new Rect(at.x/scale-110,(Screen.height-at.y)/scale-area.y,220,30),hit.text,journeySmallStyle);}GUI.color=Color.white;GUI.EndGroup();
   }
   private void DrawContextGuidance(float w,float h,float scale,Color panel)
@@ -120,23 +98,26 @@ namespace NakiLegend.Prototype
    if(node.cleared)
    {
     text=thunderChapterMode?ChapterPrompt():thunderPrototypeMode?ThunderPrompt():GatehouseActive?GatehousePrompt():"";
-    if(GatehouseActive&&!gatehouseSampleMode&&canalEpilogueComplete&&node.gatehouseIndex==4&&Vector2.Distance(position,ThunderDockAt)<1.4f)text="F 乘船前往第二岛 · 雷雨高原";
+    if(GatehouseActive&&!gatehouseSampleMode&&canalEpilogueComplete&&node.gatehouseIndex==4&&Vector2.Distance(position,ThunderDockAt)<1.4f)text="F 展开全域航图 · 自选目的地";
     if(stairs!=null&&Vector2.Distance(position,stairPosition)<1.6f)text="F "+StairDestination();
-    if(text.Length==0&&lessonAltar!=null&&Vector2.Distance(position,lessonPosition)<1.35f)text="F 研读古刻 · "+(pendingLesson==1?(origin==Origin.Dark?"流星":"元气弹"):pendingLesson==2?"风之刃":"护身风波");
+    if(text.Length==0&&lessonAltar!=null&&Vector2.Distance(position,lessonPosition)<1.35f)text="F 研读古刻 · "+(pendingLesson==1?(origin==Origin.Dark?"流星":"辉光束"):pendingLesson==2?"风之刃":"护身风波");
     WeaponDrop drop=NearestWeaponDrop();if(text.Length==0&&drop!=null)text="F 拾取 "+weaponCatalog[drop.data.id].name+" · "+WeaponSummary(weaponCatalog[drop.data.id]);
     if(text.Length==0&&rewardChest!=null&&Vector2.Distance(position,chestPosition)<1.4f)text="F 打开旅人补给";
    }
+   if(challengeActive)text="试炼进行中 · 留意护阵者与瞄准线";else if(challengeAltar!=null&&node.cleared&&Vector2.Distance(position,challengeAltarAt)<1.45f)text="F 查看自愿试炼 · 两轮增援，额外武器奖励";
    if(text.Length==0&&journeyToastUntil>clock&&!string.IsNullOrEmpty(journeyToast))text=journeyToast;
-   if(text.Length==0&&node.cleared)text="沿已打开的石门继续探索";
-   FittedLabel(new Rect(20,h-HudBottom+6,w-40,24),text,journeySmallStyle,false,TextAnchor.MiddleCenter);
+   if(text.Length==0&&node.cleared)text=DesertLandmarkPrompt();
+   DrawCompactContext(w,h,text);
   }
   private void SkillBox(float x,float y,string label,bool learned,float ready,float cost,bool light)
   {
-   if(!light)cost=ElementCost(cost);
+   int originSlot=light&&label.Length>0?label[0]=='O'?1:label[0]=='P'?2:0:0;
+   if(!light)cost=SkillElementCost(cost);
    HudDivider(x,y+3,47);FittedLabel(new Rect(x+14,y,164,26),label,journeyTextStyle);
-   Color c=light?ActivePowerColor:C("72d8bc");string detail=!learned?"尚未领悟":clock<ready?(ready-clock).ToString("0.0")+" 秒":(light?(origin==Origin.Dark?"暗之力 ":"光之力 "):"元素 ")+cost;
+   Color c=light?ActivePowerColor:C("72d8bc");string detail=!learned?"尚未领悟":clock<ready?(ready-clock).ToString("0.0")+" 秒":(light?(origin==Origin.Dark?"贤者之石能量 ":"光之力 "):"元素 ")+cost;
+   if(light){if(!learned)detail=originSlot==0?"鸣沙洲领悟":originSlot==1?"雷雨高原领悟":"赤炉群岛领悟";else if(origin==Origin.Light&&originSlot==0)detail=lightChannel?"照射中 · 16 / 秒":lightNeedsRelease?"松开 L 后再次照射":"启动4 ＋ 16 / 秒";else if(originSlot==2&&solarCharging)detail=divinePulsesRemaining==3?"正在凝光":"光弹连发 · "+(3-divinePulsesRemaining)+" / 3";}
    FittedLabel(new Rect(x+14,y+29,164,23),detail,new GUIStyle(journeySmallStyle){normal={textColor=learned?c:C("758b94")}});
-   if(learned&&clock<ready){float duration=light?(origin==Origin.Dark?1:1.2f):label.Contains("风波")?4.5f:label.Contains("雷标")?2:label.Contains("跃电")?3:1.2f;HudRect(new Rect(x+14,y+54,164*Mathf.Clamp01(1-(ready-clock)/duration),2),c);}
+   if(learned&&clock<ready){float duration=light?OriginSkillCooldown(originSlot):label.Contains("护甲脉冲")?8:label.Contains("回旋")?2.5f:label.Contains("风波")?4.5f:label.Contains("雷标")?2:label.Contains("跃电")?3:1.2f;HudRect(new Rect(x+14,y+54,164*Mathf.Clamp01(1-(ready-clock)/duration),2),c);}
   }
   private string JourneyRoomTitle(RoomNode n){if(thunderChapterMode)return chapterNames[n.id];if(thunderPrototypeMode)return n.id==0?"雨中草坡":"西引雷坪";if(IsGatehouseRoom(n))return GatehouseRoomName(n);return JourneyRoomType(n.kind)+" · "+RoomNames[n.layout%RoomNames.Length];}
   private static string JourneyRoomType(RoomKind k){switch(k){case RoomKind.Entrance:return "入口";case RoomKind.Rest:return "休憩";case RoomKind.Event:return "路迹";case RoomKind.Reward:return "补给";case RoomKind.Guardian:return "守卫";case RoomKind.Boss:return "首领";case RoomKind.Elite:return "精英";default:return "战斗";}}
@@ -154,17 +135,18 @@ namespace NakiLegend.Prototype
    foreach(RoomNode n in journeyRooms)if(n.stage==stage&&n.discovered)
    {
     Vector2 p=origin+new Vector2(n.cell.x,-n.cell.y)*step;Rect box=new Rect(p.x-step*.37f,p.y-step*.30f,step*.74f,step*.60f);
-    Color c=n.id==currentRoom?C("bb9759"):n.cleared?C("356d63"):n.visited?C("9b6559"):C("3c505d");HudRect(new Rect(box.x-1,box.y-1,box.width+2,box.height+2),n.id==currentRoom?C("f2d49c"):C("6c8180"));HudRect(box,c);
-    string label=n.visited?(thunderChapterMode?ChapterMapLabel(n):thunderPrototypeMode?(n.id==0?"草坡":"引雷"):IsGatehouseRoom(n)?new[]{"来路","闸室","总闸","检修","望台"}[n.gatehouseIndex]:JourneyRoomType(n.kind)):"?";
-    if(n.visited&&n.cleared&&n.stairsTo>=0)label=IsGatehouseRoom(n)?"返回":IsGatehouseRoom(journeyRooms[n.stairsTo])?"水道":journeyRooms[n.stairsTo].stage>n.stage?"下层":"上层";
-    if(!small)CenterLabel(box,label,journeyNodeStyle);else if(n.visited&&n.stairsTo>=0&&n.cleared)CenterLabel(box,"S",new GUIStyle(journeySmallStyle){fontSize=10});
+    Color c=n.id==currentRoom?C("bb9759"):n.cleared?C("356d63"):n.visited?C("9b6559"):C("3c505d");HudRect(new Rect(box.x-1,box.y-1,box.width+2,box.height+2),n.id==currentRoom?C("f2d49c"):n.id==StoryGuideGoal?C("ffe19d"):C("6c8180"));HudRect(box,c);
+    string label=n.id==StoryGuideGoal?(thunderChapterMode?ChapterMapLabel(n):IsGatehouseRoom(n)?GatehouseRoomName(n):JourneyRoomType(n.kind))+" !":n.visited?(thunderChapterMode?ChapterMapLabel(n):thunderPrototypeMode?(n.id==0?"草坡":"引雷"):IsGatehouseRoom(n)?new[]{"来路","闸室","总闸","检修","望台"}[n.gatehouseIndex]:JourneyRoomType(n.kind)):"?";
+    if(n.visited&&n.cleared&&n.stairsTo>=0)label=capitalMode?"往"+AtlasRegions[6][journeyRooms[n.stairsTo].stage]:IsGatehouseRoom(n)?"返回":IsGatehouseRoom(journeyRooms[n.stairsTo])?"水道":"往"+(journeyRooms[n.stairsTo].stage+1)+"层";
+    if(!small)CenterLabel(box,label,journeyNodeStyle);else if(n.id==StoryGuideGoal)CenterLabel(box,"!",new GUIStyle(journeySmallStyle){fontSize=12});else if(n.visited&&n.stairsTo>=0&&n.cleared)CenterLabel(box,"S",new GUIStyle(journeySmallStyle){fontSize=10});
    }
   }
   private static void JourneyMapLine(Vector2 a,Vector2 b,Color c){HudRect(new Rect(Mathf.Min(a.x,b.x)-1,Mathf.Min(a.y,b.y)-1,Mathf.Max(2,Mathf.Abs(a.x-b.x)),Mathf.Max(2,Mathf.Abs(a.y-b.y))),c);}
   private void DrawJourneyMap(float w,float h)
   {
-   HudRect(new Rect(w/2-365,h/2-290,730,580),C("10212a"));FittedLabel(new Rect(w/2-334,h/2-270,670,38),RoomHeading(journeyRooms[currentRoom])+" · 探索记录",journeyTitleStyle);
-   DrawMapCells(new Rect(w/2-280,h/2-210,560,420),false);FittedLabel(new Rect(w/2-334,h/2+224,670,54),"金：所在房间   绿：已清理   ?：相邻未知房间\n"+(iceSampleMode?"回廊南北支路可寻装备与补给。M / ESC 返回":"沿石门探索；铜线为未开放检修道，S 为阶梯。M / ESC 返回"),journeySmallStyle,true);
+   HudRect(new Rect(w/2-365,h/2-290,730,580),C("10212a"));FittedLabel(new Rect(w/2-334,h/2-270,500,38),RoomHeading(journeyRooms[currentRoom])+" · 探索记录",journeyTitleStyle);
+   if(FlatButton(new Rect(w/2+180,h/2-270,155,35),"G 全域航图")){OpenWorldAtlas();return;}
+   DrawMapCells(new Rect(w/2-280,h/2-210,560,420),false);FittedLabel(new Rect(w/2-334,h/2+224,670,54),"金：所在房间   绿：已清理   !：任务目标   ?：相邻未知\n"+(iceSampleMode?"沿石门探索；S 为层间往返石阶。M / ESC 返回":"沿石门探索；铜线为未开放检修道，S 为阶梯。M / ESC 返回"),journeySmallStyle,true);
   }
   private void DrawJourneyDialogue(float w,float h)
   {

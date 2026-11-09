@@ -1,0 +1,26 @@
+{
+  "mode": "built-in image_gen",
+  "originalsPreserved": true,
+  "prompts": [
+    {
+      "asset": "actors-source.png",
+      "spec": "Production transparent sprite sheet, six columns by eight rows, crisp polished dark medieval pixel art matching Naki hero. Columns: faded blue short-sword patrol, shieldguard, hooded crossbowman, low armored hound, oath clerk with censer, elite spear-and-shield Oath Captain. Rows: idle, alternating left/right/transitional walking, windup, actual release, recovery, defeated kneeling. All face right/slightly viewer; same size/costume and fixed feet baseline; equal square cells with padding. No text or UI."
+    },
+    {
+      "asset": "environment-source.png",
+      "spec": "Transparent top-down pixel-art game props, exact four-column three-row sheet. First row: seamless grey flagstone tile, dark cobble tile, short grey wall, broken wall. Second row: column stump, overturned grain cart, memorial young swordsman statue, open ledger lectern. Third row: closed manor gate, matching open gate, faded blue banner, grey stairs with blue lamps. Muted steel/brass, no sand/lava or labels."
+    },
+    {
+      "asset": "harbor-source.png",
+      "spec": "Wide 3:2 top-down polished pixel-art dusk harbor. Upper sixty percent grey stone shore, lower forty percent dark navy sea; central pier and one rowboat floating beside it tied to a post. East land exit at y35%, no north exit. Stone parapets prevent walking into water, cargo corners, no people, no UI or text."
+    },
+    {
+      "asset": "extra-source.png",
+      "prompt": "Game production sprite sheet, polished readable dark medieval pixel art for NakiLegend Unity top-down 2D dungeon, NOT a concept poster. Exactly FIVE columns and EIGHT rows of evenly spaced square transparent cells. Each column same character throughout: col1 steel armored AXE KNIGHT with visibly broad single crescent axe two hands, faded blue cloak; col2 massive HAMMER KNIGHT with block iron warhammer and heavy armor; col3 DARK PRIEST in burgundy robe and hood with brass censer, raised palm summoning a dark violet smoky meteor, no stars; col4 MANOR ARCHER with dark blue hood and clearly curved wooden longbow; col5 DARK MAGE slender black-purple robe and hornless hood with violet crystal staff. All face right and slightly toward camera, distinct silhouette, same costume across frames. Eight rows: neutral idle; walk stride left leg forward; walk right leg forward; walk transitional; clear weapon-specific windup (axe overhead, hammer high, priest both arms up, archer drawing bow, mage staff raised); actual release pose (axe horizontal sweep, hammer ground slam, priest casting, archer bow released, mage staff thrust); recovery pose; defeated kneeling. Single actor per cell, feet anchored at same baseline, all fit with 15% padding, no bleed, no environment, no shadows outside cell, no UI, no letters, no grids. Strong clean outlines and detailed but restrained pixel shading. True transparent background."
+    },
+    {
+      "asset": "spear-source.png",
+      "prompt": "A single game weapon sprite on genuine transparent background, polished crisp dark medieval pixel art matching a 2D dungeon RPG. An Oath Court Captain's spear: long blackened steel shaft horizontally pointing RIGHT, brass collar, narrow silver leaf-shaped spearhead, small frayed dark blue pennant behind head with restrained violet seam. Spear only, no hands or character, no shadow, no text, no glow explosion. Exactly one weapon centered, plenty transparent margins, clear silhouette and visible grip at 20% from left. Widescreen 3:1 image. This is inventory and held weapon production art."
+    }
+  ]
+}

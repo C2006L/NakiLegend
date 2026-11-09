@@ -14,14 +14,17 @@ namespace NakiLegend.Prototype
         {
             public int id,stage,depth,layout,floor,waves,stairsTo,gatehouseIndex,kind;
             public Vector2Int cell;public float halfWidth,halfHeight;
-            public bool visited,discovered,cleared,claimed,lootSeeded;
+            public bool visited,discovered,cleared,claimed,lootSeeded;public bool bossWeaponGranted,challengeWon;public int coverBroken;public int[] supplyOffers;
             public int[] links;public CheckpointWeapon[] drops;public CheckpointEssence[] essence;
         }
         [Serializable] private sealed class CheckpointWeapon { public int id;public Vector2 at; }
         [Serializable] private sealed class CheckpointEssence { public Vector2 at;public float value,born; }
         [Serializable] private sealed class JourneyCheckpoint
         {
-            public int profession;
+            public SkillLoadout loadout;public bool knownMark,knownArc,knownSpike,knownRing,knownFire,knownEmber;
+            public float markTimer,arcTimer,spikeTimer,ringTimer,fireTimer,emberTimer,returnTimer,guardTimer;
+            public float originSecond,originThird,lightRegen;
+            public int[] talents;public int profession,lore,knowledge,primary,queuedLore,routeOrigin;
             public int version=1,seed,selectedBoss,room,origin,equipped,clearedRooms,restored,healSupplies,elementSupplies,canalStart;
             public float clock,health,shield,light,element,dark,swordDamage,baseSword,spellDamage,baseSpell;
             public float nextSword,nextSpell,nextDash,bladeReady,waveReady,lastDamage;
@@ -35,9 +38,9 @@ namespace NakiLegend.Prototype
         private bool allowBatchCheckpoints=false;
         private string checkpointPathOverride=null,checkpointStatus="尚未存档";
         private bool CheckpointsEnabled { get { return enableDesertJourney&&!ThunderActive&&!gatehouseSampleMode&&!bossPracticeMode&&!lightningTrialMode&&(!Application.isBatchMode||allowBatchCheckpoints); } }
-        private string CheckpointPath { get { return string.IsNullOrEmpty(checkpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend","journey-v1.json"):checkpointPathOverride; } }
+        private string CheckpointPath { get { return string.IsNullOrEmpty(checkpointPathOverride)?Path.Combine(JourneySaveDirectory,"journey-v1.json"):checkpointPathOverride; } }
         private void RequestCheckpoint(){if(thunderChapterMode){chapterSavePending=true;return;}if(thunderPrototypeMode){thunderSavePending=true;return;}if(!loadingCheckpoint&&CheckpointsEnabled&&origin!=Origin.Unchosen)checkpointPending=true;}
-        private bool SafeCheckpointRoom { get { return world!=null&&journeyRooms.Count>currentRoom&&currentRoom>=0&&journeyRooms[currentRoom].cleared&&health>0&&enemies.Count==0&&pendingSpawns.Count==0&&gateWorkRemaining<=0&&doorTransition<=0; } }
+        private bool SafeCheckpointRoom { get { return world!=null&&journeyRooms.Count>currentRoom&&currentRoom>=0&&journeyRooms[currentRoom].cleared&&health>0&&!OriginActionActive&&fallingStars.Count==0&&!challengeActive&&coverBlasts.Count==0&&enemies.Count==0&&pendingSpawns.Count==0&&gateWorkRemaining<=0&&doorTransition<=0; } }
         private void TickCheckpoint(){if(checkpointPending&&SafeCheckpointRoom){checkpointPending=false;SaveCheckpoint(false);}}
         private bool SaveCheckpoint(bool notify)
         {
@@ -45,8 +48,10 @@ namespace NakiLegend.Prototype
             {if(notify)JourneyHint("请在已清理的安全房间存档；战斗中会保留上一个存档点");return false;}
             try
             {
-                var s=new JourneyCheckpoint {
-                    profession=(int)profession,seed=activeSeed,selectedBoss=selectedBoss,room=currentRoom,origin=(int)origin,equipped=equippedSlot,
+                var s=new JourneyCheckpoint {loadout=CaptureSkillLoadout(),
+                    originSecond=originSecondReady,originThird=originThirdReady,lightRegen=lightRegenReady,
+                    knownMark=chapterMarkKnown,knownArc=chapterArcKnown,knownSpike=iceSpikeKnown,knownRing=iceRingKnown,knownFire=fireBoltKnown,knownEmber=emberRingKnown,markTimer=chapterMarkReady,arcTimer=chapterArcReady,spikeTimer=iceSpikeReady,ringTimer=iceRingReady,fireTimer=fireBoltReady,emberTimer=emberRingReady,returnTimer=returnBladeReady,guardTimer=guardPulseReady,
+                    talents=CopyTalents(),profession=(int)profession,lore=originLoreBits,knowledge=originKnowledge,primary=primarySkill,queuedLore=queuedOriginChapter,routeOrigin=(int)origin,seed=activeSeed,selectedBoss=selectedBoss,room=currentRoom,origin=(int)origin,equipped=equippedSlot,
                     clearedRooms=clearedCombatRooms,restored=restoredCanals,healSupplies=healingSupplies,elementSupplies=elementSupplies,
                     canalStart=canalEpilogueStart,clock=clock,health=health,shield=shield,light=energy,element=elementPower,dark=darkPower,
                     swordDamage=swordDamage,baseSword=initialSwordDamage,spellDamage=spellDamage,baseSpell=initialSpellDamage,
@@ -62,7 +67,7 @@ namespace NakiLegend.Prototype
                 {
                     var drops=new List<CheckpointWeapon>();foreach(StoredWeapon w in n.drops)drops.Add(new CheckpointWeapon{id=w.id,at=w.at});
                     var essence=new List<CheckpointEssence>();foreach(StoredEssence d in n.essence)essence.Add(new CheckpointEssence{at=d.at,value=d.value,born=d.born});
-                    rooms.Add(new CheckpointRoom{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(int)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded,links=n.links.ToArray(),drops=drops.ToArray(),essence=essence.ToArray()});
+                    rooms.Add(new CheckpointRoom{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(int)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded,bossWeaponGranted=n.bossWeaponGranted,challengeWon=n.challengeWon,coverBroken=n.coverBroken,supplyOffers=n.supplyOffers,links=n.links.ToArray(),drops=drops.ToArray(),essence=essence.ToArray()});
                 }
                 s.rooms=rooms.ToArray();ValidateCheckpoint(s);
                 string path=CheckpointPath;Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -73,7 +78,7 @@ namespace NakiLegend.Prototype
                     catch(PlatformNotSupportedException){File.Copy(path,path+".bak",true);File.Copy(temp,path,true);File.Delete(temp);}
                 }
                 else File.Move(temp,path);
-                checkpointStatus="已存："+JourneyRoomTitle(journeyRooms[currentRoom]);checkpointPending=false;
+                RecordJourneySession();checkpointStatus="已存："+JourneyRoomTitle(journeyRooms[currentRoom]);checkpointPending=false;
                 if(notify)JourneyHint("旅程已保存 · F9 可回到这个安全房间");return true;
             }
             catch(Exception e){checkpointStatus="存档失败";if(notify)JourneyHint("存档未能写入，请检查文件权限");Debug.LogWarning("Naki checkpoint save: "+e.Message);return false;}
@@ -81,16 +86,18 @@ namespace NakiLegend.Prototype
         private static bool FiniteRange(float n,float lo,float hi){return !float.IsNaN(n)&&!float.IsInfinity(n)&&n>=lo&&n<=hi;}
         private void ValidateCheckpoint(JourneyCheckpoint s)
         {
-            if(s==null||s.version!=1||s.rooms==null||(s.rooms.Length!=39&&s.rooms.Length!=44)||s.room<0||s.room>=s.rooms.Length||s.origin<1||s.origin>2||s.selectedBoss<0||s.selectedBoss>2)throw new InvalidDataException("Unsupported checkpoint");
+            ValidateSkillLoadout(s==null?null:s.loadout);ValidateTalents(s==null?null:s.talents);if(s==null||s.version!=1||s.rooms==null||(s.rooms.Length!=39&&s.rooms.Length!=44)||s.room<0||s.room>=s.rooms.Length||s.origin<1||s.origin>2||s.selectedBoss<0||s.selectedBoss>2)throw new InvalidDataException("Unsupported checkpoint");
             if(s.carried==null||s.carried.Length!=2||s.reserves==null||s.reserves.Length>4||s.equipped<0||s.equipped>1||s.carried[s.equipped]<0||s.starts==null||s.starts.Length!=3||s.ends==null||s.ends.Length!=3||s.sand==null||s.sand.Length!=2)throw new InvalidDataException("Invalid inventory or map");
             foreach(int w in s.carried)if(w< -1||w>=weaponCatalog.Length)throw new InvalidDataException("Invalid weapon");
             foreach(int w in s.reserves)if(w<0||w>=weaponCatalog.Length)throw new InvalidDataException("Invalid reserve");
-            if(!FiniteRange(s.health,.01f,6)||!FiniteRange(s.shield,0,maximumShield)||!FiniteRange(s.light,0,100)||!FiniteRange(s.element,0,100)||!FiniteRange(s.dark,0,100)||!FiniteRange(s.clock,0,1e9f)||!FiniteRange(s.swordDamage,0,10000)||!FiniteRange(s.spellDamage,0,10000)||s.healSupplies<0||s.elementSupplies<0)throw new InvalidDataException("Invalid resource values");
+            if(!ValidOriginLegacy(s.lore,s.knowledge,s.primary,s.queuedLore))throw new InvalidDataException("Invalid origin memory");
+            if(!FiniteRange(s.health,.01f,6)||!FiniteRange(s.shield,0,maximumShield)||!FiniteRange(s.light,0,200)||!FiniteRange(s.element,0,SavedElementMaximum(s.talents))||!ValidDarkPower(s.dark)||!FiniteRange(s.clock,0,1e9f)||!FiniteRange(s.swordDamage,0,10000)||!FiniteRange(s.spellDamage,0,10000)||s.healSupplies<0||s.elementSupplies<0)throw new InvalidDataException("Invalid resource values");
+            foreach(float ready in new[]{s.originSecond,s.originThird,s.lightRegen,s.markTimer,s.arcTimer,s.spikeTimer,s.ringTimer,s.fireTimer,s.emberTimer,s.returnTimer,s.guardTimer})if(!FiniteRange(ready,-100,s.clock+1000))throw new InvalidDataException("Invalid inherited cooldown");
             if(!FiniteRange(s.position.x,-100,100)||!FiniteRange(s.position.y,-100,100))throw new InvalidDataException("Invalid player position");
             for(int i=0;i<s.rooms.Length;i++)
             {
-                var n=s.rooms[i];
-                if(n==null||n.id!=i||n.stage<0||n.stage>3||n.kind<0||n.kind>7||n.waves<1||n.waves>4||n.links==null||n.drops==null||n.essence==null||!FiniteRange(n.halfWidth,5,12)||!FiniteRange(n.halfHeight,3,8)||n.stairsTo< -1||n.stairsTo>=s.rooms.Length||n.gatehouseIndex!=(i>=39?i-39:-1))throw new InvalidDataException("Invalid room definition");
+                var n=s.rooms[i];if(n!=null&&!ValidSupplyOffers(n.supplyOffers))throw new InvalidDataException("Invalid cached supply offers");
+                if(n==null||n.coverBroken<0||n.coverBroken>3||n.id!=i||n.stage<0||n.stage>3||n.kind<0||n.kind>7||n.waves<1||n.waves>4||n.links==null||n.drops==null||n.essence==null||!FiniteRange(n.halfWidth,5,12)||!FiniteRange(n.halfHeight,3,8)||n.stairsTo< -1||n.stairsTo>=s.rooms.Length||n.gatehouseIndex!=(i>=39?i-39:-1))throw new InvalidDataException("Invalid room definition");
                 if(n.layout<0||n.layout>63||n.depth<0||(i<39?n.stage>2:n.stage!=3))throw new InvalidDataException("Invalid room theme");
                 foreach(int link in n.links)
                 {
@@ -122,15 +129,16 @@ namespace NakiLegend.Prototype
                 StopOpeningCinematic();ResetPlayerProgression();journeyRooms.Clear();
                 foreach(var n in s.rooms)
                 {
-                    var room=new RoomNode{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(RoomKind)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded};
+                    var room=new RoomNode{id=n.id,stage=n.stage,depth=n.depth,layout=n.layout,floor=n.floor,waves=n.waves,stairsTo=n.stairsTo,gatehouseIndex=n.gatehouseIndex,kind=(RoomKind)n.kind,cell=n.cell,halfWidth=n.halfWidth,halfHeight=n.halfHeight,visited=n.visited,discovered=n.discovered,cleared=n.cleared,claimed=n.claimed,lootSeeded=n.lootSeeded,bossWeaponGranted=n.bossWeaponGranted,challengeWon=n.challengeWon,coverBroken=n.coverBroken,supplyOffers=n.supplyOffers};
                     room.links.AddRange(n.links);foreach(var w in n.drops)room.drops.Add(new StoredWeapon{id=w.id,at=w.at});foreach(var d in n.essence)room.essence.Add(new StoredEssence{at=d.at,value=d.value,born=d.born});journeyRooms.Add(room);
                 }
-                professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
+                NormalizeCanalShoreLayout();RestoreTalents(s.talents);professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);activeSeed=s.seed;selectedBoss=s.selectedBoss;origin=(Origin)s.origin;equippedSlot=s.equipped;
                 clearedCombatRooms=s.clearedRooms;restoredCanals=s.restored;healingSupplies=s.healSupplies;elementSupplies=s.elementSupplies;
-                canalEpilogueStart=s.canalStart;clock=s.clock;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;NormalizeOriginPower();
+                canalEpilogueStart=s.canalStart;clock=s.clock;repairTalentReady=clock+8;health=s.health;shield=s.shield;energy=s.light;elementPower=s.element;darkPower=s.dark;NormalizeOriginPower();RestoreOriginLegacy(s.lore,s.knowledge,s.primary,s.queuedLore);originSecondReady=s.originSecond;originThirdReady=s.originThird;lightRegenReady=s.lightRegen;
                 swordDamage=s.swordDamage;initialSwordDamage=s.baseSword;spellDamage=s.spellDamage;initialSpellDamage=s.baseSpell;tuningCaptured=true;
                 nextSword=s.nextSword;nextSpell=s.nextSpell;nextDash=s.nextDash;bladeReadyAt=s.bladeReady;waveReadyAt=s.waveReady;lastDamageAt=s.lastDamage;
-                orbLearned=s.orb;bladeLearned=s.blade;waveLearned=s.wave;windEmpowered=s.wind;desertStoneRecovered=s.stone;
+                orbLearned=s.orb;bladeLearned=s.blade;waveLearned=s.wave;windEmpowered=s.wind;
+                chapterMarkKnown=s.knownMark;chapterArcKnown=s.knownArc;iceSpikeKnown=s.knownSpike;iceRingKnown=s.knownRing;fireBoltKnown=s.knownFire;emberRingKnown=s.knownEmber;chapterMarkReady=s.markTimer;chapterArcReady=s.arcTimer;iceSpikeReady=s.spikeTimer;iceRingReady=s.ringTimer;fireBoltReady=s.fireTimer;emberRingReady=s.emberTimer;returnBladeReady=s.returnTimer;guardPulseReady=s.guardTimer;desertStoneRecovered=s.stone;RestoreSkillLoadout(s.loadout);
                 gateRepairCommitted=s.repair;gateRewardCreated=s.reward;gateTotalUnlocked=s.total;gateRainReturned=s.rain;
                 canalEpilogueComplete=s.canalComplete;journeyComplete=s.complete;Array.Copy(s.sand,gateSandCleared,2);
                 Array.Copy(s.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(s.reserves);Array.Copy(s.starts,stageStarts,3);Array.Copy(s.ends,stageEnds,3);

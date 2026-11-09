@@ -1,0 +1,1308 @@
+{
+  "musicSources": [
+    {
+      "id": "winter",
+      "author": "yd",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/short-loop-winter-theme",
+      "download": "https://opengameart.org/sites/default/files/rememberWinter.ogg",
+      "sha256": "eee7bff1011d892a699192b795202a4e63689eaa62030974ca51ffa4aa531e18"
+    },
+    {
+      "id": "labyrinth",
+      "author": "MintoDog",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/great-labyrinthorchestral-dungeon-music",
+      "download": "https://opengameart.org/sites/default/files/great_labyrinth_bpm160_0.ogg",
+      "sha256": "0ff2f4830a23bd0075cd4d5d124e6a79f1a547dddc0faf6fb660c98c95545a3e"
+    },
+    {
+      "id": "fire_explore",
+      "author": "MintoDog",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/hard-dungeon",
+      "download": "https://opengameart.org/sites/default/files/hard_dungeon_bpm140_0.ogg",
+      "sha256": "032bbdfe6fcd30e4ae8ec8db27a4584ed5f2b0f9f100dbabbd61a7e4e82b6f13"
+    },
+    {
+      "id": "fire_combat",
+      "author": "MintoDog",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/hard-battle-1",
+      "download": "https://opengameart.org/sites/default/files/hard_battle_1_bpm170_0.ogg",
+      "sha256": "f26e56b12a10811403dfb1ae3c23a9af4ec0721fcbdb17001b2888917efdd36e"
+    },
+    {
+      "id": "fire_boss",
+      "author": "MintoDog",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/hard-boss-battle-1",
+      "download": "https://opengameart.org/sites/default/files/hard_boss_battle_1_bpm200_0.ogg",
+      "sha256": "f245060a9bd0ddf0c1ec2b60af47d914d94e2fe53d6f1bbd442163f46c04a30b"
+    },
+    {
+      "id": "palace",
+      "author": "Spring Spring",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/a-soundtrack",
+      "download": "https://opengameart.org/sites/default/files/castle%202_0.ogg",
+      "sha256": "c6198c23d6973ddcc06bd89f9effd1e7c4a0bcc3db81008c576dfa44dd5ed5ee"
+    },
+    {
+      "id": "palace_combat",
+      "author": "Spring Spring",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/a-soundtrack",
+      "download": "https://opengameart.org/sites/default/files/Into%20Depths%21%20Keep%20in%20mind%2C%20it%27s%20forced_0.ogg",
+      "sha256": "d206255294bf146f9b5bd4644c45781a9b24196b5a7a5fd355852d7ef92236ec"
+    },
+    {
+      "id": "palace_boss",
+      "author": "Spring Spring",
+      "license": "CC0-1.0",
+      "page": "https://opengameart.org/content/a-soundtrack",
+      "download": "https://opengameart.org/sites/default/files/Final%20or%20Regular%20Boss%20Theme_0.ogg",
+      "sha256": "cde72cf708e1f663343f5d81e3b5a82a17cbdf57c518f7a7dfd97ee5dd8903a8"
+    }
+  ],
+  "arrangements": [
+    {
+      "key": "ice_explore",
+      "source": "winter",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "ice_combat",
+      "source": "winter",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "ice_boss",
+      "source": "winter",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "fire_explore",
+      "source": "fire_explore",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "fire_combat",
+      "source": "fire_combat",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "fire_boss",
+      "source": "fire_boss",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "manor_explore",
+      "source": "labyrinth",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "manor_combat",
+      "source": "labyrinth",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "manor_boss",
+      "source": "labyrinth",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "capital_explore",
+      "source": "palace",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "capital_combat",
+      "source": "palace_combat",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    },
+    {
+      "key": "capital_boss",
+      "source": "palace_boss",
+      "edit": "level matching, click-free loop seam; percussion arrangement for shared motifs"
+    }
+  ],
+  "soundEffects": "New edits of previously attributed CC0 foley in NakiCombatAudioV3/NakiAudio; original low-frequency support, ambience and four-note story motif. No commercial-game samples.",
+  "upstreamHashes": {
+    "air": "902ec5aa601f4dd5afb2d713058daf0d95568ce1617d0a53d955c724ad845dcd",
+    "stone": "107df88696452febb990034b28c13920ab23e3617d353ea59f578b7f39303edc",
+    "metal": "245aa4aa0f76e575902c964cd8b2895dce557a2b0a419e661810c17a6e1c2ff4",
+    "fire": "c489f2f5b35b26ca47b8a81beebb27850891774ee704de6170acae77a6fa5fb2",
+    "crack": "8ed0d7eee247958b17ad3f1d875f4485ac80b07f14050b45dd75da51b37a1e56",
+    "electric": "6d545c3c1eb2ec6573807497019d3eeedf2363f14f4ce0b5f8d58f228ee68013",
+    "wood": "96347fcc966042e94c93ac3465d16cf8b8d2bb312f89ceec8fe2f25219b85e52",
+    "dash": "9c89cdb5ad3ff9556de9d114df4bb3c50b0b93ebf98246cf8cead4d9dda4402e",
+    "impact": "707f752918b906107dd75324b64e35c2dfa4cde3ff0e9325a04a0f7da68271c8",
+    "tear": "eda1f9bf3860f517a9fdd284e260c97379a7377375d7c143a620ac0158532a1b"
+  },
+  "stats": [
+    {
+      "key": "ice_explore",
+      "seconds": 72.31555555555556,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "ice_combat",
+      "seconds": 72.31555555555556,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "ice_boss",
+      "seconds": 72.31555555555556,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "ice_pressure",
+      "seconds": 72.31555555555556,
+      "peak": 0.6510293192933736,
+      "rms": 0.08499999999999998,
+      "loop": true
+    },
+    {
+      "key": "fire_explore",
+      "seconds": 123.42857142857143,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "fire_combat",
+      "seconds": 90.35297052154195,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "fire_boss",
+      "seconds": 80.1,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "fire_pressure",
+      "seconds": 80.1,
+      "peak": 0.4605309215570109,
+      "rms": 0.08499999999999996,
+      "loop": true
+    },
+    {
+      "key": "manor_explore",
+      "seconds": 132.75002267573697,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "manor_combat",
+      "seconds": 132.75002267573697,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "manor_boss",
+      "seconds": 132.75002267573697,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "manor_pressure",
+      "seconds": 132.75002267573697,
+      "peak": 0.46095731406566687,
+      "rms": 0.08499999999999998,
+      "loop": true
+    },
+    {
+      "key": "capital_explore",
+      "seconds": 97.71428571428571,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "capital_combat",
+      "seconds": 230.53061224489795,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "capital_boss",
+      "seconds": 194.69061224489795,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "capital_pressure",
+      "seconds": 194.69061224489795,
+      "peak": 0.5316741669250065,
+      "rms": 0.08499999999999999,
+      "loop": true
+    },
+    {
+      "key": "desert_pressure",
+      "seconds": 98.9091156462585,
+      "peak": 0.3992537399385308,
+      "rms": 0.07499999999999993,
+      "loop": true
+    },
+    {
+      "key": "thunder_pressure",
+      "seconds": 108.0,
+      "peak": 0.37343685650211267,
+      "rms": 0.07500000000000002,
+      "loop": true
+    },
+    {
+      "key": "woodland_pressure",
+      "seconds": 103.78380952380952,
+      "peak": 0.3760085515621873,
+      "rms": 0.07500000000000004,
+      "loop": true
+    },
+    {
+      "key": "capital_return",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "capital_story",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "manor_story",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "ending_keep",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "ending_rebirth",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "capital_victory",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "defeat",
+      "seconds": 40.0,
+      "stereo": true,
+      "loop": true
+    },
+    {
+      "key": "skill_lightbeam_cast_0",
+      "seconds": 0.24997732426303854,
+      "peak": 0.7144285164601668,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_cast_1",
+      "seconds": 0.24997732426303854,
+      "peak": 0.6899090282538131,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_cast_2",
+      "seconds": 0.24997732426303854,
+      "peak": 0.757831448492903,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_end_0",
+      "seconds": 0.16,
+      "peak": 0.5269116766140378,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_end_1",
+      "seconds": 0.16,
+      "peak": 0.525080664932762,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_end_2",
+      "seconds": 0.16,
+      "peak": 0.5110698761796716,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_hit_0",
+      "seconds": 0.12,
+      "peak": 0.5563067566349974,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_hit_1",
+      "seconds": 0.12,
+      "peak": 0.5479520719821055,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightbeam_hit_2",
+      "seconds": 0.12,
+      "peak": 0.550450053393769,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_cast_0",
+      "seconds": 0.42,
+      "peak": 0.77,
+      "rms": 0.10782211233699802,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_cast_1",
+      "seconds": 0.42,
+      "peak": 0.77,
+      "rms": 0.11309818758517906,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_cast_2",
+      "seconds": 0.42,
+      "peak": 0.77,
+      "rms": 0.10663744357695835,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_hit_0",
+      "seconds": 0.18,
+      "peak": 0.7063797054803951,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_hit_1",
+      "seconds": 0.18,
+      "peak": 0.7044752901870069,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_hit_2",
+      "seconds": 0.18,
+      "peak": 0.7092171970419392,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_end_0",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6156713008471564,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_end_1",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6426491282325947,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_lightguard_end_2",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6232767612473599,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_cast_0",
+      "seconds": 0.24997732426303854,
+      "peak": 0.5889101519283758,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_cast_1",
+      "seconds": 0.24997732426303854,
+      "peak": 0.6639535865844467,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_cast_2",
+      "seconds": 0.24997732426303854,
+      "peak": 0.6385180839954785,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_pulse_0",
+      "seconds": 0.18997732426303854,
+      "peak": 0.6482671713507783,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_pulse_1",
+      "seconds": 0.18997732426303854,
+      "peak": 0.546067557405137,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_pulse_2",
+      "seconds": 0.18997732426303854,
+      "peak": 0.6284816157302633,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_hit_0",
+      "seconds": 0.16,
+      "peak": 0.7368381714717677,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_hit_1",
+      "seconds": 0.16,
+      "peak": 0.7314084658006603,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "skill_solar_hit_2",
+      "seconds": 0.16,
+      "peak": 0.7287803024673323,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_cast_0",
+      "seconds": 0.22,
+      "peak": 0.6687592806299976,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_cast_1",
+      "seconds": 0.22,
+      "peak": 0.6718224073372249,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_cast_2",
+      "seconds": 0.22,
+      "peak": 0.6770631506039547,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_hit_0",
+      "seconds": 0.28,
+      "peak": 0.77,
+      "rms": 0.08988405359186043,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_hit_1",
+      "seconds": 0.28,
+      "peak": 0.7289244890716409,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "skill_meteor_hit_2",
+      "seconds": 0.28,
+      "peak": 0.77,
+      "rms": 0.09266394826026983,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_cast_0",
+      "seconds": 0.32,
+      "peak": 0.77,
+      "rms": 0.09473059467842102,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_cast_1",
+      "seconds": 0.32,
+      "peak": 0.77,
+      "rms": 0.09311034269945097,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_cast_2",
+      "seconds": 0.32,
+      "peak": 0.7699999999999999,
+      "rms": 0.09032834304839435,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_hit_0",
+      "seconds": 0.32,
+      "peak": 0.77,
+      "rms": 0.0521686300748621,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_hit_1",
+      "seconds": 0.32,
+      "peak": 0.77,
+      "rms": 0.052125236368431555,
+      "loop": false
+    },
+    {
+      "key": "skill_soulseal_hit_2",
+      "seconds": 0.32,
+      "peak": 0.77,
+      "rms": 0.05203993643885001,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_cast_0",
+      "seconds": 0.34997732426303857,
+      "peak": 0.77,
+      "rms": 0.08088733871406643,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_cast_1",
+      "seconds": 0.34997732426303857,
+      "peak": 0.77,
+      "rms": 0.07329740043825009,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_cast_2",
+      "seconds": 0.34997732426303857,
+      "peak": 0.77,
+      "rms": 0.07611389868753154,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_fall_0",
+      "seconds": 0.32997732426303855,
+      "peak": 0.6627846121358838,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_fall_1",
+      "seconds": 0.32997732426303855,
+      "peak": 0.6725912048324274,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_fall_2",
+      "seconds": 0.32997732426303855,
+      "peak": 0.6783725716926495,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_hit_0",
+      "seconds": 0.58,
+      "peak": 0.77,
+      "rms": 0.08396526020961523,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_hit_1",
+      "seconds": 0.58,
+      "peak": 0.77,
+      "rms": 0.07582357976931756,
+      "loop": false
+    },
+    {
+      "key": "skill_starfall_hit_2",
+      "seconds": 0.58,
+      "peak": 0.77,
+      "rms": 0.07523788840112546,
+      "loop": false
+    },
+    {
+      "key": "enemy_fast_0",
+      "seconds": 0.08997732426303855,
+      "peak": 0.6108130576602026,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "enemy_fast_1",
+      "seconds": 0.08997732426303855,
+      "peak": 0.595911162202385,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "enemy_fast_2",
+      "seconds": 0.08997732426303855,
+      "peak": 0.5827115247849275,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "enemy_slow_0",
+      "seconds": 0.16,
+      "peak": 0.6888747969050555,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "enemy_slow_1",
+      "seconds": 0.16,
+      "peak": 0.6828471422663718,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "enemy_slow_2",
+      "seconds": 0.16,
+      "peak": 0.6800201826317535,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "enemy_beam_0",
+      "seconds": 0.4,
+      "peak": 0.77,
+      "rms": 0.09197008835413777,
+      "loop": false
+    },
+    {
+      "key": "enemy_beam_1",
+      "seconds": 0.4,
+      "peak": 0.77,
+      "rms": 0.09375908157398291,
+      "loop": false
+    },
+    {
+      "key": "enemy_beam_2",
+      "seconds": 0.4,
+      "peak": 0.77,
+      "rms": 0.09488013357477659,
+      "loop": false
+    },
+    {
+      "key": "beam_stone_0",
+      "seconds": 0.3,
+      "peak": 0.7699999999999999,
+      "rms": 0.10828113606908214,
+      "loop": false
+    },
+    {
+      "key": "beam_stone_1",
+      "seconds": 0.3,
+      "peak": 0.77,
+      "rms": 0.1055261780759449,
+      "loop": false
+    },
+    {
+      "key": "beam_stone_2",
+      "seconds": 0.3,
+      "peak": 0.77,
+      "rms": 0.10335450607783554,
+      "loop": false
+    },
+    {
+      "key": "boss_laser_tell_0",
+      "seconds": 0.5,
+      "peak": 0.7457455618382899,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_laser_tell_1",
+      "seconds": 0.5,
+      "peak": 0.7571356857805455,
+      "rms": 0.11499999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_laser_tell_2",
+      "seconds": 0.5,
+      "peak": 0.740166661606439,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_recover_0",
+      "seconds": 0.24997732426303854,
+      "peak": 0.5107706364168054,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_recover_1",
+      "seconds": 0.24997732426303854,
+      "peak": 0.5198854252520393,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_recover_2",
+      "seconds": 0.24997732426303854,
+      "peak": 0.5335838972292966,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "paper_turn_0",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6463262960618933,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "paper_turn_1",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6655782690636795,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "paper_turn_2",
+      "seconds": 0.22997732426303855,
+      "peak": 0.6876181257884587,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_tell_0",
+      "seconds": 0.38,
+      "peak": 0.7125556067979374,
+      "rms": 0.11500000000000003,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_tell_1",
+      "seconds": 0.38,
+      "peak": 0.7699999999999999,
+      "rms": 0.10297925274138786,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_tell_2",
+      "seconds": 0.38,
+      "peak": 0.7108886203349641,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.09501986183427608,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.07873945053393883,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.09524234967457239,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_step_0",
+      "seconds": 0.18,
+      "peak": 0.29926917556923577,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_step_1",
+      "seconds": 0.18,
+      "peak": 0.3609235811829541,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_royal_step_2",
+      "seconds": 0.18,
+      "peak": 0.2981771608100901,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_tell_0",
+      "seconds": 0.38,
+      "peak": 0.7323590407806584,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_tell_1",
+      "seconds": 0.38,
+      "peak": 0.7387639226298526,
+      "rms": 0.11500000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_tell_2",
+      "seconds": 0.38,
+      "peak": 0.745957003046282,
+      "rms": 0.11500000000000003,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.7700000000000001,
+      "rms": 0.09246313300988927,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.09165771658252647,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.09077046147905107,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_step_0",
+      "seconds": 0.18,
+      "peak": 0.3076767098195878,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_step_1",
+      "seconds": 0.18,
+      "peak": 0.31012326036134924,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_armor_step_2",
+      "seconds": 0.18,
+      "peak": 0.31290258426475137,
+      "rms": 0.07000000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_tell_0",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.11147155769233902,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_tell_1",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.11354141166554373,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_tell_2",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.11142522800061468,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.085222644371734,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.08680514379641936,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.08518766016229333,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_step_0",
+      "seconds": 0.18,
+      "peak": 0.3367897939771575,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_step_1",
+      "seconds": 0.18,
+      "peak": 0.329885209716691,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_insect_step_2",
+      "seconds": 0.18,
+      "peak": 0.33567672293353523,
+      "rms": 0.07000000000000002,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_tell_0",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.11111325093418778,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_tell_1",
+      "seconds": 0.38,
+      "peak": 0.6504146433074537,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_tell_2",
+      "seconds": 0.38,
+      "peak": 0.6270669139241518,
+      "rms": 0.115,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.08495881412565068,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.10409767547824157,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.10797361819062339,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_step_0",
+      "seconds": 0.18,
+      "peak": 0.4049412168833242,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_step_1",
+      "seconds": 0.18,
+      "peak": 0.32072387237232075,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_forge_step_2",
+      "seconds": 0.18,
+      "peak": 0.30855810802643135,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_tell_0",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.04804083038180905,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_tell_1",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.05065682668723378,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_tell_2",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.04638520982690271,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.0367327252794856,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.038732953344483984,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.035466822539048926,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_step_0",
+      "seconds": 0.18,
+      "peak": 0.77,
+      "rms": 0.06872410528577892,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_step_1",
+      "seconds": 0.18,
+      "peak": 0.7404720735663585,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_ice_step_2",
+      "seconds": 0.18,
+      "peak": 0.77,
+      "rms": 0.06704587947704531,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_tell_0",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.10003657587660064,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_tell_1",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.09844709050425049,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_tell_2",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.10059336507693119,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.07648926129390643,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.7700000000000001,
+      "rms": 0.07527419295781404,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.0769151591539079,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_step_0",
+      "seconds": 0.18,
+      "peak": 0.372147583418409,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_step_1",
+      "seconds": 0.18,
+      "peak": 0.3778459667468276,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_storm_step_2",
+      "seconds": 0.18,
+      "peak": 0.36939347721256816,
+      "rms": 0.07,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_tell_0",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.08679304710930938,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_tell_1",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.08590001328690436,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_tell_2",
+      "seconds": 0.38,
+      "peak": 0.77,
+      "rms": 0.08586977963920167,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_phase_0",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.06637924170174671,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_phase_1",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.06569483885441219,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_phase_2",
+      "seconds": 0.6499773242630386,
+      "peak": 0.77,
+      "rms": 0.0656705202059719,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_step_0",
+      "seconds": 0.18,
+      "peak": 0.4288963372701679,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_step_1",
+      "seconds": 0.18,
+      "peak": 0.4330195227560882,
+      "rms": 0.06999999999999999,
+      "loop": false
+    },
+    {
+      "key": "boss_stone_step_2",
+      "seconds": 0.18,
+      "peak": 0.4328451387519194,
+      "rms": 0.07000000000000002,
+      "loop": false
+    },
+    {
+      "key": "light_channel_loop",
+      "seconds": 2.0,
+      "peak": 0.09326351306674355,
+      "rms": 0.05499999999999999,
+      "loop": true
+    },
+    {
+      "key": "ambient_ice",
+      "seconds": 16.0,
+      "peak": 0.09882603601819084,
+      "rms": 0.020000000000000007,
+      "loop": true
+    },
+    {
+      "key": "ambient_fire",
+      "seconds": 16.0,
+      "peak": 0.10753344430722564,
+      "rms": 0.020000000000000004,
+      "loop": true
+    },
+    {
+      "key": "ambient_manor",
+      "seconds": 16.0,
+      "peak": 0.09431207749449233,
+      "rms": 0.02,
+      "loop": true
+    },
+    {
+      "key": "ambient_capital",
+      "seconds": 16.0,
+      "peak": 0.11314054718321394,
+      "rms": 0.02,
+      "loop": true
+    },
+    {
+      "key": "ambient_study",
+      "seconds": 16.0,
+      "peak": 0.1050409428595674,
+      "rms": 0.019999999999999997,
+      "loop": true
+    }
+  ],
+  "lightRevisionV27": {
+    "method": "Original additive vowel-formant choir and layered laser tones, no air/weapon samples",
+    "files": [
+      "skill_lightbeam_cast_0.wav",
+      "skill_lightbeam_cast_1.wav",
+      "skill_lightbeam_cast_2.wav",
+      "skill_lightbeam_hit_0.wav",
+      "skill_lightbeam_hit_1.wav",
+      "skill_lightbeam_hit_2.wav",
+      "skill_lightbeam_end_0.wav",
+      "skill_lightbeam_end_1.wav",
+      "skill_lightbeam_end_2.wav",
+      "skill_lightguard_cast_0.wav",
+      "skill_lightguard_cast_1.wav",
+      "skill_lightguard_cast_2.wav",
+      "skill_lightguard_hit_0.wav",
+      "skill_lightguard_hit_1.wav",
+      "skill_lightguard_hit_2.wav",
+      "skill_lightguard_end_0.wav",
+      "skill_lightguard_end_1.wav",
+      "skill_lightguard_end_2.wav",
+      "skill_solar_cast_0.wav",
+      "skill_solar_cast_1.wav",
+      "skill_solar_cast_2.wav",
+      "skill_solar_pulse_0.wav",
+      "skill_solar_pulse_1.wav",
+      "skill_solar_pulse_2.wav",
+      "skill_solar_hit_0.wav",
+      "skill_solar_hit_1.wav",
+      "skill_solar_hit_2.wav",
+      "light_channel_loop.wav"
+    ]
+  },
+  "explorationCombatV28": "Manor exploration uses original quiet chamber motif; ice/manor combat adds original drums, replacing nearly identical mixes. Other regions retain distinct authored explore/combat recordings."
+}

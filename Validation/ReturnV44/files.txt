@@ -1,0 +1,13 @@
+Assets/NakiPrototype/NakiPrototype.ManorFinale.cs
+Assets/NakiPrototype/NakiPrototype.ManorPresentation.cs
+Assets/NakiPrototype/NakiPrototype.EndingFlow.cs
+Assets/NakiPrototype/NakiPrototype.WoodlandStoryV2.cs
+Assets/NakiPrototype/NakiPrototype.Capital.cs
+Assets/NakiPrototype/NakiPrototype.CapitalStory.cs
+Assets/NakiPrototype/NakiPrototype.CapitalCombat.cs
+Assets/NakiPrototype/NakiPrototype.FullJourneyV40.cs
+Assets/NakiPrototype/NakiPrototype.CapitalExpansionV31.cs
+Assets/NakiPrototype/NakiPrototype.KingV23.cs
+Docs/PLAY_GUIDE_V18.md
+Assets/NakiPrototype/NakiPrototype.BossSignatureVisuals.cs
+Assets/NakiPrototype/NakiPrototype.BossSignatures.cs

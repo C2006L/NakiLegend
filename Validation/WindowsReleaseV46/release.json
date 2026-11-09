@@ -1,0 +1,13 @@
+{
+  "version": "0.46.0",
+  "unity": "2022.3.62f3",
+  "platform": "Windows x64",
+  "build_result": "Succeeded",
+  "errors": 0,
+  "warnings": 0,
+  "packaged_executable_check": "PASS",
+  "bosses_loaded": 21,
+  "render_check": "player-world.png reviewed; hidden batch swapchain screenshots are not visual evidence",
+  "editor_pause_replay_checks": 115,
+  "scope": "Startup/pause/assets/shader smoke verification, not a full 7-island manual playthrough"
+}

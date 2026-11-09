@@ -53,7 +53,7 @@ namespace NakiLegend.Prototype
         private void ConfigureThunderPlayer()
         {
             origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
-            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?6:0;
+            energy=origin==Origin.Light?LightMaximum:0;darkPower=origin==Origin.Dark?6:0;
             orbLearned=true;bladeLearned=waveLearned=windEmpowered=thunderPreset!=ThunderPreset.BasicWeapons;
             if(thunderPreset==ThunderPreset.BasicWeapons){orbLearned=false;energy=elementPower=darkPower=0;}
             carriedWeapons[1]=thunderPreset==ThunderPreset.BasicWeapons?-1:6;
@@ -66,14 +66,16 @@ namespace NakiLegend.Prototype
         {
             Sprite floor=thunderChapterMode?(chapterFloors[journeyRooms[currentRoom].stage]??thunderFloor):thunderFloor;
             GameObject o=Draw(name,floor??terrainV12[1],at,Vector2.one,Color.white,order);
-            var sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=size;sr.color=iceSampleMode?Color.white:currentRoom==0?new Color(.87f,.96f,.9f):new Color(.9f,.94f,1);
+            var sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=size;sr.color=manorCourtyardMode?(journeyRooms[currentRoom].stage==1?new Color(.82f,.87f,.8f):journeyRooms[currentRoom].stage==2?new Color(.76f,.72f,.9f):new Color(.9f,.94f,1)):fireChapterMode||iceSampleMode?Color.white:currentRoom==0?new Color(.87f,.96f,.9f):new Color(.9f,.94f,1);
         }
         private void BuildThunderRoom(RoomNode node)
         {
+            if(capitalMode){BuildCapitalRoom(node);return;}if(manorCourtyardMode){BuildManorRoom(node);return;}
             if(thunderChapterMode)thunderRepaired=currentRoom==14?chapterWest:currentRoom==16&&chapterEast;
             ReserveTransitSpace(node);ReserveChapterProps(node);doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
             thunderRain.Clear();thunderFlow.Clear();thunderNodeVisual=thunderLamp=thunderLever=null;
             thunderStrikes.Clear();thunderWorkRemaining=0;thunderNextStrike=clock+2.4f;thunderNextWindup=clock+1.5f;
+            if(CoastalHarborRoom){BuildCoastalHarborFloor(node);BuildChapterActions();return;}
             ThunderTile("Wet highland paving",Vector2.zero,new Vector2(node.halfWidth*2,node.halfHeight*2),-1000);
             for(int d=0;d<4;d++)
             {
@@ -98,7 +100,7 @@ namespace NakiLegend.Prototype
                 for(int i=0;i<11;i++)thunderFlow.Add(Stretch("Rerouted current",square,new Vector2(6.8f,-3.7f+i*.65f),new Vector2(.045f,.16f),C("7cd9e1"),-980));
                 RefreshThunderRepair();
             }
-            if(!iceSampleMode){for(int i=0;i<26;i++)
+            if(!iceSampleMode&&!fireChapterMode&&!woodlandMode){for(int i=0;i<26;i++)
             {
                 float x=i<13?-node.halfWidth+.7f:node.halfWidth-.7f;
                 Vector2 at=new Vector2(x,-node.halfHeight+.6f+(i%13)*(node.halfHeight*2-1.2f)/12);
@@ -109,7 +111,7 @@ namespace NakiLegend.Prototype
             if(thunderChapterMode)BuildChapterActions();
             for(int i=0;i<32;i++)
             {
-                GameObject drop=Stretch(iceSampleMode?"Windblown snow":"Highland rain",square,Vector2.zero,iceSampleMode?Vector2.one*.035f:new Vector2(.012f,.15f),iceSampleMode?new Color(.9f,.97f,1,.45f):new Color(.65f,.82f,.88f,.17f),-610);
+                GameObject drop=Stretch(woodlandMode?"Floating leaf pollen":fireChapterMode?"Drifting ash":iceSampleMode?"Windblown snow":"Highland rain",square,Vector2.zero,woodlandMode?Vector2.one*.025f:fireChapterMode?Vector2.one*.025f:iceSampleMode?Vector2.one*.035f:new Vector2(.012f,.15f),woodlandMode?new Color(.65f,.8f,.4f,.3f):fireChapterMode?new Color(.8f,.55f,.32f,.35f):iceSampleMode?new Color(.9f,.97f,1,.45f):new Color(.65f,.82f,.88f,.17f),-610);
                 drop.transform.rotation=Quaternion.Euler(0,0,-13);thunderRain.Add(drop);
             }
         }
@@ -117,7 +119,7 @@ namespace NakiLegend.Prototype
         {
             if(end-begin<.02f)return;Vector2 normal=DoorNormal(d),tangent=new Vector2(normal.y,-normal.x);
             Vector2 at=DoorPoint(d,.35f)+tangent*((begin+end)*.5f);bool horizontal=d<2;
-            GameObject o=Draw("Mossy highland wall",thunderWall??thunderFloor,at,Vector2.one,iceSampleMode?new Color(.7f,.83f,1):new Color(.82f,.9f,.9f),DepthAt(at.y));
+            GameObject o=Draw("Mossy highland wall",thunderWall??thunderFloor,at,Vector2.one,fireChapterMode?new Color(.55f,.46f,.4f):iceSampleMode?new Color(.7f,.83f,1):new Color(.82f,.9f,.9f),DepthAt(at.y));
             SpriteRenderer sr=o.GetComponent<SpriteRenderer>();sr.drawMode=SpriteDrawMode.Tiled;sr.size=new Vector2(end-begin,.72f);
             if(!horizontal)o.transform.rotation=Quaternion.Euler(0,0,90);
             projectileObstacles.Add(new Rect(at-(horizontal?new Vector2((end-begin)/2,.36f):new Vector2(.36f,(end-begin)/2)),horizontal?new Vector2(end-begin,.72f):new Vector2(.72f,end-begin)));
@@ -125,26 +127,17 @@ namespace NakiLegend.Prototype
         private void BuildThunderGate(int d)
         {
             Vector2 c=DoorPoint(d),n=DoorNormal(d),t=new Vector2(-n.y,n.x);bool horizontal=d<2;
-            ThunderTile("Highland doorway path",c+n*.9f,horizontal?new Vector2(2.4f,2.3f):new Vector2(2.3f,2.4f),-994);
-            foreach(float sign in new[]{-1f,1f})
-            {
-                Vector2 at=c+t*sign*1.55f;ThunderTile("Door stone footing",at,Vector2.one*.65f,DepthAt(at.y));
-                Rect b=new Rect(at-Vector2.one*.32f,Vector2.one*.64f);obstacles.Add(b);projectileObstacles.Add(b);
-                Stretch("Copper doorway cap",square,at+Vector2.up*.25f,new Vector2(.62f,.08f),C("bc945f"),DepthAt(at.y)+2);
-            }
-            GameObject gate=new GameObject("Highland copper portcullis");gate.transform.SetParent(world,false);
-            for(int i=-4;i<=4;i++)
-            {
-                Vector2 at=c+t*i*.23f;GameObject bar=Stretch("Copper gate bar",square,at,horizontal?new Vector2(.065f,.8f):new Vector2(.8f,.065f),C("a68154"),610);bar.transform.SetParent(gate.transform,true);
-            }
-            GameObject cross=Stretch("Gate brace",square,c,horizontal?new Vector2(2.15f,.11f):new Vector2(.11f,2.15f),C("c2a370"),612);cross.transform.SetParent(gate.transform,true);
-            doorSeals.Add(gate);doorSealDirections.Add(d);
+            ThunderTile("Highland doorway path",c+n*.9f,horizontal?new Vector2(2.8f,2.3f):new Vector2(2.3f,2.8f),-994);
+            BuildIslandGate(d);
         }
+
         private void AddThunderRock(Vector2 at)
         {
             if(woodlandMode){DecorateWoodCover(at);return;}
-            Draw("Mossy low stone cover",thunderRock??journeyRock,at,Vector2.one,Color.white,DepthAt(at.y));
-            obstacles.Add(new Rect(at.x-.78f,at.y-.10f,1.56f,.28f));projectileObstacles.Add(new Rect(at.x-.78f,at.y-.08f,1.56f,.84f));
+            if(thunderRock==null)thunderRock=ThunderSprite("rock",720,new Vector2(.5f,.17f));
+            if(thunderRock==null)throw new System.InvalidOperationException("Missing ThunderS1/rock: cannot use desert cover in Thunder Plateau");
+            Draw("Mossy low stone cover",thunderRock,at,Vector2.one,Color.white,DepthAt(at.y));
+            AddRoundedCover(new Rect(at.x-.65f,at.y-.08f,1.3f,.24f),new Rect(at.x-.78f,at.y-.08f,1.56f,.84f));
         }
         private void SpawnThunderWave(RoomNode node)
         {
@@ -158,11 +151,11 @@ namespace NakiLegend.Prototype
             }
         }
         private void ClearThunderHazards()
-        {foreach(ThunderStrike s in thunderStrikes)if(s.root!=null)Destroy(s.root);thunderStrikes.Clear();}
+        {ClearWoodCombat();foreach(ThunderStrike s in thunderStrikes)if(s.root!=null)Destroy(s.root);thunderStrikes.Clear();}
         private void TickThunderEnvironment(float dt)
         {
-            if(!ThunderActive)return;
-            for(int i=0;i<thunderRain.Count;i++)if(thunderRain[i]!=null)thunderRain[i].transform.position=new Vector2(-8.8f+Mathf.Repeat(i*2.731f+clock*.25f,17.6f),5.2f-Mathf.Repeat(i*1.137f+clock*(iceSampleMode?.5f:3),10.4f));
+            TickManorImpacts();if(!ThunderActive){TickChapterSkills();return;}
+            for(int i=0;i<thunderRain.Count;i++)if(thunderRain[i]!=null)thunderRain[i].transform.position=new Vector2(-8.8f+Mathf.Repeat(i*2.731f+clock*.25f,17.6f),5.2f-Mathf.Repeat(i*1.137f+clock*(woodlandMode?.22f:fireChapterMode?.65f:iceSampleMode?.5f:3),10.4f));
             if(HasThunderConductor&&!thunderRepaired&&!journeyRooms[currentRoom].cleared&&clock>=thunderNextStrike&&thunderStrikes.Count==0)
             {
                 Vector2 at=NearestEnemyFooting(position+Vector2.up*.65f,.85f);
@@ -228,7 +221,7 @@ namespace NakiLegend.Prototype
         {
             HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.9f));
             CenterLabel(new Rect(w/2-420,h/2-212,840,40),"雷雨高原 · 两房可玩原型",journeyTitleStyle);
-            string[] labels={"1 光路线\n元气弹＋风刃＋风波","2 暗路线\n流星＋风刃＋风波","3 基础武器\n无技能、零元素，检查通行"};
+            string[] labels={"1 光路线\n辉光束＋风刃＋风波","2 贤者之石路线\n流星＋风刃＋风波","3 基础武器\n无技能、零元素，检查通行"};
             for(int i=0;i<3;i++)if(FlatButton(new Rect(w/2-420+i*285,h/2-145,270,125),labels[i],(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
             CenterLabel(new Rect(w/2-410,h/2+5,820,35),"A / D 起点："+(thunderStartRoom==0?"P01 草坡战斗房":"P02 引雷机关房"),journeyTextStyle);
             if(FlatButton(new Rect(w/2-285,h/2+60,270,60),"F 开始当前配置"))BeginThunderSample(thunderPreset,thunderStartRoom);

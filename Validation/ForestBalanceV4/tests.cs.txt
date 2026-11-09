@@ -1,0 +1,49 @@
+ static void ForestBoundsAndBalanceTests()
+ {
+  p.manorCourtyardMode=false;Set("manorIntro",false);
+  foreach(int seed in new[]{1701,714275750,1907}){
+   p.journeySeed=seed;Set("activeSeed",0);Forest();
+   for(int id=0;id<List("journeyRooms").Count;id++){
+    Enter(id);Rect room=(Rect)Get("CurrentRoomBounds");int natural=0;
+    foreach(var sr in ((Transform)Get("world")).GetComponentsInChildren<SpriteRenderer>())if(sr.gameObject.activeInHierarchy&&sr.gameObject.name=="Woodland natural cover"){
+     Bounds bounds=sr.bounds;Check(bounds.min.x>=room.xMin+.34f&&bounds.max.x<=room.xMax-.34f&&bounds.min.y>=room.yMin+.34f&&bounds.max.y<=room.yMax-.34f,"Whole woodland cover image remains inside walls: seed / room "+seed+" / "+id);natural++;
+     Check(!(bool)Call("IntersectsTransit",(Vector2)bounds.center,(Vector2)bounds.size),"Root cover preserves doorway and quest reservations");
+    }
+    Check(natural<=5,"No repeated exterior stump wall in room "+id);
+    foreach(int direction in new[]{0,1,2,3})if((bool)Call("HasDoor",direction)){Vector2 at=(Vector2)Call("SafeArrivalPoint",direction);Check((bool)Call("SafeFooting",at,.34f),"Woodland doorway retains a safe arrival: "+id+" / "+direction);}
+    foreach(Vector2 preferred in new[]{new Vector2(99,99),new Vector2(-99,-99),new Vector2(float.NaN,0),Vector2.zero}){
+     Vector2 at=(Vector2)Call("FindSafeLootPoint",preferred);Check(at.x>=room.xMin+.64f&&at.x<=room.xMax-.64f&&at.y>=room.yMin+.64f&&at.y<=room.yMax-.64f&&(bool)Call("SafeFooting",at,.28f),"Loot repair remains reachable inside floor: "+id);
+    }
+    ClearEnemies();var rand=new System.Random(seed+id);for(int i=0;i<3;i++){Vector2 at=(Vector2)Call("FindJourneySpawn",rand,.45f);Check(at.x>=room.xMin&&at.x<=room.xMax&&at.y>=room.yMin&&at.y<=room.yMax,"Enemy candidate remains inside forest room "+id);}
+   }
+  }
+  Forest();Enter(6);ClearEnemies();Set("position",new Vector2(0,-1));Call("ChapterDrop",32,new Vector2(99,99));object dropped=List("worldWeapons")[List("worldWeapons").Count-1];Vector2 dropAt=(Vector2)Get(Get(dropped,"data"),"at");Check((bool)Call("LootFooting",dropAt),"Equipment spawned beyond wall is repaired before drawing");
+  Set(Get(dropped,"data"),"at",new Vector2(-99,99));Call("DrawRoomLoot",Room(6));foreach(object d in List("worldWeapons"))Check((bool)Call("LootFooting",Get(Get(d,"data"),"at")),"Legacy saved weapon placement repairs without deleting item");
+  object crystal=Activator.CreateInstance(typeof(NakiPrototype).GetNestedType("StoredEssence",BindingFlags.NonPublic));Set(crystal,"at",new Vector2(99,-99));Set(crystal,"value",40f);Call("DrawEssence",crystal);Check((bool)Call("LootFooting",Get(crystal,"at"))&&(float)Get(crystal,"value")==40,"Crystal bounds repair retains all energy");
+  Set(Room(6),"cleared",true);((int[])Get("learnedTalents"))[0]=0;Set("allowBatchCheckpoints",true);Set("chapterCheckpointPathOverride",Out+"save/forest-v4.json");Set("origin",EnumVal("Origin","Dark"));Set("energy",0f);Set("darkPower",406f);((int[])Get("chapterSkillSlots"))[0]=6;((int[])Get("chapterSkillSlots"))[1]=8;Set("fireBoltKnown",true);Set("allowBatchCheckpoints",true);
+  Check((bool)Call("SaveChapterCheckpoint",false),"Forest V4 persists repaired loot and old-schema character");Check((bool)Call("LoadChapterCheckpoint",false)&&F("darkPower")==406&&((int[])Get("chapterSkillSlots"))[0]==6&&((int[])Get("chapterSkillSlots"))[1]==8,"Reload keeps unlimited stone reserve and player-selected skills");Quiet();Set("allowBatchCheckpoints",false);
+  Array catalog=(Array)Get("weaponCatalog");Check(catalog.Length==133,"V4 keeps every existing weapon ID stable");
+  ClearEnemies();List("obstacles").Clear();List("projectileObstacles").Clear();Set("position",Vector2.zero);Set("profession",EnumVal("Profession","Warrior"));
+  int bows=0,staffs=0,melee=0;var report=new List<string>{"id,name,type,tap_or_pellet,full_or_volley,cost,interval"};
+  for(int id=0;id<catalog.Length;id++){
+   object weapon=catalog.GetValue(id);string type=Get(weapon,"type").ToString(),pool=Get(weapon,"pool").ToString();float damage=(float)Get(weapon,"damage"),cost=(float)Get(weapon,"cost");
+   ((int[])Get("carriedWeapons"))[0]=id;Set("equippedSlot",0);Set("origin",EnumVal("Origin",pool=="Light"?"Light":"Dark"));Set("lastMovementAt",-1000f);Set("elementPower",100f);Set("energy",100f);Set("darkPower",406f);Set("nextSword",0f);Set("bowShotCharge",0f);Call("ClearRelicCombat");ClearShots();Call("UseEquippedWeapon");
+   Check(Mathf.Abs((pool=="Light"?100-F("energy"):pool=="Dark"?406-F("darkPower"):100-F("elementPower"))-cost)<.002f,"Actual weapon debit equals displayed base cost once per action: "+id);
+   float tap=0,full=0;
+   if(type=="Bow"){
+    bows++;tap=(float)Get(List("shots")[0],"damage");float reference=damage*2/3;if(Get(weapon,"effect").ToString()=="PressureBolt")reference*=1.15f;if((int)Get(weapon,"variant")==1)reference*=.7f;if(id==128)reference*=.6f;Check(Mathf.Abs(tap-reference)<.002f,"Quick bow shot retains its authored single/side-shot effect budget: "+id);Check(Mathf.Abs((float)Call("BowCardDamage",weapon,0f)-tap)<.002f,"Bow card includes static weapon effect multipliers: "+id);ClearShots();Set("bowShotCharge",1f);Set("nextSword",0f);Call("UseEquippedWeapon");full=(float)Get(List("shots")[0],"damage");Check(Mathf.Abs(full-tap*(Get(weapon,"name").ToString().Contains("弩")?5.5f:5))<.002f,"Full charge retains meaningful bow/crossbow distinction without old burst excess: "+id);
+   }else if(type=="Staff"){
+    staffs++;int count=(int)Call("StaffVolleyCount",weapon);tap=damage*(float)Call("StaffPelletScale",weapon,count);full=tap*count;Check(List("shots").Count==count&&Mathf.Abs((float)Get(List("shots")[0],"damage")-tap)<.002f,"Actual staff pellet count and damage match card: "+id);
+   }else{
+    melee++;tap=F("CurrentMeleeDamage");full=tap;Check(tap>=damage*1.119f,"Close-range risk receives a melee damage benefit: "+id);
+   }
+   report.Add(id+","+Get(weapon,"name")+","+type+","+tap.ToString("0.###")+","+full.ToString("0.###")+","+cost+","+Get(weapon,"interval"));
+  }
+  File.WriteAllLines(Out+"weapon-balance.csv",report);Check(bows>20&&staffs>20&&melee>20,"Balance audit covers all three weapon groups");
+  foreach(int profession in new[]{0,1}){
+   Set("profession",EnumVal("Profession",profession==0?"Warrior":"Mage"));foreach(float raw in new[]{6f,7f,8f,9f,10f,12f}){Set("elementPower",100f);float expected=(float)Call("SkillElementCost",raw);Check((bool)Call("SpendSkillPower",raw)&&Mathf.Abs(100-F("elementPower")-expected)<.002f,"Skill displayed cost equals actual debit after profession and talent discounts");}
+  }
+  Set("profession",EnumVal("Profession","Warrior"));Check((float)Call("SkillElementBase",12f)==6&&(float)Call("SkillElementBase",6f)==4,"Utility skill costs fall without raising cheap projectile costs");
+  FullIce();Enter(1);ClearEnemies();List("projectileObstacles").Clear();List("obstacles").Clear();Set("position",Vector2.zero);Set("profession",EnumVal("Profession","Warrior"));Set("iceRingKnown",true);Set("elementPower",100f);((int[])Get("chapterSkillSlots"))[0]=5;Set("iceRingReady",0f);object enemy=Spawn("IceGuard",new Vector2(1,0));Set(enemy,"iceArmor",0);float hp=(float)Get(enemy,"hp");Call("CastChapterSkill",0);Check(F("elementPower")==94&&Mathf.Abs(F("iceRingReady")-F("clock")-4.5f)<.001f&&(float)Get(enemy,"hp")<hp,"Frost ring now has actual control/damage, six cost and 4.5s recovery");
+  p.woodlandMode=false;p.manorCourtyardMode=false;Chapter();Enter(1);ClearEnemies();Set("position",Vector2.zero);List("projectileObstacles").Clear();Set("chapterMarkKnown",true);((int[])Get("chapterSkillSlots"))[0]=2;Set("chapterMarkReady",0f);Set("elementPower",100f);enemy=Spawn("StormGuard",new Vector2(2,0));Set(enemy,"affinity",EnumVal("Element","Physical"));hp=(float)Get(enemy,"hp");Call("CastChapterSkill",0);Check(F("elementPower")==95&&List("chapterMarks").Count==1,"Thunder mark costs five and has a real delayed impact");Set("clock",F("clock")+.66f);Call("TickChapterSkills");Check((float)Get(enemy,"hp")<=hp-(float)Call("SkillDamage",30f)+.001f,"Thunder mark delivers its improved skill damage after warning");
+ }

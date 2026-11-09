@@ -31,7 +31,7 @@ namespace NakiLegend.Prototype
   }
   private void MigrateIceSampleCheckpoint(ChapterCheckpoint saved)
   {
-   if(!iceSampleMode||saved==null||saved.island!="ice_sample"||saved.map!="ice-s1-v1"||saved.rooms==null||saved.rooms.Length!=3)return;
+   if(iceSampleMode&&iceFullChapter){MigrateIceChapter(saved);return;}if(!iceSampleMode||saved==null||saved.island!="ice_sample"||saved.map!="ice-s1-v1"||saved.rooms==null||saved.rooms.Length!=3)return;
    var expanded=new ChapterRoomState[5];Array.Copy(saved.rooms,expanded,3);
    for(int i=3;i<5;i++)expanded[i]=new ChapterRoomState{discovered=saved.rooms[1]!=null&&saved.rooms[1].visited,weapons=Array.Empty<CheckpointWeapon>(),crystals=Array.Empty<CheckpointEssence>()};
    saved.rooms=expanded;saved.map="ice-s2-v1";
@@ -83,13 +83,13 @@ namespace NakiLegend.Prototype
   private void UpdateExpandedIceEnemy(Enemy e,float dt)
   {
    bool hound=e.kind==EnemyKind.FrostHound,archer=e.kind==EnemyKind.IceArcher;Vector2 old=e.position,to=position-e.position;float slow=clock<e.iceSlowUntil?.45f:1;
-   if(e.chargeUntil>0){if(clock<e.chargeUntil){e.position=MoveEnemyWithinRoom(e.position,e.attackDirection*7*slow*dt,e.radius);if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;if(DistanceToSegment(position,old,e.position)<.55f&&!ProjectilePathBlocked(e.position,position,.03f))TakeJourneyDamage(1,Element.Ice);}else{e.chargeUntil=0;e.recoveryUntil=clock+.65f;}}
+   if(e.chargeUntil>0){if(clock<e.chargeUntil){e.position=MoveEnemyCharge(e,e.attackDirection*7*slow*dt);if((e.position-old).sqrMagnitude<.00001f)e.chargeUntil=clock;if(DistanceToSegment(position,old,e.position)<.55f&&!ProjectilePathBlocked(e.position,position,.03f))TakeJourneyDamage(1,Element.Ice);}else{e.chargeUntil=0;e.recoveryUntil=clock+.65f;}}
    else if(e.windup>0){e.windup-=dt;if(e.windup<=0){if(e.warning!=null)Destroy(e.warning);ResolveExpandedIceMove(e);}}
    else if(clock>=e.recoveryUntil)
    {
     bool visible=!ProjectilePathBlocked(e.position,position,.07f);float range=hound?3.5f:8;
     if(clock>=e.nextAttack&&to.magnitude<range&&visible){e.attackDirection=to.sqrMagnitude>.001f?to.normalized:Vector2.down;e.strikePoint=position;e.windup=hound?.65f:archer?.85f:1.05f;e.nextAttack=clock+e.windup+(hound?1.5f:archer?2:3);e.actionStarted=clock;e.attackNumber++;e.warning=hound||archer?ChapterLineWarning(e.position,e.attackDirection,hound?3.5f:8,hound?.9f:.35f):WarningCircle(e.strikePoint,.95f);}
-    else if(!visible||to.magnitude>(hound?1.1f:archer?4.5f:5))e.position=MoveEnemyWithinRoom(e.position,to.normalized*e.speed*slow*dt,e.radius);
+    else if(!visible||to.magnitude>(hound?1.1f:archer?4.5f:5))MoveIcePursuit(e,e.speed*slow*dt);
     else if(!hound&&to.magnitude<2)e.position=MoveEnemyWithinRoom(e.position,-to.normalized*e.speed*slow*dt,e.radius);
    }
    e.velocity=dt>0?(e.position-old)/dt:Vector2.zero;Vector2 look=e.windup>0||e.chargeUntil>0?e.attackDirection:to;
@@ -98,7 +98,7 @@ namespace NakiLegend.Prototype
   private void ResolveExpandedIceMove(Enemy e)
   {
    e.recoveryUntil=clock+.6f;if(e.kind==EnemyKind.FrostHound){e.chargeUntil=clock+.4f;return;}
-   if(e.kind==EnemyKind.IceArcher){for(int i=0;i<2;i++){Vector2 direction=Quaternion.Euler(0,0,(i==0?-4:4))*e.attackDirection;int count=shots.Count;SpawnShot(e.position+direction*.45f,direction,true,null,e.position);if(shots.Count>count){Shot shot=shots[shots.Count-1];shot.element=Element.Ice;shot.damage=1;shot.speed=7;shot.life=1.6f;var renderer=shot.root.GetComponent<SpriteRenderer>();renderer.sprite=arrowSprite;renderer.color=C("c7e8ee");shot.root.transform.localScale=new Vector3(.65f,.45f,1);shot.root.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);}}Sfx("bow",false,.25f);return;}
+   if(e.kind==EnemyKind.IceArcher){for(int i=0;i<2;i++){Vector2 direction=Quaternion.Euler(0,0,(i==0?-4:4))*e.attackDirection;int count=shots.Count;SpawnShot(e.position+direction*.45f,direction,true,null,e.position);if(shots.Count>count){Shot shot=shots[shots.Count-1];shot.element=Element.Ice;shot.damage=1;shot.speed=7;shot.life=1.6f;RemoveRoundBulletDecorations(shot);var renderer=shot.root.GetComponent<SpriteRenderer>();renderer.sprite=arrowSprite;renderer.color=C("c7e8ee");shot.root.transform.localScale=new Vector3(.65f,.45f,1);shot.root.transform.rotation=Quaternion.Euler(0,0,Mathf.Atan2(direction.y,direction.x)*Mathf.Rad2Deg);}}Sfx("bow",false,.25f);return;}
    SkillSound("ice_ring","hit");SpellSpark(e.strikePoint,C("c4efff"),1.2f);
    GameObject root=Draw("Dangerous frost rune",windRingSprite??disc,e.strikePoint,Vector2.one*1.9f,C("85d9ff"),-635);icePatches.Add(new IcePatch{at=e.strikePoint,root=root,expires=clock+1.6f,nextHit=clock});
   }
@@ -107,5 +107,56 @@ namespace NakiLegend.Prototype
    for(int i=icePatches.Count-1;i>=0;i--){IcePatch patch=icePatches[i];if(clock>=patch.expires){if(patch.root!=null)Destroy(patch.root);icePatches.RemoveAt(i);continue;}if(clock>=patch.nextHit){patch.nextHit=clock+.4f;if(Vector2.Distance(position,patch.at)<.95f&&!ProjectilePathBlocked(patch.at,position,.04f))TakeJourneyDamage(1,Element.Ice);}}
   }
   private void ClearIcePatches(){foreach(IcePatch patch in icePatches)if(patch.root!=null)Destroy(patch.root);icePatches.Clear();}
+  // Feet and projectile cover use different bounds. Ranged foes must not park
+  // inside the tall part of a crystal, where neither side can land a shot.
+  private bool IceNavigationPoint(Vector2 at,float radius)
+  {
+   Rect b=CurrentRoomBounds;float edge=radius+.12f;
+   return at.x>b.xMin+edge&&at.x<b.xMax-edge&&at.y>b.yMin+edge&&at.y<b.yMax-edge&&!Blocked(at,radius)&&!ProjectilePathBlocked(at,at,radius);
+  }
+  private void RecoverIceFooting(Enemy e)
+  {
+   if(IceNavigationPoint(e.position,e.radius))return;
+   Vector2 best=e.position;float distance=float.MaxValue;Rect b=CurrentRoomBounds;
+   for(float y=b.yMin+.4f;y<b.yMax;y+=.3f)for(float x=b.xMin+.4f;x<b.xMax;x+=.3f){Vector2 p=new Vector2(x,y);float d=(p-e.position).sqrMagnitude;if(d<distance&&IceNavigationPoint(p,e.radius)){best=p;distance=d;}}
+   e.position=best;e.iceRepathAt=0;
+  }
+  private bool IceNavigationLine(Vector2 a,Vector2 b,float radius)
+  {
+   if(ProjectilePathBlocked(a,b,radius))return false;
+   int steps=Mathf.Max(1,Mathf.CeilToInt(Vector2.Distance(a,b)/.15f));
+   for(int i=1;i<=steps;i++)if(!IceNavigationPoint(Vector2.Lerp(a,b,(float)i/steps),radius))return false;
+   return true;
+  }
+  private void MoveIcePursuit(Enemy e,float distance)
+  {
+   if(distance<=0)return;
+   if(clock>=e.iceRepathAt||(e.iceWaypoint-e.position).sqrMagnitude<.04f||!IceNavigationLine(e.position,e.iceWaypoint,e.radius))
+   {
+    e.iceRepathAt=clock+.45f;e.iceWaypoint=IcePursuitWaypoint(e.position,position,e.radius);
+   }
+   Vector2 next=Vector2.MoveTowards(e.position,e.iceWaypoint,distance);
+   if(IceNavigationLine(e.position,next,e.radius))e.position=next;
+  }
+  private Vector2 IcePursuitWaypoint(Vector2 from,Vector2 target,float radius)
+  {
+   if(IceNavigationLine(from,target,radius))return target;
+   var points=new List<Vector2>{from};float margin=radius+.12f;
+   // Visibility graph corners include fissures, which block feet but not shots.
+   foreach(var blocks in new[]{obstacles,projectileObstacles})foreach(Rect r in blocks)
+    foreach(Vector2 p in new[]{new Vector2(r.xMin-margin,r.yMin-margin),new Vector2(r.xMax+margin,r.yMin-margin),new Vector2(r.xMin-margin,r.yMax+margin),new Vector2(r.xMax+margin,r.yMax+margin)})
+     if(IceNavigationPoint(p,radius))points.Add(p);
+   points.Add(target);int count=points.Count;float[] cost=new float[count];int[] parent=new int[count];bool[] closed=new bool[count];
+   for(int i=0;i<count;i++){cost[i]=float.MaxValue;parent[i]=-1;}cost[0]=0;
+   int goal=0;float closest=Vector2.Distance(from,target);
+   for(int step=0;step<count;step++)
+   {
+    int current=-1;for(int i=0;i<count;i++)if(!closed[i]&&cost[i]<float.MaxValue&&(current<0||cost[i]<cost[current]))current=i;
+    if(current<0)break;closed[current]=true;float d=Vector2.Distance(points[current],target);
+    if(d<closest){closest=d;goal=current;}if(current==count-1){goal=current;break;}
+    for(int i=1;i<count;i++)if(!closed[i]){float candidate=cost[current]+Vector2.Distance(points[current],points[i]);if(candidate<cost[i]&&IceNavigationLine(points[current],points[i],radius)){cost[i]=candidate;parent[i]=current;}}
+   }
+   while(parent[goal]>0)goal=parent[goal];return points[goal];
+  }
  }
 }

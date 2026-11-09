@@ -1,0 +1,11 @@
+# Full ice chapter native validation
+
+Build with python Validation/IceChapter/build.py; execute NakiIceChapterSmoke.Run in the isolated Unity 2022.3 project. Includes previous narrative, power, gear, old islands, audio, harbor and edge-of-door regressions; new full-island room graph, reciprocal doors, clear all waves/three bosses, every door reachable, derived shield growth, rescue/sluice/lighthouse ending guards, intermediate quest save/load, full ending saved, migration from completed five-room sample, dense phased volleys, delayed attacks and native CG rendering. Runtime logs/screenshots stay ignored. First run caught a fixture missing the journal-learning step; corrected fixture passed. Native screenshot review caught a fixture leaving map overlay on final boss; corrected for clean inspection.
+
+Final native run: PASS 1018 checks. Full-island clear and all 120 connected exit approaches validated, original save migration and partial sluice saves restored, final guardian and ending CG captured and visually inspected. The test traverses rooms programmatically; encounter pacing still needs human playtesting.
+
+Boss mechanics follow-up: PASS 1038 checks, including actual destructible mirror actors; no resource farming; locked, delayed mirror projectiles; warning cancellation and armor-break recovery; interaction through ordinary F during combat; once-only winches; hostile-projectile clearing; core damage bonus; no premature story progress; safe checkpoint restores. Frost mirror and winch native captures inspected with independent prop art. Dense volleys now have matching ray telegraphs.
+
+Wrap-up native run: PASS 1046 checks. Includes journal slot preservation, completed rescue/keeper dialogue, repaired story winch art, no repeat repair cutscene, actual moving water, consistent ending save, and rejection of a checkpoint missing sluice prerequisites. Final open/frozen sluice native capture inspected.
+
+Charge/stairs follow-up: full native regression PASS 1065 checks, then focused PASS 23 checks for buffered held input, charge damage/cost/cancellation, movement animation, themed stair selection and winch motion cleanup. Dedicated native captures verify ice, plateau and woodland stairs. Focused preview does not rerun all older islands and writes preview-result.txt separately.

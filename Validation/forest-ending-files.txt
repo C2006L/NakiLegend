@@ -1,0 +1,8 @@
+Assets\NakiPrototype\NakiPrototype.WorldProps.cs
+Assets\NakiPrototype\NakiPrototype.ForgeGuidance.cs
+Assets\NakiPrototype\NakiPrototype.Woodland.cs
+Assets\NakiPrototype\NakiPrototype.ThunderChapterSave.cs
+Assets\NakiPrototype\NakiPrototype.WoodlandV2.cs
+Assets\NakiPrototype\NakiPrototype.ThunderStory.cs
+Assets/NakiPrototype/NakiPrototype.WoodlandFinish.cs
+Assets/NakiPrototype/NakiPrototype.WoodlandFinish.cs

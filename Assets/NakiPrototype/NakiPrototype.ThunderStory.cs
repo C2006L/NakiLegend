@@ -6,51 +6,72 @@ namespace NakiLegend.Prototype
     {
         private bool chapterRewardMenu;
         private int chapterRewardChoice;
+        private readonly System.Collections.Generic.List<Rect> harborBanks=new System.Collections.Generic.List<Rect>();
+        private int harborRoom=-1;
+        private void HarborShape(string name,Vector2 at,Vector2 size,Color color,int order)
+        {var o=Stretch(name,square,at,size,color,order);o.transform.SetParent(chapterFocus.transform,true);}
+        private bool CoastalHarborRoom {get{return thunderChapterMode&&!capitalMode&&currentRoom==0;}}
+        private void BuildCoastalHarborFloor(RoomNode room)
+        {
+            Texture2D texture=Resources.Load<Texture2D>(fireChapterMode?"NakiArt/FireCoast/harbor":"NakiArt/PassageV2/coastal-harbor");texture.filterMode=FilterMode.Point;
+            Sprite art=Sprite.Create(texture,new Rect(0,0,texture.width,texture.height),Vector2.one*.5f,texture.width/(room.halfWidth*2),0,SpriteMeshType.FullRect);ownedAssets.Add(art);
+            Stretch("Coastal quay and open sea",art,Vector2.zero,new Vector2(room.halfWidth*2,room.halfHeight*2),iceSampleMode?new Color(.87f,.94f,1):Color.white,-1000);
+            BuildPaintedQuayApproaches(texture,false);
+        }
+
+        private void BuildHarbor(bool frozen)
+        {
+            BuildQuayFooting();
+            // Actual navigation follows the painted quay. The sea continues off-screen.
+        }
+        private void HarborBoat(int action,Vector2 boat,Vector2 boarding,string label,Sprite art)
+        {AddChapterAction(action,boarding,label);}
         private void AddChapterAction(int kind,Vector2 at,string label,Sprite sprite=null)
         {
             chapterActions.Add(new ChapterAction{kind=kind,at=at,label=label});
             transitReservations.Add(new Rect(at-new Vector2(.8f,.5f),new Vector2(1.6f,1.5f)));
+            if(BuildLearningSite(kind,at,label,sprite))return;
+            if(sprite==lessonArtwork&&!woodlandMode)sprite=ChapterRecordSprite;
             if(sprite!=null){GameObject o=Draw(label,sprite,at,Vector2.one,Color.white,DepthAt(at.y));o.transform.SetParent(chapterFocus.transform,true);}
         }
         private void BuildChapterActions()
         {
-            if(!thunderChapterMode)return;chapterActions.Clear();if(chapterFocus!=null){chapterFocus.SetActive(false);Destroy(chapterFocus);}
+            if(!thunderChapterMode)return;ClearIceCampBlocks();ClearForgeFenceShots();chapterActions.Clear();if(harborRoom==currentRoom)foreach(Rect r in harborBanks)obstacles.Remove(r);harborBanks.Clear();if(chapterFocus!=null){chapterFocus.SetActive(false);Destroy(chapterFocus);}
             chapterFocus=new GameObject("Highland residents and interactions");chapterFocus.transform.SetParent(world,false);
             RoomNode n=journeyRooms[currentRoom];
-            if(iceSampleMode){BuildIceActions(n);return;}if(woodlandMode){BuildWoodActions(n);return;}
+            if(capitalMode){BuildCapitalActions(n);return;}if(manorCourtyardMode){if(CoastalHarborRoom)ManorHarborFooting();BuildManorActions(n);return;}
+            if(CoastalHarborRoom)BuildHarbor(iceSampleMode);BuildDepartureArmory();if(fireChapterMode){BuildFireActions(n);return;}if(iceSampleMode){BuildIceActions(n);return;}if(woodlandMode){BuildWoodActions(n);return;}
             if(n.id==0)AddChapterAction(1,new Vector2(-3.4f,1.4f),"灯匠",chapterLampkeeper);
             if(n.id==0&&chapterStone&&chapterRanger)AddChapterAction(2,new Vector2(-1.8f,1.4f),"归来的巡路员",chapterRangerArt);
-            if(n.id==0&&chapterEnding)AddChapterAction(305,new Vector2(0,2.5f),"乘船前往冰港 · 第三岛样板",IceSprite(6));
-            if(n.id==0&&chapterEnding)AddChapterAction(208,new Vector2(1,-2),"森林岛试航 · 第五岛",WorldPropSprite(5));
-            if(n.id==0&&chapterEnding)AddChapterAction(16,new Vector2(3.4f,-1.4f),"登船返回沙漠",WorldPropSprite(5));
+            if(n.id==0&&chapterEnding){HarborBoat(305,Vector2.zero,new Vector2(-1,.45f),"展开航图 · 推荐冰港",null);HarborBoat(16,Vector2.zero,new Vector2(6,.45f),"全域航图 · 回访与探索",null);}
             if(n.id==17&&n.cleared)AddChapterAction(2,new Vector2(-3,1.6f),"巡路员",chapterRangerArt);
-            if(n.id==14||n.id==16)AddChapterAction(n.id==14?3:4,ThunderLeverAt,"复位引雷手柄");
+            if(n.id==14||n.id==16){AddChapterAction(n.id==14?3:4,ThunderLeverAt,"复位引雷手柄");StormFixture(1,ThunderLeverAt,1.45f,chapterFocus.transform);}
             if(n.cleared&&(n.id==6||n.kind==RoomKind.Rest))
             {
                 if(journeyRooms[6].cleared&&!chapterMarkKnown)AddChapterAction(5,new Vector2(-2.2f,-.8f),"学习雷标",lessonArtwork);
                 else if(chapterEast&&!chapterArcKnown)AddChapterAction(6,new Vector2(-2.2f,-.8f),"学习跃电",lessonArtwork);
             }
             if(n.id==16&&chapterEast&&!chapterArcKnown)AddChapterAction(6,new Vector2(-2.2f,-.8f),"学习跃电",lessonArtwork);
-            if(n.id==31&&chapterStone){AddChapterAction(7,new Vector2(-2.5f,-1.5f),"沿已修古道回山口");DrawWorldSign(new Vector2(-2.5f,-1.1f),chapterFocus.transform);}
+            if(n.id==31&&chapterStone){AddChapterAction(7,new Vector2(-2.5f,-1.5f),"沿已修古道回山口");StormFixture(0,new Vector2(-2.5f,-1.1f),1.1f,chapterFocus.transform);}
             if(n.id==31&&chapterStone)
             {
                 Sprite[] poses;if(chapterArt.TryGetValue("stag",out poses)&&poses.Length>7){GameObject guardian=Draw("Living guardian resting",poses[7],new Vector2(1,.1f),Vector2.one,Color.white,DepthAt(.1f));guardian.transform.SetParent(chapterFocus.transform,true);}
             }
-            if(n.kind==RoomKind.Rest)AddChapterAction(9,new Vector2(2.5f,.4f),"整理元素技能",chapterRangerArt);
+            if(n.kind==RoomKind.Rest)AddChapterAction(9,new Vector2(2.5f,.4f),"整理元素技能",ResidentSprite(2));
             if(n.id==9)
             {
                 Vector2[] points={new Vector2(-3,1),new Vector2(0,1.4f),new Vector2(3,-.8f)};
                 for(int i=0;i<3;i++)
                 {
                     AddChapterAction(10+i,points[i],(chapterWaymarks&(1<<i))!=0?"路标已扶正":"扶正旧路标");
-                    GameObject post=Stretch("Wooden trail waymarker",square,points[i]+Vector2.up*.4f,new Vector2(.12f,.8f),C("7f725b"),DepthAt(points[i].y));post.transform.SetParent(chapterFocus.transform,true);
-                    GameObject arrow=Stretch("Trail waymarker arrow",square,points[i]+Vector2.up*.65f,new Vector2(.6f,.15f),C("b6ad8a"),DepthAt(points[i].y)+1);arrow.transform.SetParent(chapterFocus.transform,true);
-                    if((chapterWaymarks&(1<<i))==0){post.transform.rotation=Quaternion.Euler(0,0,22);arrow.transform.rotation=Quaternion.Euler(0,0,22);}
+                    GameObject marker=StormFixture(0,points[i],1.25f,chapterFocus.transform);
+                    if((chapterWaymarks&(1<<i))==0)marker.transform.rotation=Quaternion.Euler(0,0,12);
+
                 }
             }
-            if(n.id==21)AddChapterAction(13,new Vector2(-2,1.3f),n.claimed?"避雨棚已修好":"扶正避雨棚梁",thunderRock);
+            if(n.id==21){AddChapterAction(13,new Vector2(-2,1.3f),n.claimed?"避雨棚已修好":"扶正避雨棚梁");StormFixture(2,new Vector2(-2,1.3f),2.0f,chapterFocus.transform);}
             if(n.id==22)AddChapterAction(14,new Vector2(-2,1.3f),chapterLampCarried||chapterLampGiven?"灯罩已取走":"收下送往山口的灯罩",thunderNode);
-            if(n.id==36)AddChapterAction(15,new Vector2(-2,1.3f),"远望山口的灯",lessonArtwork);
+            if(n.id==36){AddChapterAction(15,new Vector2(-2,1.3f),"翻阅巡路记录");StormFixture(3,new Vector2(-2,1.3f),1.45f,chapterFocus.transform);}
             foreach(ChapterShortcut g in chapterDoors)if(g.code<5&&(g.a==n.id||g.b==n.id))
             {
                 int other=g.a==n.id?g.b:g.a,d=NeighborDirection(n,journeyRooms[other]);
@@ -60,9 +81,11 @@ namespace NakiLegend.Prototype
         private void OnChapterRoomEntered(RoomNode n,bool first)
         {
             chapterWork=0;chapterRewardMenu=false;chapterSkillsMenu=false;
-            if(iceSampleMode){BuildChapterActions();return;}
+            if(capitalMode){CapitalEntered(n);return;}if(manorCourtyardMode){BuildChapterActions();return;}
+            if(fireChapterMode){FireRest(n,first);BuildChapterActions();return;}if(iceSampleMode){if(iceFullChapter)IceChapterRest(n,first);BuildChapterActions();return;}
+            if(woodlandMode&&n.kind==RoomKind.Reward)WoodRoomReward(n);
             if(first&&n.kind==RoomKind.Rest&&!n.claimed)
-            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(100,elementPower+30);TellStory(woodlandMode?"阿苓留下了一壶草药茶。你扫开厚叶，靠着仍有温度的树根歇息。":"避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
+            {n.claimed=true;health=Mathf.Min(6,health+2);elementPower=Mathf.Min(ElementMaximum,elementPower+30);TellStory(woodlandMode?"阿苓留下了一壶草药茶。你扫开厚叶，靠着仍有温度的树根歇息。":"避雨棚里留着一壶温水。你抖掉斗篷上的雨，重新系紧护具，听远处的雷声渐渐移向山顶。");AnnounceDiscovery("休憩 · 生命 +2，元素 +30；安全时可整理技能与保存");}
             BuildChapterActions();
         }
         private ChapterAction NearestChapterAction()
@@ -85,9 +108,9 @@ namespace NakiLegend.Prototype
                 {chapterRewardMenu=true;chapterRewardChoice=0;return true;}
                 return false;
             }
-            if(!n.cleared){JourneyHint(woodlandMode&&a.kind==203?"先击败看守，取得牢笼钥匙":"先确保房间安全，再检查路标与设施");return true;}
-            if(iceSampleMode){IceAction(a.kind);return true;}if(woodlandMode){WoodAction(a.kind);return true;}
-            if(a.kind==305){EmbarkIceSample();return true;}if(a.kind==208){EmbarkWoodland();return true;}
+            if(capitalMode){CapitalAction(a.kind);return true;}if(iceSampleMode&&iceFullChapter&&(a.kind==330||a.kind==331)){IceChapterAction(a.kind);return true;}if(!n.cleared){JourneyHint(woodlandMode&&a.kind==203?"先击败看守，取得牢笼钥匙":"先确保房间安全，再检查路标与设施");return true;}
+            if(a.kind==920){chapterRewardMenu=true;chapterRewardChoice=0;return true;}if(manorCourtyardMode){ManorAction(a.kind);return true;}if(fireChapterMode){FireAction(a.kind);return true;}if(iceSampleMode){IceAction(a.kind);return true;}if(woodlandMode){WoodAction(a.kind);return true;}
+            if(a.kind==305){OpenWorldAtlas(2);return true;}if(a.kind==16){OpenWorldAtlas(1);return true;}if(a.kind==208){EmbarkWoodland();return true;}
             if(a.kind>=100)
             {
                 int code=a.kind-100;if(!ChapterGateReady(code)){JourneyHint("检修通路两端尚未清理；引雷节点也需复位。主路仍可通行。");return true;}
@@ -99,22 +122,22 @@ namespace NakiLegend.Prototype
                     if(chapterLampCarried&&!chapterLampGiven){chapterLampGiven=true;chapterLampCarried=false;RequestCheckpoint();}
                     if(chapterStone&&!chapterEnding){storyLines=null;chapterCg=true;SaveChapterCheckpoint(false);}
                     else TellStory(chapterEnding?"灯匠：灯没白亮。路也回来了，往后的雨会有它自己的季节。":"灯匠：沿石路上山，铜卫守着旧引雷设施。若见到巡路的人，告诉她山口的灯还亮着。");break;
-                case 2:if(chapterStone)TellStory("巡路员：明早我会再上山，把回程的路标立稳。这次，先在灯下歇一晚。");else TellStory("巡路员：路上的节点接回去了，山顶却还在聚雷。紫色束缚不属于守护兽。","少年：我会把困住它的东西取出来。");break;
+                case 2:if(n.id==17&&!chapterStone)thunderPendingStoryRoom=17;if(chapterStone)TellStory("巡路员：明早我会再上山，把回程的路标立稳。这次，先在灯下歇一晚。");else TellStory("巡路员：路上的节点接回去了，山顶却还在聚雷。紫色束缚不属于守护兽。","少年：我会把困住它的东西取出来。");break;
                 case 3:case 4:
                     if(a.kind==3?chapterWest:chapterEast){JourneyHint("这处节点已经复位，雷流沿边槽通行");break;}
                     chapterFocusedAction=a.kind;chapterWork=1.2f;break;
-                case 5:chapterMarkKnown=true;TellStory("铜纹台上的凹痕，一处记风向，一处记落雷。你把手停在刻痕上，试着先留下一点电光。","远处的石面亮了一瞬，雷声才随后抵达。");AnnounceDiscovery("已领悟雷标 · 8元素，2秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
-                case 6:chapterArcKnown=true;TellStory("巡路记录里画着两枚相连的铜环：电光越过一处，还能借着余势，抵达另一处。","少年沿铜环轻轻一划，两点微光便接成了短暂的雷弧。");AnnounceDiscovery("已领悟跃电 · 10元素，3秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
+                case 5:thunderPendingStoryRoom=n.id;chapterMarkKnown=true;TellStory("铜纹台上的凹痕，一处记风向，一处记落雷。你把手停在刻痕上，试着先留下一点电光。","远处的石面亮了一瞬，雷声才随后抵达。");AnnounceDiscovery("已领悟雷标 · 8元素，2秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
+                case 6:thunderPendingStoryRoom=n.id;chapterArcKnown=true;TellStory("巡路记录里画着两枚相连的铜环：电光越过一处，还能借着余势，抵达另一处。","少年沿铜环轻轻一划，两点微光便接成了短暂的雷弧。");AnnounceDiscovery("已领悟跃电 · 10元素，3秒冷却；T 整理技能，保留当前配置");BuildChapterActions();RequestCheckpoint();break;
                 case 7:EnterExplorationRoom(0,-1);TellStory("雷云越过山脊，巡路员沿修好的古道回到了灯棚。","靠近灯匠按 F，迎接归家的人。");RequestCheckpoint();break;
                 case 9:chapterSkillsMenu=true;break;
                 case 10:case 11:case 12:
-                    chapterWaymarks|=1<<(a.kind-10);if(chapterWaymarks==7)n.claimed=true;BuildChapterActions();RequestCheckpoint();JourneyHint(chapterWaymarks==7?"三块路标都已扶正，回程的方向清楚了":"路标已扶正");break;
+                    chapterWaymarks|=1<<(a.kind-10);if(chapterWaymarks==7)n.claimed=true;BuildChapterActions();UpdateExplorationDoors();UpdateFlowGuide();RequestCheckpoint();JourneyHint(chapterWaymarks==7?"三块路标都已扶正，回程的方向清楚了":"路标已扶正");break;
                 case 13:
                     if(n.claimed){TellStory("棚梁稳住了，归来的驮兽可以在这里避雨。");break;}chapterFocusedAction=13;chapterWork=1.2f;break;
                 case 14:
                     if(chapterLampCarried||chapterLampGiven){JourneyHint("灯罩已经收好，不占武器格");break;}
                     chapterLampCarried=true;n.claimed=true;TellStory("油布里包着修好的灯罩。纸签写着：给山口那盏。","你收好灯罩，准备回程交给灯匠。任务物不占武器背包。");RequestCheckpoint();BuildChapterActions();break;
-                case 15:n.claimed=true;TellStory("远处山口的灯仍亮着。巡路员的旧记录写着：两人出发，一人留灯。","少年：山下的灯还在。我们也快些。");RequestCheckpoint();break;
+                case 15:thunderPendingStoryRoom=n.id;TellStory("远处山口的灯仍亮着。巡路员的旧记录写着：两人出发，一人留灯。","少年：山下的灯还在。我们也快些。");RequestCheckpoint();break;
                 case 208:EmbarkWoodland();break;
                 case 16:ReturnToDesertCheckpoint();break;
             }
@@ -123,27 +146,23 @@ namespace NakiLegend.Prototype
         private void FinishChapterWork()
         {
             RoomNode n=journeyRooms[currentRoom];chapterWork=0;
-            if(chapterFocusedAction==13){n.claimed=true;TellStory("你扶正松动的棚梁，雨不再灌进歇脚的地方。牧人开始铺下干草。");RequestCheckpoint();return;}
+            if(chapterFocusedAction==13){n.claimed=true;thunderPendingStoryRoom=n.id;TellStory("你扶正松动的棚梁，雨不再灌进歇脚的地方。牧人开始铺下干草。");RequestCheckpoint();return;}
             if(chapterFocusedAction==3)chapterWest=true;else chapterEast=true;
             thunderRepaired=true;ClearThunderHazards();RefreshThunderRepair();
             if(!n.lootSeeded){n.lootSeeded=true;var crystal=new StoredEssence{at=FindFreeInteractionPoint(ThunderLeverAt+Vector2.down),value=20,born=clock};n.essence.Add(crystal);DrawEssence(crystal);}
             TellStory(chapterFocusedAction==3?"少年：两条铜线接回去了。雷流沿边槽走，中间的山路可以通行。":"旧路灯依次亮起，山巅却仍有电光。少年：路上的雷散了，源头还没停。");
             UpdateExplorationDoors();BuildChapterActions();RequestCheckpoint();
         }
-        private int[] ChapterRewardChoices()
-        {return currentRoom==11?new[]{6,9}:currentRoom==24?new[]{10,12}:new[]{11,13};}
-        private void ClaimChapterWeapon(int choice)
-        {
-            RoomNode n=journeyRooms[currentRoom];if(n.claimed)return;int[] ids=ChapterRewardChoices();
-            n.claimed=n.lootSeeded=true;chapterRewardMenu=false;ChapterDrop(ids[Mathf.Clamp(choice,0,1)],position+Vector2.right*.8f);
-            if(rewardChest!=null)Destroy(rewardChest);rewardChest=null;RequestCheckpoint();JourneyHint("装备已放在身旁 · F 拾取，满背包时可替换或留地");
-        }
+        private int[] ChapterRewardChoices(){return IslandRewardChoices();}
+        private void ClaimChapterWeapon(int choice){ClaimIslandSupply(choice);}
         private bool TickChapterOverlay(float dt)
         {
+            if(TickManorReading())return true;
+            if(TickManorFinaleChoice())return true;
             if(!thunderChapterMode)return false;
             if(chapterSetup)
             {
-                if(iceSampleMode)return HandleIceSetup();
+                if(fireChapterMode)return HandleFireSetup();if(iceSampleMode)return HandleIceSetup();
                 if(Pressed('1'))thunderPreset=ThunderPreset.Light;if(Pressed('2'))thunderPreset=ThunderPreset.Dark;
                 if(Pressed('a'))thunderChapterStartFloor=(thunderChapterStartFloor+2)%3;if(Pressed('d'))thunderChapterStartFloor=(thunderChapterStartFloor+1)%3;
                 if(chapterConfirmRestart){if(Pressed('e'))chapterConfirmRestart=false;return true;}
@@ -157,19 +176,19 @@ namespace NakiLegend.Prototype
                 chapterWork=Mathf.Max(0,chapterWork-Mathf.Min(dt,.05f));if(chapterWork<=0)FinishChapterWork();return true;
             }
             if(chapterRewardMenu)
-            {if(Pressed('a')||Pressed('d'))chapterRewardChoice=1-chapterRewardChoice;if(Pressed('f'))ClaimChapterWeapon(chapterRewardChoice);if(Pressed('e'))chapterRewardMenu=false;return true;}
+            {if(Pressed('a'))chapterRewardChoice=(chapterRewardChoice+3)%4;if(Pressed('d'))chapterRewardChoice=(chapterRewardChoice+1)%4;if(Pressed('f'))ClaimChapterWeapon(chapterRewardChoice);if(Pressed('e'))chapterRewardMenu=false;return true;}
             if(chapterSkillsMenu){if(Pressed('b')||Pressed('e'))chapterSkillsMenu=false;return true;}
             return false;
         }
         private void FinishChapterEnding()
-        {chapterCg=false;chapterEnding=true;BuildChapterActions();RequestCheckpoint();SaveChapterCheckpoint(false);}
+        {if(manorCourtyardMode){FinishManorEnding();return;}if(woodlandMode&&!WoodCanEnd){chapterCg=false;JourneyHint("先取回木石并回旧叶种床栽种，再向阿苓报平安");return;}if(woodlandMode)woodEndingCgSeen=true;if(iceSampleMode&&iceFullChapter)iceEndingCgSeen=true;BlockWorldInteraction();chapterCg=false;chapterEnding=true;BuildChapterActions();UpdateFlowGuide();RequestCheckpoint();SaveChapterCheckpoint(false);}
         private void DrawChapterSetup(float w,float h)
         {
-            if(iceSampleMode){DrawIceSetup(w,h);return;}
+            if(fireChapterMode){DrawFireSetup(w,h);return;}if(iceSampleMode){DrawIceSetup(w,h);return;}
             HudRect(new Rect(0,0,w,h),new Color(.02f,.04f,.06f,.94f));CenterLabel(new Rect(w/2-420,75,840,45),woodlandMode?"青栖林海 · 不再发芽的种子":"雷雨高原 · 困在山巅的雷声",journeyTitleStyle);
             CenterLabel(new Rect(w/2-430,125,860,30),HasChapterSave?"已有"+CurrentIsland.name+"安全存档 · F 继续原进度":"尚无本岛存档 · 选择起点开始旅程",journeyTextStyle);
             bool backgroundEnabled=GUI.enabled;if(chapterConfirmRestart)GUI.enabled=false;
-            for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,181,280,65),i==0?"1 光之力 · 元气弹":"2 暗之力 · 流星",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
+            for(int i=0;i<2;i++)if(FlatButton(new Rect(w/2-290+i*300,181,280,65),i==0?"1 光之力 · 辉光束":"2 贤者之石能量 · 流星",(int)thunderPreset==i))thunderPreset=(ThunderPreset)i;
             for(int i=0;i<3;i++)
             {
                 int floor=i;
@@ -190,16 +209,11 @@ namespace NakiLegend.Prototype
         }
         private void DrawChapterCg(float w,float h)
         {
-            HudRect(new Rect(0,0,w,h),Color.black);if(chapterEndingArt!=null)GUI.DrawTexture(new Rect(0,0,w,h),chapterEndingArt,ScaleMode.ScaleToFit);
+            if(manorCourtyardMode){DrawManorEnding(w,h);return;}if(woodlandMode){DrawWoodEnding(w,h);return;}if(fireChapterMode){DrawFireEnding(w,h);return;}if(iceSampleMode&&iceFullChapter){DrawIceEnding(w,h);return;}HudRect(new Rect(0,0,w,h),Color.black);if(chapterEndingArt!=null)GUI.DrawTexture(new Rect(0,0,w,h),chapterEndingArt,ScaleMode.ScaleToFit);
             HudRect(new Rect(0,h-130,w,130),new Color(.02f,.04f,.06f,.88f));CenterLabel(new Rect(30,h-119,w-60,36),"灯下有归人",journeyTitleStyle);
             CenterLabel(new Rect(30,h-78,w-60,32),chapterLampGiven?"灯匠：灯没白亮。巡路员：路也没白修。":"少年：路回来了，就会有人回家。",journeyTextStyle);
             GUI.Label(new Rect(30,h-37,600,28),"F / ESC 继续 · 雷元素碎片已保存",journeySmallStyle);
         }
-        private void DrawChapterReward(float w,float h)
-        {
-            HudRect(new Rect(w/2-360,h/2-155,720,310),C("10232d"));CenterLabel(new Rect(w/2-330,h/2-138,660,36),"巡路装备箱 · 选择一件",journeyTitleStyle);
-            int[] ids=ChapterRewardChoices();for(int i=0;i<2;i++){WeaponDef weapon=weaponCatalog[ids[i]];if(FlatButton(new Rect(w/2-330+i*340,h/2-77,320,145),weapon.name+"\n"+WeaponSummary(weapon)+"\n间隔 "+weapon.interval+"秒",chapterRewardChoice==i))ClaimChapterWeapon(i);}
-            CenterLabel(new Rect(w/2-330,h/2+97,660,32),"A / D 选择 · F 确认 · ESC 返回",journeySmallStyle);
-        }
+        private void DrawChapterReward(float w,float h){DrawIslandSupply(w,h);}
     }
 }

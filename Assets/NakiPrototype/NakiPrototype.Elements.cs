@@ -21,17 +21,17 @@ namespace NakiLegend.Prototype
         {
             shield = EffectiveMaximumShield; lastDamageAt = -10; windGuardUntil = waveReadyAt = bladeReadyAt = 0;
             orbLearned = bladeLearned = waveLearned = windEmpowered = false; clearedCombatRooms = pendingLesson = 0;
-            hintReadyAt = 0; journeyEnergyRegen = 6;journeyToast=null;journeyToastUntil=0;
+            hintReadyAt = 0;journeyToast=null;journeyToastUntil=0;
             if (bossPracticeMode) { orbLearned = bladeLearned = waveLearned = true; clearedCombatRooms = 12; }
-            ResetEquipment();ResetPowers();ResetBackpack();
+            ResetEquipment();ResetPowers();ResetBackpack();ResetChapterCooldowns();
             if(gatehouseSampleMode){orbLearned=bladeLearned=waveLearned=true;carriedWeapons[1]=6;}
         }
 
         private void TickPlayerDefenses(float dt)
         {
-            bool recovering=clock-lastDamageAt>=5&&shield<EffectiveMaximumShield;
+            TickRepairTalent();bool recovering=clock-lastDamageAt>=(CombatShieldRecovery?6.5f:5)&&shield<EffectiveMaximumShield;
             if(recovering&&!shieldWasRecovering)Sfx("recover",false,.35f);shieldWasRecovering=recovering;
-            if(recovering)shield=Mathf.Min(EffectiveMaximumShield,shield+dt);
+            if(recovering)shield=Mathf.Min(EffectiveMaximumShield,shield+dt*(CombatShieldRecovery?.55f:1));
             if (activeWindWave != null)
             {
                 float phase = (clock - waveStartedAt) / .35f;
@@ -49,14 +49,16 @@ namespace NakiLegend.Prototype
         private void TakeJourneyDamage(float amount, Element element)
         {
             if (clock < invulnerableUntil || health <= 0) return;
+            if(origin==Origin.Light&&clock<originGuardUntil){amount*=.3f;RefundGuardLight();}
             if (element == Element.Lightning && clock < windGuardUntil) amount *= WindGuardMultiplier;
-            float before = shield, absorbed = Mathf.Min(shield, amount);
-            shield -= absorbed; health = Mathf.Max(0, health - (amount - absorbed)); lastDamageAt = clock;
-            invulnerableUntil = clock + .8f; flashUntil = clock + .13f; pixelHurtUntil = clock + .16f;
-            swordHitPending = false; swordUntil = castPoseUntil = clock;
+            bool committed=CommittedWarriorStrike;if(committed)amount*=.7f;
+            float healthBefore=health;amount*=EnemyAttackScale;if(HasTalent(1)&&shield>0)amount=Mathf.Min(amount,shield);float before = shield, absorbed = Mathf.Min(shield, amount);
+            shield -= absorbed; health = Mathf.Max(0, health - (amount - absorbed)); lastDamageAt = clock;RecordEncounterHit(amount);if(health<=0)FinishEncounterRecord(false);
+            invulnerableUntil = clock + (CombatShieldRecovery?.55f:.8f); flashUntil = clock + .13f; pixelHurtUntil = clock + .16f;
+            if(!lightChannel)StopOriginAction();if(!committed){swordHitPending=false;swordUntil=clock;}castPoseUntil=clock;
             if (before > 0 && shield <= .001f) AddFloatingHit("护盾破裂", position + Vector2.up, C("71cde5"));
             else if (absorbed > 0) AddFloatingHit("-" + amount.ToString("0.#"), position + Vector2.up, C("7bd6ee"));
-            Sfx(before>0&&shield<=.001f?"break":absorbed>0?"shield":"hurt",true,.85f);if(health<=0)Sfx("death",true);
+            PlayPlayerDamageFeedback(before,absorbed,healthBefore-health);if(health<=0)Sfx("death",true);
         }
 
         private static float ElementMultiplier(Element attack, Element target)
@@ -68,9 +70,13 @@ namespace NakiLegend.Prototype
 
         private void ApplyElementDamage(Enemy enemy, float amount, Element element)
         {
-            amount=IceArmorDamage(enemy,amount,element);float multiplier = ElementMultiplier(element, enemy.affinity);
-            if (multiplier > 1) AddFloatingHit(ElementName(element)+"克"+ElementName(enemy.affinity), enemy.position + Vector2.up * 1.1f, C("83edcf"));
-            DamageEnemy(enemy, amount * multiplier);
+            if(clock<enemy.relicVulnerableUntil)amount*=1.15f;
+            if(enemy.kind==EnemyKind.ForgeMaster&&clock<enemy.recoveryUntil)amount*=1.2f;if(enemy.kind==EnemyKind.TideGuardian&&clock<tideCoreUntil)amount*=1.25f;
+            if(woodlandMode&&enemy.kind==WoodKinds[11]&&clock<enemy.recoveryUntil)amount*=1.2f;
+            amount*=WoodDamageMultiplier(enemy,element);amount=FireShellDamage(enemy,amount,element);
+            amount=enemy.kind==EnemyKind.SnowCrab&&enemy.windup>0&&Vector2.Dot((position-enemy.position).normalized,enemy.attackDirection)<-.2f?amount:IceArmorDamage(enemy,amount,element);float multiplier = ElementMultiplier(element, enemy.affinity);
+            if(multiplier>1&&clock>=enemy.affinityFeedbackAt){enemy.affinityFeedbackAt=clock+.5f;AddFloatingHit(ElementName(element)+"克"+ElementName(enemy.affinity),enemy.position+Vector2.up*1.1f,C("83edcf"));}
+            DamageEnemy(enemy, amount * multiplier);if(enemy.hp>0&&element==Element.Fire){enemy.burnUntil=clock+2;enemy.nextBurn=Mathf.Max(enemy.nextBurn,clock+.5f);}
             if (enemy.hp > 0 && element == Element.Wind && enemy.affinity == Element.Lightning && clock >= enemy.poiseReadyAt)
             {
                 enemy.poise += 1;
@@ -84,42 +90,18 @@ namespace NakiLegend.Prototype
 
         private void CastJourneyOrb()
         {
-            if(origin==Origin.Dark){CastDarkMeteor();return;}
-            if (!orbLearned) { JourneyHint("掌心的光尚未凝聚 · 留意遗迹中的古井碑"); nextSpell = clock + .35f; return; }
-            foreach (Shot shot in shots) if (shot.orb) return;
-            if (clock < nextSpell || !SpendPower(PowerPool.Light,8)) return;
-             nextSpell = clock + 1.2f;SkillSound("orb","cast");
-            Enemy target; Vector2 direction=AutoAim(10,7,0,out target);
-            int before = shots.Count; SpawnShot(position + direction * .4f, direction, false, target, position);
-            if (shots.Count > before)
-            {
-                Shot shot = shots[shots.Count - 1];shot.skillAudio="orb"; shot.orb = true; shot.element = Element.Light; shot.damage = SkillDamage(24); shot.life = 1.8f; shot.speed = 7; shot.tracking = target != null;
-                shot.root.transform.localScale = Vector3.one * .29f;
-                shot.root.GetComponent<SpriteRenderer>().color=C("fff1b2");AddShotRibbon(shot,C("ecd18e"),.13f);SpellSpark(position+direction*.4f,C("fff1b2"),.28f);
-            }
-            castDirection = direction; castPoseUntil = clock + .32f;
+            if(origin==Origin.Dark){CastDarkMeteor();return;}CastLightVolley();
         }
 
         private void CastWindBlade()
         {
-            if (!bladeLearned) { JourneyHint("风之刃尚未学会 · 继续探索旧渠"); return; }
-            if (clock < bladeReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,6)) return;
-            Enemy target; Vector2 direction=AutoAim(10,9,0,out target); bladeReadyAt = clock + 1.2f;SkillSound("blade","cast");
-            int before = shots.Count; SpawnShot(position + direction * .45f, direction, false, null, position);
-            if (shots.Count > before)
-            {
-                Shot shot = shots[shots.Count - 1];shot.skillAudio="blade"; shot.tracking = false; shot.element = Element.Wind; shot.damage = SkillDamage(windEmpowered ? 26 : 22); shot.life = 1.4f; shot.speed = 9; shot.hitsLeft = 2;
-                shot.root.GetComponent<SpriteRenderer>().sprite = pixelSlash ?? disc; shot.root.GetComponent<SpriteRenderer>().color = C("7ce7c4");
-                shot.root.transform.localScale = new Vector3(.32f, .55f, 1); shot.root.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
-                AddShotRibbon(shot,C("82e6cb"),.07f);
-            }
-            castDirection = direction; castPoseUntil = clock + .32f;
+            CastBladeVolley();
         }
 
         private void CastWindWave()
         {
             if (!waveLearned) { JourneyHint("风波尚未学会 · 寻找第二层的守渠试炼"); return; }
-            if (clock < waveReadyAt || clock < dashUntil || !SpendPower(PowerPool.Elemental,10)) return;
+            if (clock < waveReadyAt || clock < dashUntil || !SpendSkillPower(10)) return;
              waveReadyAt = clock + (windEmpowered ? 4 : 4.5f); windGuardUntil = clock + WindGuardDuration; waveStartedAt = clock;SkillSound("wave","cast");
             if (activeWindWave != null) Destroy(activeWindWave);
             activeWindWave = Draw("Wind wave", windRingSprite ?? disc, position + Vector2.up * .25f, Vector2.one * .3f, C("8aefd0"), 800);
@@ -144,16 +126,18 @@ namespace NakiLegend.Prototype
             pendingLesson = !orbLearned && clearedCombatRooms >= 3 ? 1 : !bladeLearned && clearedCombatRooms >= 6 ? 2 : !waveLearned && clearedCombatRooms >= 10 ? 3 : 0;
             if (pendingLesson == 0 || lessonAltar != null) return;
             lessonPosition = FindFreeInteractionPoint(new Vector2(-2.2f, -1.6f));
-            lessonAltar = Draw("Wind bell teaching altar", lessonArtwork ?? doorArtwork ?? square, lessonPosition, Vector2.one * (lessonArtwork != null ? 1 : .45f), Color.white, DepthAt(lessonPosition.y));
+            Sprite art=DesertTeachingSprite;
+            lessonAltar = Draw("Wind bell teaching altar",art,lessonPosition,Vector2.one*(1.05f/Mathf.Max(.01f,art.bounds.size.y)),Color.white,DepthAt(lessonPosition.y));
+            DrawLearningEmblem(lessonAltar.transform,lessonPosition+Vector2.up*.47f,pendingLesson==1?(origin==Origin.Dark?3:0):pendingLesson==2?6:7,.44f,DepthAt(lessonPosition.y)+2);
         }
 
         private void LearnPendingLesson()
         {
-            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("碑上的刻痕像一道道坠落的星。你试着抬手，右眼的紫光便沿着指尖散开。","少年：原来，石头里那些不肯熄灭的微光，可以这样引出来。");AnnounceDiscovery("已领悟 L 流星 · 消耗1灵魂能量，自动追踪"); }
-            else if (pendingLesson == 1) { orbLearned = true; TellStory("碑文已经模糊，只剩一行浅刻：莫追逐光，让它先在心里停下。","你放慢呼吸。掌中的暖光渐渐收拢，凝成一颗明亮的光球。");AnnounceDiscovery("已领悟 L 元气弹 · 消耗8光之力，单颗追踪"); }
+            if (pendingLesson == 1&&origin==Origin.Dark) { orbLearned=true;TellStory("碑上的刻痕像一道道坠落的星。你试着抬手，右眼的紫光便沿着指尖散开。","少年：原来，石头里那些不肯熄灭的微光，可以这样引出来。");AnnounceDiscovery("已领悟 L 流星 · 消耗1贤者之石能量，自动追踪"); }
+            else if (pendingLesson == 1) { orbLearned = true; TellStory("碑文已经模糊，只剩一行浅刻：莫追逐光，让它先在心里停下。","你放慢呼吸。掌中的暖光渐渐收拢，凝成一线沿石路延伸的光。");AnnounceDiscovery("已领悟 L 辉光束 · 按住照射，启动4＋每秒16光能；松开或K停止"); }
             if (pendingLesson == 2) { bladeLearned = true; TellStory("断壁间的风把细沙裁成一道弧线。你顺着那道弧挥剑，剑锋外竟也留下一缕长风。","少年：若能让风沿着剑走，就能劈开前面的阻碍。");AnnounceDiscovery("已领悟 U 风之刃 · 消耗6元素之力，风克雷"); }
             if (pendingLesson == 3) { waveLearned = true; TellStory("风铃台四周，沙尘总在靠近铜环时向外散去。你站进环中，试着把气息送向四周。","一圈清风从脚下荡开。纷乱的沙粒，被推到了身外。");AnnounceDiscovery("已领悟 I 护身风波 · 消耗10元素，吹散普通飞弹"); }
-            if (lessonAltar != null) Destroy(lessonAltar); lessonAltar = null; pendingLesson = 0; if(origin==Origin.Light)energy = Mathf.Min(100, energy + 20);RequestCheckpoint();
+            if(pendingLesson==1)QueueOriginMoment(0);if (lessonAltar != null) Destroy(lessonAltar); lessonAltar = null; pendingLesson = 0; if(origin==Origin.Light)energy = Mathf.Min(LightMaximum, energy + 20);RequestCheckpoint();
         }
 
         private Vector2 FindFreeInteractionPoint(Vector2 preferred)

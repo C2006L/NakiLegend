@@ -1,0 +1,3 @@
+from pathlib import Path
+r=Path('D:/NakiLegend/Repository');p=r/'Assets/NakiPrototype/NakiPrototype.EncounterRefresh.cs';s=p.read_text(encoding='utf-8-sig').replace('new Vector2(4,1.8f)})','new Vector2(4,1.8f),new Vector2(0,2.6f),new Vector2(0,-2.6f),new Vector2(-5,2.6f),new Vector2(5,-2.6f),new Vector2(-2,-2.6f),new Vector2(2,2.6f)})');s=s.replace('if(IntersectsTransit(lane.center,lane.size))continue;','if(!CurrentRoomBounds.Contains(lane.min)||!CurrentRoomBounds.Contains(lane.max)||IntersectsTransit(lane.center,lane.size))continue;');p.write_text(s,encoding='utf-8')
+p=r/'Validation/prepare_boss_offense.py';s=p.read_text(encoding='utf-8-sig').replace("p.with_suffix('.cs.v9-final-disabled')","p.with_suffix('.cs.v9-cover-disabled')");p.write_text(s,encoding='utf-8')

@@ -1,0 +1,7 @@
+Assets/NakiPrototype/NakiPrototype.Enemies.cs
+Assets/NakiPrototype/NakiPrototype.Journey.cs
+Assets/NakiPrototype/NakiPrototype.EncounterBalanceV18.cs
+Assets/NakiPrototype/NakiPrototype.Powers.cs
+Assets/NakiPrototype/NakiPrototype.WorldProps.cs
+Assets/NakiPrototype/NakiPrototype.WoodlandFinish.cs
+Docs/PLAY_GUIDE_V18.md

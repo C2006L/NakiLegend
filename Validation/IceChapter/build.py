@@ -1,0 +1,20 @@
+from pathlib import Path
+import subprocess
+root=Path(__file__).resolve().parents[2]
+subprocess.run(['python',str(root/'Validation/CombatIceV2/build_smoke.py')],check=True)
+s=(root/'Validation/CombatIceV2/Smoke.cs').read_text(encoding='utf-8').replace('NakiCombatIceV2Smoke','NakiIceChapterSmoke').replace('Validation/CombatIceV2/runtime/','Validation/IceChapter/runtime/').replace('Naki.CombatIceV2','Naki.IceChapter')
+s=s.replace('ExpansionTests();p.iceSampleMode=false;','ExpansionTests();FullIceTests();IceMechanicsTests();IceWrapupTests();BowAndStairTests();p.iceSampleMode=false;')
+s=s.replace(' static void Next(){',(root/'Validation/IceChapter/tests.txt').read_text(encoding='utf-8')+'\n static void Next(){')
+s=s.replace('if(stage==36){p.enabled=false;Ice();Enter(1);','if(stage==36){p.enabled=false;FullIcePose(40);')
+s=s.replace('FullIcePose(40);Set("mapMenu",true);','FullIcePose(40);Set("mapMenu",false);')
+s=s.replace('ScreenCapture.CaptureScreenshot(Out+"expanded-map.png")','ScreenCapture.CaptureScreenshot(Out+"final-guardian.png")')
+s=s.replace('   Check(errors.Count==0,','   if(stage==38){p.enabled=false;FullIcePose(41);Set("chapterCg",true);p.enabled=true;Next();return;}\n   if(stage==39){ScreenCapture.CaptureScreenshot(Out+"tide-ending.png");Next();return;}\n   Check(errors.Count==0,')
+s=s.replace('   Check(errors.Count==0,','   if(stage==40){p.enabled=false;MechanicsPose(26);p.enabled=true;Next();return;}\n   if(stage==41){ScreenCapture.CaptureScreenshot(Out+"frost-mirrors.png");Next();return;}\n   if(stage==42){p.enabled=false;MechanicsPose(40);p.enabled=true;Next();return;}\n   if(stage==43){ScreenCapture.CaptureScreenshot(Out+"battle-winches.png");Next();return;}\n   Check(errors.Count==0,')
+s=s.replace('   Check(errors.Count==0,','   if(stage==44){p.enabled=false;SluicePose();p.enabled=true;Next();return;}\n   if(stage==45){ScreenCapture.CaptureScreenshot(Out+"sluice-wrapup.png");Next();return;}\n   Check(errors.Count==0,')
+s=s.replace(' public static void RunPreview()', ' public static void RunBowRegression(){SessionState.SetBool("Naki.IceChapter.BowRegression",true);RunPreview();}\n public static void RunPreview()')
+s=s.replace(' public static void RunPreview()', ' public static void RunStairsPreview(){SessionState.SetBool("Naki.IceChapter.StairsPreview",true);RunPreview();}\n public static void RunPreview()')
+s=s.replace('   if(stage==0&&SessionState.GetBool', '   if(stage==0&&SessionState.GetBool("Naki.IceChapter.BowRegression",false)){p.enabled=false;BowAndStairTests();p.enabled=true;stage=46;}\n   if(stage==0&&SessionState.GetBool')
+s=s.replace('   if(stage==0&&SessionState.GetBool', '   if(stage==0&&SessionState.GetBool("Naki.IceChapter.StairsPreview",false))stage=46;\n   if(stage==0&&SessionState.GetBool')
+s=s.replace('   Check(errors.Count==0,','   if(stage==46){p.enabled=false;FullIce();Enter(2);KillCurrent();Quiet();Set("position",(Vector2)Get("stairPosition")+Vector2.left*2);Call("UpdatePixelHero",Vector2.zero);p.enabled=true;Next();return;}\n   if(stage==47){ScreenCapture.CaptureScreenshot(Out+"ice-themed-stairs.png");Next();return;}\n   if(stage==48){p.enabled=false;p.iceSampleMode=false;Chapter();Enter(6);KillCurrent();Quiet();Set("position",(Vector2)Get("stairPosition")+Vector2.left*2);Call("UpdatePixelHero",Vector2.zero);p.enabled=true;Next();return;}\n   if(stage==49){ScreenCapture.CaptureScreenshot(Out+"thunder-themed-stairs.png");Next();return;}\n   if(stage==50){p.enabled=false;p.woodlandMode=true;Chapter();Enter(6);KillCurrent();Quiet();Set("position",(Vector2)Get("stairPosition")+Vector2.left*2);Call("UpdatePixelHero",Vector2.zero);p.enabled=true;Next();return;}\n   if(stage==51){ScreenCapture.CaptureScreenshot(Out+"wood-themed-stairs.png");Next();return;}\n   Check(errors.Count==0,')
+s=s.replace('static void End(int code){','static void End(int code){SessionState.SetBool("Naki.IceChapter.StairsPreview",false);SessionState.SetBool("Naki.IceChapter.BowRegression",false);')
+(root/'Validation/IceChapter/Smoke.cs').write_text(s,encoding='utf-8')

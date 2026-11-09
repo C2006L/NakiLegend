@@ -1,0 +1,21 @@
+{
+  "revision": "V45",
+  "native_checks": 56,
+  "visual_review": "replay-menu.png inspected at 1600x900",
+  "coverage": [
+    "legacy completed capital ending re-selection without re-fighting",
+    "both capital endings collected without overwriting first ending",
+    "fresh chapter with alternate origin",
+    "switch back to previous completed branch",
+    "fresh first-island journey without inherited island saves",
+    "active profile restore and main-adventure resume",
+    "all three Manor endings with no snapshot requirement",
+    "Manor chapter replay on opposite origin",
+    "invalid profile path rejection"
+  ],
+  "storage": "New independent playthrough profiles plus persistent active pointer and global ending collection; no deletion of original saves",
+  "limitations": [
+    "Collection retroactively imports the currently loaded completed ending, not unknowable unsaved historical choices",
+    "Native checks call game actions and save/load APIs; keyboard/controller feel still needs player confirmation"
+  ]
+}

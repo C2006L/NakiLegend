@@ -1,0 +1,13 @@
+ static void FiveIslandPressureTests(){
+  float[] hp={1.43f,1.70f,1.90f,2.07f,2.28f},bossHp={5.82f,4.80f,5.58f,6.05f,7.04f},pace={.92f,.90f,.88f,.86f,.85f};int[] limits={8,10,11,12,12};
+  for(int island=0;island<5;island++){
+   p.woodlandMode=false;if(island==0){Fresh();Select();Set("clearedCombatRooms",4);}else if(island==1)Chapter();else if(island==2)FullIce();else if(island==3)Fire();else Forest();Enter(Find("Combat"));Quiet();Set("clock",30f);
+   Check(Mathf.Abs((float)Call("EnemyHealthScale",false)-hp[island])<.001f&&Mathf.Abs((float)Call("EnemyHealthScale",true)-bossHp[island])<.001f,"Explicit health tuning covers both normals and bosses on island "+island);
+   Check(Mathf.Abs(F("EncounterRecoveryScale")-pace[island])<.001f&&(int)Get("EncounterEnemyLimit")==limits[island],"Faster recovery and bounded live enemies for island "+island);
+   ClearActors();Set("densityRoom",-1);Set("densityWave",-1);Set("currentWave",1);List("pendingSpawns").Clear();Call("QueueEnemy",Call("TacticKind",1),new Vector2(5,0),false);int before=List("pendingSpawns").Count;Call("AddWaveCompanion");int expected=(int)Get("TacticalCompanionCount");Check(List("pendingSpawns").Count==before+expected,"Actual wave companion hook adds the planned bounded count for island "+island);Call("AddWaveCompanion");Check(List("pendingSpawns").Count==before+expected,"Companions remain once per wave on island "+island);
+   foreach(object spawn in List("pendingSpawns").Cast<object>().Skip(before))Check((float)Get(spawn,"when")>=31.4f,"Added enemies retain readable arrival warning on island "+island);
+   Enter(Find("Boss"));Quiet();object boss=List("enemies")[0];Set(boss,"difficultyPhase",2);Set("clock",40f);ClearShots();List("tacticalVolleys").Clear();Call("QueueBossPressureVolley",boss);object volley=List("tacticalVolleys")[0];Check((int)Get(volley,"count")==7&&(float)Get(volley,"when")>=40.79f&&List("shots").Count==0,"Seven-shot boss follow-up is genuinely warned before damage on island "+island);
+  }
+  p.woodlandMode=false;Fresh();Select();Set("clearedCombatRooms",0);Enter(Find("Combat"));Check(F("EncounterRecoveryScale")==1&&(int)Get("TacticalCompanionCount")==1&&(int)Get("EncounterEnemyLimit")==7,"First three Mingsha clearances retain teaching pacing and original live cap");
+  Fire();Enter(31);Check((int)Get("TacticalCompanionCount")==4,"Fire final layer gains four mixed companions");Forest();Enter(31);Check((int)Get("TacticalCompanionCount")==4,"Forest final layer gains four mixed companions");p.woodlandMode=false;Fresh();Select();Quiet();
+ }

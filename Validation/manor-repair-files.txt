@@ -1,0 +1,12 @@
+Assets/NakiPrototype/NakiPrototype.ManorPresentation.cs
+Assets/NakiPrototype/NakiPrototype.ManorFinale.cs
+Assets/NakiPrototype/NakiPrototype.ManorCourtyard.cs
+Assets/NakiPrototype/NakiPrototype.Exploration.cs
+Assets/NakiPrototype/NakiPrototype.FlowGuide.cs
+Assets/NakiPrototype/Resources/NakiArt/ManorVillageV4/props.png
+Assets\NakiPrototype\NakiPrototype.ManorPresentation.cs.meta
+Assets\NakiPrototype\NakiPrototype.ManorFinale.cs.meta
+Assets\NakiPrototype\NakiPrototype.ManorCourtyard.cs.meta
+Assets\NakiPrototype\NakiPrototype.Exploration.cs.meta
+Assets\NakiPrototype\NakiPrototype.FlowGuide.cs.meta
+Assets\NakiPrototype\Resources\NakiArt\ManorVillageV4\props.png.meta

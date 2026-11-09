@@ -1,0 +1,3 @@
+from pathlib import Path
+r=Path('D:/NakiLegend/Repository');p=r/'Assets/NakiPrototype/NakiPrototype.BossBreathing.cs';s=p.read_text(encoding='utf-8').replace('ClearBossSignatures();ClearManorImpacts();','ClearBossSignatures();foreach(var impact in manorImpacts){if(impact.ring!=null)Destroy(impact.ring);if(impact.orb!=null)Destroy(impact.orb);}manorImpacts.Clear();');p.write_text(s,encoding='utf-8')
+p=r/'Validation/prepare_boss_breath.py';s=p.read_text(encoding='utf-8-sig').replace('FullIce();Enter(6);','FullIce();Enter(Find("Boss"));').replace('FirePose(6)','FirePose(12)').replace("p.rename(p.with_suffix('.cs.v8-disabled'))","p.rename(p.with_suffix('.cs.v8-retry-disabled'))");p.write_text(s,encoding='utf-8')

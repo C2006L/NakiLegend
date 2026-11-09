@@ -37,8 +37,8 @@ namespace NakiLegend.Prototype
         private void DrawProfessionChoice(float w,float h)
         {
             HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.04f,.9f));
-            CenterLabel(new Rect(w/2-420,h/2-195,840,45),"战斗专长 · 武器与光暗选择不受限制",journeyTitleStyle);
-            string[] cards={"战士\n\n初始武器：旅人短剑\nK 冲撞伤敌并轻微击退\n保留闪避保护","法师\n\n开局持旧木法杖\n元素消耗降低15%\nH 可切换备用短剑","弓箭手\n\n开局持猎沙短弓\n弓类更准，射速提高10%\nH 可切换备用短剑"};
+            CenterLabel(new Rect(w/2-420,h/2-195,840,45),"战斗专长 · 武器与光之力与贤者之石选择不受限制",journeyTitleStyle);
+            string[] cards={"战士\n\n初始武器：旅人短剑\nK 冲撞伤敌并轻微击退\n近战出手减伤30%，不易打断","法师\n\n开局持旧木法杖\n元素消耗降低15%\nH 可切换备用短剑","弓箭手\n\n开局持猎沙短弓\n弓类更准，射速提高10%\nH 可切换备用短剑"};
             for(int i=0;i<3;i++)if(FlatButton(new Rect(w/2-450+i*305,h/2-120,290,220),cards[i],professionChoice==i))ChooseProfession(i);
             CenterLabel(new Rect(w/2-450,h/2+125,900,50),"A / D 选择 · F 确认 · 旧存档保留进度与装备；H 可切刀反击",journeySmallStyle);
         }
@@ -61,7 +61,7 @@ namespace NakiLegend.Prototype
         {
             if(origin!=Origin.Unchosen)return;
             origin=choice==1?Origin.Dark:Origin.Light;
-            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?6:0;
+            energy=origin==Origin.Light?LightMaximum:0;darkPower=origin==Origin.Dark?6:0;
             orbLearned=false;
             TellStory(origin==Origin.Dark
                 ?"紫石沉入右眼，微凉的脉动随之传来。你握紧手中的武器：先去遗迹看看，或许旧碑上还留着驾驭这股力量的方法。"
@@ -80,8 +80,8 @@ namespace NakiLegend.Prototype
             HudRect(new Rect(0,0,w,h),new Color(.015f,.025f,.04f,.72f));
             Rect box=new Rect(w/2-400,h/2-190,800,380);HudRect(box,C("10232d"));
             CenterLabel(new Rect(box.x+25,box.y+22,750,44),"登岛抉择 · 选择你的主属性",journeyTitleStyle);
-            string light="光之力\n\nL 元气弹 · 单颗追踪\n光之力自然恢复\n适合稳定持续的旅程";
-            string dark="暗之力\n\nL 流星 · 两颗紫色追踪球\n击败有灵生物为贤者之石充能\n机械没有灵魂，武器仍用元素之力";
+            string light="光之力\n\nL 辉光束 · 按住自动锁定照射\n停手1.5秒后，每秒恢复4光能\n逐步领悟 O 光幕与 P 别·天神";
+            string dark="贤者之石能量\n\nL 流星 · 五颗紫色追踪球\n击败有灵生物为贤者之石充能\n机械没有灵魂；普通武器用元素之力，魂器消耗石中能量";
             if(FlatButton(new Rect(box.x+28,box.y+94,357,210),light,originChoice==0))ChooseOrigin(0);
             if(FlatButton(new Rect(box.x+415,box.y+94,357,210),dark,originChoice==1))ChooseOrigin(1);
             CenterLabel(new Rect(box.x+20,box.y+323,760,35),"A / D 选择 · F 确认；本轮确定后固定，存档会保留选择",journeySmallStyle);
@@ -90,27 +90,12 @@ namespace NakiLegend.Prototype
         {
             if(!enableDesertJourney||origin!=Origin.Dark||enemy.hp>0||!enemy.soulEligible||enemy.summoned||enemy.soulClaimed)return;
             enemy.soulClaimed=true;int amount=enemy.boss||enemy.elite?3:2;
-            float added=Mathf.Min(100-darkPower,amount);darkPower+=added;
+            float added=amount;darkPower+=added;if((originLoreBits&32)==0){originLoreBits|=32;AddFloatingHit("右眼掠过陌生的归途",enemy.position+Vector2.up*1.4f,C("bfa0e8"));}
             if(added>0)AddFloatingHit("灵魂能量 +"+added.ToString("0"),enemy.position+Vector2.up,C("b88ae8"));
         }
         private void CastDarkMeteor()
         {
-            if(!orbLearned){JourneyHint("贤者之石尚未回应 · 留意遗迹中的古井碑");return;}
-            if(clock<nextSpell)return;
-            meteorGroups.Clear();foreach(Shot old in shots)if(old.skillAudio=="meteor")meteorGroups.Add(old.meteorGroup);
-            if(meteorGroups.Count>=2)return;
-            if(darkPower<1){SpendPower(PowerPool.Dark,1);return;}
-            float strength=1+darkPower/100*.2f;int group=++nextMeteorGroup,beforeAll=shots.Count;
-            Enemy target;Vector2 aim=AutoAim(10,7,0,out target);
-            for(int i=0;i<2;i++)
-            {
-                Vector2 side=new Vector2(-aim.y,aim.x)*(i==0?-.16f:.16f);
-                int before=shots.Count;SpawnShot(position+aim*.4f+side,aim,false,target,position);
-                if(shots.Count>before){Shot s=shots[shots.Count-1];s.orb=true;s.meteorGroup=group;s.skillAudio="meteor";s.element=Element.Dark;s.damage=SkillDamage(15*strength);s.life=1.8f;s.speed=7;s.tracking=target!=null;s.root.transform.localScale=Vector3.one*.24f;s.root.GetComponent<SpriteRenderer>().color=C("bc7cf4");AddShotRibbon(s,C("bc7cf4"),.09f);}
-            }
-            if(shots.Count==beforeAll)return;
-            SpendPower(PowerPool.Dark,1);nextSpell=clock+1;SkillSound("meteor","cast");
-            castDirection=aim;castPoseUntil=clock+.25f;
+            CastMeteorVolley();
         }
     }
 }

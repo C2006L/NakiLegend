@@ -1,0 +1,158 @@
+{
+  "author": "Original project-generated tonal effects",
+  "license": "Original project assets",
+  "sample_rate": 22050,
+  "notes": "No pitch sweeps; harmonic soft onset and quiet seamless loop. Existing music and weapon audio unchanged.",
+  "assets": [
+    {
+      "file": "skill_lightbeam_cast_0.wav",
+      "seconds": 0.16,
+      "peak": 0.1422,
+      "rms": 0.0391
+    },
+    {
+      "file": "skill_lightbeam_cast_1.wav",
+      "seconds": 0.16,
+      "peak": 0.1427,
+      "rms": 0.0391
+    },
+    {
+      "file": "skill_lightbeam_cast_2.wav",
+      "seconds": 0.16,
+      "peak": 0.143,
+      "rms": 0.0391
+    },
+    {
+      "file": "skill_lightbeam_hit_0.wav",
+      "seconds": 0.10400000000000001,
+      "peak": 0.087,
+      "rms": 0.0243
+    },
+    {
+      "file": "skill_lightbeam_hit_1.wav",
+      "seconds": 0.10400000000000001,
+      "peak": 0.0874,
+      "rms": 0.0243
+    },
+    {
+      "file": "skill_lightbeam_hit_2.wav",
+      "seconds": 0.10400000000000001,
+      "peak": 0.0877,
+      "rms": 0.0243
+    },
+    {
+      "file": "skill_lightguard_cast_0.wav",
+      "seconds": 0.22,
+      "peak": 0.1553,
+      "rms": 0.0406
+    },
+    {
+      "file": "skill_lightguard_cast_1.wav",
+      "seconds": 0.22,
+      "peak": 0.1556,
+      "rms": 0.0406
+    },
+    {
+      "file": "skill_lightguard_cast_2.wav",
+      "seconds": 0.22,
+      "peak": 0.1557,
+      "rms": 0.0406
+    },
+    {
+      "file": "skill_lightguard_hit_0.wav",
+      "seconds": 0.14300000000000002,
+      "peak": 0.0964,
+      "rms": 0.0257
+    },
+    {
+      "file": "skill_lightguard_hit_1.wav",
+      "seconds": 0.14300000000000002,
+      "peak": 0.0968,
+      "rms": 0.0257
+    },
+    {
+      "file": "skill_lightguard_hit_2.wav",
+      "seconds": 0.14300000000000002,
+      "peak": 0.0969,
+      "rms": 0.0257
+    },
+    {
+      "file": "skill_solar_cast_0.wav",
+      "seconds": 0.3,
+      "peak": 0.1647,
+      "rms": 0.0427
+    },
+    {
+      "file": "skill_solar_cast_1.wav",
+      "seconds": 0.3,
+      "peak": 0.1702,
+      "rms": 0.0428
+    },
+    {
+      "file": "skill_solar_cast_2.wav",
+      "seconds": 0.3,
+      "peak": 0.1749,
+      "rms": 0.0428
+    },
+    {
+      "file": "skill_solar_hit_0.wav",
+      "seconds": 0.195,
+      "peak": 0.1026,
+      "rms": 0.0271
+    },
+    {
+      "file": "skill_solar_hit_1.wav",
+      "seconds": 0.195,
+      "peak": 0.1061,
+      "rms": 0.0271
+    },
+    {
+      "file": "skill_solar_hit_2.wav",
+      "seconds": 0.195,
+      "peak": 0.1092,
+      "rms": 0.0271
+    },
+    {
+      "file": "skill_soulseal_cast_0.wav",
+      "seconds": 0.18,
+      "peak": 0.1642,
+      "rms": 0.0398
+    },
+    {
+      "file": "skill_soulseal_cast_1.wav",
+      "seconds": 0.18,
+      "peak": 0.1648,
+      "rms": 0.0398
+    },
+    {
+      "file": "skill_soulseal_cast_2.wav",
+      "seconds": 0.18,
+      "peak": 0.1653,
+      "rms": 0.0398
+    },
+    {
+      "file": "skill_soulseal_hit_0.wav",
+      "seconds": 0.11699999999999999,
+      "peak": 0.1004,
+      "rms": 0.0249
+    },
+    {
+      "file": "skill_soulseal_hit_1.wav",
+      "seconds": 0.11699999999999999,
+      "peak": 0.1009,
+      "rms": 0.0249
+    },
+    {
+      "file": "skill_soulseal_hit_2.wav",
+      "seconds": 0.11699999999999999,
+      "peak": 0.1014,
+      "rms": 0.0249
+    },
+    {
+      "file": "light_channel_loop.wav",
+      "seconds": 1,
+      "peak": 0.1067,
+      "rms": 0.0762
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+Assets/NakiPrototype/NakiPrototype.BossBreathing.cs
+Assets/NakiPrototype/NakiPrototype.cs
+Assets/NakiPrototype/NakiPrototype.Elements.cs

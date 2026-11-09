@@ -1,0 +1,15 @@
+ static void BridgeSceneTests(){
+  WorkshopPose(23);Set("forgeRescued",true);Set("forgeBridgeOpen",false);Call("BuildChapterActions");Set("position",Vector2.zero);
+  for(float y=-4.5f;y<=4.5f;y+=.5f)Check((bool)Call("Blocked",new Vector2(3,y),.3f),"Closed trench prevents bypass at y="+y);
+  Check(Reachable(new Vector2(.2f,-1.5f))&&Reachable(new Vector2(0,3.8f))&&Reachable(new Vector2(0,-3.8f)),"Winch and north/south approaches remain on the reachable west bank");
+  Check(!Reachable(new Vector2(6,0)),"Before lowering, opposite bank is genuinely unreachable across the room");
+  for(int d=0;d<4;d++){Vector2 arrival=(Vector2)Call("SafeArrivalPoint",d);Check(!(bool)Call("Blocked",arrival,.3f),"Either bank has a safe doorway arrival: "+d);}
+  Set("position",Get("EvacuationWinchAt"));Call("TryChapterInteraction");Quiet();Check((bool)Get("forgeBridgeOpen"),"F operates the relocated bank-side winch");
+  foreach(object b in List("bridgeLowerings"))Set(b,"start",Time.unscaledTime-1);Call("TickWinchMotions");
+  Check(!(bool)Call("Blocked",new Vector2(3,0),.3f)&&Reachable(new Vector2(6,0)),"Deployed bridge is a real traversable link between the two banks");
+  Check((bool)Call("Blocked",new Vector2(3,2),.3f)&&(bool)Call("Blocked",new Vector2(3,-2),.3f),"Only the bridge becomes walkable; the rest of the trench stays blocked");
+  for(int i=0;i<=120;i++){Call("UpdateWorkerEvacuation",i*.15f);foreach(GameObject worker in List("evacuationWorkers"))Check(!(bool)Call("Blocked",(Vector2)worker.transform.position,.18f),"Evacuation path stays on banks or bridge, step "+i);}
+  Call("UpdateWorkerEvacuation",30f);foreach(GameObject worker in List("evacuationWorkers"))Check(worker.transform.position.x<0,"Workers actually finish on the western evacuation bank");
+  Set("position",new Vector2(3,0));Set("allowBatchCheckpoints",true);Set("chapterCheckpointPathOverride",Out+"save/bridge-v2.json");Check((bool)Call("SaveChapterCheckpoint",false),"New bridge geometry saves with the existing progression schema");Check((bool)Call("LoadChapterCheckpoint",false)&&(bool)Get("forgeBridgeOpen"),"Reload preserves an already-open bridge without repeating its task");Quiet();foreach(GameObject worker in List("evacuationWorkers"))Check(worker.transform.position.x<0,"Loaded open-bridge save shows workers already evacuated");Check(F("evacuationStarted")<0,"Reload does not repeat the evacuation cutscene");for(int i=0;i<3;i++)Call("BuildChapterActions");Check(Reachable(new Vector2(6,0)),"Rebuilding interactions never accumulates stale gap collisions");Set("allowBatchCheckpoints",false);Set("chapterCheckpointPathOverride",null);p.fireChapterMode=false;Fresh();Select();
+ }
+ static void BridgeScenePose(bool open){WorkshopPose(23);Set("forgeRescued",true);Set("forgeBridgeOpen",open);Call("BuildChapterActions");Set("position",new Vector2(-2,-2));Call("UpdatePixelHero",Vector2.zero);}

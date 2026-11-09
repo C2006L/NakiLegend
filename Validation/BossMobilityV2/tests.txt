@@ -1,0 +1,24 @@
+ static void BossMobilityV2Tests(){
+  var report=new List<string>{"island,stage,kind,phase,path_length,attacks,rooted"};
+  for(int island=1;island<=5;island++)for(int stage=0;stage<3;stage++){
+   if(island==1&&stage<2){p.woodlandMode=false;Fresh();Select();}else if(island==1){p.woodlandMode=false;Fresh();Select();}else if(island==2)Chapter();else if(island==3)FullIce();else if(island==4)Fire();else Forest();
+   if(island==1&&stage==2)for(int variant=0;variant<3;variant++){Set("selectedBoss",variant);Enter(Find("Boss"));AuditBossMotion(1,stage,report);}
+   else{int room=-1;foreach(object n in List("journeyRooms"))if((Get(n,"kind").ToString()=="Boss"||Get(n,"kind").ToString()=="Guardian")&&(int)Get(n,"stage")==stage)room=(int)Get(n,"id");Enter(room);AuditBossMotion(island,stage,report);}
+  }
+  File.WriteAllLines(Out+"boss-mobility.csv",report);
+  p.woodlandMode=false;Chapter();Enter(6);Quiet();Set("clock",50f);Set("lastDamageAt",45f);Set("shield",1f);Call("TickPlayerDefenses",1f);Check(F("shield")==1,"During a live fight five quiet seconds no longer restore the shield");Set("clock",51.6f);Call("TickPlayerDefenses",1f);Check(Mathf.Abs(F("shield")-1.55f)<.001f,"Combat shield recovery is exactly .55 per second after 6.5 seconds");KillCurrent();Quiet();Set("clock",60f);Set("shield",1f);Set("lastDamageAt",54f);Call("TickPlayerDefenses",1f);Check(F("shield")==2,"Safe cleared room retains one shield per second recovery");
+  Enter(6);Set(Room(6),"cleared",false);Set("health",6f);Set("shield",5f);Set("clock",70f);Set("invulnerableUntil",0f);Call("TakeJourneyDamage",2f,EnumVal("Element","Lightning"));Check(Mathf.Abs(F("shield")-2.44f)<.001f&&Mathf.Abs(F("invulnerableUntil")-70.55f)<.001f,"Thunder boss-size hit deals 2.56 shield damage with a readable .55 second hit grace");
+  object boss=List("enemies").Count>0?List("enemies")[0]:Spawn("CopperWarden",Vector2.zero);Set(boss,"windup",1f);Set(boss,"attackDirection",Vector2.right);Vector2 locked=(Vector2)Get(boss,"position");Call("PrepareBossFootwork",boss);Check((Vector2)Get(boss,"position")==locked&&(Vector2)Get(boss,"attackDirection")==Vector2.right,"Footwork never slides or rotates a telegraphed attack");
+  p.woodlandMode=false;Fresh();Select();Quiet();
+ }
+ static void AuditBossMotion(int island,int stage,List<string> report){
+  Quiet();Set("position",new Vector2(0,-4));Set("invulnerableUntil",100000f);object boss=List("enemies")[0];bool rooted=(bool)Call("RootedBoss",boss);
+  for(int phase=0;phase<3;phase++){
+   Set(boss,"hp",(float)Get(boss,"maximum")*(phase==0?1:phase==1?.65f:.3f));float distance=0;int attacks=0;
+   for(int i=0;i<260;i++){Set("clock",F("clock")+.05f);Vector2 old=(Vector2)Get(boss,"position");float tell=(float)Get(boss,"windup");Call("UpdateEnemy",boss,.05f);if(tell<=0&&(float)Get(boss,"windup")>0)attacks++;distance+=Vector2.Distance(old,(Vector2)Get(boss,"position"));if(i%20==0)ClearShots();}
+   report.Add(island+","+stage+","+Get(boss,"kind")+","+phase+","+distance.ToString("0.00")+","+attacks+","+rooted);
+   File.WriteAllLines(Out+"boss-mobility.csv",report);
+   Check(rooted||distance>.35f,"Actual boss AI has pursuit or repositioning in phase "+phase+": "+island+" / "+stage+" / "+Get(boss,"kind")+" moved "+distance);
+   Check(attacks>=1,"Repositioning still allows warned attacks: "+island+" / "+stage+" / "+phase);
+  }
+ }

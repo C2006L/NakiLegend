@@ -1,0 +1,56 @@
+ static void PolishTests(){
+  ManorPose(44);ClearEnemies();Set("clock",10f);List("obstacles").Clear();List("projectileObstacles").Clear();
+  Call("AddRoundedCover",new Rect(-.5f,-.15f,1,.4f),new Rect(-.6f,-.15f,1.2f,1.6f));
+  Check(!(bool)Call("Blocked",new Vector2(-.55f,.28f),.06f),"Rounded footing releases the empty corner");
+  Check((bool)Call("Blocked",Vector2.zero,.2f),"Rounded footing still blocks its centre");
+  Set("position",new Vector2(-2,.6f));Vector2 end=(Vector2)Call("CoverBeamEnd",new Vector2(-2,.6f),Vector2.right,8f,.18f);
+  Check(end.x<-.77f&&end.x>-.81f,"Exact beam contact clips against pillar body above its footing");
+  Vector2 move=(Vector2)Call("MoveInExploration",new Vector2(-2,0),new Vector2(4,0),.3f);Check(move.x<-.6f,"Long movement cannot tunnel through cover");
+  Vector2 diagonal=(Vector2)Call("MoveInExploration",new Vector2(-1,.7f),new Vector2(2,1),.3f);Check(diagonal.x>.9f,"Diagonal movement around visible cover stays free");
+  object boss=Spawn("ManorKnight",new Vector2(-3,0));Set(boss,"boss",true);Set(boss,"maximum",10000f);Set(boss,"hp",10000f);Set(boss,"windup",0f);Set(boss,"phaseUntil",0f);Set(boss,"chargeUntil",0f);
+  Call("ClearBossSignatures");Call("TickBossBreathing",boss,.02f);Set("clock",18f);Call("TickBossBreathing",boss,.02f);
+  var breaths=(IDictionary)Get("bossBreaths");object breath=breaths[boss];float until=(float)Get(breath,"until"),limit=(float)Get(breath,"suppressLimit");
+  Set("clock",until-.05f);Call("DamageEnemy",boss,1f);Check((float)Get(breath,"until")>until+.2f,"A real recovery hit extends recovery rather than allowing immediate fire");
+  for(int i=0;i<12;i++){Set("clock",(float)Get(breath,"until")-.02f);Call("DamageEnemy",boss,1f);}
+  Check(Mathf.Abs((float)Get(breath,"until")-limit)<.001f,"Continuous suppression has a 1.2 second extension cap");
+  Set("clock",limit+.01f);Check(!(bool)Call("TickBossBreathing",boss,.02f),"Boss can resume after bounded suppression");
+  int before=List("shots").Count;Call("PressureFan",new Vector2(-2,-2),Vector2.right,3,15f,4f,EnumVal("Element","Dark"),1f);int fired=List("shots").Count;
+  Set("clock",(float)Get(breath,"next")+.01f);Set(boss,"windup",0f);Set(boss,"phaseUntil",0f);Call("TickBossBreathing",boss,.02f);Check(fired>before&&List("shots").Count==fired,"Entering rest retains already emitted bullets");
+  Set("clock",50f);Set("shield",5f);Set("invulnerableUntil",0f);Set("position",new Vector2(2,.6f));
+  Call("AddSignatureZone",boss,8,new Vector2(-2,.6f),Vector2.right,8f,2.4f);object zone=List("signatureZones")[List("signatureZones").Count-1];Set(zone,"active",49f);Set(zone,"gap",0f);Set(zone,"nextHit",0f);Call("TickDuelBeam",zone);
+  var beam=(GameObject)Get(zone,"left");Check(beam.transform.position.x+beam.transform.localScale.x*.5f<-.77f,"Visible hostile beam ends at same pillar contact");Check(F("shield")==5,"Player behind pillar receives no laser damage");
+  Set(zone,"at",new Vector2(.8f,.6f));Call("TickDuelBeam",zone);Check(beam.transform.localScale.x==0,"Laser muzzle cannot appear beyond a pillar blocking its owner");
+  List("obstacles").Clear();List("projectileObstacles").Clear();Set("additionalCoverCount",0);Call("AddBossFightCover",Room(44));Check((int)Get("additionalCoverCount")>=2,"Hard knight room receives several separated covers");
+  var art=(IDictionary)Get("enemyActionArt");var poses=(Sprite[])art[EnumVal("EnemyKind","ManorKnight")];
+  for(int i=0;i<4;i++){
+   Sprite s=poses[i==2?4:i==3?6:i];Check(s.texture.name.StartsWith("Isolated finale pose"),"Knight pose is isolated from neighbouring actors: "+i);
+   Color32[] pixels=s.texture.GetPixels32();bool edge=false;for(int x=0;x<s.texture.width;x++)if(pixels[x].a>0||pixels[(s.texture.height-1)*s.texture.width+x].a>0)edge=true;
+   for(int y=0;y<s.texture.height;y++)if(pixels[y*s.texture.width].a>0||pixels[y*s.texture.width+s.texture.width-1].a>0)edge=true;
+   Check(!edge,"Complete silhouette has transparent safety border: "+i);Check(Mathf.Abs(s.pixelsPerUnit-poses[0].pixelsPerUnit)<.01f,"Pose extraction preserves pixel scale: "+i);
+  }
+  Check(poses[4].texture.width>Resources.Load<Texture2D>("NakiArt/ManorFinaleV3/bosses").width/4,"Attacking sword extends past old cell without being cut off");
+  ClearEnemies();List("obstacles").Clear();List("projectileObstacles").Clear();Set("clock",80f);Set("position",Vector2.zero);Set("origin",EnumVal("Origin","Light"));
+  Check(F("LightGuardDuration")>=3&&F("LightGuardDuration")<=4,"Guard now lasts three to four seconds with training");
+  Set("origin",EnumVal("Origin","Dark"));Set("darkPower",100f);Set("originThirdReady",0f);Set("orbLearned",true);
+  object marked=Spawn("ManorPatrol",new Vector2(2,0)),near=Spawn("ManorPatrol",new Vector2(3.6f,0));Set(marked,"hp",1000f);Set(near,"hp",1000f);
+  Set("originMarkedTarget",marked);Set("originMarkUntil",88f);Set("originMarkPulses",0);Set("originMarkProcReady",0f);float nearbyHp=(float)Get(near,"hp");Call("TriggerSoulSeal",marked,-1);
+  Check((float)Get(near,"hp")<nearbyHp,"Wider seal explosion hits an enemy 1.6 units from marked target");
+  Set(marked,"hp",0f);Call("TransferSoulSeal");Check(object.ReferenceEquals(Get("originMarkedTarget"),near)&&F("originMarkUntil")==88f&&(int)Get("originMarkPulses")==1,"Seal transfers to a surviving enemy without refreshing time or charges");
+  for(int i=0;i<8;i++){Set("clock",81f+i*.46f);Call("TriggerSoulSeal",near,-1);}Check((int)Get("originMarkPulses")==6,"Stronger seal is still limited to six detonations");
+  Check((float)typeof(NakiPrototype).GetField("StarfallRadius",B).GetRawConstantValue()==1.65f,"Player starfall radius matches the priest's 1.65 unit landing circle");
+  Set("clock",100f);Set("originKnowledge",10);Set("originSecondReady",0f);Set("origin",EnumVal("Origin","Light"));Set("energy",100f);Set("swordUntil",0f);Set("dashUntil",0f);
+  Check((bool)Call("CastOriginSlot",1)&&F("originGuardUntil")-F("clock")>=3f,"Actual O cast grants the longer guard duration");
+  Set("origin",EnumVal("Origin","Dark"));Set("originSecondReady",0f);Set("darkPower",100f);Set("clock",101f);
+  Check((bool)Call("CastOriginSlot",1)&&Mathf.Abs(F("originMarkUntil")-109f)<.001f,"Actual O cast applies the new eight second mark");
+  Set("clock",110f);Set("originThirdReady",0f);Call("CastStarfall");Check(List("fallingStars").Count==3,"Wider starfall still creates three separate falling orbs");
+  foreach(object star in List("fallingStars")){var circle=(GameObject)Get(star,"ring");Check(Mathf.Abs(circle.transform.localScale.x-3.3f)<.001f,"Actual starfall warning diameter matches enlarged damage radius");}
+  Call("ClearStarfall");Call("ClearBossSignatures");ClearEnemies();object attacker=Spawn("ManorKnight",new Vector2(-3,0));Set(attacker,"boss",true);Set("position",new Vector2(2,-1));Set("clock",120f);Call("BeginDuelMechanic",attacker,16);
+  object salvo=List("duelSalvos")[0];Check((int)Get(salvo,"left")>=4,"Knight attack now commits to at least four separated salvos");
+  Set(salvo,"index",2);Set(salvo,"next",120f);Vector2 original=(Vector2)Get(salvo,"aim");Set("position",new Vector2(-1,3));Call("TickDuelSalvos");Check(Vector2.Dot(original,(Vector2)Get(salvo,"aim"))<.95f,"Mid-combo boss re-aim punishes continuous circling without homing individual bullets");Call("ClearBossSignatures");
+  for(int profile=0;profile<17;profile++){Call("BeginDuelMechanic",attacker,profile);Check(List("duelSalvos").Count==1&&(int)Get(List("duelSalvos")[0],"left")>=3,"Boss combination profile has a committed multi-beat attack: "+profile);Call("ClearBossSignatures");}
+  object captain=Spawn("ManorCaptain",new Vector2(3,0));Call("BeginDuelMechanic",captain,16);Check(List("duelSalvos").Count==0&&List("signatureZones").Count==0,"Approved Oath Captain attack profile is excluded from global buffs");
+  // Render all four extracted poses side by side in the real room.
+  ClearEnemies();foreach(GameObject o in UnityEngine.Object.FindObjectsOfType<GameObject>())if(o.name=="Manor solid cover"||o.name=="Boss refuge cover")UnityEngine.Object.Destroy(o);
+  List("obstacles").Clear();List("projectileObstacles").Clear();Set("position",new Vector2(0,-3));
+  for(int i=0;i<4;i++){Sprite pose=poses[i==2?4:i==3?6:i];object actor=Spawn("ManorKnight",new Vector2(-6+i*4,-1));((SpriteRenderer)Get(actor,"body")).sprite=pose;File.WriteAllBytes(Out+"knight-pose-"+i+".png",pose.texture.EncodeToPNG());}
+ }

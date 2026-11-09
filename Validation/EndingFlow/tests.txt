@@ -1,0 +1,60 @@
+ static void ReleaseInteraction(){Set("interactionNeedsRelease",false);Set("worldInteractionReady",0f);}
+ static void IceEndingPose(){
+  FullIce();Enter(18);Call("IceChapterAction",310);Quiet();Enter(40);KillCurrent();Quiet();Enter(41);
+  Call("IceChapterAction",312);Quiet();Call("IceChapterAction",313);Quiet();Call("IceChapterAction",314);Quiet();
+  Call("IceChapterAction",320);
+ }
+ static void EndingFlowTests(){
+  Set("chapterCheckpointPathOverride",null);Set("allowBatchCheckpoints",false);
+  FullIce();Enter(40);KillCurrent();Quiet();
+  Check((bool)Get("chapterStone")&&!(bool)Get("chapterEnding")&&!(bool)Get("chapterCg"),"Ice final boss leaves sluice and return-light story unfinished");
+  Call("HandleTalents");Check(!(bool)Get("talentMenu"),"Ice boss victory cannot skip the CG into talent rewards");
+  Call("IceChapterAction",320);Check(!(bool)Get("chapterCg"),"Lighting cannot bypass rescue and both sluice gates");
+  IceEndingPose();
+  Check(p.iceSampleMode&&(int)Get("currentRoom")==0&&(bool)Get("chapterCg")&&!(bool)Get("iceEndingCgSeen"),"Real rescue, boss and sluice sequence ends at Ice harbor CG");
+  Call("HandleTalents");Check(!(bool)Get("talentMenu"),"Talent cards wait while the ending CG is displayed");
+  Check(Get("chapterEndingArt")!=null,"Ice finale has an actual loaded ending illustration");
+  Set("allowBatchCheckpoints",true);Set("chapterBatchSaveDirectory",Out+"save/voyage");Set("chapterCheckpointPathOverride",null);
+  Check((bool)Call("SaveChapterCheckpoint",false),"CG pending state saves to an isolated Ice checkpoint");
+  Check((bool)Call("LoadChapterCheckpoint",false)&&(bool)Get("chapterCg")&&!(bool)Get("chapterEnding"),"Closing/reopening a pending CG resumes it rather than completing the island");
+  Call("FinishChapterEnding");
+  Check(p.iceSampleMode&&(int)Get("currentRoom")==0&&(bool)Get("chapterEnding")&&(bool)Get("iceEndingCgSeen")&&!(bool)Get("chapterCg"),"Finishing CG records completion and stays in Ice harbor");
+  Check(Call("IceChapterObjective").ToString().Contains("右侧码头")&&Call("IceChapterObjective").ToString().Contains("赤炉群岛"),"Post-ending objective directs player forward rather than back to Thunder");
+  Check(!(bool)Get("WorldInteractionReady"),"CG close blocks the same confirmation from becoming a world interaction");
+  Call("RequestIceVoyage",304);Check((int)Get("pendingIceVoyage")==-1,"A just-closed CG cannot open the return boat");
+  Call("HandleTalents");Check((bool)Get("talentMenu"),"Only a completed CG unlocks Ice talent selection");
+  int chosen=((int[])Get("talentOffers"))[0];Call("LearnTalent",0);
+  Check(p.iceSampleMode&&!(bool)Get("talentMenu")&&((int[])Get("learnedTalents"))[2]==chosen&&(int)Get("currentRoom")==0,"Learning Ice talent never changes island or harbor room");
+  Check(!(bool)Get("WorldInteractionReady")&&(int)Get("pendingIceVoyage")==-1,"Talent close leaves a release guard and no queued journey");
+  Set("worldInteractionReady",Time.unscaledTime+100);Set("interactionNeedsRelease",false);Call("RequestIceVoyage",304);Check((int)Get("pendingIceVoyage")==-1,"Debounce also blocks a fresh rapid repeat after release");
+  ReleaseInteraction();Call("RequestIceVoyage",304);
+  Check((int)Get("pendingIceVoyage")==304&&p.iceSampleMode&&(bool)Get("AudioSuspended"),"Return boat opens a paused destination confirmation without travelling");
+  Call("ConfirmIceVoyage");Check(p.iceSampleMode&&(int)Get("pendingIceVoyage")==304,"The opening press cannot immediately confirm the boat");
+  Call("CancelIceVoyage");Check(p.iceSampleMode&&(int)Get("pendingIceVoyage")==-1&&(bool)Get("chapterEnding"),"Cancelling voyage keeps completed Ice world and progress");
+  ReleaseInteraction();Call("RequestIceVoyage",340);Check((int)Get("pendingIceVoyage")==340&&p.iceSampleMode,"Next-island route names its own destination and waits for confirmation");Call("CancelIceVoyage");
+  Check((bool)Call("SaveChapterCheckpoint",false),"Seen CG and learned Ice talent save together");
+  string icePath=Get("ChapterCheckpointPath").ToString();
+  Check((bool)Call("LoadChapterCheckpoint",false)&&!(bool)Get("chapterCg")&&(bool)Get("iceEndingCgSeen")&&((int[])Get("learnedTalents"))[2]==chosen,"Normal reload keeps talent and does not replay a seen CG");Quiet();
+  Type type=typeof(NakiPrototype).GetNestedType("ChapterCheckpoint",BindingFlags.NonPublic);
+  object legacy=JsonUtility.FromJson(File.ReadAllText(icePath),type);Set(legacy,"iceCgSeen",false);
+  File.WriteAllText(icePath,JsonUtility.ToJson(legacy).Replace("\"iceCgSeen\":false,",""));
+  Check((bool)Call("LoadChapterCheckpoint",false)&&(bool)Get("chapterCg"),"Old completed save with missing CG field replays the ending once");
+  Check(((int[])Get("learnedTalents"))[2]==chosen&&p.iceSampleMode,"Legacy recovery preserves the already-selected talent and Ice location");
+  Call("FinishChapterEnding");Call("HandleTalents");Check(!(bool)Get("talentMenu"),"Legacy recovery does not give a second Ice talent");
+  Check((bool)Call("LoadChapterCheckpoint",false)&&!(bool)Get("chapterCg"),"Recovery is persisted so subsequent reload does not loop the CG");Quiet();
+  ReleaseInteraction();Call("IceChapterAction",320);Check((bool)Get("chapterCg"),"Player can still intentionally replay the Ice finale at the return light");Call("FinishChapterEnding");Quiet();
+  // The real forward route must carry the talent ledger and create a separate Fire file.
+  ReleaseInteraction();Call("RequestIceVoyage",340);Set("voyageOpened",Time.unscaledTime-1);Call("ConfirmIceVoyage");
+  Check(p.fireChapterMode&&!p.iceSampleMode&&((int[])Get("learnedTalents"))[2]==chosen,"Deliberate next-island confirmation travels to Fire with the Ice talent");
+  Check(File.Exists(icePath)&&Get("ChapterCheckpointPath").ToString()!=icePath,"Forward voyage keeps a separate completed Ice checkpoint");
+  Quiet();Call("ReturnFromFire");Quiet();
+  Check(p.iceSampleMode&&(bool)Get("iceEndingCgSeen")&&!(bool)Get("chapterCg"),"Returning from Fire reloads Ice completion without missing or repeating CG");
+  // Seed an old Thunder safety room matching the reported rollback, then deliberately return.
+  Chapter();Enter(0);Quiet();Set("health",2.7f);Check((bool)Call("SaveChapterCheckpoint",false),"Separate Thunder checkpoint is available for deliberate backtracking");
+  p.iceSampleMode=true;p.iceFullChapter=true;Check((bool)Call("LoadChapterCheckpoint",false),"Completed Ice safety point is directly recoverable without replaying bosses");Quiet();
+  ReleaseInteraction();Call("RequestIceVoyage",304);Set("voyageOpened",Time.unscaledTime-1);Call("ConfirmIceVoyage");
+  Check(!p.iceSampleMode&&!p.fireChapterMode&&Mathf.Abs(F("health")-2.7f)<.01f,"Old Thunder resources are loaded only after an explicit return confirmation");
+  Check(((int[])Get("learnedTalents"))[2]==chosen,"Explicit return still keeps the Ice talent ledger");
+  Ice();Set("chapterStone",true);Set("chapterEnding",true);Check(!(bool)Get("IslandTalentReady"),"Old five-room Ice sample cannot award a full-island talent without its finale");
+  Set("allowBatchCheckpoints",false);Set("chapterCheckpointPathOverride",null);Set("chapterBatchSaveDirectory",null);p.iceFullChapter=true;Fresh();Select();ReleaseInteraction();
+ }

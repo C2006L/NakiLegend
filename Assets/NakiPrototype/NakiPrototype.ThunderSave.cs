@@ -13,14 +13,15 @@ namespace NakiLegend.Prototype
         [Serializable] private sealed class ThunderRoomSave { public bool cleared;public CheckpointWeapon[] drops;public CheckpointEssence[] essence; }
         [Serializable] private sealed class ThunderCheckpoint
         {
-            public int profession;
+            public SkillLoadout loadout;public float originSecond,originThird,lightRegen;
+            public int[] talents;public int profession,lore,knowledge,primary,queuedLore,routeOrigin;
             public int version=1,preset,room,equipped,healing,elementSupplies;
-            public float clock,health,shield,light,dark,element,nextSword,nextSpell,nextDash,bladeReady,waveReady,lastDamage;
+            public float returnReady,guardReady;public float clock,health,shield,light,dark,element,nextSword,nextSpell,nextDash,bladeReady,waveReady,lastDamage;
             public bool repair,reward;public Vector2 position;public int[] carried,reserves;public ThunderRoomSave[] rooms;
         }
         private bool thunderSavePending;
         private string thunderCheckpointPathOverride=null,thunderSaveStatus="尚无安全原型存档";
-        private string ThunderCheckpointPath { get { return string.IsNullOrEmpty(thunderCheckpointPathOverride)?Path.Combine(Application.persistentDataPath,"NakiLegend","thunder-prototype-v1.json"):thunderCheckpointPathOverride; } }
+        private string ThunderCheckpointPath { get { return string.IsNullOrEmpty(thunderCheckpointPathOverride)?Path.Combine(JourneySaveDirectory,"thunder-prototype-v1.json"):thunderCheckpointPathOverride; } }
         private bool ThunderDiskEnabled { get { return thunderPrototypeMode&&(!Application.isBatchMode||allowBatchCheckpoints); } }
         private bool SafeThunderCheckpoint { get { return thunderPrototypeMode&&!thunderSetupMenu&&SafeCheckpointRoom&&thunderWorkRemaining<=0&&thunderStrikes.Count==0; } }
         private bool SaveThunderCheckpoint(bool notify)
@@ -29,7 +30,7 @@ namespace NakiLegend.Prototype
             if(!SafeThunderCheckpoint){if(notify)JourneyHint("原型请在清场后保存；战斗不覆盖最近安全存档");return false;}
             try
             {
-                var s=new ThunderCheckpoint{profession=(int)profession,preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
+                var s=new ThunderCheckpoint{originSecond=originSecondReady,originThird=originThirdReady,lightRegen=lightRegenReady,talents=CopyTalents(),profession=(int)profession,lore=originLoreBits,knowledge=originKnowledge,primary=primarySkill,queuedLore=queuedOriginChapter,routeOrigin=(int)origin,preset=(int)thunderPreset,room=currentRoom,equipped=equippedSlot,healing=healingSupplies,elementSupplies=elementSupplies,
                     clock=clock,health=health,shield=shield,light=energy,dark=darkPower,element=elementPower,position=position,repair=thunderRepaired,reward=thunderRewardCreated,
                     carried=(int[])carriedWeapons.Clone(),reserves=reserveWeapons.ToArray(),nextSword=nextSword,nextSpell=nextSpell,nextDash=nextDash,
                     bladeReady=bladeReadyAt,waveReady=waveReadyAt,lastDamage=lastDamageAt,rooms=new ThunderRoomSave[2]};
@@ -52,8 +53,9 @@ namespace NakiLegend.Prototype
             if(s.carried==null||s.carried.Length!=2||s.reserves==null||s.reserves.Length>4||s.equipped<0||s.equipped>1||s.carried[s.equipped]<0)throw new InvalidDataException("Invalid prototype equipment");
             foreach(int w in s.carried)if(w< -1||w>=weaponCatalog.Length)throw new InvalidDataException("Invalid weapon");
             foreach(int w in s.reserves)if(w<0||w>=weaponCatalog.Length)throw new InvalidDataException("Invalid reserve");
-            if(!FiniteRange(s.clock,0,1e9f)||!FiniteRange(s.health,.01f,6)||!FiniteRange(s.shield,0,maximumShield)||!FiniteRange(s.light,0,100)||!FiniteRange(s.dark,0,100)||!FiniteRange(s.element,0,100)||!FiniteRange(s.position.x,-12,12)||!FiniteRange(s.position.y,-8,8)||s.healing<0||s.elementSupplies<0)throw new InvalidDataException("Invalid prototype resources");
-            foreach(float ready in new[]{s.nextSword,s.nextSpell,s.nextDash,s.bladeReady,s.waveReady,s.lastDamage})if(!FiniteRange(ready,-100,s.clock+1000))throw new InvalidDataException("Invalid cooldown");
+            if(!ValidOriginLegacy(s.lore,s.knowledge,s.primary,s.queuedLore))throw new InvalidDataException("Invalid origin memory");
+            if(!FiniteRange(s.clock,0,1e9f)||!FiniteRange(s.health,.01f,6)||!FiniteRange(s.shield,0,maximumShield)||!FiniteRange(s.light,0,200)||!ValidDarkPower(s.dark)||!FiniteRange(s.element,0,SavedElementMaximum(s.talents))||!FiniteRange(s.position.x,-12,12)||!FiniteRange(s.position.y,-8,8)||s.healing<0||s.elementSupplies<0)throw new InvalidDataException("Invalid prototype resources");
+            foreach(float ready in new[]{s.originSecond,s.originThird,s.lightRegen,s.nextSword,s.nextSpell,s.nextDash,s.bladeReady,s.waveReady,s.lastDamage})if(!FiniteRange(ready,-100,s.clock+1000))throw new InvalidDataException("Invalid cooldown");
             foreach(var room in s.rooms)
             {
                 if(room==null||room.drops==null||room.essence==null)throw new InvalidDataException("Invalid room state");
@@ -78,7 +80,7 @@ namespace NakiLegend.Prototype
                 foreach(var w in s.rooms[i].drops)n.drops.Add(new StoredWeapon{id=w.id,at=w.at});
                 foreach(var e in s.rooms[i].essence)n.essence.Add(new StoredEssence{at=e.at,value=e.value,born=e.born});
             }
-            professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;
+            professionFromSave=true;profession=(Profession)Mathf.Clamp(s.profession,0,3);clock=s.clock;health=s.health;shield=s.shield;energy=s.light;darkPower=s.dark;elementPower=s.element;RestoreOriginLegacy(s.lore,s.knowledge,s.primary,s.queuedLore);originSecondReady=s.originSecond;originThirdReady=s.originThird;lightRegenReady=s.lightRegen;
             healingSupplies=s.healing;elementSupplies=s.elementSupplies;equippedSlot=s.equipped;Array.Copy(s.carried,carriedWeapons,2);reserveWeapons.Clear();reserveWeapons.AddRange(s.reserves);
             thunderRepaired=s.repair;thunderRewardCreated=s.reward;nextSword=s.nextSword;nextSpell=s.nextSpell;nextDash=s.nextDash;bladeReadyAt=s.bladeReady;waveReadyAt=s.waveReady;lastDamageAt=s.lastDamage;
             EnterExplorationRoom(s.room,-1);position=NearestSafeFooting(s.position);UpdatePixelHero(Vector2.zero);storyLines=null;thunderSavePending=false;

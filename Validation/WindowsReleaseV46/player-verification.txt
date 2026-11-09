@@ -1,0 +1,24 @@
+PASS
+PASS: packaged entry starts fresh at first island; sprite shader supported
+PASS: standalone pause replay menu opens
+PASS: island 1 boss 1 StoneSentinel HP=385
+PASS: island 1 boss 2 ApeKing HP=880
+PASS: island 1 boss 3 Colossus HP=1166
+PASS: island 2 boss 1 CopperWarden HP=1419
+PASS: island 2 boss 2 ThunderSentinel HP=1540
+PASS: island 2 boss 3 StormStag HP=1727
+PASS: island 3 boss 1 IceBeast HP=1782
+PASS: island 3 boss 2 FrostMirror HP=1969
+PASS: island 3 boss 3 TideGuardian HP=2222
+PASS: island 4 boss 1 RedSpineLizard HP=2464
+PASS: island 4 boss 2 ForgeMaster HP=2651
+PASS: island 4 boss 3 MagmaTortoise HP=2959
+PASS: island 5 boss 1 CopperWarden HP=3492.8
+PASS: island 5 boss 2 ThunderSentinel HP=3504.6
+PASS: island 5 boss 3 StormStag HP=3894
+PASS: island 6 boss 1 ManorCaptain HP=4694.04
+PASS: island 6 boss 2 ManorSeal HP=5497.856
+PASS: island 6 boss 3 ManorKnight HP=5841.472
+PASS: island 7 boss 1 CapitalCommander HP=4838
+PASS: island 7 boss 2 CapitalMagistrate HP=5664
+PASS: island 7 boss 3 CapitalKing HP=6490

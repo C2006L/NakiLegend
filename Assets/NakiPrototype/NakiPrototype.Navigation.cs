@@ -36,7 +36,7 @@ namespace NakiLegend.Prototype
    int exits=0;foreach(Vector2Int n in Cardinal){Vector2 next=at+(Vector2)n*.45f;if(CanStandInExploration(next,radius)&&!Blocked(next,radius))exits++;}return exits>=3;
   }
   private Vector2 SafeArrivalPoint(int entry)
-  {return NearestSafeFooting(entry>=0?DoorPoint(entry,-1.9f):new Vector2(0,-journeyRooms[currentRoom].halfHeight+1.6f));}
+  {return NearestSafeFooting(entry>=0?DoorPoint(entry,-1.9f):CoastalHarborRoom||RainQuayRoom?new Vector2(-1,journeyRooms[currentRoom].halfHeight*.28f):new Vector2(0,-journeyRooms[currentRoom].halfHeight+1.6f));}
   private Vector2 NearestSafeFooting(Vector2 desired)
   {
    if(SafeFooting(desired,.34f))return desired;
@@ -47,25 +47,14 @@ namespace NakiLegend.Prototype
   private void BuildReadableGate(int direction,int stage)
   {
    Vector2 n=DoorNormal(direction),center=DoorPoint(direction);bool horizontal=direction<2;
-   TileFloor("Door approach",center+n*.9f,horizontal?new Vector2(2.4f,2.3f):new Vector2(2.3f,2.4f),stage,-994);
-   float angle=direction==0?0:direction==1?180:direction==2?-90:90;
-   if(gateFrameV12!=null){GameObject frame=Stretch("Carved doorway",gateFrameV12,center+n*.32f,new Vector2(4.2f,1.85f),Color.white,DepthAt(center.y)+4);frame.transform.rotation=Quaternion.Euler(0,0,angle);}
-   Vector2 tangent=new Vector2(-n.y,n.x);
-   foreach(float sign in new[]{-1f,1f})
-   {
-    Vector2 post=center+tangent*sign*1.65f;Vector2 footprint=horizontal?new Vector2(.65f,1.1f):new Vector2(1.1f,.65f);
-    Rect collision=new Rect(post-footprint*.5f,footprint);obstacles.Add(collision);projectileObstacles.Add(collision);
-   }
-   var gate=new GameObject("Closed bronze portcullis");gate.transform.SetParent(world,false);gate.transform.position=center;
-   for(int i=-4;i<=4;i++){GameObject bar=Stretch("Gate iron bar",square,center+Vector2.right*i*.235f,new Vector2(.08f,1.3f),C("775b3f"),620);bar.transform.SetParent(gate.transform,true);}
-   foreach(float y in new[]{-.45f,.45f}){GameObject beam=Stretch("Gate crossbeam",square,center+Vector2.up*y,new Vector2(2.08f,.13f),C("be9357"),621);beam.transform.SetParent(gate.transform,true);}
-   GameObject seal=Draw("Gate wind lock",windRingSprite??disc,center,Vector2.one*.5f,C("e88c67"),623);seal.transform.SetParent(gate.transform,true);gate.transform.rotation=Quaternion.Euler(0,0,angle);doorSeals.Add(gate);doorSealDirections.Add(direction);
-   Rect block=DoorSealCollision(direction);doorShotBlocks.Add(block);projectileObstacles.Add(block);
+   TileFloor("Door approach",center+n*.9f,horizontal?new Vector2(2.8f,2.3f):new Vector2(2.3f,2.8f),stage,-994);
+   BuildIslandGate(direction);
   }
-  private Rect DoorSealCollision(int direction){Vector2 c=DoorPoint(direction);return direction<2?new Rect(-1.18f,c.y-.35f,2.36f,.7f):new Rect(c.x-.35f,-1.18f,.7f,2.36f);}
+
+  private Rect DoorSealCollision(int direction){Vector2 c=DoorPoint(direction);return direction<2?new Rect(c.x-1.18f,c.y-.35f,2.36f,.7f):new Rect(c.x-.35f,c.y-1.18f,.7f,2.36f);}
   private string StairDestination()
   {
-   RoomNode n=journeyRooms[currentRoom];if(thunderChapterMode&&n.stairsTo>=0)return (journeyRooms[n.stairsTo].stage>n.stage?"前往":"返回")+(woodlandMode?WoodlandStages:ThunderStages)[journeyRooms[n.stairsTo].stage];if(n.stairsTo<0)return "";RoomNode target=journeyRooms[n.stairsTo];if(IsGatehouseRoom(target))return "前往归渠水道";if(IsGatehouseRoom(n))return "返回古渠核心";return (target.stage>n.stage?"前往":"返回")+"第 "+(target.stage+1)+" 层 · "+StageNames[target.stage];
+   RoomNode n=journeyRooms[currentRoom];if(thunderChapterMode&&n.stairsTo>=0)return (journeyRooms[n.stairsTo].stage>n.stage?"前往":"返回")+ActiveLayerName(journeyRooms[n.stairsTo].stage);if(n.stairsTo<0)return "";RoomNode target=journeyRooms[n.stairsTo];if(IsGatehouseRoom(target))return "前往归渠水道";if(IsGatehouseRoom(n))return "返回古渠核心";return (target.stage>n.stage?"前往":"返回")+"第 "+(target.stage+1)+" 层 · "+StageNames[target.stage];
   }
  }
 }

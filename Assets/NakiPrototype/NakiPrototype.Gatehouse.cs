@@ -173,7 +173,7 @@ namespace NakiLegend.Prototype
                 gateRepairCommitted=true;CreateGatehouseReward();gateWorkKind=2;gateWorkDuration=2;gateWorkRemaining=2;
                 if(gateWorkRing!=null)gateWorkRing.SetActive(true);UpdateExplorationDoors();return true;
             }
-            if(kind==3){JourneyHint(GatehouseDoorLocked(GatehouseRoom(1).id,2)?gateRepairCommitted?"检修闸已修好 · 先沿北路清理另一侧庭院":"检修闸被卡住 · 清沙后转动手轮":"检修通路已开启 · 沿门向东前进");return true;}
+            if(kind==3){JourneyHint(GatehouseDoorLocked(GatehouseRoom(1).id,2)?gateRepairCommitted?"检修闸已修好 · 先沿南路清理另一侧庭院":"检修闸被卡住 · 清沙后转动手轮":"检修通路已开启 · 沿门向东前进");return true;}
             if(kind==4)
             {
                 if(gateTotalUnlocked){JourneyHint("总闸已打开 · 已修复的小渠可以通过存水");return true;}
@@ -226,11 +226,11 @@ namespace NakiLegend.Prototype
             if(gateWorkRemaining>0)return gateWorkKind==2?"转动手轮 · ESC 跳过演出":"清开沙堆 · ESC 取消";
             if(!journeyRooms[currentRoom].cleared)return "第 "+currentWave+" / "+journeyRooms[currentRoom].waves+" 波 · 剩余 "+(enemies.Count+pendingSpawns.Count);
             if(!gatehouseSampleMode&&CurrentGatehouseIndex==4)return CanalCompletionHint();
-            if(CurrentGatehouseIndex==0)return "向北进入旧渠闸室 · 清理后可修闸或继续探索";
-            if(CurrentGatehouseIndex==2)return gateTotalUnlocked?"向东绕行观雨台，再向南清理庭院":"靠近分水总闸按 F · 打开设施总锁";
-            if(CurrentGatehouseIndex==4)return "向南清理检修庭院 · 可在铃台预览雨后回访";
-            if(!gateRepairCommitted)return "可以沿北门前进 · 清开两处沙堆后转动手轮";
-            return GatehouseDoorLocked(GatehouseRoom(1).id,2)?"手轮已修好 · 沿北路清理检修庭院以开放捷径":"检修捷径已开启 · 可回访水渠与未捡结晶";
+            if(CurrentGatehouseIndex==0)return "向南进入旧渠闸室 · 清理后可修闸或继续探索";
+            if(CurrentGatehouseIndex==2)return gateTotalUnlocked?"向东绕行观雨台，再向北沿岸路清理庭院":"靠近分水总闸按 F · 打开设施总锁";
+            if(CurrentGatehouseIndex==4)return "向北沿岸路清理检修庭院 · 可在铃台预览雨后回访";
+            if(!gateRepairCommitted)return "可以沿南门前进 · 清开两处沙堆后转动手轮";
+            return GatehouseDoorLocked(GatehouseRoom(1).id,2)?"手轮已修好 · 沿南路清理检修庭院以开放捷径":"检修捷径已开启 · 可回访水渠与未捡结晶";
         }
     }
 }

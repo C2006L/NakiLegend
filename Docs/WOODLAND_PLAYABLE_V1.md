@@ -1,4 +1,6 @@
-# 第三岛：青栖林海，可玩首版
+# 第五岛：青栖林海，可玩首版（历史记录）
+
+> 当前森林地图、战斗、结尾与跨岛存档已经更新，使用 [V2 试玩说明](WOODLAND_V2_PLAY_GUIDE.md)。以下保留首版制作记录，历史登岛路线与数值不代表当前版本。
 
 停止 Unity Play，等待编译，用 Tools → Naki Legend → Play → 5 Woodland Adventure 打开，再点击播放。有木岛安全存档时自动恢复；否则选择起始层、光暗预设后开始。入口 6 Woodland Boss Practice 可直接练古树，N 可选择三个 Boss。练习不覆盖正式存档。
 

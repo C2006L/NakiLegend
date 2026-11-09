@@ -1,0 +1,23 @@
+{
+  "revision": "V43",
+  "native_checks": 129,
+  "bosses_checked": 21,
+  "hp_increase": {
+    "islands_1_to_4": 0.1,
+    "islands_5_to_7": 0.18
+  },
+  "nonboss_elemental_drop": 2,
+  "unchanged": [
+    "light and philosopher stone charging",
+    "normal enemy HP",
+    "boss mechanics and projectile stats",
+    "player skill damage and capacity",
+    "boss and non-kill elemental rewards"
+  ],
+  "visual_review": "harbor-fixed.png inspected; no floating seedbed or neighboring boat scrap",
+  "limitations": [
+    "Scripted verification, not player difficulty/TTK playtest",
+    "Previously saved crystals retain their original values",
+    "Already spawned bosses need re-entry to use new spawn HP"
+  ]
+}

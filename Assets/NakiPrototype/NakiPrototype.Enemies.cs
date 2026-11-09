@@ -5,16 +5,16 @@ namespace NakiLegend.Prototype
 {
     public sealed partial class NakiPrototype
     {
-        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer, IceGuard, IceWisp, IceBeast, FrostHound, IceArcher, IceRunecaster }
+        private enum EnemyKind { SandScorpion, SpearGuard, Tumbleweed, SandKite, StoneSentinel, WindScorpion, Colossus, ApeKing, ChargeMoth, StormGuard, CopperRoller, ThunderStone, CopperWarden, ThunderSentinel, StormStag, WoodlandDeer, IceGuard, IceWisp, IceBeast, FrostHound, IceArcher, IceRunecaster, SnowCrab, SnowMoth, FrostMirror, TideGuardian, FrostLens, AshRaider, EmberLizard, AshBat, CoalThrower, RedSpineLizard, ForgeGuard, FurnaceCore, MoltenCrab, ForgeMaster, ForgeMold, MagmaTortoise, EmberAcolyte, AshPackbeast, WoodParasite, ManorPatrol, ManorShield, ManorCrossbow, ManorHound, ManorClerk, ManorCaptain, ManorAxe, ManorHammer, ManorPriest, ManorArcher, ManorMage, ManorSeal, ManorKnight, CapitalHalberd, CapitalShield, CapitalCrossbow, CapitalAlchemist, CapitalMage, CapitalArcher, CapitalDuelist, CapitalMaintainer, CapitalCommander, CapitalMagistrate, CapitalKing, CapitalConduit }
         private readonly Dictionary<EnemyKind, Sprite[]> enemyActionArt = new Dictionary<EnemyKind, Sprite[]>();
-        private sealed class FloatingHit { public string text; public Vector2 at; public float expires; public Color color; }
-        private sealed class FadingBody { public GameObject root; public SpriteRenderer renderer; public float expires; }
+        private sealed class FloatingHit { public string text; public Vector2 at; public float expires,born,amount; public Color color; public Enemy owner; }
+        private sealed class FadingBody { public Enemy owner; public GameObject root; public SpriteRenderer renderer; public float expires; }
         private readonly List<FloatingHit> floatingHits = new List<FloatingHit>();
         private readonly List<FadingBody> fadingBodies = new List<FadingBody>();
         private AudioSource journeyAudio;
         private AudioClip hitSound, hurtSound;
         private float nextSoundAt, cameraShakeUntil;
-        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿", "晶甲守卫", "浮冰晶灵", "裂冰甲兽", "霜牙猎犬", "寒弓游猎者", "刻霜祭司" };
+        private static readonly string[] EnemyNames = { "蓄露砂蝎", "断渠枪卫", "荆冠滚蓬", "逐风沙鹞", "枯井石卫", "噬雨风蝎", "古渠巨像", "沙原猿王", "蓄雷蛾", "巡雷枪卫", "铜壳滚兽", "引雷石卫", "守路铜卫", "引雷石卫长", "巡雷巨鹿", "寄枝鹿", "晶甲守卫", "浮冰晶灵", "裂冰甲兽", "霜牙猎犬", "寒弓游猎者", "刻霜祭司", "雪壳蟹", "风雪蛾", "霜镜巡狩者", "寒潮守望者", "霜镜", "灰砂短刃客", "炉鳞蜥", "灰翼蝠", "煤袋投手", "赤脊熔蜥", "锻火枪卫", "炉芯傀儡", "裂壳熔蟹", "锻链巨匠", "折射铸模", "赤潮熔龟", "引焰祭工", "灰烬驮兽", "寄生根结", "暮钟巡卫", "誓庭盾卫", "钟楼弩手", "断链猎犬", "誓录官", "誓庭卫长", "断旗斧骑士", "沉誓锤骑士", "暗黑祭师", "长廊弓箭手", "暮庭暗黑法师", "掌印机关", "暗黑大骑士", "王城戟卫", "王城盾卫", "王城弩卫", "炼金投瓶师", "王印术士", "钟楼射手", "宫廷剑士", "王印维护官", "封港统领", "王印执律官", "国王", "王印供能节点" };
 
         private void LoadEnemyActionArt()
         {
@@ -36,7 +36,7 @@ namespace NakiLegend.Prototype
 
         private Enemy SpawnJourneyEnemy(EnemyKind kind, Vector2 at, int depth)
         {
-            bool boss = kind>=EnemyKind.WindScorpion&&kind<=EnemyKind.ApeKing||IsChapterBoss(kind);
+            bool boss = IsCapitalBoss(kind)||kind>=EnemyKind.WindScorpion&&kind<=EnemyKind.ApeKing||IsChapterBoss(kind)||kind==EnemyKind.ManorCaptain||kind==EnemyKind.ManorSeal||kind==EnemyKind.ManorKnight;
             float hp = boss ? 390 + depth * 7 : kind == EnemyKind.StoneSentinel ? 95 + depth * 4 : kind == EnemyKind.SandKite ? 25 + depth : 28 + depth * 1.4f;
             float radius = boss ? .85f : kind == EnemyKind.StoneSentinel ? .55f : .32f;
             var enemy = new Enemy { kind = kind, position = at, hp = hp, maximum = hp, radius = radius, boss = boss,
@@ -45,23 +45,24 @@ namespace NakiLegend.Prototype
             Sprite sprite = enemyActionArt.TryGetValue(kind, out frames) ? frames[0] : boss ? bossSprite : kind == EnemyKind.SpearGuard ? skeletonSprite : smallEnemySprite;
             enemy.root = Draw(EnemyNames[(int)kind], sprite, at, Vector2.one, Color.white, DepthAt(at.y)); enemy.body = enemy.root.GetComponent<SpriteRenderer>();
             enemy.shadow = Draw("Enemy shadow", softDisc ?? disc, at, new Vector2(boss ? 1.8f : .7f, boss ? .45f : .2f), new Color(.08f, .06f, .04f, .35f), -799);
-            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemy.soulEligible=woodlandMode?(ArrayIndexWood(kind)==0||ArrayIndexWood(kind)==1||ArrayIndexWood(kind)==6||ArrayIndexWood(kind)==7||ArrayIndexWood(kind)==8||ArrayIndexWood(kind)==9||ArrayIndexWood(kind)==12):kind!=EnemyKind.StoneSentinel&&kind!=EnemyKind.Colossus&&kind!=EnemyKind.CopperRoller&&kind!=EnemyKind.ThunderStone&&!IsChapterBoss(kind);if(IsIceEnemy(kind))ConfigureIceEnemy(enemy);enemies.Add(enemy); return enemy;
+            enemy.affinity = lightningTrialMode && boss ? Element.Lightning : boss ? Element.Wind : Element.Physical; enemy.attackElement = lightningTrialMode && boss ? Element.Lightning : Element.Physical; if(kind==EnemyKind.StoneSentinel){enemy.elite=true;enemy.eliteKind=1;}if(IsThunderEnemy(kind))ConfigureThunderEnemy(enemy);if(woodlandMode)ConfigureWoodEnemy(enemy);enemy.soulEligible=woodlandMode?(ArrayIndexWood(kind)==0||ArrayIndexWood(kind)==1||ArrayIndexWood(kind)==6||ArrayIndexWood(kind)==7||ArrayIndexWood(kind)==8||ArrayIndexWood(kind)==9||ArrayIndexWood(kind)==12):kind!=EnemyKind.StoneSentinel&&kind!=EnemyKind.Colossus&&kind!=EnemyKind.CopperRoller&&kind!=EnemyKind.ThunderStone&&!IsChapterBoss(kind);if(IsIceEnemy(kind))ConfigureIceEnemy(enemy);if(IsFireEnemy(kind))ConfigureFireEnemy(enemy);if(woodlandMode){ConfigureWoodCombat(enemy);enemy.soulEligible=enemy.kind!=EnemyKind.WoodParasite&&ArrayIndexWood(enemy.kind)!=10&&ArrayIndexWood(enemy.kind)!=11&&ArrayIndexWood(enemy.kind)!=2&&ArrayIndexWood(enemy.kind)!=3&&ArrayIndexWood(enemy.kind)!=4&&ArrayIndexWood(enemy.kind)!=5;}if(IsManorEnemy(kind))ConfigureManorEnemy(enemy);if(IsCapitalEnemy(kind))ConfigureCapitalEnemy(enemy);if(enemy.boss)enemy.hp=Mathf.Max(enemy.hp,650+journeyRooms[currentRoom].stage*180);enemy.hp*=EnemyHealthScale(enemy.boss);enemy.maximum=enemy.hp;ApplyEncounterLife(enemy);ApplyBossLifeIncrease(enemy);enemies.Add(enemy);ConfigureTacticalEnemy(enemy); return enemy;
         }
 
         private void UpdateJourneyEnemy(Enemy enemy, float dt)
         {
-            if(IsIceEnemy(enemy.kind)){UpdateIceEnemy(enemy,dt);return;}
+            if(woodlandMode){UpdateWoodEnemy(enemy,dt);return;}
+            if(IsFireEnemy(enemy.kind)){UpdateFireEnemy(enemy,dt);return;}if(IsIceEnemy(enemy.kind)){UpdateIceEnemy(enemy,dt);return;}
             if(IsThunderEnemy(enemy.kind)){UpdateThunderEnemy(enemy,dt);return;}
             enemy.position=MoveEnemyWithinRoom(enemy.position,Vector2.zero,enemy.radius);
             Vector2 previous = enemy.position, offset = position - enemy.position;
-            if (enemy.boss && !enemy.secondPhase && enemy.hp <= enemy.maximum * .45f)
+            if (enemy.boss && !enemy.secondPhase && enemy.hp <= enemy.maximum * .7f)
             {
                 BeginBossPhase(enemy);
             }
             if(enemy.phaseUntil>clock){UpdateJourneyEnemyPose(enemy,false);return;}
             if (enemy.chargeUntil > clock)
             {
-                enemy.position = MoveEnemyWithinRoom(enemy.position, enemy.attackDirection * (enemy.kind == EnemyKind.Tumbleweed ? 6.2f : 5.2f) * dt, enemy.radius);
+                enemy.position = MoveEnemyCharge(enemy,enemy.attackDirection * (enemy.kind == EnemyKind.Tumbleweed ? 6.2f : 5.2f) * dt);
                 if ((enemy.position - previous).sqrMagnitude < .0001f) enemy.chargeUntil = clock;
                 if (DistanceToSegment(position, previous, enemy.position) < enemy.radius + .3f) TakeJourneyDamage(enemy.boss ? 2 : 1, enemy.attackElement);
             }
@@ -116,6 +117,7 @@ namespace NakiLegend.Prototype
             else if(enemy.kind==EnemyKind.Colossus&&pattern==0){enemy.strikePoint=enemy.position;enemy.warning=WarningCircle(enemy.position,enemy.secondPhase?4.5f:3.8f);enemy.windup=1.1f;}
             else if(enemy.kind==EnemyKind.StoneSentinel){enemy.strikePoint=enemy.position;enemy.warning=WarningCircle(enemy.position,1.6f);enemy.windup=1.0f;}
             else if(targetMark){enemy.warning=WarningCircle(enemy.strikePoint,enemy.kind==EnemyKind.ApeKing?1.25f:1.15f);enemy.windup=1.1f;}
+            else if(enemy.kind==EnemyKind.SandKite||enemy.kind==EnemyKind.WindScorpion&&pattern==2||enemy.kind==EnemyKind.Colossus&&pattern==1||enemy.kind==EnemyKind.ApeKing&&pattern==1)enemy.warning=EnemyMuzzleTell(enemy.position,enemy.attackDirection);
             else enemy.warning=WarningSector(enemy.position,enemy.attackDirection,enemy.boss?4:2.0f);
             enemy.nextAttack=Mathf.Max(enemy.nextAttack,clock+enemy.windup+(enemy.boss?1.7f:1.2f));
 
@@ -160,7 +162,7 @@ namespace NakiLegend.Prototype
 
         private void JourneyFan(Enemy enemy, int count, float spacing)
         {
-            Vector2 direction = enemy.attackDirection;
+            DensifyFan(ref count,ref spacing);Vector2 direction = enemy.attackDirection;
             for (int i = 0; i < count; i++)
             {
                 Vector2 aim = Quaternion.Euler(0, 0, (i - (count - 1) * .5f) * spacing) * direction;
@@ -175,7 +177,9 @@ namespace NakiLegend.Prototype
         private void SummonJourneyAdds(EnemyKind kind, int count)
         {
             var random = new System.Random(activeSeed ^ (int)(clock * 100) ^ currentRoom);
-            for (int i = 0; i < count && enemies.Count < 7; i++){QueueEnemy(kind, FindJourneySpawn(random, .34f));pendingSpawns[pendingSpawns.Count-1].summoned=true;}
+            int alive=0;foreach(Enemy e in enemies)if(e.summoned&&e.hp>0&&!CombatFixture(e))alive++;foreach(PendingSpawn p in pendingSpawns)if(p.summoned)alive++;
+            bool ape=!woodlandMode&&enemies.Exists(e=>e.boss&&e.kind==EnemyKind.ApeKing&&e.hp>0);int limit=ape?2:MotherEncounter?3:4;count=ape?Mathf.Min(2,count):MotherEncounter?count:Mathf.Min(3,count+1);
+            for (int i = 0; i < count && enemies.Count+pendingSpawns.Count < 7 && alive<limit; i++,alive++){QueueEnemy(kind, FindJourneySpawn(random, .34f));pendingSpawns[pendingSpawns.Count-1].summoned=true;}
         }
 
         private void JourneyAreaHit(Enemy enemy, Vector2 at, float radius)
@@ -197,28 +201,32 @@ namespace NakiLegend.Prototype
             if (enemyActionArt.TryGetValue(enemy.kind, out art))
             {
                 int frame = clock < enemy.hurtUntil ? 6 : enemy.windup > 0 ? 4 : enemy.chargeUntil > clock || clock < enemy.recoveryUntil && clock - enemy.actionStarted < .22f ? 5 : moving ? Mathf.FloorToInt(clock * 8 + enemy.maximum) % 4 : 0;
-                enemy.body.sprite = art[frame];
+                enemy.body.sprite = enemy.kind==EnemyKind.CapitalConduit?CapitalMechanismPose(enemy):art[frame];
             }
+            CapitalActionPose(enemy,moving);TickEnemySound(enemy);
             enemy.root.transform.position = enemy.position;
             enemy.body.sortingOrder = DepthAt(enemy.position.y);
             enemy.body.flipX = (enemy.windup > 0 ? enemy.attackDirection.x : position.x - enemy.position.x) < 0;
             enemy.body.color = clock < enemy.hurtUntil ? new Color(1, .7f, .6f) : Color.white;
-            if (enemy.shadow != null) enemy.shadow.transform.position = enemy.position;
+            if (enemy.shadow != null) enemy.shadow.transform.position = enemy.position;TickCapitalGait(enemy,moving);
         }
 
         private void OnEnemyHit(Enemy enemy, float amount)
         {
             enemy.hurtUntil = clock + .13f; cameraShakeUntil = clock + .08f;
-            AddFloatingHit(Mathf.CeilToInt(amount).ToString(), enemy.position + Vector2.up * .7f, C("fff0bb")); HitAudio(enemy);
+            AddDamageNumber(enemy,amount); HitAudio(enemy);
+            if((enemy.kind==EnemyKind.ManorClerk||enemy.kind==EnemyKind.ManorPriest)&&enemy.windup>0){enemy.windup=0;enemy.nextAttack=clock+1.2f;if(enemy.warning!=null)Destroy(enemy.warning);}
+            if(manorCourtyardMode&&enemy.kind==EnemyKind.ManorCaptain&&enemy.hp<=0)return;
             if (enemy.hp <= 0)
             {
                 Sprite[] art; Sprite sprite = enemyActionArt.TryGetValue(enemy.kind, out art) ? art[IsThunderEnemy(enemy.kind)?art.Length-1:7] : enemy.body.sprite;
+                if(enemy.kind==EnemyKind.CapitalConduit)sprite=CapitalMechanismPose(enemy);
                 GameObject body = Draw("Defeated " + EnemyNames[(int)enemy.kind], sprite, enemy.position, Vector2.one, Color.white, enemy.body.sortingOrder);
                 // Both objects share the world parent: keep the actor's authored scale during the pose change.
                 body.transform.localScale = enemy.root.transform.localScale;
                 body.transform.localRotation = enemy.root.transform.localRotation;
                 SpriteRenderer renderer = body.GetComponent<SpriteRenderer>(); renderer.flipX = enemy.body.flipX; renderer.flipY = enemy.body.flipY;
-                fadingBodies.Add(new FadingBody { root = body, renderer = renderer, expires = clock + .55f });
+                fadingBodies.Add(new FadingBody { owner = enemy, root = body, renderer = renderer, expires = clock + .55f });
             }
             else if ((int)enemy.kind < 4 && !enemy.elite && enemy.windup > 0)
             {
@@ -241,11 +249,13 @@ namespace NakiLegend.Prototype
                 if (left <= 0 || body.root == null) { if (body.root != null) Destroy(body.root); fadingBodies.RemoveAt(i); }
                 else { Color c = body.renderer.color; c.a = Mathf.Clamp01(left / .4f); body.renderer.color = c; }
             }
-            FollowExplorationCamera(dt);
+            TickRelicCombat();TickOriginLegacy();FollowExplorationCamera(dt);
         }
 
         private void ClearJourneyEffects()
         {
+            ClearCapitalCombat();ClearManorImpacts();
+            StopOriginAction();ResetOriginRoomEffects();CancelBowCharge();ResetEncounterDirector();
             ClearChapterSkillEffects();
             foreach (FadingBody body in fadingBodies) if (body.root != null) Destroy(body.root);
             foreach(var g in groundShocks)if(g.root!=null)Destroy(g.root);groundShocks.Clear();

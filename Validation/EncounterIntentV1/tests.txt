@@ -1,0 +1,66 @@
+ static void IntentFixture()
+ {
+  p.woodlandMode=false;Fresh();Quiet();Set("origin",EnumVal("Origin","Dark"));Set("profession",EnumVal("Profession","Warrior"));Call("LoadEnemyActionArt");ClearActors();ClearShots();Call("ResetEncounterDirector");List("obstacles").Clear();List("projectileObstacles").Clear();Set(Room(0),"kind",EnumVal("RoomKind","Combat"));Set(Room(0),"cleared",false);Set("position",Vector2.zero);Set("clock",10f);Set("invulnerableUntil",0f);Set("shield",4f);Set("health",6f);Call("ConfigureJourneyView");((Camera)Get("view")).transform.position=Vector3.back*10;
+ }
+ static object Brain(object enemy){return ((IDictionary)Get("enemyIntents"))[enemy];}
+ static void IntentTests()
+ {
+  IntentFixture();string[] kinds={"SandScorpion","SandKite","Tumbleweed","SpearGuard","StoneSentinel"};string[] roles={"Pursue","Skirmish","Roam","Anchor","Artillery"};
+  for(int i=0;i<kinds.Length;i++){object e=Spawn(kinds[i],new Vector2(-3+i*.8f,1));Check(Get(Call("IntentFor",e),"role").ToString()==roles[i],"Desert creature has distinct intent: "+kinds[i]);}
+  ClearActors();Call("ResetEnemyIntents");object archer=Spawn("SandKite",new Vector2(2,0));Set(archer,"nextAttack",1000f);float before=Vector2.Distance((Vector2)Get(archer,"position"),Vector2.zero);for(int i=0;i<12;i++){Set("clock",10+i*.05f);Call("UpdateTacticalEnemy",archer,.05f);}Check(Vector2.Distance((Vector2)Get(archer,"position"),Vector2.zero)>before,"Ranged unit actually retreats instead of joining the pursuer ball");
+  ClearActors();Call("ResetEnemyIntents");object anchor=Spawn("SpearGuard",new Vector2(-2,0));Set(anchor,"nextAttack",1000f);Set("position",new Vector2(5,0));Vector2 home=(Vector2)Get(anchor,"position");for(int i=0;i<40;i++){Set("clock",12+i*.05f);Call("UpdateTacticalEnemy",anchor,.05f);}Check(Vector2.Distance(home,(Vector2)Get(anchor,"position"))<.2f,"Guard anchors its post rather than chasing a circling player");
+  object roam=Spawn("Tumbleweed",new Vector2(0,1));Set(roam,"nextAttack",1000f);Set("clock",20f);Call("UpdateTacticalEnemy",roam,.05f);object state=Brain(roam);Vector2 goal=(Vector2)Get(state,"goal");Set("clock",20.1f);Set("position",new Vector2(-5,-1));Call("UpdateTacticalEnemy",roam,.05f);Check((Vector2)Get(state,"goal")==goal,"Roamer commits a waypoint rather than rerolling every frame");Set("clock",22f);Call("UpdateTacticalEnemy",roam,.05f);Check((Vector2)Get(state,"goal")!=goal,"Roamer later chooses a different bounded route");
+  IntentFixture();object ranger=Spawn("SandKite",new Vector2(2,0));state=Call("IntentFor",ranger);Call("BeginIntentAttack",ranger,state);Check(Get(ranger,"warning")==null,"Ordinary bullets have no ground trajectory warning");Set("clock",F("clock")+.39f);Call("UpdateTacticalEnemy",ranger,.05f);Check(List("shots").Count==2,"Short body tell resolves into an actual two-shot attack");
+  IntentFixture();object roller=Spawn("Tumbleweed",new Vector2(2,0));state=Call("IntentFor",roller);Call("BeginIntentAttack",roller,state);Check((GameObject)Get(roller,"warning")!=null,"Committed charge keeps its directional warning");Vector2 locked=(Vector2)Get(roller,"attackDirection");Set("position",new Vector2(0,3));Set("clock",10.66f);Call("UpdateTacticalEnemy",roller,.05f);Set("clock",10.71f);Call("UpdateTacticalEnemy",roller,.05f);Check((Vector2)Get(roller,"attackDirection")==locked,"Charge direction does not home after warning");
+  IntentFixture();Set(Room(0),"halfHeight",8f);ranger=Spawn("SandKite",new Vector2(0,6));Set(ranger,"nextAttack",0f);for(int i=0;i<12;i++){Set("clock",11+i*.05f);Call("UpdateTacticalEnemy",ranger,0f);}Check(List("shots").Count==0,"Off-screen ranged enemies cannot open fire");
+  for(int island=0;island<5;island++){
+   if(island==0){p.woodlandMode=false;Fresh();Quiet();Enter(1);}else if(island==1){p.woodlandMode=false;Chapter();Enter(1);}else if(island==2){FullIce();Enter(1);}else if(island==3){FirePose(1);}else{Forest();Enter(1);}Quiet();Set("clearedCombatRooms",4);int combatRoom=-1;for(int room=0;room<List("journeyRooms").Count;room++)if(Get(Room(room),"kind").ToString()=="Combat"&&(int)Get(Room(room),"stage")==0){combatRoom=room;break;}Check(combatRoom>=0,"Island has an ordinary encounter fixture: "+island);Set(Room(combatRoom),"cleared",false);Enter(combatRoom);Call("AddWaveCompanion");Check(List("pendingSpawns").Count<=6,"Smaller room formation budget on island "+island);var unique=new HashSet<string>();foreach(object spawn in List("pendingSpawns"))unique.Add(Get(spawn,"kind").ToString());Check(unique.Count>=2,"Formation contains different creature kinds on island "+island);
+  }
+  Forest();Enter(1);Quiet();ClearActors();List("obstacles").Clear();List("projectileObstacles").Clear();object support=Spawn("StormGuard",new Vector2(1,0));object ally=Spawn("CopperRoller",new Vector2(2,0));Set(ally,"hp",(float)Get(ally,"maximum")*.5f);float oldHp=(float)Get(ally,"hp");object supportState=Call("IntentFor",support);Call("ResolveIntentAttack",support,supportState);Check(Get(supportState,"role").ToString()=="Support"&&(float)Get(ally,"hp")>oldHp&&(float)Get(ally,"tacticWardUntil")>F("clock"),"Woodland glow moth actually wards and heals a nearby ally");
+  IntentNavigationTests();CameraIntentTests();BossSignatureTests();CircleBotTest();
+ }
+ static void IntentNavigationTests()
+ {
+  foreach(string kind in new[]{"SandScorpion","SandKite"}){
+   IntentFixture();Set("position",new Vector2(3,0));List("obstacles").Add(new Rect(-.6f,-1,1.2f,2));List("projectileObstacles").Add(new Rect(-.6f,-1,1.2f,2));object e=Spawn(kind,new Vector2(-3,0));Set(e,"nextAttack",1000f);bool reached=false;
+   for(int i=0;i<300;i++){Set("clock",10+i*.05f);Call("UpdateTacticalEnemy",e,.05f);Vector2 at=(Vector2)Get(e,"position");if(kind=="SandScorpion"?Vector2.Distance(at,new Vector2(3,0))<2.1f:!(bool)Call("ProjectilePathBlocked",at,new Vector2(3,0),.1f)){reached=true;break;}}
+   Check(reached,"Actor finds a route / firing lane around solid cover: "+kind);
+  }
+ }
+ static void CameraIntentTests()
+ {
+  IntentFixture();Camera view=(Camera)Get("view");Check(Mathf.Abs(view.orthographicSize-4.15f)<.001f,"Normal combat zoom uses a local view");Set("position",new Vector2(0,3));Call("FollowExplorationCamera",1f);Check(view.transform.position.y>.5f,"Combat camera follows player toward the room edge");float half=(float)Get(Room(0),"halfHeight");Check(view.transform.position.y<=Mathf.Max(0,half+.8f-view.orthographicSize)+.05f,"Camera stays clamped to room bounds");Set(Room(0),"kind",EnumVal("RoomKind","Boss"));Call("ConfigureJourneyView");Check(Mathf.Abs(view.orthographicSize-4.6f)<.001f,"Boss arena grants slightly wider local awareness");Set(Room(0),"kind",EnumVal("RoomKind","Event"));Call("ConfigureJourneyView");Check(view.orthographicSize>4.6f,"Peaceful hubs retain overview presentation");
+ }
+ static object Signature(object e)
+ {Call("TickBossSignature",e,.01f);object state=((IDictionary)Get("bossSignatures"))[e];Set(state,"next",F("clock"));Call("StartBossSignature",e,state);return state;}
+ static void BossSignatureTests()
+ {
+  var names=new HashSet<string>();
+  for(int island=0;island<5;island++)for(int tier=0;tier<3;tier++){
+   object boss;
+   if(island==0){IntentFixture();ClearActors();Set(Room(0),"kind",EnumVal("RoomKind","Boss"));boss=Spawn(new[]{"WindScorpion","Colossus","ApeKing"}[tier],new Vector2(0,1));}
+   else if(island==1){p.woodlandMode=false;Chapter(0,tier);boss=List("enemies")[0];}
+   else if(island==2){FullIce();Enter(new[]{2,26,40}[tier]);boss=List("enemies")[0];}
+   else if(island==3){FirePose(new[]{12,27,42}[tier]);boss=List("enemies")[0];}
+   else{Forest();Enter(((int[])Get("stageEnds"))[tier]);boss=List("enemies")[0];}
+   Quiet();Set("position",new Vector2(-2,-1));Call("ConfigureJourneyView");((Camera)Get("view")).transform.position=Vector3.back*10;Set("clock",20f);Call("UpdateIntentPlayerMotion");object state=Signature(boss);int id=(int)Call("BossIdentity",boss);names.Add(((string[])Get("SignatureNames"))[id]);Check(List("signatureZones").Count+List("returningBossShots").Count+List("thunderStrikes").Count+List("pendingSpawns").Count+List("enemies").Count>1,"Boss signature creates actual gameplay objects: "+id);
+   Set("clock",21f);Call("TickBossSignatures",.05f);Call("ClearBossSignatures");Check(List("signatureZones").Count==0&&List("returningBossShots").Count==0,"Boss signature cleans up delayed objects and collisions: "+id);
+  }Check(names.Count==15,"All fifteen island boss roles have distinct named signatures");
+  FullIce();Enter(40);Quiet();object tide=List("enemies")[0];Set("position",Vector2.zero);Set("clock",30f);Signature(tide);object wave=List("signatureZones")[0];float at=((Vector2)Get(wave,"at")).y;Set("clock",31f);Set("position",new Vector2((float)Get(wave,"gap"),at+.15f*1.8f));Set("invulnerableUntil",0f);float shield=F("shield");Call("TickBossSignatures",.05f);Check(F("shield")==shield,"Tide wall's open lane is genuinely safe");Set("position",new Vector2((float)Get(wave,"gap")+2.1f,at+.15f*1.8f));Call("TickBossSignatures",.05f);Check(F("shield")<shield,"Tide wall damages outside its visible gap");Call("ClearBossSignatures");
+  FirePose(42);Quiet();object turtle=List("enemies")[0];Set("clock",40f);Set("position",new Vector2(3,0));Signature(turtle);float front=(float)Call("SignatureDamageMultiplier",turtle);Set("position",new Vector2(-3,0));Set(turtle,"attackDirection",Vector2.left);Check(front<1&&(float)Call("SignatureDamageMultiplier",turtle)==1,"Tortoise shell commits to its visible frontal arc rather than tracking the player");
+ }
+ static void CircleBotTest()
+ {
+  IntentFixture();Set("clearedCombatRooms",9);var actors=new List<object>();foreach(var pair in new[]{Tuple.Create("SandScorpion",new Vector2(0,0)),Tuple.Create("SandKite",new Vector2(-2,1)),Tuple.Create("Tumbleweed",new Vector2(2,1)),Tuple.Create("SpearGuard",new Vector2(0,-1)),Tuple.Create("StoneSentinel",new Vector2(3,-1))}){object e=Spawn(pair.Item1,pair.Item2);Set(e,"hp",100000f);Set(e,"maximum",100000f);actors.Add(e);}
+  float initial=F("health")+F("shield");int peak=0;for(int step=0;step<650;step++){float t=step*.05f;Set("clock",10+t);Set("position",new Vector2(5*Mathf.Cos(t*.7f),3*Mathf.Sin(t*.7f)));Call("UpdateIntentPlayerMotion");Call("FollowExplorationCamera",.05f);foreach(object e in actors)Call("UpdateTacticalEnemy",e,.05f);for(int i=List("shots").Count-1;i>=0;i--)Call("UpdateShot",i,.05f);peak=Math.Max(peak,List("shots").Count);}
+  Check(peak>0,"Mixed encounter produces actual ranged pressure");Check(F("health")+F("shield")<initial,"A constant circular path takes hits from the mixed intent encounter");Check(((Vector2)Get(actors[3],"position")).magnitude<2,"Anchor does not collapse into a train behind the player");
+ }
+ static void IntentPoseFixture(bool local=true)
+ {
+  IntentFixture();Set("position",new Vector2(-2,-1));Set("clock",30f);foreach(var pair in new[]{Tuple.Create("SandScorpion",new Vector2(-1,1)),Tuple.Create("SandKite",new Vector2(3,1)),Tuple.Create("Tumbleweed",new Vector2(4,-1)),Tuple.Create("SpearGuard",new Vector2(1,-2)),Tuple.Create("StoneSentinel",new Vector2(-4,2))}){object e=Spawn(pair.Item1,pair.Item2);Set(e,"nextAttack",100000f);Call("UpdateTacticalEnemy",e,.01f);}
+  object kite=List("enemies")[1];Call("BeginIntentAttack",kite,Call("IntentFor",kite));Set("clock",30.4f);Call("UpdateTacticalEnemy",kite,.01f);Call("ConfigureJourneyView");((Camera)Get("view")).transform.position=(Vector3)Get("JourneyViewCenter");Call("UpdatePixelHero",Vector2.zero);Set("roomBannerUntil",0f);Quiet();
+ }
+ static void TideSignaturePose()
+ {
+  FullIce();Enter(40);Quiet();object boss=List("enemies")[0];Set("clock",30f);Set("position",new Vector2(0,-1));Set(boss,"nextAttack",100000f);Signature(boss);Set("clock",32.4f);Call("TickBossSignatures",.01f);Call("ConfigureJourneyView");((Camera)Get("view")).transform.position=(Vector3)Get("JourneyViewCenter");Call("UpdatePixelHero",Vector2.zero);Set("roomBannerUntil",0f);
+ }

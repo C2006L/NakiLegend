@@ -1,0 +1,54 @@
+{
+  "tool": "built-in image_gen",
+  "resourceDirectory": "Assets/NakiPrototype/Resources/NakiArt/CapitalStoryV26",
+  "sourceReferenceDirectory": "Assets/NakiPrototype/Resources/NakiArt/CapitalV1",
+  "prompts": [
+    {
+      "file": "02-lockdown.png",
+      "source": "02-lockdown.png",
+      "prompt": "Use case: precise-object-edit. Edit this standalone game CG. Remove the brown-braided royal woman with documents from the upper-right balcony entirely; reconstruct the balcony railing, palace windows and climbing flowers naturally in that space. No replacement protagonist or guide. Preserve exactly the navy-haired teenage male hero in the ivory shirt and worn royal-blue/gold compass cape, the crossed halberds, guards, closing bronze portcullis, harbour, night lighting, camera and painterly pixel-art style. Ordinary background residents may remain. No princess, romantic partner, captions or new text. Keep widescreen."
+    },
+    {
+      "file": "03-heart.png",
+      "source": "03-heart.png",
+      "prompt": "Use case: precise-object-edit. Edit this standalone game CG to make the boy discover the truth alone. Remove the brown-braided royal woman entirely. Replace her occupied left foreground area with a low pile of old ledgers and open letters on the existing desk, continuing the bookshelves behind; no new person. Keep the boy, six external crystals (red, deep cobalt-blue, cyan, green, amber, purple) and the golden light of his own heart, exactly six outside crystals. The boy's free hand can rest on an original manuscript as he reads it, contemplative rather than triumphant. Preserve ivory shirt, navy hair, worn blue cape with gold compass embroidery, study, lighting, widescreen composition, painterly pixel-art style. No crown, courtship, princess, new guide, readable invented text. If an eye glows purple it must be his anatomical RIGHT eye, never his left; if that eye is hidden do not add visible glow."
+    },
+    {
+      "file": "04-victory.png",
+      "source": "04-victory.png",
+      "prompt": "Use case: precise-object-edit. Edit this game CG. Remove the brown-braided royal woman at the right side completely. Replace that space with an open lectern bearing the original papers and broken red wax seal; the ordinary townspeople beyond the open door enter under their own initiative, not led by a new royal character. Preserve the teenage boy at left with navy hair, ivory shirt and blue/gold compass cape, exhausted defeated older king kneeling, broken sun seal, throne and palace architecture, warm light, exact painterly pixel-art style and widescreen camera. The boy does not become king and does not wear a crown. No princess, love interest, gore or captions."
+    },
+    {
+      "file": "05-homeward.png",
+      "source": "05-crown.png",
+      "prompt": "Use case: illustration-story. Replace this ending with a new standalone widescreen CG in exactly the same painterly pixel-art style, character design and sunset palette. Narrative: the same navy-haired teenage boy with ivory shirt and worn royal-blue cape embroidered with a gold compass is finally travelling home as an ordinary passenger on a small wooden sailing ship. He stands on deck with a modest travel bag, seen mostly from behind looking toward the open sea; NO crown or circlet, NO royal robes, NO princess, NO romantic partner, NO throne. Warm evening sunlight, quiet hopeful emotion, patched sail, ordinary sailor tending a rope and cargo sacks, harbour behind showing residents repairing quay and reopened grain traffic. Include six separate modest sealed transport boxes being handed to different ordinary dock crews in distant background, not a row of magical trophies in front. Keep the focus on the boy's finally ordinary voyage, not a coronation or celebration. No captions, borders, collage or text."
+    },
+    {
+      "file": "06-rebirth.png",
+      "source": "06-rebirth.png",
+      "prompt": "Use case: precise-object-edit. Edit this standalone ending CG in the same painterly pixel-art style. Remove the distinct brown-braided royal woman in the left foreground entirely, naturally continue the ordinary townspeople and dock workers there. Give ordinary people a restrained mixture of awe and mourning, not cheering at a royal wedding. Preserve the magnificent gold/cyan/white reborn phoenix NakiTong and the restored coastal city at dawn. Hero is permanently absent: no visible boy, ghost, reincarnation or revived human. Change the right foreground altar into the visible wooden wall and open entrance of a small returning ship cabin with the hero's EMPTY worn blue cape with gold compass emblem hanging from a wooden peg inside, his sheathed sword beside it. Clearly an empty cloak with no head, face, hands or body inside it. Distant lamp maker lights harbour lamps, sailors ready ropes and a child tends a small plant, understated continuity of ordinary lives. No princess, royal bride, crowned successor, throne, readable captions or collage. Wide cinematic composition."
+    }
+  ],
+  "constraints": [
+    "No royal companion or marriage/coronation ending",
+    "Same teenage male hero, ivory shirt, navy hair, worn blue/gold compass cape",
+    "Six external fragments; right-eye stone remains a separate artificial container",
+    "Ending 1 returns home; ending 2 leaves empty cloak and permanently absent hero"
+  ],
+  "unchanged": [
+    "07-defeat.png"
+  ],
+  "corrections": [
+    {
+      "file": "06-rebirth.png",
+      "instruction": "Preserve the phoenix, ordinary townspeople and empty cape; make the right foreground unmistakably a docked ship stern cabin with curved hull, waterline, deck rail and a gangplank from the quay, rather than a shore hut."
+    }
+  ],
+  "arrivalV28": {
+    "tool": "built-in image_gen",
+    "prompt": "Precise object/anatomy correction to this standalone 16:9 game arrival CG. Preserve the same navy-haired teenage male hero, ivory shirt, worn blue cape with gold compass emblem, warm sunset harbour, crowd and palace, exact painterly pixel-art style. Redraw the boy in a natural relaxed three-quarter stance FACING THE CROWD ON THE LEFT. Head, shoulders, torso, hips, knees and feet must agree on the same plausible orientation: both feet planted on cobbles with natural weight, no twisted pelvis or crossed backwards legs, normal elbows/wrists and five fingers. One open hand greets the crowd at chest height with relaxed elbow, other hand relaxed naturally at his side. REMOVE the gemstone bag completely, including strap, pouch and handle. Instead show exactly SIX small separate gems gently levitating in a loose unobtrusive arc near his open palm, red, amber, purple, cobalt blue, cyan and green, no seventh external gem, no gem container. No crown, princess, caption or extra limb. Keep the hero whole and comfortably framed, no cropped boots or fingers.",
+    "correction": "Add exactly one cobalt-blue gem; preserve five existing gems, boy anatomy and no bag.",
+    "source": "C:\\Users\\15853\\.codex\\generated_images\\01a1764d-2b16-7840-a400-e14f3ffe5ffd\\exec-fa47461b-5fa2-498d-8338-3a25b7568f6b.png",
+    "output": "Assets/NakiPrototype/Resources/NakiArt/CapitalStoryV26/01-return.png"
+  }
+}

@@ -5,13 +5,14 @@ namespace NakiLegend.Prototype
     {
         // Derived from the active chapter; never accumulated on save/load.
         private int IslandTier { get { return CurrentIsland.ordinal-1; } }
-        private float EffectiveMaximumShield { get { return maximumShield + CurrentIsland.shieldBonus; } }
+        private float woodlandShieldFloor;
+        private float EffectiveMaximumShield { get { return fireChapterMode?Mathf.Max(maximumShield+2,fireShieldFloor)+WorkshopShieldBonus:woodlandMode?Mathf.Max(maximumShield+CurrentIsland.shieldBonus,woodlandShieldFloor)+WoodlandGrowth:maximumShield + CurrentIsland.shieldBonus + (iceSampleMode&&iceFullChapter&&journeyRooms.Count==42?(journeyRooms[2].cleared?1:0)+(journeyRooms[26].cleared?1:0):0); } }
         private float SkillStrength { get { return CurrentIsland.skillScale; } }
-        private float SkillDamage(float amount) { return amount * SkillStrength; }
+        private float SkillDamage(float amount) { return amount * SkillStrength*(HasTalent(6)?1.1f:1); }
         private float WindGuardDuration { get { return thunderChapterMode ? 1.2f : 1; } }
         private float WindGuardMultiplier { get { return thunderChapterMode ? .65f : .7f; } }
         private float ChapterGroundDamage { get { return thunderChapterMode ? journeyRooms[currentRoom].stage == 2 ? 2 : 1.5f : 1; } }
         private void NormalizeOriginPower()
-        {if(origin==Origin.Dark)energy=0;else if(origin==Origin.Light)darkPower=0;}
+        {if(origin==Origin.Dark)energy=0;else if(origin==Origin.Light){darkPower=0;energy=Mathf.Min(energy,LightMaximum);}}
     }
 }

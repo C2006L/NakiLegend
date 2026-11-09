@@ -25,9 +25,9 @@ namespace NakiLegend.Prototype
             if (world != null) { world.gameObject.SetActive(false); Destroy(world.gameObject); }
             world = null;
             foreach (Object asset in ownedAssets) if (asset != null) Destroy(asset);
-            ownedAssets.Clear(); heroFrames.Clear(); enemyActionArt.Clear();worldPropSprites.Clear();iceArt.Clear();iceExpansionArt.Clear();iceFissures.Clear();icePatches.Clear();iceRingVisual=null;woodPropBlocks.Clear();woodPropRoom=-1;
+            ownedAssets.Clear(); heroFrames.Clear(); enemyActionArt.Clear();worldPropSprites.Clear();firePropArt.Clear();workshopArt.Clear();forgeFixtureSprites.Clear();coreArt.Clear();woodlandNature.Clear();forestQuestArt.Clear();rainQuayArt=null;passageGates=stormFixtures=null;voyagerJournal=false;worldAtlasMenu=atlasConfirm=false;ClearFireHazards();iceArt.Clear();iceExpansionArt.Clear();iceFissures.Clear();icePatches.Clear();iceRingVisual=null;woodPropBlocks.Clear();woodPropRoom=-1;
             pixelHeroReady = polishedHeroReady = layeredHeroReady = false;
-            windRingSprite = sectorWarning = essenceSprite = null;
+            windRingSprite = sectorWarning = essenceSprite = hostileBulletSprite = null;
             journeyTitleStyle = journeyTextStyle = journeySmallStyle = journeyButtonStyle = journeyNodeStyle = null;
             openingCaptionStyle = null;
             Start();if(thunderChapterMode){chapterSetup=false;bool resumed=LoadChapterCheckpoint(false);JourneyHint(resumed?"脚本已更新 · 已恢复"+CurrentIsland.name+"安全点":"脚本已更新 · 已重开本次练习");return;}if(thunderPrototypeMode){thunderSetupMenu=false;LoadThunderCheckpoint(false);}

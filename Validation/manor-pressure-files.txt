@@ -1,0 +1,10 @@
+Assets\NakiPrototype\NakiPrototype.LocationNames.cs
+Assets\NakiPrototype\NakiPrototype.ThunderChapter.cs
+Assets\NakiPrototype\NakiPrototype.WoodlandStoryV2.cs
+Assets\NakiPrototype\NakiPrototype.ManorCourtyard.cs
+Assets\NakiPrototype\NakiPrototype.ManorCombat.cs
+Assets\NakiPrototype\NakiPrototype.ThunderChapterSave.cs
+Assets\NakiPrototype\NakiPrototype.WorldAtlasHud.cs
+Assets\NakiPrototype\NakiPrototype.WorldAtlas.cs
+Assets\NakiPrototype\NakiPrototype.WoodlandV2.cs
+Assets\NakiPrototype\NakiPrototype.FireCoast.cs

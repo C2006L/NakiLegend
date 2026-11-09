@@ -1,0 +1,28 @@
+from pathlib import Path
+root=Path(__file__).resolve().parents[2];base=root/'Assets/NakiPrototype'
+def edit(name,old,new):
+ p=base/f'NakiPrototype.{name}.cs';s=p.read_text(encoding='utf-8');assert s.count(old)==1,(name,old,s.count(old));p.write_text(s.replace(old,new),encoding='utf-8')
+edit('Relics','throw new InvalidOperationException("Invalid relic catalog size");','throw new InvalidOperationException("Invalid relic catalog size");ApplyWeaponIdentities();')
+edit('Arsenal','CurrentWeapon.name.Contains("锤")','(CurrentWeapon.name.Contains("锤")||CurrentWeapon.name.Contains("槌"))')
+edit('Arsenal','RelicMeleeImpact();if','IdentityMeleeEffect();RelicMeleeImpact();if')
+edit('Audio','WeaponDef w=CurrentWeapon;string key=','if(PlayWeaponIdentitySound(HeldWeaponIdentity,false))return;WeaponDef w=CurrentWeapon;string key=')
+edit('CombatV3','AddShotRibbon(shot,SpellTint(w.element),.025f);','AddShotRibbon(shot,SpellTint(w.element),.025f);StyleIdentityProjectile(shot,HeldWeaponIdentity);')
+edit('Equipment','bow?.025f+charge*.025f:.07f);','bow?.025f+charge*.025f:.07f);StyleIdentityProjectile(shot,HeldWeaponIdentity);')
+p=base/'NakiPrototype.cs';s=p.read_text(encoding='utf-8');s=s.replace('public int meteorGroup;','public int meteorGroup;public int identityWeapon=-1;');p.write_text(s,encoding='utf-8')
+edit('CombatPolish','TrySoulSealHit(shot,target);','if(shot.identityWeapon>=0)IdentityImpact(shot.identityWeapon,contact,shot.direction);TrySoulSealHit(shot,target);')
+edit('PixelHero','swordHitPending = false;int hitCount=0;','swordHitPending = false;int hitCount=0;bool identityContact=false;')
+edit('PixelHero','{ if(enableDesertJourney) ApplyElementDamage','{ identityContact=true;if(enableDesertJourney) ApplyElementDamage')
+edit('PixelHero','        private void BeginDodge(Vector2 input)','        private void BeginDodge(Vector2 input)') if False else None
+edit('PixelHero','            }\n        }\n\n        private void BeginDodge','            }\n            if(identityContact&&enableDesertJourney)IdentityImpact(HeldWeaponIdentity,position+swingDirection*CurrentWeapon.range*.7f,swingDirection);\n        }\n\n        private void BeginDodge')
+edit('RelicCombat','public WeaponEffect effect;}','public WeaponEffect effect;public int identityWeapon=-1;}')
+edit('RelicCombat','s.weaponEffect=w.effect;s.weaponVariant=w.variant;','s.weaponEffect=w.effect;s.weaponVariant=w.variant;s.identityWeapon=ArrayWeaponId(w);')
+edit('RelicCombat','s.speed,s.life,WeaponEffect.None);','s.speed,s.life,WeaponEffect.None,s.identityWeapon);')
+edit('RelicCombat','effect=WeaponEffect.None});','effect=WeaponEffect.None,identityWeapon=s.identityWeapon});')
+edit('RelicCombat','float life,WeaponEffect effect)\n','float life,WeaponEffect effect,int identityWeapon=-1)\n')
+edit('RelicCombat','AddShotRibbon(s,SpellTint(element),.02f);','AddShotRibbon(s,SpellTint(element),.02f);StyleIdentityProjectile(s,identityWeapon);')
+edit('RelicCombat','6,.6f,WeaponEffect.None);','6,.6f,WeaponEffect.None,s.identityWeapon);')
+edit('RelicCombat','11,1,v.effect);','11,1,v.effect,v.identityWeapon);')
+edit('RelicCombat','7,1.7f,WeaponEffect.None);','7,1.7f,WeaponEffect.None,HeldWeaponIdentity);')
+edit('RelicCombat','8,.5f,WeaponEffect.None);','8,.5f,WeaponEffect.None,HeldWeaponIdentity);')
+edit('WeaponIdentity','  private int HeldWeaponIdentity','  private int ArrayWeaponId(WeaponDef weapon){return Array.IndexOf(weaponCatalog,weapon);}\n  private int HeldWeaponIdentity')
+print('Bound catalog art, cast/contact audio and source-preserving effects without changing weapon IDs or damage')

@@ -1,0 +1,5 @@
+from pathlib import Path
+r=Path('D:/NakiLegend/Repository');p=r/'Assets/NakiPrototype/NakiPrototype.ManorFinale.cs';s=p.read_text(encoding='utf-8-sig').replace('if(n.id==15)AddChapterAction','if(n.kind==RoomKind.Reward&&!n.claimed)AddChapterAction(920,new Vector2(0,-1),"查看府邸封存物资",ManorSprite("prop-5",1.8f));\n    if(n.id==15)AddChapterAction');p.write_text(s,encoding='utf-8')
+p=r/'Validation/prepare_manor_full.py';s=p.read_text(encoding='utf-8-sig').replace("p.with_suffix('.cs.v11-light-disabled')","p.with_suffix('.cs.v11-visual-disabled')");s=s.replace("(o/'Smoke.cs').write_text(s,encoding='utf-8');qa=",'''s=s.replace('Time.timeScale=0;ForestPose(6);','Time.timeScale=0;ManorPose(19);').replace('if(stage==2){ForestPose(1);','if(stage==2){ManorPose(29);').replace('p.enabled=false;DivinePose();','p.enabled=false;ManorPose(44);').replace('forest-boss-corrected.png','manor-village.png').replace('forest-room-cover.png','manor-seal.png').replace('divine-light-three-pulses.png','manor-knight.png')
+(o/'Smoke.cs').write_text(s,encoding='utf-8');qa=''' )
+p.write_text(s,encoding='utf-8')

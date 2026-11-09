@@ -1,0 +1,1058 @@
+[
+  {
+    "name": "旅人短剑",
+    "type": "Sword",
+    "element": "Physical",
+    "id": 0,
+    "sheet": 0,
+    "cell": 0
+  },
+  {
+    "name": "断渠长矛",
+    "type": "Spear",
+    "element": "Physical",
+    "id": 1,
+    "sheet": 0,
+    "cell": 1
+  },
+  {
+    "name": "猎沙短弓",
+    "type": "Bow",
+    "element": "Physical",
+    "id": 2,
+    "sheet": 0,
+    "cell": 2
+  },
+  {
+    "name": "旧木法杖",
+    "type": "Staff",
+    "element": "Light",
+    "id": 3,
+    "sheet": 0,
+    "cell": 3
+  },
+  {
+    "name": "风纹剑",
+    "type": "Sword",
+    "element": "Wind",
+    "id": 4,
+    "sheet": 0,
+    "cell": 4
+  },
+  {
+    "name": "裂岩重剑",
+    "type": "Sword",
+    "element": "Physical",
+    "id": 5,
+    "sheet": 0,
+    "cell": 5
+  },
+  {
+    "name": "风牙法杖",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 6,
+    "sheet": 0,
+    "cell": 6
+  },
+  {
+    "name": "守渠风矛",
+    "type": "Spear",
+    "element": "Wind",
+    "id": 7,
+    "sheet": 0,
+    "cell": 7
+  },
+  {
+    "name": "巡路手弩",
+    "type": "Bow",
+    "element": "Physical",
+    "id": 8,
+    "sheet": 0,
+    "cell": 8
+  },
+  {
+    "name": "铜环雷杖",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 9,
+    "sheet": 0,
+    "cell": 9
+  },
+  {
+    "name": "裂雷短戟",
+    "type": "Spear",
+    "element": "Lightning",
+    "id": 10,
+    "sheet": 0,
+    "cell": 10
+  },
+  {
+    "name": "沉铜破阵锤",
+    "type": "Sword",
+    "element": "Lightning",
+    "id": 11,
+    "sheet": 0,
+    "cell": 11
+  },
+  {
+    "name": "鸣弦长弓",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 12,
+    "sheet": 0,
+    "cell": 12
+  },
+  {
+    "name": "岚纹细剑",
+    "type": "Sword",
+    "element": "Wind",
+    "id": 13,
+    "sheet": 0,
+    "cell": 13
+  },
+  {
+    "name": "冰脊长矛",
+    "type": "Spear",
+    "element": "Ice",
+    "id": 14,
+    "sheet": 0,
+    "cell": 14
+  },
+  {
+    "name": "潮汐冰弩",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 15,
+    "sheet": 0,
+    "cell": 15
+  },
+  {
+    "name": "守灯法杖",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 16,
+    "sheet": 0,
+    "cell": 16
+  },
+  {
+    "name": "破霜重剑",
+    "type": "Sword",
+    "element": "Ice",
+    "id": 17,
+    "sheet": 0,
+    "cell": 17
+  },
+  {
+    "name": "赤炉短剑",
+    "type": "Sword",
+    "element": "Fire",
+    "id": 18,
+    "sheet": 1,
+    "cell": 0
+  },
+  {
+    "name": "余烬长矛",
+    "type": "Spear",
+    "element": "Fire",
+    "id": 19,
+    "sheet": 1,
+    "cell": 1
+  },
+  {
+    "name": "煤星手弩",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 20,
+    "sheet": 1,
+    "cell": 2
+  },
+  {
+    "name": "守炉法杖",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 21,
+    "sheet": 1,
+    "cell": 3
+  },
+  {
+    "name": "炉锻重剑",
+    "type": "Sword",
+    "element": "Fire",
+    "id": 22,
+    "sheet": 1,
+    "cell": 4
+  },
+  {
+    "name": "巡风双刃",
+    "type": "Sword",
+    "element": "Wind",
+    "id": 23,
+    "sheet": 1,
+    "cell": 5
+  },
+  {
+    "name": "霜脊穿甲弩",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 24,
+    "sheet": 1,
+    "cell": 6
+  },
+  {
+    "name": "回响雷杖",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 25,
+    "sheet": 1,
+    "cell": 7
+  },
+  {
+    "name": "震炉战锤",
+    "type": "Sword",
+    "element": "Fire",
+    "id": 26,
+    "sheet": 1,
+    "cell": 8
+  },
+  {
+    "name": "竹节轻弩",
+    "type": "Bow",
+    "element": "Physical",
+    "id": 27,
+    "sheet": 1,
+    "cell": 9
+  },
+  {
+    "name": "木髓枝杖",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 28,
+    "sheet": 1,
+    "cell": 10
+  },
+  {
+    "name": "盘根长枪",
+    "type": "Spear",
+    "element": "Wood",
+    "id": 29,
+    "sheet": 1,
+    "cell": 11
+  },
+  {
+    "name": "朽芽重锤",
+    "type": "Sword",
+    "element": "Wood",
+    "id": 30,
+    "sheet": 1,
+    "cell": 12
+  },
+  {
+    "name": "青脉藤弓",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 31,
+    "sheet": 1,
+    "cell": 13
+  },
+  {
+    "name": "采枝短刀",
+    "type": "Sword",
+    "element": "Wood",
+    "id": 32,
+    "sheet": 1,
+    "cell": 14
+  },
+  {
+    "name": "熔晶引火杖",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 33,
+    "sheet": 1,
+    "cell": 15
+  },
+  {
+    "name": "烬羽长弓",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 34,
+    "sheet": 1,
+    "cell": 16
+  },
+  {
+    "name": "炉膛连弩",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 35,
+    "sheet": 1,
+    "cell": 17
+  },
+  {
+    "name": "霜花枝杖",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 36,
+    "sheet": 2,
+    "cell": 0
+  },
+  {
+    "name": "白桦霜弓",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 37,
+    "sheet": 2,
+    "cell": 1
+  },
+  {
+    "name": "冰轨重弩",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 38,
+    "sheet": 2,
+    "cell": 2
+  },
+  {
+    "name": "新芽灵杖",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 39,
+    "sheet": 2,
+    "cell": 3
+  },
+  {
+    "name": "青叶猎弓",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 40,
+    "sheet": 2,
+    "cell": 4
+  },
+  {
+    "name": "竹节排弩",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 41,
+    "sheet": 2,
+    "cell": 5
+  },
+  {
+    "name": "流沙杖",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 42,
+    "sheet": 2,
+    "cell": 6
+  },
+  {
+    "name": "流沙杖·簇射",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 43,
+    "sheet": 2,
+    "cell": 7
+  },
+  {
+    "name": "流沙杖·贯流",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 44,
+    "sheet": 2,
+    "cell": 8
+  },
+  {
+    "name": "驼铃短弓",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 45,
+    "sheet": 2,
+    "cell": 9
+  },
+  {
+    "name": "驼铃短弓·翼矢",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 46,
+    "sheet": 2,
+    "cell": 10
+  },
+  {
+    "name": "驼铃短弓·重弦",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 47,
+    "sheet": 2,
+    "cell": 11
+  },
+  {
+    "name": "引雷针杖",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 48,
+    "sheet": 2,
+    "cell": 12
+  },
+  {
+    "name": "引雷针杖·簇射",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 49,
+    "sheet": 2,
+    "cell": 13
+  },
+  {
+    "name": "引雷针杖·贯流",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 50,
+    "sheet": 2,
+    "cell": 14
+  },
+  {
+    "name": "铜簧速弩",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 51,
+    "sheet": 2,
+    "cell": 15
+  },
+  {
+    "name": "铜簧速弩·翼矢",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 52,
+    "sheet": 2,
+    "cell": 16
+  },
+  {
+    "name": "铜簧速弩·重弦",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 53,
+    "sheet": 2,
+    "cell": 17
+  },
+  {
+    "name": "雪鸮弓",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 54,
+    "sheet": 3,
+    "cell": 0
+  },
+  {
+    "name": "雪鸮弓·翼矢",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 55,
+    "sheet": 3,
+    "cell": 1
+  },
+  {
+    "name": "雪鸮弓·重弦",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 56,
+    "sheet": 3,
+    "cell": 2
+  },
+  {
+    "name": "碎晶杖",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 57,
+    "sheet": 3,
+    "cell": 3
+  },
+  {
+    "name": "碎晶杖·簇射",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 58,
+    "sheet": 3,
+    "cell": 4
+  },
+  {
+    "name": "碎晶杖·贯流",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 59,
+    "sheet": 3,
+    "cell": 5
+  },
+  {
+    "name": "灰烬喷杖",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 60,
+    "sheet": 3,
+    "cell": 6
+  },
+  {
+    "name": "灰烬喷杖·簇射",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 61,
+    "sheet": 3,
+    "cell": 7
+  },
+  {
+    "name": "灰烬喷杖·贯流",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 62,
+    "sheet": 3,
+    "cell": 8
+  },
+  {
+    "name": "炉压弩",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 63,
+    "sheet": 3,
+    "cell": 9
+  },
+  {
+    "name": "炉压弩·翼矢",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 64,
+    "sheet": 3,
+    "cell": 10
+  },
+  {
+    "name": "炉压弩·重弦",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 65,
+    "sheet": 3,
+    "cell": 11
+  },
+  {
+    "name": "荚果杖",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 66,
+    "sheet": 3,
+    "cell": 12
+  },
+  {
+    "name": "荚果杖·簇射",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 67,
+    "sheet": 3,
+    "cell": 13
+  },
+  {
+    "name": "荚果杖·贯流",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 68,
+    "sheet": 3,
+    "cell": 14
+  },
+  {
+    "name": "藤索弩",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 69,
+    "sheet": 3,
+    "cell": 15
+  },
+  {
+    "name": "藤索弩·翼矢",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 70,
+    "sheet": 3,
+    "cell": 16
+  },
+  {
+    "name": "藤索弩·重弦",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 71,
+    "sheet": 3,
+    "cell": 17
+  },
+  {
+    "name": "回泉铜杖",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 72,
+    "sheet": 4,
+    "cell": 0
+  },
+  {
+    "name": "回泉铜杖·簇射",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 73,
+    "sheet": 4,
+    "cell": 1
+  },
+  {
+    "name": "回泉铜杖·贯流",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 74,
+    "sheet": 4,
+    "cell": 2
+  },
+  {
+    "name": "风铃连弩",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 75,
+    "sheet": 4,
+    "cell": 3
+  },
+  {
+    "name": "风铃连弩·翼矢",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 76,
+    "sheet": 4,
+    "cell": 4
+  },
+  {
+    "name": "风铃连弩·重弦",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 77,
+    "sheet": 4,
+    "cell": 5
+  },
+  {
+    "name": "钩尾毒弩",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 78,
+    "sheet": 4,
+    "cell": 6
+  },
+  {
+    "name": "钩尾毒弩·翼矢",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 79,
+    "sheet": 4,
+    "cell": 7
+  },
+  {
+    "name": "钩尾毒弩·重弦",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 80,
+    "sheet": 4,
+    "cell": 8
+  },
+  {
+    "name": "砂心重杖",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 81,
+    "sheet": 4,
+    "cell": 9
+  },
+  {
+    "name": "砂心重杖·簇射",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 82,
+    "sheet": 4,
+    "cell": 10
+  },
+  {
+    "name": "砂心重杖·贯流",
+    "type": "Staff",
+    "element": "Wind",
+    "id": 83,
+    "sheet": 4,
+    "cell": 11
+  },
+  {
+    "name": "逐风战弓",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 84,
+    "sheet": 4,
+    "cell": 12
+  },
+  {
+    "name": "逐风战弓·翼矢",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 85,
+    "sheet": 4,
+    "cell": 13
+  },
+  {
+    "name": "逐风战弓·重弦",
+    "type": "Bow",
+    "element": "Wind",
+    "id": 86,
+    "sheet": 4,
+    "cell": 14
+  },
+  {
+    "name": "铜环双刃",
+    "type": "Sword",
+    "element": "Lightning",
+    "id": 87,
+    "sheet": 4,
+    "cell": 15
+  },
+  {
+    "name": "铜环双刃·回锋",
+    "type": "Sword",
+    "element": "Lightning",
+    "id": 88,
+    "sheet": 4,
+    "cell": 16
+  },
+  {
+    "name": "铜环双刃·裂刃",
+    "type": "Sword",
+    "element": "Lightning",
+    "id": 89,
+    "sheet": 4,
+    "cell": 17
+  },
+  {
+    "name": "镇雷重弩",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 90,
+    "sheet": 5,
+    "cell": 0
+  },
+  {
+    "name": "镇雷重弩·翼矢",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 91,
+    "sheet": 5,
+    "cell": 1
+  },
+  {
+    "name": "镇雷重弩·重弦",
+    "type": "Bow",
+    "element": "Lightning",
+    "id": 92,
+    "sheet": 5,
+    "cell": 2
+  },
+  {
+    "name": "角灯灵杖",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 93,
+    "sheet": 5,
+    "cell": 3
+  },
+  {
+    "name": "角灯灵杖·簇射",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 94,
+    "sheet": 5,
+    "cell": 4
+  },
+  {
+    "name": "角灯灵杖·贯流",
+    "type": "Staff",
+    "element": "Lightning",
+    "id": 95,
+    "sheet": 5,
+    "cell": 5
+  },
+  {
+    "name": "裂霜重槌",
+    "type": "Sword",
+    "element": "Ice",
+    "id": 96,
+    "sheet": 5,
+    "cell": 6
+  },
+  {
+    "name": "裂霜重槌·回锋",
+    "type": "Sword",
+    "element": "Ice",
+    "id": 97,
+    "sheet": 5,
+    "cell": 7
+  },
+  {
+    "name": "裂霜重槌·裂刃",
+    "type": "Sword",
+    "element": "Ice",
+    "id": 98,
+    "sheet": 5,
+    "cell": 8
+  },
+  {
+    "name": "镜花法杖",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 99,
+    "sheet": 5,
+    "cell": 9
+  },
+  {
+    "name": "镜花法杖·簇射",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 100,
+    "sheet": 5,
+    "cell": 10
+  },
+  {
+    "name": "镜花法杖·贯流",
+    "type": "Staff",
+    "element": "Ice",
+    "id": 101,
+    "sheet": 5,
+    "cell": 11
+  },
+  {
+    "name": "潮息长弓",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 102,
+    "sheet": 5,
+    "cell": 12
+  },
+  {
+    "name": "潮息长弓·翼矢",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 103,
+    "sheet": 5,
+    "cell": 13
+  },
+  {
+    "name": "潮息长弓·重弦",
+    "type": "Bow",
+    "element": "Ice",
+    "id": 104,
+    "sheet": 5,
+    "cell": 14
+  },
+  {
+    "name": "赤脊长枪",
+    "type": "Spear",
+    "element": "Fire",
+    "id": 105,
+    "sheet": 5,
+    "cell": 15
+  },
+  {
+    "name": "赤脊长枪·分岚",
+    "type": "Spear",
+    "element": "Fire",
+    "id": 106,
+    "sheet": 5,
+    "cell": 16
+  },
+  {
+    "name": "赤脊长枪·穿阵",
+    "type": "Spear",
+    "element": "Fire",
+    "id": 107,
+    "sheet": 5,
+    "cell": 17
+  },
+  {
+    "name": "锻链弩",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 108,
+    "sheet": 6,
+    "cell": 0
+  },
+  {
+    "name": "锻链弩·翼矢",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 109,
+    "sheet": 6,
+    "cell": 1
+  },
+  {
+    "name": "锻链弩·重弦",
+    "type": "Bow",
+    "element": "Fire",
+    "id": 110,
+    "sheet": 6,
+    "cell": 2
+  },
+  {
+    "name": "熔心法杖",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 111,
+    "sheet": 6,
+    "cell": 3
+  },
+  {
+    "name": "熔心法杖·簇射",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 112,
+    "sheet": 6,
+    "cell": 4
+  },
+  {
+    "name": "熔心法杖·贯流",
+    "type": "Staff",
+    "element": "Fire",
+    "id": 113,
+    "sheet": 6,
+    "cell": 5
+  },
+  {
+    "name": "棘冠连弩",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 114,
+    "sheet": 6,
+    "cell": 6
+  },
+  {
+    "name": "棘冠连弩·翼矢",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 115,
+    "sheet": 6,
+    "cell": 7
+  },
+  {
+    "name": "棘冠连弩·重弦",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 116,
+    "sheet": 6,
+    "cell": 8
+  },
+  {
+    "name": "菌冠法杖",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 117,
+    "sheet": 6,
+    "cell": 9
+  },
+  {
+    "name": "菌冠法杖·簇射",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 118,
+    "sheet": 6,
+    "cell": 10
+  },
+  {
+    "name": "菌冠法杖·贯流",
+    "type": "Staff",
+    "element": "Wood",
+    "id": 119,
+    "sheet": 6,
+    "cell": 11
+  },
+  {
+    "name": "新生长弓",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 120,
+    "sheet": 6,
+    "cell": 12
+  },
+  {
+    "name": "新生长弓·翼矢",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 121,
+    "sheet": 6,
+    "cell": 13
+  },
+  {
+    "name": "新生长弓·重弦",
+    "type": "Bow",
+    "element": "Wood",
+    "id": 122,
+    "sheet": 6,
+    "cell": 14
+  },
+  {
+    "id": 123,
+    "name": "光之杖",
+    "type": "Staff",
+    "element": "Light",
+    "sheet": 7,
+    "cell": 0
+  },
+  {
+    "id": 124,
+    "name": "光剑",
+    "type": "Sword",
+    "element": "Light",
+    "sheet": 7,
+    "cell": 1
+  },
+  {
+    "id": 125,
+    "name": "暗黑低语匕首",
+    "type": "Sword",
+    "element": "Dark",
+    "sheet": 7,
+    "cell": 2
+  },
+  {
+    "id": 126,
+    "name": "曙光长枪",
+    "type": "Spear",
+    "element": "Light",
+    "sheet": 8,
+    "cell": 0
+  },
+  {
+    "id": 127,
+    "name": "晨星弓",
+    "type": "Bow",
+    "element": "Light",
+    "sheet": 8,
+    "cell": 1
+  },
+  {
+    "id": 128,
+    "name": "棱镜弩",
+    "type": "Bow",
+    "element": "Light",
+    "sheet": 8,
+    "cell": 2
+  },
+  {
+    "id": 129,
+    "name": "贤者魂灯",
+    "type": "Staff",
+    "element": "Dark",
+    "sheet": 9,
+    "cell": 0
+  },
+  {
+    "id": 130,
+    "name": "缄魂弩",
+    "type": "Bow",
+    "element": "Dark",
+    "sheet": 9,
+    "cell": 1
+  },
+  {
+    "id": 131,
+    "name": "渡魂镰",
+    "type": "Sword",
+    "element": "Dark",
+    "sheet": 9,
+    "cell": 2
+  }
+]

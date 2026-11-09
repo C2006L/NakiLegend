@@ -1,0 +1,216 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace NakiLegend.Prototype
+{
+    public sealed partial class NakiPrototype
+    {
+        [Header("Thunder Plateau chapter")]
+        public bool thunderChapterMode;
+        [Range(0,2)] public int thunderChapterStartFloor;
+        [Range(-1,2)] public int thunderChapterPracticeBoss=-1;
+        private bool chapterSetup,chapterWest,chapterEast,chapterRanger,chapterStone,chapterEnding,chapterCg;
+        private bool chapterMarkKnown,chapterArcKnown,chapterLampCarried,chapterLampGiven;
+        private int chapterWaymarks,chapterShortcuts,chapterFocusedAction;
+        private float chapterWork;
+        private readonly List<ChapterAction> chapterActions=new List<ChapterAction>();
+        private readonly List<ChapterShortcut> chapterDoors=new List<ChapterShortcut>();
+        private string[] chapterNames;
+        private Sprite chapterLampkeeper,chapterRangerArt;
+        private Texture2D chapterEndingArt;
+        private GameObject chapterFocus;
+        private bool ThunderActive { get { return thunderPrototypeMode||thunderChapterMode; } }
+        private static string[] ThunderStages {get{return AtlasRegions[1];}}
+        private bool HasThunderConductor { get { return !manorCourtyardMode&&!fireChapterMode&&!iceSampleMode&&!woodlandMode&&(thunderChapterMode?currentRoom==14||currentRoom==16:currentRoom==1); } }
+        private sealed class ChapterAction { public int kind;public Vector2 at;public string label; }
+        [Serializable] private sealed class ChapterRoomDef { public int id=0,stage=0,kind=0,waves=0,layout=0,x=0,y=0,stairsTo=-1;public string title="",key="";public float width=8,height=5;public int[] links=Array.Empty<int>(); }
+        [Serializable] private sealed class ChapterShortcut { public int a=0,b=0,code=0; }
+        [Serializable] private sealed class ChapterGraph { public ChapterRoomDef[] rooms=Array.Empty<ChapterRoomDef>();public ChapterShortcut[] gates=Array.Empty<ChapterShortcut>(); }
+        private void BuildThunderChapterGraph()
+        {
+            if(manorCourtyardMode){BuildManorGraph();return;}if(fireChapterMode){BuildFireGraph();return;}if(iceSampleMode){BuildIceGraph();return;}if(woodlandMode){BuildWoodGraph();return;}
+            TextAsset data=Resources.Load<TextAsset>("NakiArt/ThunderChapter/rooms");
+            if(data==null)throw new InvalidOperationException("Missing Thunder Plateau room data");
+            ChapterGraph g=JsonUtility.FromJson<ChapterGraph>(data.text);
+            if(g.rooms.Length!=39)throw new InvalidOperationException("Thunder Plateau needs 39 rooms");
+            journeyRooms.Clear();chapterDoors.Clear();chapterDoors.AddRange(g.gates);chapterNames=new string[39];
+            foreach(ChapterRoomDef d in g.rooms)
+            {
+                Vector2Int cell=new Vector2Int(d.x,d.y);int rotation=(activeSeed+d.stage)%4;
+                for(int k=0;k<rotation;k++)cell=new Vector2Int(4-cell.y,cell.x);
+                if((activeSeed&4)!=0)cell.x=4-cell.x;
+                RoomNode n=new RoomNode{id=d.id,stage=d.stage,kind=(RoomKind)d.kind,depth=d.stage*4,layout=(d.layout+activeSeed%6)%6,
+                    floor=d.stage,cell=cell,halfWidth=d.width,halfHeight=d.height,waves=d.waves,stairsTo=d.stairsTo};
+                n.links.AddRange(d.links);journeyRooms.Add(n);chapterNames[d.id]=d.title;
+            }
+            stageStarts[0]=0;stageStarts[1]=12;stageStarts[2]=25;stageEnds[0]=6;stageEnds[1]=18;stageEnds[2]=31;
+        }
+        private void BeginThunderChapter(bool newSeed)
+        {
+            if(manorCourtyardMode){BeginManorCourtyard(newSeed);return;}if(fireChapterMode){BeginFireCoast(newSeed);return;}if(iceSampleMode){BeginIceSample(newSeed);return;}
+            iceSpikeKnown=iceRingKnown=false;iceSpikeReady=iceRingReady=0;
+            gatehouseSampleMode=bossPracticeMode=lightningTrialMode=thunderPrototypeMode=false;
+            if(!tuningCaptured){initialSwordDamage=swordDamage;initialSpellDamage=spellDamage;tuningCaptured=true;}
+            swordDamage=initialSwordDamage;spellDamage=initialSpellDamage;
+            if(newSeed||activeSeed==0)activeSeed=journeySeed!=0&&!newSeed?journeySeed:(Environment.TickCount&0x7fffffff);
+            if(activeSeed==0)activeSeed=28001;
+            ResetGatehouseProgress();ResetPlayerProgression();LoadThunderChapterEquipment();BuildThunderChapterGraph();if(woodlandMode){woodlandShieldFloor=Mathf.Max(8,woodlandShieldFloor);LoadWoodArt();}
+            chapterWest=chapterEast=chapterRanger=chapterStone=chapterEnding=chapterCg=chapterMarkKnown=chapterArcKnown=chapterLampCarried=chapterLampGiven=false;
+            chapterWaymarks=chapterShortcuts=0;chapterWork=0;chapterSavePending=false;chapterSkillsMenu=false;chapterSkillSlots[0]=0;chapterSkillSlots[1]=1;
+            clock=0;health=6;shield=EffectiveMaximumShield;elementPower=100;origin=thunderPreset==ThunderPreset.Dark?Origin.Dark:Origin.Light;
+            energy=origin==Origin.Light?100:0;darkPower=origin==Origin.Dark?6:0;orbLearned=bladeLearned=waveLearned=windEmpowered=true;
+            carriedWeapons[1]=6;nextSword=nextSpell=nextDash=dashUntil=invulnerableUntil=flashUntil=bladeReadyAt=waveReadyAt=chapterMarkReady=chapterArcReady=0;
+            journeyComplete=pendingBossClear=won=false;doorTransition=0;chapterSaveStatus="本轮尚未存档";
+            if(thunderPreset==ThunderPreset.BasicWeapons){orbLearned=bladeLearned=waveLearned=false;elementPower=energy=darkPower=0;carriedWeapons[1]=8;}
+            int room=stageStarts[Mathf.Clamp(thunderChapterStartFloor,0,2)];
+            if(thunderChapterPracticeBoss>=0)
+            {
+                chapterWest=chapterEast=true;chapterMarkKnown=chapterArcKnown=true;room=stageEnds[Mathf.Clamp(thunderChapterPracticeBoss,0,2)];
+                chapterSkillSlots[1]=1;
+            }
+            else if(thunderChapterStartFloor>0)
+            {
+                // Quick starts are explicitly test presets; they unlock earlier
+                // mandatory nodes while keeping the rest of the island explorable.
+                journeyRooms[6].cleared=true;chapterMarkKnown=true;
+                if(thunderChapterStartFloor>1){chapterWest=chapterEast=chapterRanger=chapterArcKnown=true;journeyRooms[18].cleared=true;journeyRooms[14].cleared=journeyRooms[14].lootSeeded=journeyRooms[16].cleared=journeyRooms[16].lootSeeded=journeyRooms[17].cleared=true;}
+            }
+            if(woodlandMode){iceSpikeKnown=iceRingKnown=fireBoltKnown=emberRingKnown=true;iceSpikeReady=iceRingReady=fireBoltReady=emberRingReady=0;chapterSkillSlots[0]=6;chapterSkillSlots[1]=4;}
+            EnterExplorationRoom(room,-1);
+            if(woodlandMode)TellStory("船夫：雾里的灯还亮着，岸上的路却每晚换个样子。看着栈道走，别踩那些会呼吸的苔。","阿苓在码头守着一盒不再发芽的种子。少年收好行装，走向林缘。");
+            else if(room==0)TellStory("灯匠：以前这场雨过了，巡路的人就该回来。现在，雷声总停在同一个山头。","少年：我去看看。若能把路接上，也替你捎个平安。沿石路上山，先找到旧路标。");
+            else TellStory(thunderChapterPracticeBoss>=0?"雷雨高原 Boss 练习：N 选择起点，R 重试；练习不覆盖正式章节存档。":"雷雨高原快速起点：此前必要节点已开放，可继续探索。N 可重选；F5 / F9 使用雷雨高原独立存档。");
+        }
+        private string ChapterTitle { get { return ActiveLayerName(journeyRooms[currentRoom].stage); } }
+        private string ChapterMapLabel(RoomNode n)
+        {
+            if(manorCourtyardMode)return n.id==2?"纪念庭":n.id==7?"委任书":n.id==14?"卫长":JourneyRoomType(n.kind);
+            if(fireChapterMode)return n.id==42?"熔龟":n.id==43||n.id==44?"撤离":n.id==20?"炉匠":n.id==23?"撤离桥":n.id==27?"巨匠":n.id==0?"码头":n.id==4?"救援":n.id==12?"熔蜥":JourneyRoomType(n.kind);if(iceSampleMode&&iceFullChapter)return n.id==0?"码头":n.id==18?"救援":n.id==41?"回流闸":n.kind==RoomKind.Boss?new[]{"甲兽","霜镜","守望者"}[n.stage]:JourneyRoomType(n.kind);if(iceSampleMode)return new[]{"码头","回廊","甲兽","货仓","瞭台"}[n.id];
+            if(woodlandMode)return n.id==17?(chapterRanger?"已获救":"牢笼"):n.id==0?"码头":n.id==4?"种床":n.kind==RoomKind.Boss?WoodNames[9+n.stage]:JourneyRoomType(n.kind);
+            if(n.id==14||n.id==16)return (n.id==14?chapterWest:chapterEast)?"已修节点":"引雷节点";
+            if(n.id==17)return "巡路员";
+            if(n.id==0)return "灯棚";
+            if(n.kind==RoomKind.Event)return "路迹";
+            if(n.kind==RoomKind.Guardian)return "守卫";
+            return JourneyRoomType(n.kind);
+        }
+        private void LoadThunderChapterArt()
+        {
+            if(!thunderChapterMode)return;
+            LoadChapterActors();chapterLampkeeper=ChapterImage("lampkeeper",1.15f);chapterRangerArt=ChapterImage("ranger",1.15f);
+            chapterEndingArt=Resources.Load<Texture2D>("NakiArt/ThunderChapter/ending");
+            LoadThunderChapterEquipment();if(manorCourtyardMode)LoadManorArt();else if(fireChapterMode)LoadFireArt();else if(iceSampleMode)LoadIceArt();else if(woodlandMode){woodlandShieldFloor=Mathf.Max(8,woodlandShieldFloor);LoadWoodArt();}
+        }
+        private void BuildChapterCover(RoomNode n)
+        {
+            if(woodlandMode){BuildWoodlandCover(n);return;}if(fireChapterMode){BuildFireCover(n);return;}if(iceSampleMode){BuildIceCover(n);return;}
+            Vector2[][] variants={new[]{new Vector2(-4,-1),new Vector2(4,1)},new[]{new Vector2(-5,1),new Vector2(4,-1.8f)},
+                new[]{new Vector2(-4,-2),new Vector2(3.7f,1.2f),new Vector2(-4,1.2f)},new[]{new Vector2(-5,0),new Vector2(5,0)},
+                new[]{new Vector2(-3.5f,-1.6f),new Vector2(4,-.3f)},new[]{new Vector2(-5,-1.8f),new Vector2(4,1.7f)}};
+            if(n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian)
+            {foreach(Vector2 p in new[]{new Vector2(-6.5f,0),new Vector2(6.5f,0)})if(!IntersectsTransit(p,new Vector2(1.8f,1.2f)))AddThunderRock(p);return;}
+            foreach(Vector2 p in variants[n.layout%6])if(!IntersectsTransit(p,new Vector2(1.8f,1.4f)))AddThunderRock(p);
+        }
+        private void ReserveChapterProps(RoomNode n)
+        {
+            if(!thunderChapterMode)return;
+            if(manorCourtyardMode)return;
+            if(fireChapterMode){ReserveFireProps(n);return;}if(iceSampleMode){if(n.id==0||n.id==2)foreach(Vector2 at in new[]{new Vector2(-3,1),new Vector2(-3,2),new Vector2(3,-2)})transitReservations.Add(new Rect(at-new Vector2(1.3f,1),new Vector2(2.6f,2)));return;}
+            if(woodlandMode){ReserveWoodlandProps(n);return;}
+            var points=new List<Vector2>();
+            if(n.id==0)points.AddRange(new[]{new Vector2(-3.4f,1.4f),new Vector2(0,2.5f)});
+            if(n.id==17)points.Add(new Vector2(-3,1.6f));
+            if(n.id==14||n.id==16)points.Add(ThunderLeverAt);
+            if(n.id==6||n.id==16||n.kind==RoomKind.Rest)points.Add(new Vector2(-2.2f,-.8f));
+            if(n.id==21||n.id==22||n.id==36)points.Add(new Vector2(-2,1.3f));
+            if(n.id==9)points.AddRange(new[]{new Vector2(-3,1),new Vector2(0,1.4f),new Vector2(3,-.8f)});
+            foreach(Vector2 at in points)transitReservations.Add(new Rect(at-Vector2.one,Vector2.one*2));
+        }
+        private bool ChapterGateReady(int code)
+        {
+            switch(code)
+            {
+                case 1:return journeyRooms[5].cleared&&journeyRooms[8].cleared;
+                case 2:return journeyRooms[17].cleared&&journeyRooms[20].cleared&&chapterWest&&chapterEast;
+                case 3:return journeyRooms[17].cleared;
+                case 4:return journeyRooms[29].cleared&&journeyRooms[35].cleared;
+                default:return chapterWest&&chapterEast;
+            }
+        }
+        private bool ChapterDoorLocked(int room,int direction)
+        {
+            if(manorCourtyardMode)return ManorGateLocked(room,direction);
+            if(fireChapterMode){foreach(int link in journeyRooms[room].links)if(NeighborDirection(journeyRooms[room],journeyRooms[link])==direction&&(link==12&&!chapterRanger||link==27&&(!forgeRescued||!forgeBridgeOpen)||link==43&&!fireHeartRecovered||link==44&&(fireEvacuation&1)==0))return true;return false;}if(iceSampleMode)return false;
+            if(woodlandMode){int target=-1;foreach(int link in journeyRooms[room].links)if(NeighborDirection(journeyRooms[room],journeyRooms[link])==direction)target=link;return target==18&&(!chapterRanger||System.Convert.ToString(chapterWaymarks,2).Replace("0","").Length<2);}
+            if(!thunderChapterMode)return false;
+            foreach(ChapterShortcut g in chapterDoors)
+            {
+                int other=g.a==room?g.b:g.b==room?g.a:-1;if(other<0||NeighborDirection(journeyRooms[room],journeyRooms[other])!=direction)continue;
+                return g.code==5?!ChapterGateReady(5):(chapterShortcuts&(1<<g.code))==0;
+            }
+            return false;
+        }
+        private bool ExplorationDoorLocked(int room,int direction){return GatehouseDoorLocked(room,direction)||ChapterDoorLocked(room,direction);}
+        private void SpawnChapterWave(RoomNode n)
+        {
+            if(manorCourtyardMode){SpawnManorWave(n);return;}if(fireChapterMode){SpawnFireWave(n);return;}if(iceSampleMode){SpawnIceWave(n);return;}if(woodlandMode){SpawnWoodWave(n);return;}
+            var random=new System.Random(activeSeed+n.id*191+currentWave*31);
+            if(n.kind==RoomKind.Boss||n.kind==RoomKind.Guardian)
+            {
+                EnemyKind kind=n.stage==0?EnemyKind.CopperWarden:n.stage==1?EnemyKind.ThunderSentinel:EnemyKind.StormStag;
+                SpawnJourneyEnemy(kind,new Vector2(0,.1f),n.depth);return;
+            }
+            if(n.kind==RoomKind.Elite&&currentWave==1)
+            {Enemy e=SpawnJourneyEnemy(n.id==34?EnemyKind.SandKite:EnemyKind.ThunderStone,FindJourneySpawn(random,.55f),n.depth);MakeChampion(e);e.affinity=e.attackElement=Element.Lightning;}
+            int count=n.stage==0?currentWave==1?2:3:n.stage==1?3+currentWave%2:4+currentWave%2;
+            for(int i=0;i<count;i++)
+            {
+                EnemyKind k=n.id==1?EnemyKind.ChargeMoth:n.id==2?EnemyKind.StormGuard:
+                    n.stage==0?(i%2==0?EnemyKind.ChargeMoth:EnemyKind.StormGuard):
+                    i==0&&n.stage>0?EnemyKind.CopperRoller:i==1&&n.stage==2?EnemyKind.ThunderStone:i%2==0?EnemyKind.ChargeMoth:EnemyKind.StormGuard;
+                QueueEnemy(k,FindJourneySpawn(random,k==EnemyKind.ThunderStone?.55f:.34f));
+                pendingSpawns[pendingSpawns.Count-1].when=clock+(currentWave==1?1.5f:.8f)+i*.18f;
+            }
+        }
+        private void OnChapterRoomCleared(RoomNode n)
+        {
+            ClearThunderHazards();chapterSavePending=true;DropIslandEliteReward(n);if(manorCourtyardMode){BuildChapterActions();return;}if(fireChapterMode){FireRoomCleared(n);BuildChapterActions();return;}if(iceSampleMode){if(iceFullChapter)IceChapterRoomCleared(n);else IceBranchCleared(n);BuildChapterActions();return;}if(woodlandMode){WoodRoomReward(n);if(n.id==17&&!chapterRanger)TellStory("看守倒下，一枚铁钥匙从腰间滑落。你拾起钥匙，牢笼里的采种人望了过来。");BuildChapterActions();return;}
+            if(n.id==5&&!n.lootSeeded){n.lootSeeded=true;ChapterDrop(8,new Vector2(1.6f,-1.5f));}
+            if(n.id==3&&!n.claimed){n.claimed=true;TellStory("旧路标的铜尺上，有和灯匠工具相同的三道刻痕。","少年：有人刚修过这里。她走的是山上那条路。");}
+            if(n.id==17&&!chapterRanger){chapterRanger=true;TellStory("巡路员：下面的灯终于亮了……师父还在等？","少年：他一直擦着那盏灯。","巡路员：我把撤离的路标立好。山顶那头鹿，请你别把它当成只会伤人的怪物。");}
+            BuildChapterActions();
+        }
+        private void CompleteChapterBoss()
+        {
+            if(manorCourtyardMode){if(currentRoom==14)CompleteManorCaptain();else CompleteManorLaterBoss();return;}if(fireChapterMode){CompleteFireBoss();return;}if(iceSampleMode){CompleteIceBoss();return;}
+            foreach(Enemy e in enemies){if(e.warning!=null)Destroy(e.warning);Destroy(e.root);if(e.shadow!=null)Destroy(e.shadow);}enemies.Clear();
+            foreach(PendingSpawn s in pendingSpawns)if(s.mark!=null)Destroy(s.mark);pendingSpawns.Clear();
+            foreach(Shot s in shots)if(s.root!=null)Destroy(s.root);shots.Clear();ClearThunderHazards();
+            ClearJourneyRoom();health=Mathf.Max(1,health);RoomNode n=journeyRooms[currentRoom];
+            if(woodlandMode)WoodBossCleared(n);
+            else if(n.stage==0)TellStory("铜卫背后的灯变成通行纹，警戒雷声停了。","少年：它守的原本是路，不是困住人的门。靠近铜纹台可学习雷标，再沿亮起的石阶前往引雷遗址。");
+            else if(n.stage==1)TellStory("铜环缓缓落下，山顶石阶的封锁解除了。","巡路员：上面是古道守护兽。那些紫线不属于它。","少年：我看见了。先让它停下来。");
+            else
+            {
+                chapterStone=true;journeyComplete=true;chapterWork=0;
+                TellStory("巨鹿撑住前腿，胸前的紫色束缚逐段断开。少年取出雷元素碎片。","少年：够了，剩下的路交给我。","守护兽仍活着，雷云终于越过山脊。靠近山路风铃按 F，沿已修古道回山口。");
+            }
+            UpdateExplorationDoors();BuildChapterActions();RequestCheckpoint();SaveChapterCheckpoint(false);
+        }
+        private void ChapterDrop(int weapon,Vector2 desired)
+        {
+            RoomNode n=journeyRooms[currentRoom];var stored=new StoredWeapon{id=weapon,at=FindFreeInteractionPoint(desired)};n.drops.Add(stored);CreateWeaponDropVisual(stored);
+        }
+        private string ChapterObjective()
+        {
+            if(manorCourtyardMode)return ManorObjective();if(fireChapterMode)return FireObjective();if(iceSampleMode)return IceObjective();if(woodlandMode)return WoodObjective();
+            if(chapterWork>0)return "正在复位手柄 · ESC 取消";
+            RoomNode n=journeyRooms[currentRoom];if(!n.cleared)return "第 "+currentWave+" / "+n.waves+" 波 · 剩余 "+(enemies.Count+pendingSpawns.Count);
+            if(chapterStone)return chapterEnding?(currentRoom==0?"走向左侧栈桥岸边 · F 乘船前往冰港":"返回山口灯棚 · 左侧码头可前往冰港"):currentRoom==0?"回到灯匠身边 · F 迎接归人":"雷石已回收 · 山路风铃 F 返回灯棚";
+            if(n.stage==2)return "沿石路前往圣所 · 解除巡雷巨鹿的束缚";
+            if(n.stage==1)return !chapterWest?"复位西引雷节点 · 东北侧铜手柄 F":!chapterEast?"继续探索，复位东引雷节点":"找到巡路员，再前往山顶石阶";
+            return "沿石路上山 · 支路可寻补给与旧路标";
+        }
+    }
+}

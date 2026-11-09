@@ -35,6 +35,9 @@ def source(name,seconds,variant=0,high=100,low=6500):
         start=max(0,starts[variant%len(starts)]-150)
     else:start=max(0,int(nz[0])-100)
     x=x[start:start+int(seconds*RATE)]
+    if name=='spark.wav':
+        # One tiny discharge transient, never a sustained electrical buzz.
+        x=x[:round(.028*RATE)];x*=np.linspace(1,0,len(x))**2
     x=sosfilt(butter(2,[high,min(low,RATE*.45)],btype='bandpass',fs=RATE,output='sos'),x)
     if len(x):x/=max(.001,np.sqrt(np.mean(x*x)))
     return x
@@ -53,10 +56,10 @@ profiles={
  'wave_hit':(.15,[('blade_02.ogg',.6,0,250,6000)]),
  'meteor_cast':(.19,[('spell_fire_01.ogg',.65,0,100,1900),('item_wood_01.ogg',.25,0,100,1600)]),
  'meteor_hit':(.21,[('stones_02.ogg',.7,0,80,2400),('spell_fire_02.ogg',.25,0,150,2600)]),
- 'mark_cast':(.12,[('spark.wav',.75,0,250,6000)]),
- 'mark_hit':(.19,[('continuousspark.wav',.7,0,180,6000),('stones_01.ogg',.3,0,90,2000)]),
- 'arc_cast':(.14,[('continuousspark.wav',.6,0,400,7500),('spark.wav',.25,.018,250,6500)]),
- 'arc_hit':(.15,[('spark.wav',.7,0,250,7500)]),
+ 'mark_cast':(.12,[('spark.wav',.18,0,900,3800),('Katana Swing.wav',.42,0,250,2600)]),
+ 'mark_hit':(.26,[('spark.wav',.22,0,850,4200),('stones_02.ogg',.65,0,80,1300),('spell_fire_02.ogg',.35,.012,90,1600)]),
+ 'arc_cast':(.16,[('Katana Swing.wav',.55,0,300,3200),('spark.wav',.22,.008,850,4000)]),
+ 'arc_hit':(.14,[('spark.wav',.24,0,900,4200),('stones_01.ogg',.55,0,150,1800)]),
  'orb_cast':(.19,[('blade_01.ogg',.55,0,400,4300),('item_gem_01.ogg',.15,.015,700,4000)]),
  'orb_hit':(.16,[('stones_01.ogg',.35,0,250,3400),('item_gem_01.ogg',.2,0,700,4200)]),
  'root_cast':(.18,[('item_wood_01.ogg',.55,0,120,4200),('stones_03.ogg',.25,.018,100,2300)]),
@@ -73,7 +76,9 @@ def output(name,data,components):
     x=data.copy();fade=min(180,len(x)//4);x[:fade]*=np.linspace(0,1,fade)
     # Fast release kills the rubber-string ring and repetitive nasal tails.
     x*=np.exp(-np.arange(len(x))/RATE*7);x[-min(700,len(x)) :]*=np.linspace(1,0,min(700,len(x)))
-    gain=min(.135/max(.001,np.sqrt(np.mean(x*x))),.7/max(.001,np.max(np.abs(x))));x*=gain
+    electric=name.startswith(('skill_mark_','skill_arc_','staff_electric_'))
+    rms=(.065 if '_cast_' in name or name.startswith('staff_') else .095) if electric else .135
+    gain=min(rms/max(.001,np.sqrt(np.mean(x*x))),(.55 if electric else .7)/max(.001,np.max(np.abs(x))));x*=gain
     write(OUT/(name+'.wav'),RATE,(x*32767).astype(np.int16));clips[name]=x
     records.append({'file':name+'.wav','seconds':len(x)/RATE,'peak':float(np.max(np.abs(x))),'components':components})
 for key,(duration,parts) in profiles.items():
@@ -87,7 +92,7 @@ for variant in range(3):
     output('bow_'+str(variant),layer(parts,.19,variant),[p[0] for p in parts])
     parts=[('Crossbow Shoot.wav',.8,0,200,7000),('Arrow Fletching.wav',.18,.01,650,8500)]
     output('crossbow_'+str(variant),layer(parts,.17,variant),[p[0] for p in parts])
-    output('staff_electric_'+str(variant),layer([('spark.wav',.7,0,300,7000)],.14,variant),['spark.wav'])
+    output('staff_electric_'+str(variant),layer([('spark.wav',.2,0,900,4000),('Katana Swing.wav',.5,0,400,3000)],.14,variant),['spark.wav','Katana Swing.wav'])
 sources=[s for s in json.loads((CACHE/'sources.json').read_text(encoding='utf-8')) if s['file']!='rpg_sound_pack.zip']
 (OUT/'credits.json').write_text(json.dumps({'sources':sources,'edits':'Short isolated takes, band-pass filtering, layered foley and a fast dry release. No material from commercial games.','clips':records},ensure_ascii=False,indent=2),encoding='utf-8')
 preview=ROOT/'Art/CombatAudioV3';preview.mkdir(parents=True,exist_ok=True);mix=np.zeros(RATE*18)
@@ -100,3 +105,10 @@ write(preview/'combat-audio-v3-preview.wav',RATE,(np.clip(mix,-.95,.95)*32767).a
 for path,digest in protected.items():assert hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==digest,path
 assert len(records)==69
 print('Built 69 dry combat cues; original music, sword and prior banks are byte-identical.')
+
+# Separate audition: mark cast, actual impact after its 0.65-second warning,
+# followed by arc cast/impact and three electric staff shots.
+mix=np.zeros(RATE*9)
+for t,key in [(0,'skill_mark_cast_0'),(.65,'skill_mark_hit_0'),(2,'skill_arc_cast_0'),(2.35,'skill_arc_hit_0'),(4,'staff_electric_0'),(4.65,'staff_electric_1'),(5.3,'staff_electric_2'),(7,'skill_mark_cast_1'),(7.65,'skill_mark_hit_1')]:
+    x=clips[key];start=round(t*RATE);mix[start:start+len(x)]+=x
+write(preview/'lightning-refined-preview.wav',RATE,(mix*32767).astype(np.int16))

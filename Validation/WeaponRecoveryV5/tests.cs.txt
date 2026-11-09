@@ -1,0 +1,126 @@
+ static void DivinePose()
+ {
+  ManorPose(3);ClearEnemies();Set("origin",EnumVal("Origin","Light"));Set("originKnowledge",10);Set("energy",100f);Set("position",Vector2.zero);Set("clock",100f);Set("originThirdReady",0f);Set("swordUntil",0f);Set("dashUntil",0f);((int[])Get("carriedWeapons"))[0]=123;
+  foreach(Vector2 at in new[]{new Vector2(3,0),new Vector2(-3,0),new Vector2(0,3)}){object enemy=Spawn("ManorPatrol",at);Set(enemy,"hp",10000f);Set(enemy,"maximum",10000f);Set(enemy,"nextAttack",100000f);}
+  Call("CastOriginSlot",2);for(int frame=0;frame<39;frame++){Set("clock",100f+frame*.02f);Call("TickOriginInput",.02f,false,false,false);for(int i=List("shots").Count-1;i>=0;i--)if(i<List("shots").Count)Call("UpdateShot",i,.02f);}
+  Call("ConfigureJourneyView");((Camera)Get("view")).transform.position=(Vector3)Get("JourneyViewCenter");Call("UpdatePixelHero",Vector2.zero);Quiet();
+ }
+ static void DivineFixture()
+ {
+  LightFixture();Set("clock",100f);Set("originKnowledge",10);Set("originThirdReady",0f);Set("energy",100f);Set("swordUntil",0f);Set("dashUntil",0f);Set("position",Vector2.zero);
+ }
+ static void OnlyShot(object keep)
+ {foreach(object shot in new ArrayList(List("shots")))if(shot!=keep){UnityEngine.Object.Destroy((GameObject)Get(shot,"root"));List("shots").Remove(shot);}}
+ static void DivineLightTests()
+ {
+  DivineFixture();Check(Call("OriginSkillName",2).ToString()=="别·天神","Light third skill has the requested new name");Call("CastOriginSlot",2);Check(F("energy")==65&&List("shots").Count==0&&(bool)Get("solarCharging"),"P spends 35 once and prepares its three radial pulses");
+  Set("clock",100.24f);Call("TickOriginInput",.01f,false,false,false);Check(List("shots").Count==0,"Light radial skill respects its brief preparation");
+  for(int wave=0;wave<3;wave++){Set("clock",100.26f+wave*.19f);Call("TickOriginInput",.01f,false,false,false);Check(List("shots").Count==6*(wave+1)&&F("energy")==65,"Radial wave emits exactly six primary orbs without paying again: "+wave);}
+  Check(!(bool)Get("solarCharging")&&(int)Get("divinePulsesRemaining")==0&&(GameObject)Get("originBeam")==null,"P finishes three waves and never creates the basic skill's beam");
+  var families=new HashSet<object>();foreach(object shot in List("shots")){families.Add(Get(shot,"divineFamily"));Check(Get(shot,"element").ToString()=="Light"&&!(bool)Get(shot,"tracking")&&(int)Get(shot,"divineGeneration")==0,"Root light orbs radiate outward as real light projectiles");}Check(families.Count==18,"Each of eighteen roots owns its independent shared split budget");
+  DivineFixture();Call("CastOriginSlot",2);Set("clock",100.26f);Call("TickOriginInput",.01f,false,false,false);object root=List("shots")[0];OnlyShot(root);object family=Get(root,"divineFamily");
+  object target=Spawn("SandScorpion",new Vector2(2,0));Set(target,"hp",10000f);Set(target,"maximum",10000f);float hp=(float)Get(target,"hp"),damage=(float)Get(root,"damage");
+  Call("ResolveProjectileEnemyHit",root,target,new Vector2(1.5f,0));Check((int)Get(family,"remaining")==2&&List("shots").Count==3&&Mathf.Abs(hp-(float)Get(target,"hp")-damage)<.02f,"Enemy contact deals real skill damage and consumes only one family split");
+  Call("SplitDivineLight",root,Vector2.one,false);Check(List("shots").Count==3&&(int)Get(family,"remaining")==2,"Same impact cannot split twice");
+  object child=List("shots")[1];Check((float)Get(child,"damage")<damage&&Get(child,"divineFamily")==family,"Children inherit the same budget and reduced damage");
+  Check(Call("FirstProjectileEnemy",child,new Vector2(0,0),new Vector2(3,0),float.PositiveInfinity,0f)==null,"Descendants cannot repeatedly hit their root's previous enemy");
+  object second=Spawn("SandScorpion",new Vector2(4,2)),third=Spawn("SandScorpion",new Vector2(4,-2));Call("ResolveProjectileEnemyHit",child,second,new Vector2(3,2));Call("ResolveProjectileEnemyHit",List("shots")[2],third,new Vector2(3,-2));Check((int)Get(family,"remaining")==0&&List("shots").Count==7,"Three splits are shared across the full tree, yielding at most six children");
+  int before=List("shots").Count;Call("SplitDivineLight",List("shots")[5],new Vector2(2,2),false);Check(List("shots").Count==before,"Exhausted family cannot branch indefinitely");
+  DivineFixture();Call("CastOriginSlot",2);Set("clock",100.26f);Call("TickOriginInput",.01f,false,false,false);root=List("shots")[0];OnlyShot(root);family=Get(root,"divineFamily");List("projectileObstacles").Add(new Rect(1.5f,-2,.2f,4));Call("UpdateShot",0,.2f);
+  Check(List("shots").Count==2&&(int)Get(family,"remaining")==2,"Swept wall contact splits a real flying orb");foreach(object shot in List("shots"))Check(((Vector2)Get(shot,"direction")).x<0&&!(bool)Call("ProjectilePathBlocked",Get(shot,"position"),Get(shot,"position"),.11f),"Wall children return to navigable space instead of spawning inside the obstacle");
+  DivineFixture();Call("CastOriginSlot",2);Set("clock",100.26f);Call("TickOriginInput",.01f,false,false,false);root=List("shots")[0];OnlyShot(root);target=Spawn("SandScorpion",new Vector2(2,0));Set(target,"hp",10000f);Set(target,"maximum",10000f);hp=(float)Get(target,"hp");damage=(float)Get(root,"damage");
+  for(int frame=0;frame<55&&List("shots").Count>0;frame++)for(int shot=List("shots").Count-1;shot>=0;shot--)if(shot<List("shots").Count)Call("UpdateShot",shot,.025f);
+  Check(Mathf.Abs(hp-(float)Get(target,"hp")-damage)<.02f,"Live descendants pass the already-hit enemy without farming repeated damage");
+  DivineFixture();Call("CastOriginSlot",2);Set("clock",100.26f);Call("TickOriginInput",.01f,false,false,false);Call("BeginDodge",Vector2.up);Check(!(bool)Get("solarCharging")&&(int)Get("divinePulsesRemaining")==0,"Dodge cancels only the still-pending pulse sequence");
+  Enter((int)Get("currentRoom"));Check(List("shots").Count==0&&(int)Get("divinePulsesRemaining")==0,"Room transition clears emitted split families and pending pulses");
+ }
+ static void MasteryFixture(int island)
+ {
+  p.manorCourtyardMode=p.woodlandMode=false;
+  if(island==0){Fresh();Select(false);Enter(((int[])Get("stageEnds"))[0]);}
+  else if(island==1){Chapter();Enter(6);}
+  else if(island==2){FullIce();Enter(2);}
+  else if(island==3){FirePose(12);}
+  else if(island==4){Forest();Enter(6);}
+  else ManorPose(14);
+  ClearEnemies();Call("ResetOriginCombat");List("obstacles").Clear();List("projectileObstacles").Clear();Set("position",new Vector2(-3,0));Set("clock",100f);Set("dashUntil",0f);Set("orbLearned",true);Set("originKnowledge",10);Set("nextSpell",0f);Set("origin",EnumVal("Origin","Light"));Set("energy",100f);Set("darkPower",0f);
+ }
+ static void MasteryProgressionTests()
+ {
+  var rows=new List<string>{"island,rank,light_dps,stone_volley_dps_at_100_reserve,weapon_scale,staff_scale"};float previousLight=0,previousStone=0;
+  for(int island=0;island<6;island++){
+   MasteryFixture(island);object dummy=Spawn(island==5?"ManorPatrol":"SandScorpion",Vector2.zero);Set(dummy,"affinity",EnumVal("Element","Physical"));Set(dummy,"hp",100000f);Set(dummy,"maximum",100000f);Set(dummy,"radius",1.05f);Set(dummy,"boss",true);Set(dummy,"tacticRole",0);Set(dummy,"phaseUntil",0f);
+   Check((int)Get("CombatMasteryTier")==island,"Direct chapter test start receives its appropriate mastery rank: "+island);
+   float before=(float)Get(dummy,"hp");Call("BeginLightChannel");for(int i=0;i<10;i++){Set("clock",F("clock")+.1f);Call("TickLightChannel",.1f,true);}float light=before-(float)Get(dummy,"hp");Call("StopOriginAction",true);
+   Check(light>previousLight,"Actual light beam grows across chapters: "+island+" / "+light);previousLight=light;
+   Set("origin",EnumVal("Origin","Dark"));Set("darkPower",100f);Set("energy",0f);Set("nextSpell",0f);Set("lightNeedsRelease",false);before=(float)Get(dummy,"hp");Call("CastMeteorVolley");Check(List("shots").Count==5&&F("darkPower")==99,"Every rank retains five meteors for exactly one unlimited-reserve energy");
+   for(int i=0;i<80&&List("shots").Count>0;i++){Set("clock",F("clock")+.025f);for(int shot=List("shots").Count-1;shot>=0;shot--)if(shot<List("shots").Count)Call("UpdateShot",shot,.025f);}
+   float stone=(before-(float)Get(dummy,"hp"))/.8f;Check(stone>previousStone,"Actual stone volley output grows with mastery at equal reserves: "+island+" / "+stone);previousStone=stone;
+   Array catalog=(Array)Get("weaponCatalog");float weapon=(float)Call("WeaponOutputScale",catalog.GetValue(0)),staff=(float)Call("WeaponOutputScale",catalog.GetValue(3));
+   Check(island>=3||weapon<=1.25f&&staff<=1.35f,"Early islands do not receive the full late-game weapon bonus");rows.Add(island+","+(island+1)+","+light+","+stone+","+weapon+","+staff);
+   if(island==5){Check(light>=175,"A directly opened manor has a viable light channel, without farming previous islands");Set("darkPower",12f);float fresh=F("DarkStrength");Set("darkPower",807f);float trained=F("DarkStrength");Check(trained/fresh<1.4f&&trained>fresh,"Soul stockpile rewards the full journey without doubling damage over a fresh late-game preset");}
+  }
+  File.WriteAllLines(Out+"origin-progression.csv",rows);
+  Set("allowBatchCheckpoints",true);Set("chapterBatchSaveDirectory",Out+"save/mastery-voyage");Set("chapterCheckpointPathOverride",null);Set("origin",EnumVal("Origin","Light"));Set("energy",100f);Set("darkPower",0f);ClearEnemies();Set(Room(14),"cleared",true);Set("chapterStone",true);Set("position",new Vector2(-3,-2));Quiet();
+  Check((bool)Call("SaveChapterCheckpoint",false),"Manor mastery can be persisted with existing character schema");
+  Check((bool)Call("TravelAtlas",0,0),"Trained character can revisit Mingsha");Quiet();Check((int)Get("CombatMasteryTier")==5,"Mastery rank survives actual return travel and does not drop to first-island rank");
+  Set("checkpointPathOverride",Out+"save/mastery-return.json");Check((bool)Call("SaveCheckpoint",false),"Returned first-island checkpoint saves highest mastery");Set("combatMasteryTier",0);Check((bool)Call("LoadCheckpoint",false)&&(int)Get("CombatMasteryTier")==5,"Save/reload restores highest training without stacking it");Quiet();
+  object record=Call("CaptureSkillLoadout");string json=JsonUtility.ToJson(record);json=System.Text.RegularExpressions.Regex.Replace(json,"\\\"mastery\\\":5,?","");object legacy=JsonUtility.FromJson(json,record.GetType());Call("ValidateSkillLoadout",legacy);Set("combatMasteryTier",0);Set("originLoreBits",8);Call("RestoreSkillLoadout",legacy,false);Check((int)Get("CombatMasteryTier")>=4,"An old save without mastery recovers journey training from recorded island story");Set("allowBatchCheckpoints",false);Set("checkpointPathOverride",null);
+ }
+ static void WeaponRecoveryTests()
+ {
+  p.manorCourtyardMode=false;Forest();Enter(6);ClearEnemies();List("obstacles").Clear();List("projectileObstacles").Clear();Set("clock",100f);Set("position",new Vector2(-4,0));
+  Array catalog=(Array)Get("weaponCatalog");object target=Spawn("ChargeMoth",Vector2.zero);Set(target,"affinity",EnumVal("Element","Physical"));Set(target,"tacticRole",0);Set(target,"phaseUntil",0f);Set(target,"hp",100000f);Set(target,"maximum",100000f);
+  foreach(int id in new[]{0,1,8,21,26,60,123,124,129,132}){
+   float before=(float)Get(target,"hp");object weapon=catalog.GetValue(id);Call("ApplyWeaponDamage",target,10f,EnumVal("Element","Physical"),id);float expected=Get(weapon,"type").ToString()=="Staff"?17.5f:15f;Check(Mathf.Abs(before-(float)Get(target,"hp")-expected)<.02f,"Real weapon hit applies the new output bonus exactly once: "+id);
+  }
+  Set(target,"affinity",EnumVal("Element","Wood"));float hp=(float)Get(target,"hp");Call("ApplyWeaponDamage",target,10f,EnumVal("Element","Fire"),21);Check(Mathf.Abs(hp-(float)Get(target,"hp")-31.5f)<.02f,"Fire weapon actually receives 1.8x Wood counter after its 1.75x output adjustment");
+  hp=(float)Get(target,"hp");Call("ApplySkillHit",target,10f,EnumVal("Element","Fire"),"meteor");Check(Mathf.Abs(hp-(float)Get(target,"hp")-13)<.02f,"Fire skill keeps its existing damage and 1.3x counter, without the weapon bonus");
+  foreach(int floor in new[]{0,1,2}){Forest(floor);Enter(((int[])Get("stageEnds"))[floor]);object boss=List("enemies")[0];float expected=new[]{6160f,10472f,12566.4f}[floor];Check(Mathf.Abs((float)Get(boss,"maximum")-expected)<.1f,"Forest boss HP reduction is applied once on floor "+floor);}
+  var rows=new List<string>{"staff_id,profession,initial_hp,damage_from_100_mana,remaining_hp,cast_count"};
+  foreach(int job in new[]{0,1})foreach(int id in new[]{21,60,62}){
+   Forest(0,false,job);Enter(6);ClearEnemies();List("obstacles").Clear();List("projectileObstacles").Clear();Set("position",new Vector2(-4,0));Set("clock",100f);Set("elementPower",100f);Set("equippedSlot",0);((int[])Get("carriedWeapons"))[0]=id;
+   object boss=Spawn("CopperWarden",Vector2.zero);float maximum=(float)Get(boss,"maximum");int count=0;Set("lastMovementAt",-1000f);
+   while(F("elementPower")+.001f>=(float)Call("WeaponCost",catalog.GetValue(id),0f)&&count++<150&&(float)Get(boss,"hp")>0){
+    ClearShots();Set("nextSword",0f);Call("UseEquippedWeapon");Check(List("shots").Count>0,"Fire staff emits real projectiles in the mana-budget probe: "+id);
+    for(int frame=0;frame<45&&List("shots").Count>0;frame++){Set("clock",F("clock")+.025f);for(int i=List("shots").Count-1;i>=0;i--)if(i<List("shots").Count)Call("UpdateShot",i,.025f);}
+    Set("clock",F("clock")+1f);
+   }
+   float dealt=maximum-Mathf.Max(0,(float)Get(boss,"hp"));rows.Add(id+","+job+","+maximum+","+dealt+","+Mathf.Max(0,(float)Get(boss,"hp"))+","+count);
+   Check(dealt>=maximum*(id==62?.55f:.62f),"Aimed fire-staff full mana budget deals meaningful boss damage instead of twenty percent: "+id+" / "+job+" / "+dealt);
+   if(id==21)Check((bool)Get(boss,"bossEnergyReleased"),"Normal fire staff reaches the once-only 40-energy threshold before its starting bar is empty");
+  }
+  File.WriteAllLines(Out+"fire-staff-mana-budget.csv",rows);
+  foreach(int seed in new[]{1701,1907}){
+   Set("activeSeed",0);p.journeySeed=seed;Forest();
+   for(int id=0;id<List("journeyRooms").Count;id++){
+    Enter(id);Rect bounds=(Rect)Get("CurrentRoomBounds");var covers=new List<Bounds>();foreach(var sr in ((Transform)Get("world")).GetComponentsInChildren<SpriteRenderer>())if(sr.gameObject.activeInHierarchy&&sr.gameObject.name=="Woodland natural cover")covers.Add(sr.bounds);
+    Check(covers.Count<=3,"Forest cover count is deliberate, without corner and density additions: "+id);string roomKind=Get(Room(id),"kind").ToString();if(roomKind=="Combat"||roomKind=="Elite"||roomKind=="Boss")Check(covers.Count>0,"Combat room retains usable natural cover, rather than solving trapping by deleting all cover: "+id);
+    foreach(Bounds body in covers){
+     Check(body.min.x>=bounds.xMin+1.19f&&body.max.x<=bounds.xMax-1.19f&&body.min.y>=bounds.yMin+1.19f&&body.max.y<=bounds.yMax-1.19f,"Every stump leaves a real lane between its back and the wall");
+     Check((bool)Call("Blocked",(Vector2)body.center,.3f)&&(bool)Call("ProjectilePathBlocked",(Vector2)body.center-Vector2.right*3,(Vector2)body.center+Vector2.right*3,.1f),"Cover blocks actors and flying bullets with the same body");
+     Vector2[] loop={new Vector2(body.min.x-.55f,body.min.y-.55f),new Vector2(body.max.x+.55f,body.min.y-.55f),new Vector2(body.max.x+.55f,body.max.y+.55f),new Vector2(body.min.x-.55f,body.max.y+.55f)};
+     for(int side=0;side<4;side++){
+      Vector2 at=loop[side],destination=loop[(side+1)%4];Check(!(bool)Call("Blocked",at,.34f),"Hero-sized turning point beside stump is free");
+      for(int step=0;step<80&&Vector2.Distance(at,destination)>.02f;step++){Vector2 move=Vector2.ClampMagnitude(destination-at,.1f);at=(Vector2)Call("MoveInExploration",at,move,.34f);}
+      Check(Vector2.Distance(at,destination)<.03f,"Real player movement goes around the entire stump, including behind it: room / side "+id+" / "+side);
+     }
+    }
+    Check(CoverRoomConnected(),"Forest entrances, door approaches and cover escape lanes stay connected: "+id);
+   }
+  }
+  ManorPose(14);object captain=List("enemies")[0];Check((float)Get(captain,"maximum")==6120,"Manor captain loses fifteen percent HP without weakening its distinctive attacks");
+ }
+ static bool CoverRoomConnected()
+ {
+  Rect bounds=(Rect)Get("CurrentRoomBounds");const float step=.3f;int width=Mathf.FloorToInt((bounds.width-.8f)/step)+1,height=Mathf.FloorToInt((bounds.height-.8f)/step)+1;var valid=new bool[width,height];var reached=new bool[width,height];var queue=new Queue<Vector2Int>();float closest=float.MaxValue;Vector2Int first=Vector2Int.zero;Vector2 player=(Vector2)Get("position");
+  for(int y=0;y<height;y++)for(int x=0;x<width;x++){Vector2 at=new Vector2(bounds.xMin+.4f+x*step,bounds.yMin+.4f+y*step);valid[x,y]=!(bool)Call("Blocked",at,.34f);float distance=(at-player).sqrMagnitude;if(valid[x,y]&&distance<closest){closest=distance;first=new Vector2Int(x,y);}}
+  if(closest==float.MaxValue)return false;queue.Enqueue(first);reached[first.x,first.y]=true;var directions=new[]{Vector2Int.up,Vector2Int.down,Vector2Int.left,Vector2Int.right};
+  while(queue.Count>0){Vector2Int at=queue.Dequeue();foreach(Vector2Int direction in directions){Vector2Int next=at+direction;if(next.x<0||next.y<0||next.x>=width||next.y>=height||!valid[next.x,next.y]||reached[next.x,next.y])continue;reached[next.x,next.y]=true;queue.Enqueue(next);}}
+  // A closed rescue cage intentionally has an inaccessible interior. Check the
+  // actual exits and both sides of every usable cover, not that quest interior.
+  var goals=new List<Vector2>();for(int d=0;d<4;d++)if((bool)Call("HasDoor",d))goals.Add((Vector2)Call("SafeArrivalPoint",d));
+  foreach(var sr in ((Transform)Get("world")).GetComponentsInChildren<SpriteRenderer>())if(sr.gameObject.activeInHierarchy&&sr.gameObject.name=="Woodland natural cover"){Bounds body=sr.bounds;goals.Add(new Vector2(body.min.x-.55f,body.center.y));goals.Add(new Vector2(body.max.x+.55f,body.center.y));goals.Add(new Vector2(body.center.x,body.min.y-.55f));goals.Add(new Vector2(body.center.x,body.max.y+.55f));}
+  foreach(Vector2 goal in goals){bool found=false;for(int y=0;y<height&&!found;y++)for(int x=0;x<width;x++)if(reached[x,y]&&Vector2.Distance(goal,new Vector2(bounds.xMin+.4f+x*step,bounds.yMin+.4f+y*step))<.42f){found=true;break;}if(!found)return false;}
+  return true;
+ }

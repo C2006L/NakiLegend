@@ -333,16 +333,19 @@ namespace NakiLegend.Prototype
 
         private void UpdatePixelHero(Vector2 movement)
         {
+            if(movement.sqrMagnitude>.01f)lastMovementAt=clock;
             if (!pixelHeroReady) return;
             HeroAction action;
             float phase;
-            Vector2 aim = facing;
+            Vector2 aim = bowCharging?castDirection:facing;
             if (health <= 0) { action = HeroAction.Defeated; phase = 0; }
             else if (won) { action = HeroAction.Idle; phase = 0; }
             else if (clock < pixelHurtUntil) { action = HeroAction.Hurt; phase = 1 - (pixelHurtUntil - clock) / .2f; }
             else if (clock < dashUntil) { action = HeroAction.Dodge; phase = 1 - (dashUntil - clock) / .17f; aim = dashDirection; }
             else if (clock < swordUntil) { action = HeroAction.Attack; phase = (clock - swingStarted) / (enableDesertJourney ? meleeActionDuration : .32f); aim = swingDirection; }
+            else if(OriginActionActive&&movement.sqrMagnitude>.01f){action=HeroAction.Walk;if(currentHeroAction!=HeroAction.Walk)polishedWalkStarted=clock;phase=polishedHeroReady?Mathf.Repeat((clock-polishedWalkStarted)*1.6f,1):Mathf.Repeat(clock*2,1);aim=castDirection;}
             else if (clock < castPoseUntil) { action = HeroAction.Cast; phase = 1 - (castPoseUntil - clock) / .32f; aim = castDirection; }
+            else if(bowCharging&&movement.sqrMagnitude<=.01f){action=HeroAction.Cast;phase=.35f+.15f*BowChargeFraction;}
             else if (movement.sqrMagnitude > .01f)
             {
                 action = HeroAction.Walk;
@@ -404,7 +407,7 @@ namespace NakiLegend.Prototype
         private void UpdateSwordImpact()
         {
             if (!swordHitPending || clock < swordHitAt) return;
-            swordHitPending = false;int hitCount=0;
+            swordHitPending = false;int hitCount=0;bool identityContact=false;if(enableDesertJourney){ReflectMeleeProjectiles();CutMeleeProjectiles();ArsenalMeleeImpact();if(CurrentWeapon.element==Element.Fire)BurnWoodZones(position,position+swingDirection*CurrentWeapon.range,.45f);}if(enableDesertJourney){DisarmFireBomb(position,position+swingDirection*CurrentWeapon.range,CurrentWeapon.type==WeaponType.Spear?.15f:.45f);HitBreakableMelee();}
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
                 Enemy enemy = enemies[i]; Vector2 offset = enemy.position - position;
@@ -414,15 +417,17 @@ namespace NakiLegend.Prototype
                     : Vector2.Dot(swingDirection,offset.normalized)>.25f;
                 if (offset.magnitude <= reach + enemy.radius && inStrike &&
                     (!enableDesertJourney || !ProjectilePathBlocked(position, enemy.position, .02f)))
-                { if(enableDesertJourney) ApplyElementDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element); else DamageEnemy(enemy,swordDamage);if(enableDesertJourney&&CurrentWeapon.maxHits>0&&++hitCount>=CurrentWeapon.maxHits)break; }
+                { identityContact=true;if(enableDesertJourney) {ApplyWeaponDamage(enemy,CurrentMeleeDamage,CurrentWeapon.element,HeldWeaponIdentity);OriginMeleeHit(enemy);} else DamageEnemy(enemy,swordDamage);if(enableDesertJourney&&CurrentWeapon.maxHits>0&&++hitCount>=CurrentWeapon.maxHits)break; }
             }
+            if(identityContact&&enableDesertJourney)IdentityImpact(HeldWeaponIdentity,position+swingDirection*CurrentWeapon.range*.7f,swingDirection);
         }
 
         private void BeginDodge(Vector2 input)
         {
-            ramHits.Clear();Sfx(profession==Profession.Warrior?"ram":"dodge",false,.65f);
+            if(OriginActionActive)StopOriginAction(true);
+            ramHits.Clear();Sfx(profession==Profession.Warrior?"warrior_dash":"dodge",true,profession==Profession.Warrior?.85f:.65f);
             dashDirection = input.sqrMagnitude > 0 ? input.normalized : facing;
-            dashUntil = clock + .17f;
+            dashUntil = clock + .17f;PauseBowChargeForDodge();
             invulnerableUntil = Mathf.Max(invulnerableUntil, dashUntil + .07f);
             nextDash = clock + .8f;
             swordHitPending = false; swordUntil = 0; castPoseUntil = 0;

@@ -37,7 +37,7 @@ namespace NakiLegend.Prototype
         {Sprite[] a;return chapterArt.TryGetValue(key,out a)&&a.Length>0?a[0]:null;}
         private void LoadThunderChapterEquipment()
         {
-            if(!thunderChapterMode||weaponCatalog==null||weaponCatalog.Length>8)return;
+            if(weaponCatalog==null||weaponCatalog.Length>8)return;
             var items=new List<WeaponDef>(weaponCatalog);
             items.Add(Weapon("巡路手弩",WeaponType.Bow,Element.Physical,12,.65f,10,0,1.15f,ChapterImage("crossbow",1)??weaponCatalog[2].sprite,"ffffff"));
             items.Add(Weapon("铜环雷杖",WeaponType.Staff,Element.Lightning,14,.7f,10,2,1.4f,ChapterImage("staff",1)??weaponCatalog[6].sprite,"ffffff"));
@@ -45,46 +45,50 @@ namespace NakiLegend.Prototype
             items.Add(Weapon("沉铜破阵锤",WeaponType.Sword,Element.Lightning,32,.95f,1.6f,3,1.1f,ChapterImage("hammer",1)??weaponCatalog[5].sprite,"ffffff"));
             items.Add(Weapon("鸣弦长弓",WeaponType.Bow,Element.Lightning,20,.9f,11,2,1.0f,ChapterImage("bow",1)??weaponCatalog[2].sprite,"ffffff"));
             items.Add(Weapon("岚纹细剑",WeaponType.Sword,Element.Wind,16,.3f,1.3f,1,1.1f,ChapterImage("rapier",1)??weaponCatalog[4].sprite,"ffffff"));
-            weaponCatalog=items.ToArray();weaponCatalog[8].scatter=4;weaponCatalog[9].scatter=1;weaponCatalog[12].scatter=.6f;weaponCatalog[11].maxHits=2;
+            items.Add(Weapon("冰脊长矛",WeaponType.Spear,Element.Ice,24,.6f,2.5f,1,1.9f,weaponCatalog[1].sprite,"b4edff"));
+            items.Add(Weapon("潮汐冰弩",WeaponType.Bow,Element.Ice,22,.8f,10,2,1.1f,ChapterImage("crossbow",1)??weaponCatalog[2].sprite,"b4edff"));
+            items.Add(Weapon("守灯法杖",WeaponType.Staff,Element.Ice,17,.65f,10,2,1.3f,weaponCatalog[3].sprite,"b4edff"));
+            items.Add(Weapon("破霜重剑",WeaponType.Sword,Element.Ice,34,.85f,1.9f,2,1.3f,weaponCatalog[5].sprite,"b4edff"));
+            items.Add(Weapon("赤炉短剑",WeaponType.Sword,Element.Fire,22,.34f,1.5f,1,1.05f,weaponCatalog[0].sprite,"ffbf81"));
+            items.Add(Weapon("余烬长矛",WeaponType.Spear,Element.Fire,28,.65f,2.5f,1,1.9f,weaponCatalog[1].sprite,"ffbf81"));
+            items.Add(Weapon("煤星手弩",WeaponType.Bow,Element.Fire,26,.9f,10,2,1.1f,ChapterImage("crossbow",1)??weaponCatalog[2].sprite,"ffbf81"));
+            items.Add(Weapon("守炉法杖",WeaponType.Staff,Element.Fire,20,.7f,10,2,1.3f,weaponCatalog[3].sprite,"ffbf81"));
+            items.Add(Weapon("炉锻重剑",WeaponType.Sword,Element.Fire,38,.9f,2,2,1.4f,weaponCatalog[5].sprite,"ffb873"));weaponCatalog=items.ToArray();weaponCatalog[8].scatter=4;weaponCatalog[9].scatter=1;weaponCatalog[12].scatter=.6f;weaponCatalog[11].maxHits=2;AddArsenal();AddWoodWeapons();AddIslandRangedWeapons();AddRelicCatalog();
         }
-        private bool ChapterSkillKnown(int skill)
-        {return iceSampleMode&&skill>=4?skill==4?iceSpikeKnown:iceRingKnown:skill==0?bladeLearned:skill==1?waveLearned:skill==2?chapterMarkKnown:chapterArcKnown;}
-        private float ChapterSkillReady(int skill){return iceSampleMode&&skill>=4?skill==4?iceSpikeReady:iceRingReady:skill==0?bladeReadyAt:skill==1?waveReadyAt:skill==2?chapterMarkReady:chapterArcReady;}
-        private float ChapterSkillCost(int skill){return iceSampleMode&&skill>=4?skill==4?6:12:skill==0?6:skill==1?10:woodlandMode?(skill==2?7:9):skill==2?8:10;}
+        private bool ChapterSkillKnown(int skill){return ElementSkillKnown(skill);}
+        private float ChapterSkillReady(int skill){switch(skill){case 0:return bladeReadyAt;case 1:return waveReadyAt;case 2:return chapterMarkReady;case 3:return chapterArcReady;case 4:return iceSpikeReady;case 5:return iceRingReady;case 6:return fireBoltReady;case 7:return emberRingReady;case 8:return returnBladeReady;case 9:return guardPulseReady;case 10:return forestRootReady;case 11:return forestSporeReady;default:return 0;}}
+        private float ChapterSkillCost(int skill){return skill>=0&&skill<12?new float[]{6,10,8,10,6,12,6,12,6,10,7,9}[skill]:0;}
         private void CastChapterSkill(int slot)
         {
-            if(iceSampleMode&&chapterSkillSlots[slot]>=4){CastIceSkill(slot);return;}if(woodlandMode){CastWoodSkill(slot);return;}
             int skill=chapterSkillSlots[slot];if(!ChapterSkillKnown(skill)){JourneyHint("这项元素技能尚未学会");return;}
+            if(skill==8||skill==9){CastJourneySkill(skill);return;}if(skill>=10){CastWoodSkill(slot);return;}
+            if(skill==7){CastEmberRing();return;}if(skill==6){CastFireBolt();return;}if(skill==4||skill==5){CastIceSkill(slot);return;}
             if(skill==0){CastWindBlade();return;}if(skill==1){CastWindWave();return;}
             if(clock<ChapterSkillReady(skill)||clock<dashUntil)return;
             Enemy target;Vector2 aim=AutoAim(9,9,0,out target);if(target==null){JourneyHint("视线内没有可锁定的敌人");return;}
-            float cost=ChapterSkillCost(skill);if(elementPower+.001f<ElementCost(cost)){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
+            float cost=ChapterSkillCost(skill);if(elementPower+.001f<SkillElementCost(cost)){JourneyHint("元素之力不足 · 拾取结晶或使用元素药剂");return;}
             if(skill==2)
             {
-                if(!SpendPower(PowerPool.Elemental,cost))return;chapterMarkReady=clock+2;SkillSound("mark","cast");
+                if(!SpendSkillPower(cost))return;chapterMarkReady=clock+2;SkillSound("mark","cast");
                 Vector2 at=target.position;GameObject circle=WarningCircle(at,chapterStone?.75f:.6f);
                 foreach(SpriteRenderer r in circle.GetComponentsInChildren<SpriteRenderer>())r.color=new Color(.62f,.86f,1,.6f);
                 chapterMarks.Add(new ChapterMark{at=at,when=clock+.65f,root=circle});
             }
             else
             {
-                int count=shots.Count;SpawnShot(position+aim*.45f,aim,false,null,position);if(shots.Count==count)return;
-                SpendPower(PowerPool.Elemental,cost);chapterArcReady=clock+3;SkillSound("arc","cast");
-                Shot shot=shots[shots.Count-1];shot.tracking=false;shot.element=Element.Lightning;shot.damage=20;shot.speed=9;shot.life=1.4f;shot.chapterArc=true;shot.skillAudio="arc";
-                shot.damage=SkillDamage(20);shot.root.GetComponent<SpriteRenderer>().color=C("a8eaff");
-                AddShotRibbon(shot,C("a8eaff"),.055f);SpellSpark(position+aim*.45f,C("a8eaff"),.22f);
+                CastArcVolley();
             }
             castDirection=aim;castPoseUntil=clock+.3f;
         }
         private void TickChapterSkills()
         {
-            if(!thunderChapterMode)return;TickIceEffects();TickIcePatches();
+            TickWoodCombat();TickIceEffects();TickIcePatches();TickMirrorVolleys();TickIceReturnWater();TickFireCombat();
             for(int i=chapterMarks.Count-1;i>=0;i--)
             {
                 ChapterMark mark=chapterMarks[i];if(clock<mark.when)continue;int hits=0;SkillSound("mark","hit");
                 GameObject flash=Stretch("Friendly mark lightning",square,mark.at+Vector2.up*.65f,new Vector2(.035f,1.3f),C("c6f1ff"),570);
                 fadingBodies.Add(new FadingBody{root=flash,renderer=flash.GetComponent<SpriteRenderer>(),expires=clock+.14f});SpellSpark(mark.at,C("a8eaff"),.45f);
-                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplySkillHit(e,SkillDamage(22),Element.Lightning,"mark");if(++hits==3)break;}}
+                for(int k=enemies.Count-1;k>=0;k--){Enemy e=enemies[k];if(Vector2.Distance(e.position,mark.at)<(chapterStone?.75f:.6f)+e.radius&&!ProjectilePathBlocked(mark.at,e.position,.03f)){ApplySkillHit(e,SkillDamage(30),Element.Lightning,"mark");if(++hits==3)break;}}
                 if(mark.root!=null)Destroy(mark.root);chapterMarks.RemoveAt(i);
             }
         }
@@ -99,7 +103,7 @@ namespace NakiLegend.Prototype
             ApplySkillHit(best,SkillDamage(chapterStone?15:12),Element.Lightning,"arc");
         }
         private void ClearChapterSkillEffects()
-        {ClearIcePatches();if(iceRingVisual!=null)Destroy(iceRingVisual);iceRingVisual=null;foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
+        {ClearWoodCombat();ClearRelicCombat();StopOriginAction();ResetOriginRoomEffects();ClearFireHazards();ClearIceBossMechanics();ClearIcePatches();if(iceRingVisual!=null)Destroy(iceRingVisual);iceRingVisual=null;foreach(ChapterMark mark in chapterMarks)if(mark.root!=null)Destroy(mark.root);chapterMarks.Clear();}
         private void EquipChapterSkill(int skill,int slot)
         {
             if(!journeyRooms[currentRoom].cleared){JourneyHint("战斗中只能查看，清房后再调整配置");return;}
@@ -107,19 +111,6 @@ namespace NakiLegend.Prototype
             int other=1-slot;if(chapterSkillSlots[other]==skill)chapterSkillSlots[other]=chapterSkillSlots[slot];chapterSkillSlots[slot]=skill;RequestCheckpoint();
         }
         private void DrawChapterSkills(float w,float h)
-        {
-            if(iceSampleMode){DrawIceSkills(w,h);return;}
-            HudRect(new Rect(w/2-455,h/2-282,910,564),C("10232d"));CenterLabel(new Rect(w/2-430,h/2-263,860,40),"元素技能 · U / I 配置",journeyTitleStyle);
-            CenterLabel(new Rect(w/2-430,h/2-212,860,35),"U "+ChapterSkillNames[chapterSkillSlots[0]]+"    I "+ChapterSkillNames[chapterSkillSlots[1]]+"    L 保留主属性技能",journeyTextStyle);
-            string[] detail=woodlandMode?new[]{"风刃 · 保留已习得的风元素能力","抵挡普通飞弹，保护近身空间","7元素 / 1.6秒 · 木伤害与短暂束缚","9元素 / 2.4秒 · 自动追踪孢种"}:new[]{"风克雷 ×1.3；三次风命中可破势","消普通飞弹，短暂减雷伤；不消地雷","锁定敌人旧位置，延迟小范围落雷","命中后向附近可见敌人跳一次"};
-            for(int i=0;i<4;i++)
-            {
-                float y=h/2-150+i*82;bool known=ChapterSkillKnown(i);GUI.Label(new Rect(w/2-420,y,560,28),(woodlandMode?new[]{"风之刃","护身风波","根刺","孢种"}:ChapterSkillNames)[i]+" · "+(known?ElementCost(ChapterSkillCost(i)).ToString("0.##")+"元素":"未学会"),journeyTextStyle);
-                GUI.Label(new Rect(w/2-420,y+29,560,29),detail[i],journeySmallStyle);
-                if(FlatButton(new Rect(w/2+160,y,115,53),"装备 U",chapterSkillSlots[0]==i))EquipChapterSkill(i,0);
-                if(FlatButton(new Rect(w/2+290,y,115,53),"装备 I",chapterSkillSlots[1]==i))EquipChapterSkill(i,1);
-            }
-            GUI.Label(new Rect(w/2-420,h/2+199,840,58),"换装不重置冷却；技能和武器消耗元素之力，光暗单独计算。\nB / ESC 返回 · "+(journeyRooms[currentRoom].cleared?"当前安全，可以调整":"战斗中，只能查看"),journeySmallStyle);
-        }
+        {DrawUnifiedSkills(w,h);}
     }
 }

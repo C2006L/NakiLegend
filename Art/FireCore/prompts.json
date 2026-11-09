@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "key": "creatures",
+      "transparent_background": true,
+      "prompt": "Create an ORIGINAL polished pixel-art sprite ATLAS for a top-down 2D dungeon action game NakiLegend. Transparent background true, no text, no UI, no shadows outside bodies, no floor. Square 2x2 grid of FOUR isolated full-body subjects, equal 512x512 cells, at least 50 px transparent margin inside each cell, consistent three-quarter front view, hard crisp pixel clusters, dark navy outlines, warm volcanic palette, approximately 100 pixel high logical detail scaled up evenly. TOP LEFT: majestic ancient enormous volcanic tortoise guardian, dark basalt layered shell like a circular island with glowing orange fissures, head toward lower right, full shell and four short legs visible, gentle golden eyes, chest fiery crystal bound in a small purple binding, boss strong silhouette, fills cell neatly. TOP RIGHT: Ember ritual worker hostile humanoid, short dark scarlet hood, bronze furnace mask, both hands holding a small controlled flame, compact readable body. BOTTOM LEFT: stout ash packbeast hostile living animal, coal-grey boar-like mountain beast with basalt plates and glowing orange horn tips, low wide silhouette, four legs all visible. BOTTOM RIGHT: squat cooled basalt natural rock cover cluster, dark charcoal hexagonal stones, a few tiny orange seams only, no lava pool. All four must be fully inside their own quadrant with large transparent gutters. Match refined JRPG pixel sprites, no block placeholder shapes, no painting brush gradients. Keep alpha transparent."
+    },
+    {
+      "key": "floor",
+      "transparent_background": false,
+      "prompt": "Seamlessly repeating square pixel-art FLOOR TEXTURE for a top-down volcanic dungeon platform, original NakiLegend game asset. Uniform orthographic overhead view, NO perspective, NO room borders or walls, NO props, NO furniture, NO characters, NO large lava pools or holes. Dark grey-brown solid cooled basalt paving with irregular medium polygon stones and sparse dim warm orange seams, about 8 stone clusters each direction. Lower contrast middle surface lets bright projectiles read. Crisp pixel clusters with richly controlled dark charcoal and rust palette, detailed refined pixel RPG tileset quality. All four edges tile seamlessly; evenly lit, no vignette, no text, no water, square."
+    },
+    {
+      "key": "ending",
+      "transparent_background": false,
+      "prompt": "Widescreen 16:9 lavish cinematic anime fantasy game ending illustration, original NakiLegend, title implied 'The Hearth Rises Again' but ABSOLUTELY NO TEXT. Blue-haired teenage boy with short tousled dark navy hair, cobalt blue short cape, ivory tunic with brown leather belts, brown boots and fingerless gloves, slender sword sheathed, stands at LEFT foreground three-quarter back, peacefully watching a warm communal bakery in a coastal volcanic village. Center and right: weathered kind craftsman in leather apron passing freshly baked bread to children and elderly evacuees, modest safe stone public hearth with controlled golden fire, pots of hot soup and soft steam, natural human hands. Fine grey ash drifting outside. Through open right arch see distant glowing volcano at dusk, narrow lava streams diverted safely toward an empty rocky sea coast, no eruption destroying village. Warm amber interior against blue dusk sea. Emotional restrained relief, humanity rebuilding after rescue, highly polished painted anime CG, luminous cinematic lighting, excellent composition and architecture, generous lower strip for game subtitles, no UI, no logo, no captions, no photorealism."
+    }
+  ]
+}

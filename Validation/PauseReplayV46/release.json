@@ -1,0 +1,22 @@
+{
+  "revision": "V46",
+  "native_checks": 115,
+  "regression": "Ordinary cleared room + falling star and barrel blast pending + pause prevents strict save eligibility; paused N must still open replay and never reach legacy reset/configuration",
+  "coverage": [
+    "Seven islands ordinary non-ending rooms",
+    "ESC pause toggle and shared N shortcut routing",
+    "Pause-button entry",
+    "Cancel retains effects and paused state",
+    "Confirm cleans only finished-combat effects, saves source and starts fork",
+    "Uncleared-room N consumed without profile/reset changes",
+    "All V45 ending/replay/profile persistence checks retained"
+  ],
+  "visual_review": [
+    "ordinary-pause.png",
+    "ordinary-pause-replay.png"
+  ],
+  "limitations": [
+    "Headless validation invokes the same production pause-toggle and shortcut handlers, not physical OS key presses"
+  ],
+  "save_policy": "No player saves deleted; all native tests use isolated validation directories"
+}

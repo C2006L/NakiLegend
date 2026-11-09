@@ -1,0 +1,35 @@
+{
+  "author": "Original project-generated audio",
+  "assets": [
+    {
+      "file": "skill_starfall_cast_0.wav",
+      "duration": 0.43,
+      "peak": 0.18290919207058332
+    },
+    {
+      "file": "skill_starfall_cast_1.wav",
+      "duration": 0.43,
+      "peak": 0.19832073796592717
+    },
+    {
+      "file": "skill_starfall_cast_2.wav",
+      "duration": 0.43,
+      "peak": 0.19656328731905962
+    },
+    {
+      "file": "skill_starfall_hit_0.wav",
+      "duration": 0.38,
+      "peak": 0.32608391259576314
+    },
+    {
+      "file": "skill_starfall_hit_1.wav",
+      "duration": 0.38,
+      "peak": 0.3158423572497313
+    },
+    {
+      "file": "skill_starfall_hit_2.wav",
+      "duration": 0.38,
+      "peak": 0.26994196070738125
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "tool": "built-in imagegen",
+  "styleReference": "Assets/NakiPrototype/Resources/NakiArt/ManorFinaleV3/01-return.png",
+  "resourceDirectory": "Assets/NakiPrototype/Resources/NakiArt/CapitalV1",
+  "artDirection": {
+    "actors": "Transparent 4 by 3 padded cells, ivory armour, burgundy cloth, bronze and gold. Eight royal enemy roles, three bosses, princess with documents. Complete weapon silhouettes; only king wears a crown.",
+    "props": "Transparent 4 by 3 atlas: pillar, ballista, open portcullis frame, bookcase, desk, cargo cover, alchemy tank, seal obelisk, throne, winch, dedicated white/blue refuge, palace stairs.",
+    "floors": "Three region paving cells: slate harbour, limestone inner city, ivory and burgundy palace."
+  },
+  "cgPrompts": [
+    [
+      "01-return",
+      "New standalone 16:9 game story CG. Same painterly pixel-art cinematic style and same dark navy-haired young hero, ivory shirt royal blue cape with gold compass embroidery as reference. Hero returns to royal capital harbour welcomed by sincere smiling citizens, distant white marble palace and burgundy royal banners, small bag containing six separate elemental shards. Warm believable emotion, crowds, no elder knight, no armour in foreground, no captions or text."
+    ],
+    [
+      "02-lockdown",
+      "New standalone 16:9 CG. Same pixel-art painted style and navy-haired blue cape ivory shirt hero as reference. Royal capital harbour at night, bronze portcullis closing behind hero, ivory armour burgundy cloth royal halberdiers blocking staircase. Warm welcome banners now imprisoning composition, princess investigator with brown braid in ivory and burgundy coat watches concerned from balcony holding documents. No text."
+    ],
+    [
+      "03-heart",
+      "New standalone 16:9 CG. Same painterly pixel art, same hero navy hair ivory shirt blue cape. Inside royal private study, three open original letters on desk and bookshelves, young princess brown braided hair ivory/burgundy investigator coat points at ritual diagram. Six colourful shards float separately around a golden heart-shaped light inside hero's chest, seventh light is his heart not a seventh external crystal. Hero distressed but determined. No words, no text, no knight elder. Wide composition."
+    ],
+    [
+      "04-victory",
+      "Standalone 16:9 cinematic CG, same painted pixel-art style and navy-haired ivory shirt blue gold embroidered cape young hero as reference. Royal palace ivory burgundy hall, crowned middle-aged king defeated on one knee, bronze royal sun seal floating above throne shattering, hero standing exhausted with sword lowered but resolute, brown braided princess in ivory burgundy officer coat shielding original letters and opening doors for civilians. Not killing or gore, no text."
+    ],
+    [
+      "05-crown",
+      "Standalone 16:9 ending CG, same pixel-art painted style same navy-haired young hero ivory shirt blue gold embroidered cape as reference. Years after victory, now young adult new king with simple slender gold circlet, beside him consenting adult princess brown braided hair ivory/burgundy dress, both standing equally over an open civic council desk. Six separate colourful crystals in six separate protective holders not merged, open palace doors behind reveal citizens rebuilding, dawn. Hopeful governed aftermath, not fairytale wedding only, no text."
+    ],
+    [
+      "06-rebirth",
+      "Standalone 16:9 ending CG, same painterly pixel art and navy-haired blue cape young hero as reference. Hero absent: his blue cape with gold compass emblem and empty sword rest on stone altar, seven lights form reborn enormous divine phoenix NakiTong above royal capital. Brown braided princess ivory burgundy coat and citizens stand together on palace steps with open assembly tables and no throne, new republic rebuilding after costly sacrifice. Beautiful gold cyan white phoenix, dawn. No hero resurrection, no text."
+    ],
+    [
+      "07-defeat",
+      "Standalone 16:9 game defeat CG, same painterly pixel art style same navy-haired young hero ivory shirt blue gold embroidered cape as reference. Hero kneels exhausted on royal palace marble floor sword fallen nearby, still alive and resolute, looming king's boots and long shadow at top right and bronze sun seal behind, open study letter barely visible beside hero. Sombre amber/burgundy lighting, no gore, no text."
+    ]
+  ],
+  "corrections": [
+    {
+      "file": "03-heart.png",
+      "instruction": "Add one separate cobalt blue shard below red and above amber; preserve the five existing external shards and the golden heart. Six external shards total."
+    },
+    {
+      "file": "05-crown.png",
+      "instruction": "Change only the third crystal from yellow to amethyst purple. Preserve the six separate holders and other crystals; preserve all characters and composition."
+    }
+  ],
+  "status": "Historical V19 source record only. Runtime story/cinematics superseded by CAPITAL_STORY_V26_ASSETS.json; obsolete V19 CGs are not used for revised scenes."
+}

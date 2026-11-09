@@ -1,0 +1,67 @@
+{
+  "weapons": 132,
+  "uniqueNames": 132,
+  "uniqueArtwork": 132,
+  "sheets": [
+    {
+      "sheet": 0,
+      "width": 1774,
+      "height": 887,
+      "sha256": "eda2e193d8102fe6a3c9308d196046568e037ac99f16d21e570a4b35b7c90309"
+    },
+    {
+      "sheet": 1,
+      "width": 1774,
+      "height": 887,
+      "sha256": "dada5bbbd790909f0ebb547d2294723443faf8b8fb23ad63f53957939b72dcb6"
+    },
+    {
+      "sheet": 2,
+      "width": 1774,
+      "height": 887,
+      "sha256": "4497d980a8415fd30906bd500c111b3045de231904665d3eae14429cbcbd94e1"
+    },
+    {
+      "sheet": 3,
+      "width": 1774,
+      "height": 887,
+      "sha256": "6be0f5cf590d24fbc502638e3125be4e239064d949a8b1ccdb76b63e7d551335"
+    },
+    {
+      "sheet": 4,
+      "width": 1774,
+      "height": 887,
+      "sha256": "45b306e13bb82d362c03507cb3bb7f98ab23c8e0678a10c66c4650e365428ba4"
+    },
+    {
+      "sheet": 5,
+      "width": 1774,
+      "height": 887,
+      "sha256": "2eb81146ca3b8ffeb48b175f8f397211cb1162b0b8fc523bb53b474f1e10cb29"
+    },
+    {
+      "sheet": 6,
+      "width": 1774,
+      "height": 887,
+      "sha256": "e3360443f71f1842b7938bbb72ab7607df490b640ae3d4cf49794f98204476c0"
+    },
+    {
+      "sheet": 7,
+      "width": 2172,
+      "height": 724,
+      "sha256": "57705d32631552a0d89f046fdc0c8a876c542c7019e0273dd793ceee7fed8cba"
+    },
+    {
+      "sheet": 8,
+      "width": 2172,
+      "height": 724,
+      "sha256": "31dc200c96571850d2e2879edb10b402e50f38bc19506f31bda244c75f61862e"
+    },
+    {
+      "sheet": 9,
+      "width": 2172,
+      "height": 724,
+      "sha256": "5beec7b09dc18ea30e377604369e40849b495f358dbe724894cecfc9e9b4691f"
+    }
+  ]
+}

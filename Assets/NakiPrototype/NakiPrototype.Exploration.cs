@@ -11,7 +11,7 @@ namespace NakiLegend.Prototype
         private readonly List<int> doorSealDirections = new List<int>();
         private readonly List<Rect> doorShotBlocks = new List<Rect>();
         private readonly List<PendingSpawn> pendingSpawns = new List<PendingSpawn>();
-        private sealed class PendingSpawn { public EnemyKind kind; public bool champion,summoned;public Vector2 at; public float when; public GameObject mark; }
+        private sealed class PendingSpawn { public EnemyKind kind; public int role;public bool champion,summoned,vanguard,flank;public Vector2 at; public float when; public GameObject mark; }
         private readonly Sprite[] floorModules=new Sprite[4],wallModules=new Sprite[4],sideModules=new Sprite[4],corridorModules=new Sprite[4];
         private int transitionTarget=-1,transitionEntry=-1;
         private float doorTransition,doorCooldownUntil;
@@ -44,11 +44,12 @@ namespace NakiLegend.Prototype
                 while(queue.Count>0){int id=queue.Dequeue();foreach(int next in journeyRooms[id].links)if(!distances.ContainsKey(next)){distances[next]=distances[id]+1;queue.Enqueue(next);}}
                 int end=start;foreach(var pair in distances)if(pair.Value>distances[end])end=pair.Key;stageEnds[stage]=end;
                 foreach(var pair in distances){RoomNode n=journeyRooms[pair.Key];n.depth=stage*5+pair.Value;n.waves=n.kind==RoomKind.Combat?2+(stage==2?1:0):1;}
-                journeyRooms[start].kind=RoomKind.Entrance;journeyRooms[end].kind=stage==2?RoomKind.Boss:RoomKind.Guardian;journeyRooms[end].waves=1;
+                journeyRooms[start].kind=stage==0?RoomKind.Entrance:RoomKind.Combat;journeyRooms[end].kind=stage==2?RoomKind.Boss:RoomKind.Guardian;journeyRooms[end].waves=1;
                 var candidates=new List<int>();for(int id=start+1;id<journeyRooms.Count;id++)if(id!=end)candidates.Add(id);
                 for(int i=candidates.Count-1;i>0;i--){int j=random.Next(i+1);int a=candidates[i];candidates[i]=candidates[j];candidates[j]=a;}
                 RoomKind[] specials={RoomKind.Rest,RoomKind.Event,RoomKind.Reward,RoomKind.Elite};
                 for(int i=0;i<specials.Length;i++){RoomNode n=journeyRooms[candidates[i]];n.kind=specials[i];n.waves=n.kind==RoomKind.Elite?3+(stage==2?1:0):1;}
+                foreach(int id in candidates){RoomNode special=journeyRooms[id];if(special.kind==RoomKind.Rest||special.kind==RoomKind.Event||special.kind==RoomKind.Reward){special.halfWidth=6.2f;special.halfHeight=3.3f;}}
                 if(stage>0){RoomNode n=journeyRooms[candidates[4]];n.kind=RoomKind.Elite;n.waves=3;}
             }
             for(int stage=0;stage<2;stage++){journeyRooms[stageEnds[stage]].stairsTo=stageStarts[stage+1];journeyRooms[stageStarts[stage+1]].stairsTo=stageEnds[stage];}
@@ -68,7 +69,7 @@ namespace NakiLegend.Prototype
         {RoomNode node=journeyRooms[currentRoom];foreach(int link in node.links)if(NeighborDirection(node,journeyRooms[link])==direction)return true;return false;}
         private Vector2 DoorNormal(int direction){return new Vector2(Cardinal[direction].x,Cardinal[direction].y);}
         private Vector2 DoorPoint(int direction,float outward=0)
-        {RoomNode n=journeyRooms[currentRoom];Vector2 normal=DoorNormal(direction);return normal*((direction<2?n.halfHeight:n.halfWidth)+outward);}
+        {RoomNode n=journeyRooms[currentRoom];Vector2 normal=DoorNormal(direction);return normal*((direction<2?n.halfHeight:n.halfWidth)+outward)+(CoastalHarborRoom?(direction>=2?Vector2.up*(n.halfHeight*.32f):direction==1?new Vector2(((fireChapterMode?.48f:.585f)-.5f)*n.halfWidth*2,n.halfHeight*.95f):Vector2.zero):RainQuayRoom?(direction>=2?Vector2.up*(n.halfHeight*.28f):direction==1?new Vector2(-.022f*n.halfWidth,n.halfHeight*.38f):Vector2.zero):Vector2.zero);}
 
         private bool CanStandInExploration(Vector2 at,float radius)
         {
@@ -79,7 +80,7 @@ namespace NakiLegend.Prototype
             {
                 if(ExplorationDoorLocked(currentRoom,d))continue;
                 Vector2 normal=DoorNormal(d),delta=at-DoorPoint(d);float outDistance=Vector2.Dot(delta,normal),side=Mathf.Abs(Vector2.Dot(delta,new Vector2(-normal.y,normal.x)));
-                if(outDistance>=-radius-.1f&&outDistance<=1.9f-radius&&side<=1.15f-radius)return true;
+                if(outDistance>=-radius-.1f&&outDistance<=1.9f-radius&&side<=1.4f-radius)return true;
             }
             return false;
         }
@@ -87,9 +88,13 @@ namespace NakiLegend.Prototype
         private Vector2 MoveInExploration(Vector2 from,Vector2 delta,float radius)
         {
             if(!CanStandInExploration(from,radius)||Blocked(from,radius)){from=NearestSafeFooting(from);arrivalRecoveries++;}
-            Vector2 next=from,candidate=new Vector2(from.x+delta.x,from.y);
-            if(CanStandInExploration(candidate,radius)&&!Blocked(candidate,radius))next.x=candidate.x;
-            candidate=new Vector2(next.x,from.y+delta.y);if(CanStandInExploration(candidate,radius)&&!Blocked(candidate,radius))next.y=candidate.y;
+            Vector2 next=from;int steps=Mathf.Max(1,Mathf.CeilToInt(delta.magnitude/.1f));Vector2 step=delta/steps;
+            for(int i=0;i<steps;i++){
+                Vector2 candidate=next+step;
+                if(CanStandInExploration(candidate,radius)&&!Blocked(candidate,radius)){next=candidate;continue;}
+                candidate=next+new Vector2(step.x,0);if(CanStandInExploration(candidate,radius)&&!Blocked(candidate,radius))next=candidate;
+                candidate=next+new Vector2(0,step.y);if(CanStandInExploration(candidate,radius)&&!Blocked(candidate,radius))next=candidate;
+            }
             return next;
         }
         private bool WithinProjectileBounds(Vector2 at)
@@ -113,9 +118,10 @@ namespace NakiLegend.Prototype
 
         private void BuildExplorationRoom(RoomNode node)
         {
-            if(ThunderActive){BuildThunderRoom(node);return;}
+            if(ThunderActive){BuildThunderRoom(node);AddEncounterCover(node);return;}
             int floor=IsGatehouseRoom(node)?1:node.stage;Rect b=CurrentRoomBounds;ReserveTransitSpace(node);
             doorSeals.Clear();doorSealDirections.Clear();doorShotBlocks.Clear();
+            if(RainQuayRoom){BuildRainQuay(node);return;}
             TileFloor("Tiled island paving",Vector2.zero,new Vector2(b.width,b.height),floor,-1000);
             // A continuous inset border keeps room edges readable without baking scenery into tiles.
             foreach(float sign in new[]{-1f,1f})
@@ -145,6 +151,7 @@ namespace NakiLegend.Prototype
                 if(IntersectsTransit(at,new Vector2(1.3f,2.2f)))continue;
                 AddJourneyPillar(at);
             }
+            AddEncounterCover(node);
             if(node.layout%3==0&&journeyRock!=null)
             {
                 Vector2 at=FindFreeInteractionPoint(new Vector2(3.7f,-.2f));if(IntersectsTransit(at,new Vector2(2.1f,1.2f)))return;float scale=1.8f/journeyRock.bounds.size.x;
@@ -168,22 +175,25 @@ namespace NakiLegend.Prototype
 
         private void UpdateExplorationDoors()
         {
-            foreach(Rect r in doorShotBlocks)projectileObstacles.Remove(r);doorShotBlocks.Clear();
+            foreach(Rect r in doorShotBlocks){projectileObstacles.Remove(r);obstacles.Remove(r);}doorShotBlocks.Clear();
             for(int i=0;i<doorSeals.Count;i++)
             {
                 int d=doorSealDirections[i];bool locked=!journeyRooms[currentRoom].cleared||ExplorationDoorLocked(currentRoom,d);
                 if(doorSeals[i]!=null)doorSeals[i].SetActive(locked);
-                if(locked){Rect block=DoorSealCollision(d);doorShotBlocks.Add(block);projectileObstacles.Add(block);}
+                if(locked){Rect block=DoorSealCollision(d);doorShotBlocks.Add(block);projectileObstacles.Add(block);obstacles.Add(block);}
             }
             foreach(Enemy e in enemies)e.position=MoveEnemyWithinRoom(e.position,Vector2.zero,e.radius);
-            CreateStairsIfReady();
+            CreateStairsIfReady();UpdateFlowGuide();
         }
 
         private void CreateStairsIfReady()
         {
-            RoomNode node=journeyRooms[currentRoom];if(!node.cleared||node.stairsTo<0||stairs!=null)return;
+            // Manor travel has one authored doorway/action per floor boundary.
+            // Keep graph stairs for navigation and saves, without drawing a second exit.
+            if(capitalMode||manorCourtyardMode)return;
+            RoomNode node=journeyRooms[currentRoom];if(ThunderStoryRoute&&node.id==6&&!chapterMarkKnown&&thunderChapterPracticeBoss<0)return;if(fireChapterMode&&(node.id==14&&(!chapterStone||!fireBoltKnown)||node.id==29&&!journeyRooms[27].cleared))return;if(!node.cleared||node.stairsTo<0||stairs!=null)return;
             stairPosition=NearestSafeFooting(PreferredStairPoint(node));
-            stairs=Stretch("Illuminated descending stairs",stairsV12??windRingSprite,stairPosition+Vector2.up*.45f,new Vector2(2.15f,2.15f),Color.white,-650);
+            stairs=Stretch("Illuminated descending stairs",IslandStairArt(),stairPosition+Vector2.up*.45f,new Vector2(2.15f,2.15f),Color.white,-650);
             doorCooldownUntil=Mathf.Max(doorCooldownUntil,clock+1);
         }
 
@@ -193,8 +203,8 @@ namespace NakiLegend.Prototype
             foreach(int link in node.links)
             {
                 int direction=NeighborDirection(node,journeyRooms[link]);Vector2 n=DoorNormal(direction),delta=position-DoorPoint(direction);
-                if(ExplorationDoorLocked(currentRoom,direction))continue;
-                if(Vector2.Dot(delta,n)>1.0f&&Mathf.Abs(Vector2.Dot(delta,new Vector2(-n.y,n.x)))<.55f){BeginDoorTransition(link,direction^1);return;}
+                if(ExplorationDoorLocked(currentRoom,direction)){if(Vector2.Dot(delta,n)>-.8f&&Mathf.Abs(Vector2.Dot(delta,new Vector2(-n.y,n.x)))<1.2f){string reason=ThunderStoryGateReason(currentRoom,direction)??WorkshopGateReason(currentRoom,direction);if(reason!=null)JourneyHint(reason);}continue;}
+                if(Vector2.Dot(delta,n)>(CoastalHarborRoom||RainQuayRoom?.35f:.6f)&&Mathf.Abs(Vector2.Dot(delta,new Vector2(-n.y,n.x)))<=1.4f){BeginDoorTransition(link,direction^1);return;}
             }
             // Stairs use explicit F interaction; normal room doors remain automatic.
         }
@@ -211,8 +221,9 @@ namespace NakiLegend.Prototype
 
         private void TickPendingSpawns()
         {
+            AddWaveCompanion();
             for(int i=pendingSpawns.Count-1;i>=0;i--)
-                if(clock>=pendingSpawns[i].when){PendingSpawn spawn=pendingSpawns[i];Destroy(spawn.mark);Enemy e=SpawnJourneyEnemy(spawn.kind,spawn.at,journeyRooms[currentRoom].depth);e.summoned=spawn.summoned;if(spawn.champion)MakeChampion(e);pendingSpawns.RemoveAt(i);}
+                if(clock>=pendingSpawns[i].when&&CanReleaseReinforcement(pendingSpawns[i])){PendingSpawn spawn=pendingSpawns[i];Destroy(spawn.mark);Enemy e=SpawnJourneyEnemy(spawn.kind,spawn.at,journeyRooms[currentRoom].depth);e.summoned=spawn.summoned;ApplySummonedLife(e);if(spawn.role>0)AssignTacticRole(e,spawn.role);if(spawn.champion)MakeChampion(e);ApplyEarlyVanguard(e,spawn);pendingSpawns.RemoveAt(i);}
         }
 
         private void QueueEnemy(EnemyKind kind,Vector2 at,bool champion=false)

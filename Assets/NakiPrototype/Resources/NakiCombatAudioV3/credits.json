@@ -194,103 +194,112 @@
     {
       "file": "skill_mark_cast_0.wav",
       "seconds": 0.12,
-      "peak": 0.7,
+      "peak": 0.33080976977609605,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     },
     {
       "file": "skill_mark_cast_1.wav",
       "seconds": 0.11766439909297052,
-      "peak": 0.7,
+      "peak": 0.3323504278106094,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     },
     {
       "file": "skill_mark_cast_2.wav",
       "seconds": 0.1153968253968254,
-      "peak": 0.7,
+      "peak": 0.3330820504410107,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     },
     {
       "file": "skill_mark_hit_0.wav",
-      "seconds": 0.19,
-      "peak": 0.7,
+      "seconds": 0.26,
+      "peak": 0.55,
       "components": [
-        "continuousspark.wav",
-        "stones_01.ogg"
+        "spark.wav",
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
       ]
     },
     {
       "file": "skill_mark_hit_1.wav",
-      "seconds": 0.18628117913832198,
-      "peak": 0.7,
+      "seconds": 0.25492063492063494,
+      "peak": 0.5500000000000002,
       "components": [
-        "continuousspark.wav",
-        "stones_01.ogg"
+        "spark.wav",
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
       ]
     },
     {
       "file": "skill_mark_hit_2.wav",
-      "seconds": 0.1826984126984127,
-      "peak": 0.7,
+      "seconds": 0.25,
+      "peak": 0.55,
       "components": [
-        "continuousspark.wav",
-        "stones_01.ogg"
+        "spark.wav",
+        "stones_02.ogg",
+        "spell_fire_02.ogg"
       ]
     },
     {
       "file": "skill_arc_cast_0.wav",
-      "seconds": 0.14,
-      "peak": 0.7,
+      "seconds": 0.16,
+      "peak": 0.3384631896817868,
       "components": [
-        "continuousspark.wav",
+        "Katana Swing.wav",
         "spark.wav"
       ]
     },
     {
       "file": "skill_arc_cast_1.wav",
-      "seconds": 0.13725623582766439,
-      "peak": 0.7,
+      "seconds": 0.15687074829931974,
+      "peak": 0.3398752261251177,
       "components": [
-        "continuousspark.wav",
+        "Katana Swing.wav",
         "spark.wav"
       ]
     },
     {
       "file": "skill_arc_cast_2.wav",
-      "seconds": 0.13462585034013605,
-      "peak": 0.7000000000000001,
+      "seconds": 0.1538548752834467,
+      "peak": 0.33209928912450437,
       "components": [
-        "continuousspark.wav",
+        "Katana Swing.wav",
         "spark.wav"
       ]
     },
     {
       "file": "skill_arc_hit_0.wav",
-      "seconds": 0.15,
-      "peak": 0.7,
+      "seconds": 0.14,
+      "peak": 0.55,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "stones_01.ogg"
       ]
     },
     {
       "file": "skill_arc_hit_1.wav",
-      "seconds": 0.1470748299319728,
-      "peak": 0.7,
+      "seconds": 0.13725623582766439,
+      "peak": 0.55,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "stones_01.ogg"
       ]
     },
     {
       "file": "skill_arc_hit_2.wav",
-      "seconds": 0.1442403628117914,
-      "peak": 0.7,
+      "seconds": 0.13462585034013605,
+      "peak": 0.55,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "stones_01.ogg"
       ]
     },
     {
@@ -572,9 +581,10 @@
     {
       "file": "staff_electric_0.wav",
       "seconds": 0.14,
-      "peak": 0.6999999999999998,
+      "peak": 0.3811860330672846,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     },
     {
@@ -598,9 +608,10 @@
     {
       "file": "staff_electric_1.wav",
       "seconds": 0.14,
-      "peak": 0.6999999999999998,
+      "peak": 0.3811860330672846,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     },
     {
@@ -624,9 +635,10 @@
     {
       "file": "staff_electric_2.wav",
       "seconds": 0.14,
-      "peak": 0.6999999999999998,
+      "peak": 0.3811860330672846,
       "components": [
-        "spark.wav"
+        "spark.wav",
+        "Katana Swing.wav"
       ]
     }
   ]

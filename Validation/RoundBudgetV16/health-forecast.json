@@ -1,0 +1,167 @@
+[
+  {
+    "island": 1,
+    "floor": 1,
+    "hp": 350,
+    "full_beam": 125.0,
+    "stone_current_primary_rounds": 2,
+    "stone_planned_primary_rounds": 3,
+    "low": 4,
+    "typical": 3,
+    "high": 3
+  },
+  {
+    "island": 1,
+    "floor": 2,
+    "hp": 800,
+    "full_beam": 125.0,
+    "stone_current_primary_rounds": 5,
+    "stone_planned_primary_rounds": 6,
+    "low": 8,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 1,
+    "floor": 3,
+    "hp": 950,
+    "full_beam": 125.0,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 7,
+    "low": 9,
+    "typical": 8,
+    "high": 7
+  },
+  {
+    "island": 2,
+    "floor": 1,
+    "hp": 1150,
+    "full_beam": 179.6875,
+    "stone_current_primary_rounds": 5,
+    "stone_planned_primary_rounds": 6,
+    "low": 8,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 2,
+    "floor": 2,
+    "hp": 1250,
+    "full_beam": 179.6875,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 7,
+    "low": 9,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 2,
+    "floor": 3,
+    "hp": 1400,
+    "full_beam": 179.6875,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 8,
+    "low": 10,
+    "typical": 8,
+    "high": 7
+  },
+  {
+    "island": 3,
+    "floor": 1,
+    "hp": 1450,
+    "full_beam": 228.7109,
+    "stone_current_primary_rounds": 5,
+    "stone_planned_primary_rounds": 6,
+    "low": 8,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 3,
+    "floor": 2,
+    "hp": 1600,
+    "full_beam": 228.7109,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 7,
+    "low": 9,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 3,
+    "floor": 3,
+    "hp": 1800,
+    "full_beam": 228.7109,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 8,
+    "low": 10,
+    "typical": 8,
+    "high": 7
+  },
+  {
+    "island": 4,
+    "floor": 1,
+    "hp": 2000,
+    "full_beam": 292.5781,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 7,
+    "low": 8,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 4,
+    "floor": 2,
+    "hp": 2150,
+    "full_beam": 292.5781,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 8,
+    "low": 9,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 4,
+    "floor": 3,
+    "hp": 2400,
+    "full_beam": 292.5781,
+    "stone_current_primary_rounds": 7,
+    "stone_planned_primary_rounds": 8,
+    "low": 10,
+    "typical": 8,
+    "high": 6
+  },
+  {
+    "island": 5,
+    "floor": 1,
+    "hp": 2500,
+    "full_beam": 362.3047,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 7,
+    "low": 8,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 5,
+    "floor": 2,
+    "hp": 2650,
+    "full_beam": 362.3047,
+    "stone_current_primary_rounds": 6,
+    "stone_planned_primary_rounds": 8,
+    "low": 9,
+    "typical": 7,
+    "high": 6
+  },
+  {
+    "island": 5,
+    "floor": 3,
+    "hp": 2950,
+    "full_beam": 362.3047,
+    "stone_current_primary_rounds": 7,
+    "stone_planned_primary_rounds": 8,
+    "low": 9,
+    "typical": 8,
+    "high": 6
+  }
+]

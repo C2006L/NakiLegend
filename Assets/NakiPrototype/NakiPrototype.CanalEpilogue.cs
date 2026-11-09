@@ -21,7 +21,7 @@ namespace NakiLegend.Prototype
 
         private void AddGatehouseRooms(int start,int stage)
         {
-            Vector2Int[] cells={new Vector2Int(2,1),new Vector2Int(2,2),new Vector2Int(2,3),new Vector2Int(3,2),new Vector2Int(3,3)};
+            Vector2Int[] cells={new Vector2Int(2,3),new Vector2Int(2,2),new Vector2Int(2,1),new Vector2Int(3,2),new Vector2Int(3,1)};
             for(int local=0;local<cells.Length;local++)journeyRooms.Add(new RoomNode {
                 id=start+local,gatehouseIndex=local,stage=stage,depth=3,cell=cells[local],layout=local,
                 halfWidth=8,halfHeight=4.5f,kind=local==1||local==3?RoomKind.Combat:RoomKind.Entrance,
@@ -34,13 +34,22 @@ namespace NakiLegend.Prototype
         private void UnlockCanalEpilogue(RoomNode bossRoom)
         {
             if(desertStoneRecovered)return;
-            desertStoneRecovered=true;windEmpowered=true;elementPower=Mathf.Min(100,elementPower+30);
+            desertStoneRecovered=true;windEmpowered=true;elementPower=Mathf.Min(ElementMaximum,elementPower+30);
             canalEpilogueStart=journeyRooms.Count;AddGatehouseRooms(canalEpilogueStart,3);
             bossRoom.stairsTo=canalEpilogueStart;GatehouseRoom(0).stairsTo=bossRoom.id;
             pendingRainCG=false;UpdateJourneyPortal();
             TellStory("紫色裂纹熄灭，风元素碎片从守关者体内脱离。石阶下传来空空的水声，旧渠里仍积着深沙。",
                 "少年：风回来了，可水还进不了城。先去清开轮机，再把总闸打开——让它走完回家的路。");
             AnnounceDiscovery("风石共鸣 · 风之刃与护身风波强化；阶梯通往归渠水道");
+        }
+
+        private void NormalizeCanalShoreLayout()
+        {
+            // Keep room IDs, links, loot and completion. Older saves put the court beyond the sea pier.
+            RoomNode quay=journeyRooms.Find(n=>n.gatehouseIndex==4),court=journeyRooms.Find(n=>n.gatehouseIndex==3);
+            if(quay==null||court==null||quay.cell.y<court.cell.y)return;
+            int axis=court.cell.y;
+            foreach(RoomNode n in journeyRooms)if(n.gatehouseIndex>=0)n.cell=new Vector2Int(n.cell.x,2*axis-n.cell.y);
         }
 
         private bool TryCompleteCanalEpilogue()
@@ -61,17 +70,17 @@ namespace NakiLegend.Prototype
 
         private string CanalCompletionHint()
         {
-            if(canalEpilogueComplete)return "甘泽归沙 · 望台西侧风铃 F 乘船前往雷雨高原";
+            if(canalEpilogueComplete)return "甘泽归沙 · 栈桥岸边 F 展开全域航图，自选目的地";
             if(!gateRepairCommitted)return "水渠尚未修好 · 返回闸室清沙转轮";
             if(!gateTotalUnlocked)return "总闸未开启 · 返回分水总闸操作阀门";
-            if(!GatehouseRoom(3).cleared)return "沿南门清理检修庭院，再来迎接初雨";
+            if(!GatehouseRoom(3).cleared)return "沿北侧岸路清理检修庭院，再来迎接初雨";
             return "旧渠已畅通 · 靠近风铃按 F 迎接初雨";
         }
         private string CanalCompletionPrompt()
         {
             if(canalEpilogueComplete)return "水渠已恢复 · 本章已完成";
             return gateRepairCommitted&&gateTotalUnlocked&&GatehouseRoom(3).cleared
-                ?"F 迎接初雨 · 完成沙漠岛":"F 查看旧渠恢复进度";
+                ?"F 迎接初雨 · 完成鸣沙洲":"F 查看旧渠恢复进度";
         }
         private string GatehouseRoomName(RoomNode node)
         {return !gatehouseSampleMode&&node.gatehouseIndex==0?"旧渠入口":GateRoomNames[node.gatehouseIndex];}

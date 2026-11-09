@@ -1,0 +1,2647 @@
+{
+  "license": "Derived from the existing CC0 Foley sources; see NakiAudioV2/credits.json and NakiCombatAudioV3/credits.json. No third-party game audio copied.",
+  "method": "Dry material layering, contact timing, filtered transients and short decay. Existing music and skill sounds unchanged.",
+  "uniqueFiles": 264,
+  "records": [
+    {
+      "id": 0,
+      "phase": "cast",
+      "file": "weapon_000_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "8591caf9df977b4c45d33ecbb605ccd94a02f7f4b04bfc1c8680ee7ced621828",
+      "peak": 0.36,
+      "rms": 0.06542954530095993
+    },
+    {
+      "id": 0,
+      "phase": "hit",
+      "file": "weapon_000_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "89016e12a197d20c5dd4080869e2817d9e9236575d7eeec7bf632720aff96f4f",
+      "peak": 0.29,
+      "rms": 0.04489862945915249
+    },
+    {
+      "id": 1,
+      "phase": "cast",
+      "file": "weapon_001_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "d24f946ea5a1dcfe98b37a8e1632966f0c7c258255752ff47a8ae7a28791e545",
+      "peak": 0.36,
+      "rms": 0.053737428447479696
+    },
+    {
+      "id": 1,
+      "phase": "hit",
+      "file": "weapon_001_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "96054fe7b80e9eed064e0603c6edcaf9da942c98583bbc0796be15ad581559fc",
+      "peak": 0.29,
+      "rms": 0.038646881985639744
+    },
+    {
+      "id": 2,
+      "phase": "cast",
+      "file": "weapon_002_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "a1641442ac97c343c126c2a4d89113318c417ded4f1aade514cdb0b5a72fe050",
+      "peak": 0.36,
+      "rms": 0.02703019625484809
+    },
+    {
+      "id": 2,
+      "phase": "hit",
+      "file": "weapon_002_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "914a26073d3ca4f6e73f1ae19f41b65ac3862f97be0bb569e60435735bff40f4",
+      "peak": 0.29,
+      "rms": 0.04286275834145418
+    },
+    {
+      "id": 3,
+      "phase": "cast",
+      "file": "weapon_003_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "a3fa10510d3ac6b442ec3391cf9d3839a261bccfdc8764ad20901409057506f3",
+      "peak": 0.36,
+      "rms": 0.04974363363441736
+    },
+    {
+      "id": 3,
+      "phase": "hit",
+      "file": "weapon_003_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "7e6cce003d7f12f4f84c6fe8baee5f4a41834b6e444b45fa59c688507c2194cc",
+      "peak": 0.29,
+      "rms": 0.044258827140876505
+    },
+    {
+      "id": 4,
+      "phase": "cast",
+      "file": "weapon_004_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "5f03ebc29d05f003cf83a07b21e63a9bb904d6cc4f356e9264bef0549c08e940",
+      "peak": 0.36,
+      "rms": 0.07079688837015749
+    },
+    {
+      "id": 4,
+      "phase": "hit",
+      "file": "weapon_004_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "21e587d29ddd95d4f64d76ece87d96549d052758674d9237a753b9d54a9c42b6",
+      "peak": 0.29,
+      "rms": 0.03912925664693853
+    },
+    {
+      "id": 5,
+      "phase": "cast",
+      "file": "weapon_005_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\heavy_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "a0ec057292f85aa45baefa31221254f380cf64df0dc3c934b80b03cd93393f7f",
+      "peak": 0.36,
+      "rms": 0.05419891579728978
+    },
+    {
+      "id": 5,
+      "phase": "hit",
+      "file": "weapon_005_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "baf8c36515e81b7002c5e6da0fac59d762e2c76407ad281f5b6a9005a5efb9e0",
+      "peak": 0.29,
+      "rms": 0.04675262166963937
+    },
+    {
+      "id": 6,
+      "phase": "cast",
+      "file": "weapon_006_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "6bb3d1b2b808fa8acef7c94fc83aaf2302ea98ba427f8bd07fbd5cb91913d0e7",
+      "peak": 0.36,
+      "rms": 0.04991346004499485
+    },
+    {
+      "id": 6,
+      "phase": "hit",
+      "file": "weapon_006_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "da09a54996c96f6d1f9264e12302d34af359f13fdb4565afe6824d70f9298ef3",
+      "peak": 0.29,
+      "rms": 0.03784528656969986
+    },
+    {
+      "id": 7,
+      "phase": "cast",
+      "file": "weapon_007_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "3a4bfca4874f1139ed152b5110c7385e1f4063ff3ce2ece8f539c980bc9bbd8b",
+      "peak": 0.36,
+      "rms": 0.053727621690939156
+    },
+    {
+      "id": 7,
+      "phase": "hit",
+      "file": "weapon_007_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "b29f735923e85dde4425d950cd253776efe91ac0e74e77b0703d4609558b95f8",
+      "peak": 0.29,
+      "rms": 0.04261562919076161
+    },
+    {
+      "id": 8,
+      "phase": "cast",
+      "file": "weapon_008_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "5509896efa7d13e81949c7788bc3b6ff6b0e11e1978fec0ceed23092239bdb03",
+      "peak": 0.36,
+      "rms": 0.02441085325856942
+    },
+    {
+      "id": 8,
+      "phase": "hit",
+      "file": "weapon_008_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "9fd35c3367a2ec44df2b9003d1996bbadcc9303ab8bdbca665b6ff07096897ff",
+      "peak": 0.29,
+      "rms": 0.04101420178220261
+    },
+    {
+      "id": 9,
+      "phase": "cast",
+      "file": "weapon_009_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "934efbf76595fde23d8ac72b9a2b1832153ea16ae5aae77398ac48607f8360ca",
+      "peak": 0.36,
+      "rms": 0.04906571939140513
+    },
+    {
+      "id": 9,
+      "phase": "hit",
+      "file": "weapon_009_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "3c154e55435406891c40e16ac9c4c915a0a7c07fff3e412db5b43953aaaf726e",
+      "peak": 0.29,
+      "rms": 0.04377984479272487
+    },
+    {
+      "id": 10,
+      "phase": "cast",
+      "file": "weapon_010_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "e4fc0e4c7fd61aa3e8bb5f77a0c7ce820a9ecc2066780b147a3d96da470db30c",
+      "peak": 0.36,
+      "rms": 0.062218908043440886
+    },
+    {
+      "id": 10,
+      "phase": "hit",
+      "file": "weapon_010_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "3dc25cfd321e2cec4dc7a99385f382044f9451ca75e354f3a093e5b4c9712efd",
+      "peak": 0.29,
+      "rms": 0.048174560877037365
+    },
+    {
+      "id": 11,
+      "phase": "cast",
+      "file": "weapon_011_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "78dca3f4a015056b0d3bc97c1a77bdc3476b1cc1441d9eacb0d7a27c7fe4f40c",
+      "peak": 0.36,
+      "rms": 0.05385254029174194
+    },
+    {
+      "id": 11,
+      "phase": "hit",
+      "file": "weapon_011_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "6dce19bb08dd8538b09de4be2cbaed0aa3c7b81859c0189e77b223b3ed150ce0",
+      "peak": 0.29,
+      "rms": 0.046880340858793446
+    },
+    {
+      "id": 12,
+      "phase": "cast",
+      "file": "weapon_012_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "1f74b6d92ab2a4b3cf3af2ad8de96c47287d79018e36ef4857083199eb114964",
+      "peak": 0.36,
+      "rms": 0.027900913417634125
+    },
+    {
+      "id": 12,
+      "phase": "hit",
+      "file": "weapon_012_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "a9b5c7a9f417b86c61db0b01f15a4e7e5a2225c5bc6fabda34ab61709f225564",
+      "peak": 0.29,
+      "rms": 0.04453962315810496
+    },
+    {
+      "id": 13,
+      "phase": "cast",
+      "file": "weapon_013_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "2b6100902d5554e701cb08f424d0eff189ef2a45b084de1df0efd09dac1a09c5",
+      "peak": 0.36,
+      "rms": 0.06477839788175592
+    },
+    {
+      "id": 13,
+      "phase": "hit",
+      "file": "weapon_013_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "558f0fb7c60352d340464ef5c6f9a4fa2ac31dcb13888fd12362fdd2720848bf",
+      "peak": 0.29,
+      "rms": 0.03973042028006135
+    },
+    {
+      "id": 14,
+      "phase": "cast",
+      "file": "weapon_014_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "bdeaede920400ba2db4ed7e4ea400bc2525c4494e591b365dd19be74c8203864",
+      "peak": 0.36,
+      "rms": 0.04762326313797085
+    },
+    {
+      "id": 14,
+      "phase": "hit",
+      "file": "weapon_014_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "bb6cd3e4b1424d575050dbe385a586be3c599e3efe579d4d8708c8912c28979b",
+      "peak": 0.29,
+      "rms": 0.040218739688212296
+    },
+    {
+      "id": 15,
+      "phase": "cast",
+      "file": "weapon_015_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "8e573e4d1cb9c48e9ba7e42dc1b059e825a4b3258832a038106aac9b3f1407eb",
+      "peak": 0.36,
+      "rms": 0.0249052544105643
+    },
+    {
+      "id": 15,
+      "phase": "hit",
+      "file": "weapon_015_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "cdd7edcd648c026e4648ed53ea3e5631598eff972d0de7e224e53789df60e825",
+      "peak": 0.29,
+      "rms": 0.06378522763777449
+    },
+    {
+      "id": 16,
+      "phase": "cast",
+      "file": "weapon_016_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "40c0059908774d6032581b6a49fe8250086e6824bc98b503a8cb9ef024fae1d6",
+      "peak": 0.36,
+      "rms": 0.05071080884850489
+    },
+    {
+      "id": 16,
+      "phase": "hit",
+      "file": "weapon_016_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "abb0b072c690d0fcf857893c1a820ac43db92649f68a3dfc61e82c147f566855",
+      "peak": 0.29,
+      "rms": 0.05198722244952053
+    },
+    {
+      "id": 17,
+      "phase": "cast",
+      "file": "weapon_017_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\heavy_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "3006febe5879789deed4a464034e952646c684fe27e999cfc8a8b0444db1261c",
+      "peak": 0.36,
+      "rms": 0.048568035100226926
+    },
+    {
+      "id": 17,
+      "phase": "hit",
+      "file": "weapon_017_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "b79a13a7829943f2e7c94b42a49d0205e35d8f560debfc586fada8dad98a6390",
+      "peak": 0.29,
+      "rms": 0.047511785666645226
+    },
+    {
+      "id": 18,
+      "phase": "cast",
+      "file": "weapon_018_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "3b2b603c19aecc8c26cce5d40c0576fceafccbed38668fb573c2f2c0ff96482e",
+      "peak": 0.36,
+      "rms": 0.0677309433196211
+    },
+    {
+      "id": 18,
+      "phase": "hit",
+      "file": "weapon_018_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "4a5a3ea4c6ae5149ccea331db0fa3f74ab35872f4e30afc58d501fed892acfba",
+      "peak": 0.29,
+      "rms": 0.04157307876983522
+    },
+    {
+      "id": 19,
+      "phase": "cast",
+      "file": "weapon_019_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "caa4493f31023bd1c7f72aa9679c4ae9a88b31319d38fb15833de968b0f6555f",
+      "peak": 0.36,
+      "rms": 0.05240876564864734
+    },
+    {
+      "id": 19,
+      "phase": "hit",
+      "file": "weapon_019_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "82865f7033649b26aeb916dd7ba2333fd3e8f0b142c602525cecbc324ff10809",
+      "peak": 0.29,
+      "rms": 0.03631662180296933
+    },
+    {
+      "id": 20,
+      "phase": "cast",
+      "file": "weapon_020_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "0f9a1884327b2f8b9f55e8c88842f6e26542df950cfadf475e3b532bb2788c60",
+      "peak": 0.36,
+      "rms": 0.027660007248426946
+    },
+    {
+      "id": 20,
+      "phase": "hit",
+      "file": "weapon_020_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "a8eadc3eac34c960bdd70f4d7b63d5528427558e9d02f6b0247ea13af0753d43",
+      "peak": 0.29,
+      "rms": 0.045010996116619635
+    },
+    {
+      "id": 21,
+      "phase": "cast",
+      "file": "weapon_021_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "1d443edfc2eb3fbf48b6ea016cc6322af6b4775076ab51ff5a9bd75ed2d1ab7f",
+      "peak": 0.36,
+      "rms": 0.04965578067677482
+    },
+    {
+      "id": 21,
+      "phase": "hit",
+      "file": "weapon_021_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "2e4d0844d92f0085aab3b42ae06229bf580b772ad32889790f53d50e8973a8a5",
+      "peak": 0.29,
+      "rms": 0.04460628643268762
+    },
+    {
+      "id": 22,
+      "phase": "cast",
+      "file": "weapon_022_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\heavy_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "ae4ebcde90fad2db032dd2769e0cdec10f14c0adc2a788ebf9c1f4352888535a",
+      "peak": 0.36,
+      "rms": 0.06654738311438443
+    },
+    {
+      "id": 22,
+      "phase": "hit",
+      "file": "weapon_022_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "7a5e5017abba5b23e8846ba2c98ef6d9ed1930efabc09e4d4fc7d433044e949d",
+      "peak": 0.29,
+      "rms": 0.04062005496958657
+    },
+    {
+      "id": 23,
+      "phase": "cast",
+      "file": "weapon_023_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "01967c0b479e5a921f8b71fe9cf491f236e79e7c60ada127f8a2953b1169a03f",
+      "peak": 0.36,
+      "rms": 0.05225493658639204
+    },
+    {
+      "id": 23,
+      "phase": "hit",
+      "file": "weapon_023_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "03850ed8c5007a222a12214023956e24aef931cede08a8e85983557e408fe04a",
+      "peak": 0.29,
+      "rms": 0.043742120126431146
+    },
+    {
+      "id": 24,
+      "phase": "cast",
+      "file": "weapon_024_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "5da8cda2092910b365acb3aed3cbdf975acbfb61229ff5159326bf2dce559f46",
+      "peak": 0.36,
+      "rms": 0.02339187998639288
+    },
+    {
+      "id": 24,
+      "phase": "hit",
+      "file": "weapon_024_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "b3a28db29c564053ef9baa670586e02b2726e9503945cbbc35ecc8fba5ac3614",
+      "peak": 0.29,
+      "rms": 0.04897868922255624
+    },
+    {
+      "id": 25,
+      "phase": "cast",
+      "file": "weapon_025_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "9dff7c80715dde86e801a43f275f3e8383cf9ace0802219d65232f57da25e183",
+      "peak": 0.36,
+      "rms": 0.04930346354297995
+    },
+    {
+      "id": 25,
+      "phase": "hit",
+      "file": "weapon_025_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "b2653770f09285f9d60b41880d70f23d151d8fe7dd16125f91eead2a7417074d",
+      "peak": 0.29,
+      "rms": 0.04791584639724455
+    },
+    {
+      "id": 26,
+      "phase": "cast",
+      "file": "weapon_026_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "d5a5ab45eb8425343caab2be9306800226136a97dc3cb7601ff979516dcbae40",
+      "peak": 0.36,
+      "rms": 0.05618126808090801
+    },
+    {
+      "id": 26,
+      "phase": "hit",
+      "file": "weapon_026_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "3edbaafd8350f09316dfcadc0b5bad175eaa2fa89a5e8ec52caa067d0862657f",
+      "peak": 0.29,
+      "rms": 0.04879860993407194
+    },
+    {
+      "id": 27,
+      "phase": "cast",
+      "file": "weapon_027_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "463d8638937abedccde43969575d4771d07b90c97ebb586428cd4444d6ae3b7e",
+      "peak": 0.36,
+      "rms": 0.02605908464460765
+    },
+    {
+      "id": 27,
+      "phase": "hit",
+      "file": "weapon_027_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "22d84e7a35ead4ae4f25696a6aba7bb870da40dd08e1f96360a355c5e698d8e3",
+      "peak": 0.29,
+      "rms": 0.04656325989033312
+    },
+    {
+      "id": 28,
+      "phase": "cast",
+      "file": "weapon_028_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "aa52cd675ac360db336d4680ceab050280c4d9842bdef657ae96c7da3a93af4a",
+      "peak": 0.36,
+      "rms": 0.04302754298267419
+    },
+    {
+      "id": 28,
+      "phase": "hit",
+      "file": "weapon_028_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "47885c84aaacc7304c3dcb05e6ccaa1eb27ae580a2362a692dd7baf2cca00ef0",
+      "peak": 0.29,
+      "rms": 0.0390110949762207
+    },
+    {
+      "id": 29,
+      "phase": "cast",
+      "file": "weapon_029_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "1660f274998e3a68462f29a139060a7b14ba15b9b8d4c0ac67f18a060c0f3f65",
+      "peak": 0.36,
+      "rms": 0.043835773953930054
+    },
+    {
+      "id": 29,
+      "phase": "hit",
+      "file": "weapon_029_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "9cd8741e844b331795f81aa717723a7239b0e3889825988e70afe8be4728397b",
+      "peak": 0.29,
+      "rms": 0.036161877749309325
+    },
+    {
+      "id": 30,
+      "phase": "cast",
+      "file": "weapon_030_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "259f43e8e105e6d8c9564f1a3a9432649e8fe124f4befa889e00d0d72884ec27",
+      "peak": 0.36,
+      "rms": 0.060351642004163215
+    },
+    {
+      "id": 30,
+      "phase": "hit",
+      "file": "weapon_030_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "80514d46949693a9e1c94b98d367d21711cf2894ab8d55d01ff621cac7be20dc",
+      "peak": 0.29,
+      "rms": 0.05339616996509452
+    },
+    {
+      "id": 31,
+      "phase": "cast",
+      "file": "weapon_031_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "6c87cb40ac6dd4951255d08893d5f4faa8a605a2229c1bb85087c30794af31ba",
+      "peak": 0.36,
+      "rms": 0.0280068559411956
+    },
+    {
+      "id": 31,
+      "phase": "hit",
+      "file": "weapon_031_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "83b436f371e898925646c63b87e59dd26d6f7f3398e9d349d05efe468fdc8517",
+      "peak": 0.29,
+      "rms": 0.04398116666107286
+    },
+    {
+      "id": 32,
+      "phase": "cast",
+      "file": "weapon_032_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "af0c41bf51779e48547cbc3c159fffb9c0a8aa1ae2076d4f27a59b6d315018d8",
+      "peak": 0.36,
+      "rms": 0.05045089851350163
+    },
+    {
+      "id": 32,
+      "phase": "hit",
+      "file": "weapon_032_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "6c41afa3f15cacc9b2f1d69f1fe278ca90409c78341d5d69aec41fd2fcd4bcaf",
+      "peak": 0.29,
+      "rms": 0.04147081516881007
+    },
+    {
+      "id": 33,
+      "phase": "cast",
+      "file": "weapon_033_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "b4ce9d2d9eb60cf4aca719283ff3e5df937a40dddf1d965430b5295fc4b8f284",
+      "peak": 0.36,
+      "rms": 0.045267690497755676
+    },
+    {
+      "id": 33,
+      "phase": "hit",
+      "file": "weapon_033_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "bde1a80b5ef62f0b093b53a0aca546b23d3f7843f4ec9c3ca7d7bbae6d505885",
+      "peak": 0.29,
+      "rms": 0.044491007458667985
+    },
+    {
+      "id": 34,
+      "phase": "cast",
+      "file": "weapon_034_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "8986e40f727ae190fd009f5cb0c526e1dc41fe817bbbda2187f7586f42dc3a59",
+      "peak": 0.36,
+      "rms": 0.02584546435695101
+    },
+    {
+      "id": 34,
+      "phase": "hit",
+      "file": "weapon_034_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "439bdf4f89c8056cd1ca03050d1f933bb42dd7b2549ee70557453f3ff081b08e",
+      "peak": 0.29,
+      "rms": 0.04564168157342944
+    },
+    {
+      "id": 35,
+      "phase": "cast",
+      "file": "weapon_035_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "15e8e30f7e463808ea4217df977583e660a93adb10aa9a8f793b44807f0708b9",
+      "peak": 0.36,
+      "rms": 0.02534657063762628
+    },
+    {
+      "id": 35,
+      "phase": "hit",
+      "file": "weapon_035_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "d008485e95ee9ef0dc724b3a9e84105c4fbca461cd258e77dae9d8a552e9b5e0",
+      "peak": 0.29,
+      "rms": 0.04446954804966632
+    },
+    {
+      "id": 36,
+      "phase": "cast",
+      "file": "weapon_036_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "2d3738fc4ec404f9f2bf2ac022789e761f316539c9ed7bf749f0d06c3f2b9976",
+      "peak": 0.36,
+      "rms": 0.045654034580665026
+    },
+    {
+      "id": 36,
+      "phase": "hit",
+      "file": "weapon_036_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "344f97db43089e9a626525324e74f9b91192f0effa1b4f584ce28504e36fc5cb",
+      "peak": 0.29,
+      "rms": 0.045063990277960944
+    },
+    {
+      "id": 37,
+      "phase": "cast",
+      "file": "weapon_037_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "f868be981d40798b5595d19e2dc9626687b4d09a96f457ca00d10203c403a738",
+      "peak": 0.36,
+      "rms": 0.02693481569108216
+    },
+    {
+      "id": 37,
+      "phase": "hit",
+      "file": "weapon_037_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "6d760993a551dfa8250b104fa5683668855fbd0b0e7fd74598fe7b82bb72bf00",
+      "peak": 0.29,
+      "rms": 0.055019560573848034
+    },
+    {
+      "id": 38,
+      "phase": "cast",
+      "file": "weapon_038_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "d6468d43dd33b39e842bbfee1b30f69167e1e77da7a420e2f0a8a044002eaf80",
+      "peak": 0.36,
+      "rms": 0.026213391753946717
+    },
+    {
+      "id": 38,
+      "phase": "hit",
+      "file": "weapon_038_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "50b68974780627d7ea7f506aef23c9c52049364e7dcc7bb82985f8ea5bad411b",
+      "peak": 0.29,
+      "rms": 0.045708411308006264
+    },
+    {
+      "id": 39,
+      "phase": "cast",
+      "file": "weapon_039_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "1e2b029b676bd3341e457f439248af2ba9798253930fe5adc8d11f2bc9416efc",
+      "peak": 0.36,
+      "rms": 0.045682969739929205
+    },
+    {
+      "id": 39,
+      "phase": "hit",
+      "file": "weapon_039_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "c03564f305c6369734059e80510e0b7fe5caa5b56b48b25a0eea65b18f757bd8",
+      "peak": 0.29,
+      "rms": 0.04726885392126162
+    },
+    {
+      "id": 40,
+      "phase": "cast",
+      "file": "weapon_040_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "8eccaac820f4fd4d117b9b733b221a47480f3753a04fb27c7601491d5a617b06",
+      "peak": 0.36,
+      "rms": 0.028333394020771285
+    },
+    {
+      "id": 40,
+      "phase": "hit",
+      "file": "weapon_040_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "ba03c7ae6ac7332fd1196c822d816706dca1f4e7c3e589462d4ce33564a10cc9",
+      "peak": 0.29,
+      "rms": 0.045456190928839124
+    },
+    {
+      "id": 41,
+      "phase": "cast",
+      "file": "weapon_041_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "5f8d57b5ebbd3da643527d1bfbca8f55c86a18423d703138b5c178023bce082d",
+      "peak": 0.36,
+      "rms": 0.026699438222487392
+    },
+    {
+      "id": 41,
+      "phase": "hit",
+      "file": "weapon_041_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "98897df4d57c4e8d89926a4cce7257590fc01c6e2d1d62d629b53621dbcd0c03",
+      "peak": 0.29,
+      "rms": 0.05491624848119908
+    },
+    {
+      "id": 42,
+      "phase": "cast",
+      "file": "weapon_042_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "9b14895f3409f65abdc9b75f4b6ef07d1db897b060b3e2c84cd8a43d00893097",
+      "peak": 0.36,
+      "rms": 0.045958697344762295
+    },
+    {
+      "id": 42,
+      "phase": "hit",
+      "file": "weapon_042_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "bdc7fc8a4e54bd2b6d3e80a94843a96fe28dc32753366bb96e8e9dc0f442edce",
+      "peak": 0.29,
+      "rms": 0.03609568729792045
+    },
+    {
+      "id": 43,
+      "phase": "cast",
+      "file": "weapon_043_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "57a633618ec1b07160a15b035f12b8b83f633f59ab842d44608e50589e3a8a82",
+      "peak": 0.36,
+      "rms": 0.051130813008577906
+    },
+    {
+      "id": 43,
+      "phase": "hit",
+      "file": "weapon_043_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "a6558f8fca64805c119a6d35aec67cc9cf9b3e6f6491081177e9f2f3b2034f45",
+      "peak": 0.29,
+      "rms": 0.0453237322365641
+    },
+    {
+      "id": 44,
+      "phase": "cast",
+      "file": "weapon_044_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "282e70778e0dd6027b70968172fbbc3a3652a673904ce1270c1c0388c7a73741",
+      "peak": 0.36,
+      "rms": 0.053786166495903655
+    },
+    {
+      "id": 44,
+      "phase": "hit",
+      "file": "weapon_044_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "5c7b8c587fff950197ff45fec9b20951e8ff14d9609e1d4a91fc8ec767fa8018",
+      "peak": 0.29,
+      "rms": 0.04462867674947909
+    },
+    {
+      "id": 45,
+      "phase": "cast",
+      "file": "weapon_045_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "bac40abf73c49d1a26da945e303f61d623b19747288ce11ecc0028f0ca4301cf",
+      "peak": 0.36,
+      "rms": 0.03072131387623658
+    },
+    {
+      "id": 45,
+      "phase": "hit",
+      "file": "weapon_045_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "a6a5f0f3aec4e11df0b3e82450fc70be2531fb95cd1ef7db4f46769a15ebf8a7",
+      "peak": 0.29,
+      "rms": 0.04636575564679915
+    },
+    {
+      "id": 46,
+      "phase": "cast",
+      "file": "weapon_046_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "5206e1720beae0f63dfd44d1ac73770806f457afed73ccf31fa48554bcb9ebe7",
+      "peak": 0.36,
+      "rms": 0.027440475539100548
+    },
+    {
+      "id": 46,
+      "phase": "hit",
+      "file": "weapon_046_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "891c5e72ba154f88e7c7a444aeb8921a20e2cff916afc478eebac8882fb38b6a",
+      "peak": 0.29,
+      "rms": 0.04926837630995357
+    },
+    {
+      "id": 47,
+      "phase": "cast",
+      "file": "weapon_047_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "e2b86228b23dfe7b95467b0115c1aaae7dbc121cf3c82c3ab3efa498e16de320",
+      "peak": 0.36,
+      "rms": 0.02636702038511243
+    },
+    {
+      "id": 47,
+      "phase": "hit",
+      "file": "weapon_047_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "4963cc187ff9e91f45c8aee5805fdcc7e14a9159487c38529c5931c9d66745c6",
+      "peak": 0.29,
+      "rms": 0.04183386459031799
+    },
+    {
+      "id": 48,
+      "phase": "cast",
+      "file": "weapon_048_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "3a5ac9ba95c886f381203ed3179178c0fd87f7bfedde4e4612020131b3b7ec81",
+      "peak": 0.36,
+      "rms": 0.05016913017020511
+    },
+    {
+      "id": 48,
+      "phase": "hit",
+      "file": "weapon_048_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "7cb6df1645a152d9007d32521a08ddf6a0aec4444f7d1282098b508a5a979e80",
+      "peak": 0.29,
+      "rms": 0.03459635834972321
+    },
+    {
+      "id": 49,
+      "phase": "cast",
+      "file": "weapon_049_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "9cb922fff41f5a3388a9f75edec99d41c3b6590b98b7dd6897f382a4480cfdb8",
+      "peak": 0.36,
+      "rms": 0.0489791099277851
+    },
+    {
+      "id": 49,
+      "phase": "hit",
+      "file": "weapon_049_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "8379740f3604172437a75da1743de08acb6519024bc3b01212f5cd5c29b8b1cc",
+      "peak": 0.29,
+      "rms": 0.04429888939551229
+    },
+    {
+      "id": 50,
+      "phase": "cast",
+      "file": "weapon_050_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "3127d2c75fce2d542a656130618d760ad5ca9e095aa326754244481d0a50afec",
+      "peak": 0.36,
+      "rms": 0.052052638053151364
+    },
+    {
+      "id": 50,
+      "phase": "hit",
+      "file": "weapon_050_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "5f189b0e7e72345e2c9510e80723f34fa16cef8c78dbbc2b88e1d73b79bb31cb",
+      "peak": 0.29,
+      "rms": 0.04829996066205351
+    },
+    {
+      "id": 51,
+      "phase": "cast",
+      "file": "weapon_051_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "7e623d8a017a480dd18b814b52d43c713d3e937f1b31f317906c5c6de87cdf5e",
+      "peak": 0.36,
+      "rms": 0.02411351641191647
+    },
+    {
+      "id": 51,
+      "phase": "hit",
+      "file": "weapon_051_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "2ccc70ba497e5010fdceef68670c7e2af52164036c7b84350c5a8d9ebdf1e577",
+      "peak": 0.29,
+      "rms": 0.047130508319029145
+    },
+    {
+      "id": 52,
+      "phase": "cast",
+      "file": "weapon_052_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "078082c9f6586444423943e449cce8c299331622ff2d27b6d93929c9098820d2",
+      "peak": 0.36,
+      "rms": 0.03147174451788458
+    },
+    {
+      "id": 52,
+      "phase": "hit",
+      "file": "weapon_052_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "69470b53021926e1a81345ebf16ac3fc25815beb4732d83146ff4bd37025a710",
+      "peak": 0.29,
+      "rms": 0.0479316743031364
+    },
+    {
+      "id": 53,
+      "phase": "cast",
+      "file": "weapon_053_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "213578d61533d234c098f905fe4232a90a318ec0099905d5051fffee76a77fc6",
+      "peak": 0.36,
+      "rms": 0.02469004416884305
+    },
+    {
+      "id": 53,
+      "phase": "hit",
+      "file": "weapon_053_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "03944f96896a70d9f6052d56ef8a4803741e47d47f1e9c6d8567d8edb72c8af6",
+      "peak": 0.29,
+      "rms": 0.04123479604736095
+    },
+    {
+      "id": 54,
+      "phase": "cast",
+      "file": "weapon_054_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "186557ae92752bd97ca4a22acb98adca205f440dc97343f3fc721cc667f21ef7",
+      "peak": 0.36,
+      "rms": 0.027554994949375695
+    },
+    {
+      "id": 54,
+      "phase": "hit",
+      "file": "weapon_054_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "609c3481565626a6050ad1ac81471535bd917886139ed9b9f262d2077cc8e8f7",
+      "peak": 0.29,
+      "rms": 0.04789190262441725
+    },
+    {
+      "id": 55,
+      "phase": "cast",
+      "file": "weapon_055_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "62d4f2be60f0e6f316f24d36ba8088ff2c28abd2efc0f582d8dc7d32d3899e64",
+      "peak": 0.36,
+      "rms": 0.028220216246536783
+    },
+    {
+      "id": 55,
+      "phase": "hit",
+      "file": "weapon_055_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "af38eb1e789bf5f01152666e814326b1ed77b56738c60e6ad5c7673d6dc885d9",
+      "peak": 0.29,
+      "rms": 0.05658858623198744
+    },
+    {
+      "id": 56,
+      "phase": "cast",
+      "file": "weapon_056_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "597d4b6e575a635666fe7c22ebfc748dd4e7107f5e7ef819087e76b701eedd05",
+      "peak": 0.36,
+      "rms": 0.027223293441983827
+    },
+    {
+      "id": 56,
+      "phase": "hit",
+      "file": "weapon_056_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "341b9153332c8facb20682f775b91f74ed107848324977dc865c2ffd2fa5ad4b",
+      "peak": 0.29,
+      "rms": 0.04835232494639118
+    },
+    {
+      "id": 57,
+      "phase": "cast",
+      "file": "weapon_057_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "dcf9c31f14f6fd5585c65aadc9b2aa06ae6fe7db2651a14f66b5ea90f1197fa0",
+      "peak": 0.36,
+      "rms": 0.05152497386196237
+    },
+    {
+      "id": 57,
+      "phase": "hit",
+      "file": "weapon_057_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "a6adb1b7273bf97e0f129c2880b063f124c4ea2845af1a52a5d6772a3aa7b716",
+      "peak": 0.29,
+      "rms": 0.054050953247868086
+    },
+    {
+      "id": 58,
+      "phase": "cast",
+      "file": "weapon_058_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "02e581a795f6da33c7afdad1a413b46ed83823bb4b84e1b1da06b3b707133b5d",
+      "peak": 0.36,
+      "rms": 0.045703450435920945
+    },
+    {
+      "id": 58,
+      "phase": "hit",
+      "file": "weapon_058_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "dacdefd35ed2b0c02b12516c8fbc916d04abdc18b3bf70415e2482ecf16b2e55",
+      "peak": 0.29,
+      "rms": 0.049283683408316875
+    },
+    {
+      "id": 59,
+      "phase": "cast",
+      "file": "weapon_059_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "75d765784e077e60848551414c9591330a23aa597ddaea5277e77982377c8881",
+      "peak": 0.36,
+      "rms": 0.04755128708252176
+    },
+    {
+      "id": 59,
+      "phase": "hit",
+      "file": "weapon_059_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "8395a1ff47759e3622b645d7f3ff04eaa933ee13d3197e23a7de2e8f28d05f02",
+      "peak": 0.29,
+      "rms": 0.04325963712463408
+    },
+    {
+      "id": 60,
+      "phase": "cast",
+      "file": "weapon_060_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "5ba6a1bbc6b1ed8d88c7e44a13c3c9200fb269328ae0b13e70d85b0e96ebbac5",
+      "peak": 0.36,
+      "rms": 0.05225899461213269
+    },
+    {
+      "id": 60,
+      "phase": "hit",
+      "file": "weapon_060_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "e1af6448386830370f3afcd8dd16779e3316364c15a5b7abceb82a77e1847837",
+      "peak": 0.29,
+      "rms": 0.03743628973788299
+    },
+    {
+      "id": 61,
+      "phase": "cast",
+      "file": "weapon_061_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "0ec941d35b13fe39a673460ea91a5548d85b1b748b34744ff2af59f1d11e7e6f",
+      "peak": 0.36,
+      "rms": 0.05343114011761697
+    },
+    {
+      "id": 61,
+      "phase": "hit",
+      "file": "weapon_061_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "96eacbfe5923076778a3268022be66665034cabc65f691797300ed74b39fc269",
+      "peak": 0.29,
+      "rms": 0.046464773604993334
+    },
+    {
+      "id": 62,
+      "phase": "cast",
+      "file": "weapon_062_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "ecd64bf30f4b2701b5a8a9d9a9fd4e6db8ab05e9a91dfbfaa35254d45bdb885f",
+      "peak": 0.36,
+      "rms": 0.05654776120889463
+    },
+    {
+      "id": 62,
+      "phase": "hit",
+      "file": "weapon_062_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "e841d9bf1529631e816a47dc1e7dfe7c8c90c51140444b7c471fda7d3a440a2c",
+      "peak": 0.29,
+      "rms": 0.04647039130143622
+    },
+    {
+      "id": 63,
+      "phase": "cast",
+      "file": "weapon_063_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "1afdb8e8c9eb03c0f0e74e831c7fcb4625a8f83f519f2323790f16b141f8d630",
+      "peak": 0.36,
+      "rms": 0.026063118070903068
+    },
+    {
+      "id": 63,
+      "phase": "hit",
+      "file": "weapon_063_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "b392ab444a9796b99cd2ce1d4d8bd5a4ea6cf6dd8ebaa4e0a1cb3b91b7c9064d",
+      "peak": 0.29,
+      "rms": 0.04492564461306088
+    },
+    {
+      "id": 64,
+      "phase": "cast",
+      "file": "weapon_064_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "1f0f412475e39d7edbcd577cd679650a9dd742d61d190e10f3f48f2d58b0acf0",
+      "peak": 0.36,
+      "rms": 0.02766265069957852
+    },
+    {
+      "id": 64,
+      "phase": "hit",
+      "file": "weapon_064_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "bf6878125155e5765b27000ae675ebdca73234af7455e08409bca7b1e6479958",
+      "peak": 0.29,
+      "rms": 0.04611517385868035
+    },
+    {
+      "id": 65,
+      "phase": "cast",
+      "file": "weapon_065_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "2becfacadf909ec79e2a6fa07fa087578037d2ad46fb474c9557ae91fa8e2078",
+      "peak": 0.36,
+      "rms": 0.027349855174218562
+    },
+    {
+      "id": 65,
+      "phase": "hit",
+      "file": "weapon_065_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "49c6a454ac3c55b1f637b4b99e4fe0244e2728dcb9a4e71d5ee13c66d25e378d",
+      "peak": 0.29,
+      "rms": 0.043983074083812544
+    },
+    {
+      "id": 66,
+      "phase": "cast",
+      "file": "weapon_066_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "26c8ef3443987429966c19a7589242bffc21e4964eb22fd5a9db2333a4af30d3",
+      "peak": 0.36,
+      "rms": 0.050082451528572956
+    },
+    {
+      "id": 66,
+      "phase": "hit",
+      "file": "weapon_066_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "9511a80b0095d59d7a6d55e5a1aca0a3b456938be9984dde130827f74c151dec",
+      "peak": 0.29,
+      "rms": 0.059063499099671526
+    },
+    {
+      "id": 67,
+      "phase": "cast",
+      "file": "weapon_067_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "97c501ca73cab6b7cdb48f6808352a789d04fff440562264be91e63e213a3fba",
+      "peak": 0.36,
+      "rms": 0.043342529384718734
+    },
+    {
+      "id": 67,
+      "phase": "hit",
+      "file": "weapon_067_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "a85f3273cb8dc239b3769dea6ff22508b3f0de6e8a8d132387dfaa0a28f31abc",
+      "peak": 0.29,
+      "rms": 0.03694240899872554
+    },
+    {
+      "id": 68,
+      "phase": "cast",
+      "file": "weapon_068_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "85912be5eae82b9081e238475d33da27c8e049bbef59eaad575327d3232d4945",
+      "peak": 0.36,
+      "rms": 0.050483001658069085
+    },
+    {
+      "id": 68,
+      "phase": "hit",
+      "file": "weapon_068_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "cb776acc729e10c9350b579fbdea668847b52f8aae06fb2925799d292acda6c7",
+      "peak": 0.29,
+      "rms": 0.05017281631449833
+    },
+    {
+      "id": 69,
+      "phase": "cast",
+      "file": "weapon_069_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "e187355325ce3aa58b9bad2471820c1ff5af931dac0aba3ff96fad6d2dea5df3",
+      "peak": 0.36,
+      "rms": 0.022899648263278668
+    },
+    {
+      "id": 69,
+      "phase": "hit",
+      "file": "weapon_069_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "02af6e7fab5e8f595688a104e9a5d4a9f250beb6c10a843c9b0e66e40da8a35f",
+      "peak": 0.29,
+      "rms": 0.05261462146583306
+    },
+    {
+      "id": 70,
+      "phase": "cast",
+      "file": "weapon_070_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "93a2f406d34f665f1eeefd378981063d1cf40f000678c715b31d838c0d05d3f6",
+      "peak": 0.36,
+      "rms": 0.032687013414811596
+    },
+    {
+      "id": 70,
+      "phase": "hit",
+      "file": "weapon_070_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "49e8c193e8be4f0819691cbcecf9818d5edc64d466af1f07ea21f4388c30e8b7",
+      "peak": 0.29,
+      "rms": 0.04637023301708249
+    },
+    {
+      "id": 71,
+      "phase": "cast",
+      "file": "weapon_071_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "62fa653190a9e695eb6d7b75da4ab094ed82f76f6c01e991f2bb62becb16f032",
+      "peak": 0.36,
+      "rms": 0.025583126910626072
+    },
+    {
+      "id": 71,
+      "phase": "hit",
+      "file": "weapon_071_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "bc5402e7e0cd7ba0b93d5b002b09ff2c574300f662fa9aba095dc4f8525c6525",
+      "peak": 0.29,
+      "rms": 0.05437763580758396
+    },
+    {
+      "id": 72,
+      "phase": "cast",
+      "file": "weapon_072_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "7d39f45dff939a5b789367d552d535939646ecc83a99663c79c9dd5ce363f872",
+      "peak": 0.36,
+      "rms": 0.050242984560446215
+    },
+    {
+      "id": 72,
+      "phase": "hit",
+      "file": "weapon_072_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "fe432172497c957f8fe2aca496974f7e9873dc24c7e699da8b50b316509e2a8d",
+      "peak": 0.29,
+      "rms": 0.035512808775620845
+    },
+    {
+      "id": 73,
+      "phase": "cast",
+      "file": "weapon_073_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "2f3c4ebdb391c43eab5721b65962faf509956fca9687306a16c6160f23c34dd4",
+      "peak": 0.36,
+      "rms": 0.04726909240993611
+    },
+    {
+      "id": 73,
+      "phase": "hit",
+      "file": "weapon_073_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "b51393dcf87c9f373c309795be06c1272c5b20d0ef91ffba071d24d75736329b",
+      "peak": 0.29,
+      "rms": 0.04564100180341864
+    },
+    {
+      "id": 74,
+      "phase": "cast",
+      "file": "weapon_074_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "6640549a0478cc7d78864e04ea0629748be4f39ed7dea3d9325c5b7092edeaee",
+      "peak": 0.36,
+      "rms": 0.0511262712968194
+    },
+    {
+      "id": 74,
+      "phase": "hit",
+      "file": "weapon_074_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "b4af4408f1aae40efd8a009e8976b529829b75046c03bcf523dc96550893fb3c",
+      "peak": 0.29,
+      "rms": 0.04457477375815882
+    },
+    {
+      "id": 75,
+      "phase": "cast",
+      "file": "weapon_075_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "24ee768d1dcaed319175e09d494a54004126ffa193fe6c68f329d93cf163d35c",
+      "peak": 0.36,
+      "rms": 0.026391425172817944
+    },
+    {
+      "id": 75,
+      "phase": "hit",
+      "file": "weapon_075_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "766501ce1fa2ee5c627923530e64671ae405eb5cc66e605fb3c302178fdd19d9",
+      "peak": 0.29,
+      "rms": 0.047796593105115255
+    },
+    {
+      "id": 76,
+      "phase": "cast",
+      "file": "weapon_076_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "1216dd62357529492879b18499340a603a1c8447f63632d4f352238247c31f42",
+      "peak": 0.36,
+      "rms": 0.03148878388405831
+    },
+    {
+      "id": 76,
+      "phase": "hit",
+      "file": "weapon_076_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "666498c9241bf0085e430fd763717693e02aa347ba4f96564115905f6f735ed7",
+      "peak": 0.29,
+      "rms": 0.048680721211871544
+    },
+    {
+      "id": 77,
+      "phase": "cast",
+      "file": "weapon_077_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "efe0d3dd7b2803625563c5b530c10282f81a838de924dab0a8c628027e8785d7",
+      "peak": 0.36,
+      "rms": 0.026208995004578434
+    },
+    {
+      "id": 77,
+      "phase": "hit",
+      "file": "weapon_077_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "d3f5ad08f8a6df9a5e2f2105081dc6381726c7ada2655c3fc6214443054e6676",
+      "peak": 0.29,
+      "rms": 0.044721014021892914
+    },
+    {
+      "id": 78,
+      "phase": "cast",
+      "file": "weapon_078_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "d3a8d4ba5885825716bd07583285201a3f9c77312dba1660154e52f325c63b54",
+      "peak": 0.36,
+      "rms": 0.023346939565506142
+    },
+    {
+      "id": 78,
+      "phase": "hit",
+      "file": "weapon_078_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "e6345de55d49f0504fbc5eb7545afd19610c1c5ed8eab8f371cb5a7544a62fde",
+      "peak": 0.29,
+      "rms": 0.062237154201738934
+    },
+    {
+      "id": 79,
+      "phase": "cast",
+      "file": "weapon_079_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "82642628b02aa0293c295616c9f59087be2b761dd0605cce1de82590079da4c8",
+      "peak": 0.36,
+      "rms": 0.030612191787434916
+    },
+    {
+      "id": 79,
+      "phase": "hit",
+      "file": "weapon_079_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "a27b26f0e9f54b4f5990103855ada8944f9affe49a9fdb4ead4014414b5fd1be",
+      "peak": 0.29,
+      "rms": 0.04026517260663279
+    },
+    {
+      "id": 80,
+      "phase": "cast",
+      "file": "weapon_080_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "ad75daa64fc025c16927e9317f09a47bb847254f1652a12f243179396e4f2e87",
+      "peak": 0.36,
+      "rms": 0.02594401096124084
+    },
+    {
+      "id": 80,
+      "phase": "hit",
+      "file": "weapon_080_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "2bf4533f8cbb2a95751dd59f30aa8ecba0c61e1522c40c10a2ea94f705a3bd59",
+      "peak": 0.29,
+      "rms": 0.05833395865101165
+    },
+    {
+      "id": 81,
+      "phase": "cast",
+      "file": "weapon_081_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "211948f24405c9bdf75ee73f923f1a483e9123d084dd3009216f8a386e8672c0",
+      "peak": 0.36,
+      "rms": 0.05052106211410573
+    },
+    {
+      "id": 81,
+      "phase": "hit",
+      "file": "weapon_081_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "d9fa1298cbb28ca228164cc6b6c207c94e91ddeb61d17c24afee8931dfa20d98",
+      "peak": 0.29,
+      "rms": 0.04749870423423084
+    },
+    {
+      "id": 82,
+      "phase": "cast",
+      "file": "weapon_082_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "294e1e6cb04b46e1554d21b03171026d0194e50a3ec2731e9f0169b304b1deef",
+      "peak": 0.36,
+      "rms": 0.052184824784190245
+    },
+    {
+      "id": 82,
+      "phase": "hit",
+      "file": "weapon_082_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "ed777ca5be304f8d155cfbb3630a490d9b1039b5e712c147523e3d992575b556",
+      "peak": 0.29,
+      "rms": 0.04046098603245553
+    },
+    {
+      "id": 83,
+      "phase": "cast",
+      "file": "weapon_083_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "bd5da1b82fc2aa1e58fa6623027aac3b1d0a370feddc58041307f56e477a1d75",
+      "peak": 0.36,
+      "rms": 0.05400059069648489
+    },
+    {
+      "id": 83,
+      "phase": "hit",
+      "file": "weapon_083_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "36b6fec699ddfccb7e8c1ac89a93cd9eb01cef36f5764a27b47b7722d842f0c1",
+      "peak": 0.29,
+      "rms": 0.04235235862387412
+    },
+    {
+      "id": 84,
+      "phase": "cast",
+      "file": "weapon_084_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "68eced02537c31167efcafcc2b3488ebcef9bf588d3c54842a6c74b13dc649c4",
+      "peak": 0.36,
+      "rms": 0.02670157063814547
+    },
+    {
+      "id": 84,
+      "phase": "hit",
+      "file": "weapon_084_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "f1e81b247d7ea864b556bf7d51f94af6d01c241f9a5f6a87e2d4d51c89e26d38",
+      "peak": 0.29,
+      "rms": 0.04207169867342279
+    },
+    {
+      "id": 85,
+      "phase": "cast",
+      "file": "weapon_085_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "7decd64b061c35e2f2d6ccb7aa7f40ac8c82c58050b6f9e44767d15e881bdac9",
+      "peak": 0.36,
+      "rms": 0.028355557891292783
+    },
+    {
+      "id": 85,
+      "phase": "hit",
+      "file": "weapon_085_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "0275d5bea31404ebc7279f2fd0edb0f97d749241dab12e859869a91fc71d1a45",
+      "peak": 0.29,
+      "rms": 0.04898225601265457
+    },
+    {
+      "id": 86,
+      "phase": "cast",
+      "file": "weapon_086_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "2efd85457344533c3f5ea1c6eb194c383b1768df1950a5bdd7c882c3bfb7e532",
+      "peak": 0.36,
+      "rms": 0.026770380040500887
+    },
+    {
+      "id": 86,
+      "phase": "hit",
+      "file": "weapon_086_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "8238483285b2c6cb9cbb6c2314f3291a0dd27fca36867cd773829693e2defa12",
+      "peak": 0.29,
+      "rms": 0.043322879311857874
+    },
+    {
+      "id": 87,
+      "phase": "cast",
+      "file": "weapon_087_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "4c9922c8595215e36b68c1087b029bd2316a7cafadf425cec313c4b469b8fd91",
+      "peak": 0.36,
+      "rms": 0.07307358753359193
+    },
+    {
+      "id": 87,
+      "phase": "hit",
+      "file": "weapon_087_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "8c7c511a757126e895d038342155eec93385122191a4efff444ca8530d5a353c",
+      "peak": 0.29,
+      "rms": 0.054033573182466
+    },
+    {
+      "id": 88,
+      "phase": "cast",
+      "file": "weapon_088_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "f4ab1bb6979065f193f8c559bb148c9a9b27b954639adb1d4c913dd5fd9bfbfa",
+      "peak": 0.36,
+      "rms": 0.0712665740752871
+    },
+    {
+      "id": 88,
+      "phase": "hit",
+      "file": "weapon_088_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "cd7e34f8aeca855e4ab89c26c1fa04656b096298a48790af1b9bc0dab750ed63",
+      "peak": 0.29,
+      "rms": 0.040810399340546887
+    },
+    {
+      "id": 89,
+      "phase": "cast",
+      "file": "weapon_089_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "d7b6b0dac3105d3f0428f1fa388b9642fed8dce9ef309d832888cd5d0df1b552",
+      "peak": 0.36,
+      "rms": 0.0507645937719881
+    },
+    {
+      "id": 89,
+      "phase": "hit",
+      "file": "weapon_089_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "5f1c55cf13708a536eeff761653678a1030701ef6f5ad22fa9303a4b75854c22",
+      "peak": 0.29,
+      "rms": 0.04828766339502933
+    },
+    {
+      "id": 90,
+      "phase": "cast",
+      "file": "weapon_090_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "a6e0f99cedf5dcacd800d1dbb47875b931a6832b04031da0920d0c46980441e4",
+      "peak": 0.36,
+      "rms": 0.027428730668952635
+    },
+    {
+      "id": 90,
+      "phase": "hit",
+      "file": "weapon_090_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "fbcfb9261504e2bdb18dd363f5a96402e62fc82839c59b3e8503ae18d5cd0db7",
+      "peak": 0.29,
+      "rms": 0.0467806699232877
+    },
+    {
+      "id": 91,
+      "phase": "cast",
+      "file": "weapon_091_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "32558f61b52bf37ba86fc144f8361646377b510c38da22e96f39f8354c940eed",
+      "peak": 0.36,
+      "rms": 0.02929169349319207
+    },
+    {
+      "id": 91,
+      "phase": "hit",
+      "file": "weapon_091_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "96696e79fd94619c17c232d5274d1e22c6238f4d93988b5a0a4711a5ac7dda6c",
+      "peak": 0.29,
+      "rms": 0.049121367318170045
+    },
+    {
+      "id": 92,
+      "phase": "cast",
+      "file": "weapon_092_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "d37f9683ef51e3e2f5d83b3ec866cf2dde37a2eceb91332ba45e99b262567ed5",
+      "peak": 0.36,
+      "rms": 0.026993199190447903
+    },
+    {
+      "id": 92,
+      "phase": "hit",
+      "file": "weapon_092_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "5374624dbd5afe55bde200b95e3e7987ba49750413d2d7709db358280a4664b6",
+      "peak": 0.29,
+      "rms": 0.04311202315377897
+    },
+    {
+      "id": 93,
+      "phase": "cast",
+      "file": "weapon_093_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "7489c5d8560ce385adf2f72f65e7ca065dee11de4f3b4a04a15ab0605b75aecd",
+      "peak": 0.36,
+      "rms": 0.051502073893950735
+    },
+    {
+      "id": 93,
+      "phase": "hit",
+      "file": "weapon_093_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "4382857eebfc8211fb6fc5cbc7e2b8d9042c4b490ec97a0b4d56543219b23471",
+      "peak": 0.29,
+      "rms": 0.04515338904164889
+    },
+    {
+      "id": 94,
+      "phase": "cast",
+      "file": "weapon_094_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "a1975b273fd811de7a31ca9d931b07c8a55495a93887a6acb703ca12391086e3",
+      "peak": 0.36,
+      "rms": 0.049674305086164494
+    },
+    {
+      "id": 94,
+      "phase": "hit",
+      "file": "weapon_094_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "727c81b300612ddb4ad94fcaa8077825f787146a5a6fe067cef3c889d3eacccc",
+      "peak": 0.29,
+      "rms": 0.037520118267292554
+    },
+    {
+      "id": 95,
+      "phase": "cast",
+      "file": "weapon_095_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\staff_electric_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "11454f9566e065e6e7c65231d51b888c4c467c8f0e909a359547d54509456781",
+      "peak": 0.36,
+      "rms": 0.05103437981609103
+    },
+    {
+      "id": 95,
+      "phase": "hit",
+      "file": "weapon_095_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "d736773f37bdbeb5d48aa2de4c26e42178086860be4aff0fc703e80822174887",
+      "peak": 0.29,
+      "rms": 0.046311540205248566
+    },
+    {
+      "id": 96,
+      "phase": "cast",
+      "file": "weapon_096_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "be10b69667178c5c4f1ebbf08e23267274fb8378f8d40ddf03159622d9045d5e",
+      "peak": 0.36,
+      "rms": 0.05072438321663374
+    },
+    {
+      "id": 96,
+      "phase": "hit",
+      "file": "weapon_096_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "754633821b787858a573a5e45c72fff5fdc133dc9802df432db08faa60755918",
+      "peak": 0.29,
+      "rms": 0.04623351057684776
+    },
+    {
+      "id": 97,
+      "phase": "cast",
+      "file": "weapon_097_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "83b02909e8f2e472a4a053c4d28467d2e3f4b637efe74066e6ccfb823acfcc82",
+      "peak": 0.36,
+      "rms": 0.05984173089569111
+    },
+    {
+      "id": 97,
+      "phase": "hit",
+      "file": "weapon_097_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "50fd3965e4466d7ef1ed6014946637bd29aaca99fcf7ebd9c0ce66fbe6460a41",
+      "peak": 0.29,
+      "rms": 0.05275286077968564
+    },
+    {
+      "id": 98,
+      "phase": "cast",
+      "file": "weapon_098_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "34fb1e791b3d7c5a7fead5fc6e3fcad896f1bc8e1ecd8cd790e16c9fd0823e11",
+      "peak": 0.36,
+      "rms": 0.054752650288859506
+    },
+    {
+      "id": 98,
+      "phase": "hit",
+      "file": "weapon_098_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\hammer_hit_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "3e65ae5aeb1a450c52816f4be267e83253a0444813ed9fc3e2222bf4721ab44e",
+      "peak": 0.29,
+      "rms": 0.04722332168796883
+    },
+    {
+      "id": 99,
+      "phase": "cast",
+      "file": "weapon_099_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "db35e8e0b45220812fe70d965890320d921c6ba1a194c98aee17cdc4405e1109",
+      "peak": 0.36,
+      "rms": 0.04582851616074669
+    },
+    {
+      "id": 99,
+      "phase": "hit",
+      "file": "weapon_099_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "9637dabf0cddcb871ff824a34bcebfafc7e4b9af970d07b99183a5464b7524d6",
+      "peak": 0.29,
+      "rms": 0.05250410720771498
+    },
+    {
+      "id": 100,
+      "phase": "cast",
+      "file": "weapon_100_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "79b8d05d69d820a243fb84b7219ae73d9bff62bec77b72e125020d2d67f9a098",
+      "peak": 0.36,
+      "rms": 0.04888867476922425
+    },
+    {
+      "id": 100,
+      "phase": "hit",
+      "file": "weapon_100_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "e0031b066a158d2b2e33850e9e63521328d26bf57e2735cf0c635a349f5686e4",
+      "peak": 0.29,
+      "rms": 0.05229095009539159
+    },
+    {
+      "id": 101,
+      "phase": "cast",
+      "file": "weapon_101_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "09aba10b912ef415301b75367b0c55afeabdf0ba78ef291dfa2220d90e159f6a",
+      "peak": 0.36,
+      "rms": 0.04699823260295975
+    },
+    {
+      "id": 101,
+      "phase": "hit",
+      "file": "weapon_101_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "8d4376c78beeadd8ad63a636a81ffecfb973bf556df6e8d7d827ef8c3192d17e",
+      "peak": 0.29,
+      "rms": 0.04923266344034494
+    },
+    {
+      "id": 102,
+      "phase": "cast",
+      "file": "weapon_102_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "60cb503011b12ab7cc82b9c296b974c59366e56ad459253f7286f98fec168954",
+      "peak": 0.36,
+      "rms": 0.02855654404045463
+    },
+    {
+      "id": 102,
+      "phase": "hit",
+      "file": "weapon_102_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "sha256": "df18b6e4980cb343905d0dfab28e8ba056ee8f09e9652d0b362e10501988f274",
+      "peak": 0.29,
+      "rms": 0.04863986328144293
+    },
+    {
+      "id": 103,
+      "phase": "cast",
+      "file": "weapon_103_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "1d3a4c3de500f60053565c49fc580e45ff860fede12736a5fbdf5c08b526c903",
+      "peak": 0.36,
+      "rms": 0.027025530935921346
+    },
+    {
+      "id": 103,
+      "phase": "hit",
+      "file": "weapon_103_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "sha256": "a2ef358bd7fa1df92d6d914d6cf29103add3355fbb2d2940dd162dee53ceb415",
+      "peak": 0.29,
+      "rms": 0.053558910882063104
+    },
+    {
+      "id": 104,
+      "phase": "cast",
+      "file": "weapon_104_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "c5777c38bf792cfc05181c5b42f9f495d17db14f05e470565f15c249d7ee5eaa",
+      "peak": 0.36,
+      "rms": 0.025491338823098862
+    },
+    {
+      "id": 104,
+      "phase": "hit",
+      "file": "weapon_104_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\stone_0.wav",
+      "sha256": "ea4cde2d8a8c52f2934780bc8fe673986987941548bb98026b71b5c60abc3224",
+      "peak": 0.29,
+      "rms": 0.04526569747279169
+    },
+    {
+      "id": 105,
+      "phase": "cast",
+      "file": "weapon_105_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "b10c09d41e1b75552bef0305a8d250d84e99d2b703e728843b6ba2124a23c43e",
+      "peak": 0.36,
+      "rms": 0.05971908205215045
+    },
+    {
+      "id": 105,
+      "phase": "hit",
+      "file": "weapon_105_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "94310d530ec65f32bba745bbb1dd027bffc49070f219475066044e29411a2d45",
+      "peak": 0.29,
+      "rms": 0.055976660458890035
+    },
+    {
+      "id": 106,
+      "phase": "cast",
+      "file": "weapon_106_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "552f407b942af835706ab992ab2a02d50ba928f785315c9199ec96f10bb9850e",
+      "peak": 0.36,
+      "rms": 0.0690208512510851
+    },
+    {
+      "id": 106,
+      "phase": "hit",
+      "file": "weapon_106_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "c9ae10e698e51f066f5556c25a8de3a5e1f85a953456e54f4736e3831314ae2e",
+      "peak": 0.29,
+      "rms": 0.0437190426101724
+    },
+    {
+      "id": 107,
+      "phase": "cast",
+      "file": "weapon_107_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "00a4c771edf7bf1142ce09d7f0cf3bc6959fb2f7dad2442cd87a2ff14349464a",
+      "peak": 0.36,
+      "rms": 0.049495366466375326
+    },
+    {
+      "id": 107,
+      "phase": "hit",
+      "file": "weapon_107_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "a36c0cac3a0b1bee7a39ac8d5074442b797d5fe74f2db8b68ee3d02eba948366",
+      "peak": 0.29,
+      "rms": 0.0497518562904262
+    },
+    {
+      "id": 108,
+      "phase": "cast",
+      "file": "weapon_108_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "f94bedf653449d0e55e418feb0b34f722d82b5ac736bdcc9e1cda44a7039fa6e",
+      "peak": 0.36,
+      "rms": 0.025803535186825963
+    },
+    {
+      "id": 108,
+      "phase": "hit",
+      "file": "weapon_108_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "2c39eb586856488734892b40e2cf3bcf4248bcbfbd9d25cfa192bc2a79a9ec66",
+      "peak": 0.29,
+      "rms": 0.044288035318046336
+    },
+    {
+      "id": 109,
+      "phase": "cast",
+      "file": "weapon_109_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "f88d302131ffaf296e156dbd58e872f47663fe2c89adc8baedc5d3779cf3dbc9",
+      "peak": 0.36,
+      "rms": 0.02758551215634628
+    },
+    {
+      "id": 109,
+      "phase": "hit",
+      "file": "weapon_109_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "854b99b2ce9fc1660d99b4d59d1d3ebd53cab80eb31e4f246ad021815e90a8cf",
+      "peak": 0.29,
+      "rms": 0.04630841341139037
+    },
+    {
+      "id": 110,
+      "phase": "cast",
+      "file": "weapon_110_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "bd3b9ca3e746bf15350fffe85b91a2646aa8cd6d60800d9d5096d725c892218f",
+      "peak": 0.36,
+      "rms": 0.027804607287576975
+    },
+    {
+      "id": 110,
+      "phase": "hit",
+      "file": "weapon_110_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "76c9a645ad781bd1348f102f24d72255eb000ce99c37e99bee5fbecf6b1993bd",
+      "peak": 0.29,
+      "rms": 0.044663675372570814
+    },
+    {
+      "id": 111,
+      "phase": "cast",
+      "file": "weapon_111_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "7ded700937241a7fc7fd00b60f69291a37b9a239d60085dd17aa423f1bf52b4c",
+      "peak": 0.36,
+      "rms": 0.05240850940136447
+    },
+    {
+      "id": 111,
+      "phase": "hit",
+      "file": "weapon_111_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "141367ea90c76c35375f2ae7bc5ce26765e60cee9fafe400017d511683be5157",
+      "peak": 0.29,
+      "rms": 0.047013457817251504
+    },
+    {
+      "id": 112,
+      "phase": "cast",
+      "file": "weapon_112_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "64c34509d3e467da9d41c6bab737e093e1f92d40957f906d86e47dc207b755a0",
+      "peak": 0.36,
+      "rms": 0.05145740738449661
+    },
+    {
+      "id": 112,
+      "phase": "hit",
+      "file": "weapon_112_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "a9040d9185842a300c7aee717e3c46857cda6b7a2dbf6168cc2ccf2cac1a73cd",
+      "peak": 0.29,
+      "rms": 0.041343459959231055
+    },
+    {
+      "id": 113,
+      "phase": "cast",
+      "file": "weapon_113_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "89fa3b2c84149826671a09703ee06776b4ba1b2239b0fc1d97d58f8ed62cdf1b",
+      "peak": 0.36,
+      "rms": 0.04732966086455634
+    },
+    {
+      "id": 113,
+      "phase": "hit",
+      "file": "weapon_113_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "73d5d6623f341eab32757390e577d0443005278f661c29acbd0a7f7b10277178",
+      "peak": 0.29,
+      "rms": 0.04186025084212469
+    },
+    {
+      "id": 114,
+      "phase": "cast",
+      "file": "weapon_114_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "70c1fecc5133cb0eb8cfadbcc5645cf1f411922188e2748590651e04cdddc128",
+      "peak": 0.36,
+      "rms": 0.022867233385609625
+    },
+    {
+      "id": 114,
+      "phase": "hit",
+      "file": "weapon_114_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "6a6e5f6d83eb98e9a5839193b7ee1d7f7c631d47e0aa11faa38b2a2b1dc4f81b",
+      "peak": 0.29,
+      "rms": 0.06171443029768501
+    },
+    {
+      "id": 115,
+      "phase": "cast",
+      "file": "weapon_115_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "5ff536039828eae83ea3e880ed3f8af7bc99a5512593fec432beb435429ea1d6",
+      "peak": 0.36,
+      "rms": 0.03251584885138978
+    },
+    {
+      "id": 115,
+      "phase": "hit",
+      "file": "weapon_115_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "e3d13dcc5e8a6c8af2963242035cc61c9d7f78c13dc45c8d28400323062cd2e2",
+      "peak": 0.29,
+      "rms": 0.0432530177743433
+    },
+    {
+      "id": 116,
+      "phase": "cast",
+      "file": "weapon_116_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "7a86934e9047a820f8fdc45673f7cec4b422a5e31f6895064826ffb43dd7e2eb",
+      "peak": 0.36,
+      "rms": 0.025490264849548545
+    },
+    {
+      "id": 116,
+      "phase": "hit",
+      "file": "weapon_116_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "82a994d14cebdb3769fbc7f1131cd7f181d588d0ce1ba9ecb6c9eaa5c4e46142",
+      "peak": 0.29,
+      "rms": 0.0558178708200108
+    },
+    {
+      "id": 117,
+      "phase": "cast",
+      "file": "weapon_117_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "8010d4790a4886ced7fe5c8080d8273c10056ad34aa6d0bec877a3b9c18f36e4",
+      "peak": 0.36,
+      "rms": 0.041481008194565246
+    },
+    {
+      "id": 117,
+      "phase": "hit",
+      "file": "weapon_117_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "2ff6a397c25df64291c25427005dc67c08e72bf96d9119893a43f11301a52a97",
+      "peak": 0.29,
+      "rms": 0.04989221086876592
+    },
+    {
+      "id": 118,
+      "phase": "cast",
+      "file": "weapon_118_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "0a934c3df3daf746d0f2d332a0e03e347e321c41903fac22cad4f7bee1a45418",
+      "peak": 0.36,
+      "rms": 0.04522778866569694
+    },
+    {
+      "id": 118,
+      "phase": "hit",
+      "file": "weapon_118_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "8ebfc4971a25c9e452f15d6df42c608f00d4ac384458a22e1ba09dc3b686f8bb",
+      "peak": 0.29,
+      "rms": 0.03576100252353289
+    },
+    {
+      "id": 119,
+      "phase": "cast",
+      "file": "weapon_119_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "9091d3a2cdea49001fa00afe85384516cd09237034e29fb3d9c61802d99ce15a",
+      "peak": 0.36,
+      "rms": 0.04700808508294589
+    },
+    {
+      "id": 119,
+      "phase": "hit",
+      "file": "weapon_119_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "1a16397aa9455f4700ff09911b6814805602a8ef318871fdf2c51873c0399194",
+      "peak": 0.29,
+      "rms": 0.04245006523981146
+    },
+    {
+      "id": 120,
+      "phase": "cast",
+      "file": "weapon_120_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "b4175558d4298d46fc3deb664bdbbe6c1588b7696727ef651f8011c00ac457e7",
+      "peak": 0.36,
+      "rms": 0.02919989194826826
+    },
+    {
+      "id": 120,
+      "phase": "hit",
+      "file": "weapon_120_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "sha256": "11fa1e4927e9ff37580251e5a51dd2b521719bf1aa639dfe65ceebed7c026153",
+      "peak": 0.29,
+      "rms": 0.06743857096875756
+    },
+    {
+      "id": 121,
+      "phase": "cast",
+      "file": "weapon_121_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "e13c919512d512e5db96747838126a860450ffd20f6efdbdd13f9da78d8f0d54",
+      "peak": 0.36,
+      "rms": 0.027813003570130092
+    },
+    {
+      "id": 121,
+      "phase": "hit",
+      "file": "weapon_121_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "7ca6b75a04bfd9a34159f5b7693acf94f4289076e0213accc10905b9c95edb42",
+      "peak": 0.29,
+      "rms": 0.04390445831791908
+    },
+    {
+      "id": 122,
+      "phase": "cast",
+      "file": "weapon_122_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "e4cfb6c628164d7428e20a6e7fd8d9867d908b5d2b8098609cfa802ffceba49b",
+      "peak": 0.36,
+      "rms": 0.026332116113953596
+    },
+    {
+      "id": 122,
+      "phase": "hit",
+      "file": "weapon_122_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "7c22822baf18ed460561b375fd6597df62c76c709e5d985c690f99129f815801",
+      "peak": 0.29,
+      "rms": 0.05554401503415515
+    },
+    {
+      "id": 123,
+      "phase": "cast",
+      "file": "weapon_123_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "c27b732889aa77f48d2130f4fa046cb1d1e76b5d0d7de31698952b5d1349c9ff",
+      "peak": 0.36,
+      "rms": 0.04429915720614578
+    },
+    {
+      "id": 123,
+      "phase": "hit",
+      "file": "weapon_123_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "c042faf5efda2c1eebf8d13bec9f922b24e1dbc62408242e3df28c18f4e39560",
+      "peak": 0.29,
+      "rms": 0.0449810075061603
+    },
+    {
+      "id": 124,
+      "phase": "cast",
+      "file": "weapon_124_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "23d29fd45acf8e0c8b13eb94537c17216513f964986fd1a8fdcec97acb5090dd",
+      "peak": 0.36,
+      "rms": 0.07053494894483232
+    },
+    {
+      "id": 124,
+      "phase": "hit",
+      "file": "weapon_124_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "sha256": "3e4ecc04383bc3d7fe1a65b8a3d62d5eaef700a300a42daca1015817457736f5",
+      "peak": 0.29,
+      "rms": 0.040261690089834906
+    },
+    {
+      "id": 125,
+      "phase": "cast",
+      "file": "weapon_125_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "80f04449a05b33c6a9310a4d2ee75a3b74230a89439456231f62d6080f863720",
+      "peak": 0.36,
+      "rms": 0.05156224326658069
+    },
+    {
+      "id": 125,
+      "phase": "hit",
+      "file": "weapon_125_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "bf8ab330b762a162c4783163697ad6261955ab045c596c323e83ad0d1efb9e3d",
+      "peak": 0.29,
+      "rms": 0.05395683263338298
+    },
+    {
+      "id": 126,
+      "phase": "cast",
+      "file": "weapon_126_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\spear_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "d9c9ecb6213ed611c2e99eb54d39810399cd940b595678090a572b595411dc37",
+      "peak": 0.36,
+      "rms": 0.0747023955001416
+    },
+    {
+      "id": 126,
+      "phase": "hit",
+      "file": "weapon_126_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "05a5dd47c2a9dc39731fc098bd08c40b66a5b919a87f12b6227a1ca430279774",
+      "peak": 0.29,
+      "rms": 0.043903761828078224
+    },
+    {
+      "id": 127,
+      "phase": "cast",
+      "file": "weapon_127_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\bow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "dc0ed25f9f8655800ef7721d8ad15de39ebbaab2cb4f3e24e9ee8f920f6a16e2",
+      "peak": 0.36,
+      "rms": 0.026570692323489086
+    },
+    {
+      "id": 127,
+      "phase": "hit",
+      "file": "weapon_127_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "22fc45def94ca9a3ed93d8166d51919de7672fb5ca4085ad60d8a4979bdb7426",
+      "peak": 0.29,
+      "rms": 0.04834027523929843
+    },
+    {
+      "id": 128,
+      "phase": "cast",
+      "file": "weapon_128_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "d071ad7e2eb149e8425de50269cd4b6d1fd607a0149928a6a6c45d2850868802",
+      "peak": 0.36,
+      "rms": 0.02610967315673799
+    },
+    {
+      "id": 128,
+      "phase": "hit",
+      "file": "weapon_128_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_0.wav",
+      "sha256": "557888bd2a9ae2d100a3631865b7ba2d1ab2fa6126efab771283a848ffa8e49e",
+      "peak": 0.29,
+      "rms": 0.04109038050607649
+    },
+    {
+      "id": 129,
+      "phase": "cast",
+      "file": "weapon_129_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\staff_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "56a6955e9cd573fca9ee22b068dc67eac081fb990496fa291d9dcbea52eb9156",
+      "peak": 0.36,
+      "rms": 0.04754125299827258
+    },
+    {
+      "id": 129,
+      "phase": "hit",
+      "file": "weapon_129_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\flesh_0.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_1.wav",
+      "sha256": "b5fc91fc7262a4129452d0040447bc5343cbeaba0171997321135bc2617dea4a",
+      "peak": 0.29,
+      "rms": 0.045594418456291884
+    },
+    {
+      "id": 130,
+      "phase": "cast",
+      "file": "weapon_130_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiCombatAudioV3\\crossbow_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "0870dfd814f9fae487c40d57c3b456cdac086dc972a42d01b4f259c9d5dcff53",
+      "peak": 0.36,
+      "rms": 0.031978450758622
+    },
+    {
+      "id": 130,
+      "phase": "hit",
+      "file": "weapon_130_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudio\\shell_1.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudio\\wood_2.wav",
+      "sha256": "871f23d56c3ef575c216fce59ec5233836d7d2eb534aeac59f73e21ab5e2f6a5",
+      "peak": 0.29,
+      "rms": 0.050026432506020575
+    },
+    {
+      "id": 131,
+      "phase": "cast",
+      "file": "weapon_131_cast.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\sword_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "134b9cb557bf8870430f38aed89d8eb3a0b20280cfa4ac20ef107f1f9b57e292",
+      "peak": 0.36,
+      "rms": 0.05445322910894389
+    },
+    {
+      "id": 131,
+      "phase": "hit",
+      "file": "weapon_131_hit.wav",
+      "source": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_2.wav",
+      "secondary": "Assets\\NakiPrototype\\Resources\\NakiAudioV2\\clash_0.wav",
+      "sha256": "5bde77c57ee2106059dc2e086f7bcca5e593c603fc6b5dbf5168b532a5188f40",
+      "peak": 0.29,
+      "rms": 0.04616558110959986
+    }
+  ]
+}

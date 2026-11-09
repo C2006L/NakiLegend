@@ -37,3 +37,8 @@ Validation/**/chapter-runtime/
 
 /References/SkillAudio/
 /References/CombatAudioV3/
+
+# Generated portable release scene/shader keep-alives and raw downloaded audio cache
+/Assets/Scenes/NakiPlayer.unity*
+/Assets/Resources/NakiBuild*
+/References/AudioV25/

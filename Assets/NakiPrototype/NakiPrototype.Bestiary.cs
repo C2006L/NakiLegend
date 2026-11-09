@@ -8,15 +8,23 @@ namespace NakiLegend.Prototype
   private Sprite sectorWarning;
   private void MakeChampion(Enemy e)
   {
-   if(e.elite)return;e.elite=true;e.hp=e.maximum*=1.35f;e.speed*=1.08f;
+   if(e.elite)return;e.elite=true;e.hp=e.maximum=Mathf.Max(e.maximum,NormalLifeBudget*2.3f);e.speed*=1.08f;
    e.eliteKind=e.kind==EnemyKind.SandKite&&journeyRooms[currentRoom].stage>0?2:1;
    if(e.eliteKind==2){e.affinity=Element.Lightning;e.attackElement=Element.Lightning;JourneyHint("雷印精英：风技能可破势；地面雷区需要躲避");}
   }
   private string EnemyTitle(Enemy e)
-  {if(woodlandMode){int k=ArrayIndexWood(e.kind);if(k>=0)return WoodNames[k];}return e.boss?EnemyNames[(int)e.kind]:e.elite?(e.eliteKind==2?"雷印 · ":e.kind==EnemyKind.StoneSentinel?"重甲 · ":"追猎 · ")+EnemyNames[(int)e.kind]:EnemyNames[(int)e.kind];}
+  {string identity=woodlandMode&&ArrayIndexWood(e.kind)>=0?WoodNames[ArrayIndexWood(e.kind)]:EnemyNames[(int)e.kind];if(earlyVanguards.Contains(e))return "坚阵 · "+identity;if(e.tacticRole==5)return "盾阵 · "+identity;if(e.tacticRole==3)return "护阵者 · "+identity;if(e.tacticRole==4)return "狙击手 · "+identity;if(woodlandMode){int k=ArrayIndexWood(e.kind);if(k>=0)return WoodNames[k];}return e.boss?EnemyNames[(int)e.kind]:e.elite?(e.eliteKind==2?"雷印 · ":e.kind==EnemyKind.StoneSentinel?"重甲 · ":"追猎 · ")+EnemyNames[(int)e.kind]:EnemyNames[(int)e.kind];}
   private string EnemyMoveName(Enemy e)
   {
-   if(woodlandMode&&IsChapterBoss(e.kind))return new[]{"根须突进","孢潮落点","枝冠横扫"}[Mathf.Max(0,(e.attackNumber-1)%3)];
+   if(IsCapitalEnemy(e.kind))return e.boss?CapitalMoveName(e,CapitalState(e).move):e.kind==EnemyKind.CapitalHalberd?"长戟穿刺与横扫":e.kind==EnemyKind.CapitalMaintainer?"维护供能节点":e.kind==EnemyKind.CapitalMage?"王印短光束 · 掩体可阻挡":e.kind==EnemyKind.CapitalAlchemist?"慢速药泡与投瓶落点":e.kind==EnemyKind.CapitalDuelist?"近身突刺 · 收刀撤步":"侧移射击 · 稀疏快箭";
+   if(IsManorEnemy(e.kind))return e.kind==EnemyKind.ManorCaptain?new[]{"枪芒齐射","破盾冲锋 · 绕侧反击","长枪横扫 · 收招破绽","错时誓印 · 离开落点"}[e.attackNumber%4]:e.kind==EnemyKind.ManorPriest?"暗黑星陨 · 单次落点":e.kind==EnemyKind.ManorHammer?"重锤震地":e.kind==EnemyKind.ManorAxe?"断旗横扫":ArmedIntentName(e);
+   if(e.boss){string signature=ActiveSignatureTitle(e);if(signature!=null)return signature;}
+   if(!e.boss&&!CombatFixture(e)&&EncounterTactics)return ArmedIntentName(e);
+   if(woodlandMode)return e.kind==EnemyKind.WoodParasite?"寄生种子":new[]{"分层种阵","锁向冲撞","孢雾落点"}[e.attackNumber%3];
+   if(IsCoreEnemy(e.kind))return e.boss?new[]{"双段潮焰","开口熔环","错时喷口"}[e.attackNumber%3]:e.kind==EnemyKind.AshPackbeast?"蓄势冲撞":"引焰扇射";
+   if(IsWorkshopEnemy(e.kind))return e.kind==EnemyKind.ForgeMaster?new[]{"错时锤焰","链钩牵模","炉芯折射"}[e.attackNumber%3]:e.kind==EnemyKind.ForgeGuard?"长矛刺线":e.kind==EnemyKind.MoltenCrab?"横钳冲扑":e.kind==EnemyKind.FurnaceCore?"炉芯扇射":"折射铸模";
+   if(IsFireEnemy(e.kind))return e.kind==EnemyKind.RedSpineLizard?new[]{"延迟熔爆","赤脊冲扑","火团扇射"}[e.attackNumber%3]:e.kind==EnemyKind.CoalThrower?"投掷延迟煤包":e.kind==EnemyKind.AshBat?"俯冲扑击":e.kind==EnemyKind.EmberLizard?"三扇火团":"短刃突刺";
+   if(e.kind==EnemyKind.FrostMirror)return e.attackNumber%3==1?"滑扑与碎镜":"霜镜扇射";if(e.kind==EnemyKind.TideGuardian)return e.attackNumber%3==0?"冻潮落点":"分层寒潮弹幕";if(e.kind==EnemyKind.SnowCrab)return "雪钳突刺";if(e.kind==EnemyKind.SnowMoth)return "风道碎冰";
    if(IsExpandedIceEnemy(e.kind))return e.kind==EnemyKind.FrostHound?"霜牙扑击":e.kind==EnemyKind.IceArcher?"双矢连射":"刻霜落点";
    if(IsIceEnemy(e.kind))return e.boss?new[]{"晶角冲锋","碎冰扇射","霜裂落点"}[Mathf.Max(0,(e.attackNumber-1)%3)]:e.kind==EnemyKind.IceGuard?"冰斧突刺":"冰晶扇射";
    if(IsChapterBoss(e.kind))return ChapterBossMove(e);

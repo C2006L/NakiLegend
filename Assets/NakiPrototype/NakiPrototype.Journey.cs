@@ -17,7 +17,7 @@ namespace NakiLegend.Prototype
             public Vector2Int cell;
             public float halfWidth,halfHeight;
             public RoomKind kind;
-            public bool visited,discovered,cleared,claimed,lootSeeded;
+            public bool visited,discovered,cleared,claimed,storyRead,lootSeeded,bossWeaponGranted,challengeWon,departureArmoryClaimed;public int coverBroken;public int[] supplyOffers;
             public readonly List<int> links=new List<int>();
             public readonly List<StoredWeapon> drops=new List<StoredWeapon>();
             public readonly List<StoredEssence> essence=new List<StoredEssence>();
@@ -27,7 +27,7 @@ namespace NakiLegend.Prototype
         private Sprite journeyRock;
         private Texture2D rainCG;
         private int activeSeed,currentRoom,selectedBoss,currentWave,routeChoice,restoredCanals;
-        private float nextWaveAt=-1,journeyEnergyRegen=6;
+        private float nextWaveAt=-1;
         private float initialSwordDamage,initialSpellDamage;
         private bool tuningCaptured,mapMenu,rewardMenu,showRainCG,journeyComplete,pendingBossClear,pendingRainCG;
         private string[] storyLines;
@@ -44,7 +44,7 @@ namespace NakiLegend.Prototype
             journeyRock=JourneySprite("journey-cover-rock",130,new Vector2(.5f,.08f));
             rainCG=Resources.Load<Texture2D>("NakiArt/desert-rain-cg");
             journeyFont=Resources.Load<Font>("Fonts/FusionPixel");
-            LoadEnemyActionArt();LoadEquipmentArt();BuildRoomModules();LoadDesertV12Art();LoadGatehouseArt();LoadThunderArt();SetupJourneyAudio();
+            LoadEnemyActionArt();LoadEquipmentArt();BuildRoomModules();LoadDesertV12Art();LoadGatehouseArt();LoadThunderArt();LoadChapterActors();LoadThunderChapterEquipment();SetupJourneyAudio();
         }
         private Sprite JourneySprite(string name,float ppu,Vector2 pivot)
         {
@@ -67,7 +67,7 @@ namespace NakiLegend.Prototype
             if(thunderPrototypeMode){ConfigureThunderPlayer();EnterExplorationRoom(thunderStartRoom,-1);TellStory("雷雨高原两房原型：清理草坡后沿北门进入引雷坪。", "J 武器，H 换风杖，L 主属性，U 风刃，I 风波。落雷看地面圆圈躲开；清理引雷坪后靠近铜手柄按 F。N 配置，R 重试，F5 / F9 独立原型存档。");return;}
             EnterExplorationRoom(bossPracticeMode?stageEnds[2]:stageStarts[0],-1);
             if(gatehouseSampleMode){TellStory("少年：轮齿还在，沙把它卡住了。","清理闸室后可直接向北探索，或清开两处沙堆、转动手轮。元素结晶奖励只发一次；东侧检修闸需两端都安全才开放。样板已开放三种技能，可用 H 切换免费短剑与风牙法杖。");return;}
-            if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 元气弹、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
+            if(bossPracticeMode)TellStory(lightningTrialMode?"雷印试炼：同一位守关者已标记为雷属性。比较 L 辉光束、U 风刃和 I 风波的效果。":"守关者试炼：三种技能已开放。R 重试，N 重抽守关者，H 切换武器。");
             else if(!TryStartOpeningCinematic()) TellDesertLanding();
         }
         private void BuildJourneyGraph(System.Random random){if(thunderChapterMode)BuildThunderChapterGraph();else if(thunderPrototypeMode)BuildThunderGraph();else if(gatehouseSampleMode)BuildGatehouseGraph();else BuildSpatialGraph(random);}
@@ -77,16 +77,17 @@ namespace NakiLegend.Prototype
         private void EnterExplorationRoom(int id,int entryDirection)
         {
             RoomNode node=journeyRooms[id];bool first=!node.visited;currentRoom=id;node.visited=node.discovered=true;
+            combatMasteryTier=CombatMasteryTier;
             foreach(int link in node.links)journeyRooms[link].discovered=true;
             if(world!=null){world.gameObject.SetActive(false);Destroy(world.gameObject);}world=new GameObject("Explorable room "+id).transform;world.SetParent(transform,false);
-            enemies.Clear();shots.Clear();obstacles.Clear();projectileObstacles.Clear();pendingSpawns.Clear();ClearJourneyEffects();
+            enemies.Clear();shots.Clear();obstacles.Clear();roundedCover.Clear();projectileObstacles.Clear();pendingSpawns.Clear();ClearJourneyEffects();
             paused=won=false;defeated=0;bossSpawned=node.kind==RoomKind.Boss||node.kind==RoomKind.Guardian;
             swordHitPending=false;swordUntil=castPoseUntil=pixelHurtUntil=clock;dashUntil=clock;invulnerableUntil=Mathf.Max(invulnerableUntil,clock+.4f);
             mapMenu=rewardMenu=showRainCG=pendingBossClear=pendingRainCG=inventoryMenu=false;pendingWeaponPickup=null;storyLines=null;storyIndex=0;routeChoice=0;
-            lessonAltar=rewardChest=activeWindWave=stairs=combatReticle=null;combatTarget=null;essenceDrops.Clear();
+            thunderPendingStoryRoom=-1;lessonAltar=rewardChest=activeWindWave=stairs=combatReticle=null;combatTarget=null;essenceDrops.Clear();
             position=entryDirection>=0?DoorPoint(entryDirection,-.85f):new Vector2(0,-node.halfHeight+.9f);
             facing=entryDirection>=0?-DoorNormal(entryDirection):Vector2.up;
-            BuildExplorationRoom(node);
+            BuildExplorationRoom(node);BuildTacticalProps(node);
             position=SafeArrivalPoint(entryDirection);invulnerableUntil=Mathf.Max(invulnerableUntil,clock+1.4f);roomBannerUntil=clock+2.8f;
             hero=Draw("Young adventurer",heroSprite,position,Vector2.one,Color.white,10);heroBody=hero.GetComponent<SpriteRenderer>();
             sword=Draw("Equipped weapon",square,position,Vector2.one,Color.white,30);sword.SetActive(false);SetupIllustratedHero();
@@ -105,16 +106,16 @@ namespace NakiLegend.Prototype
                     }
                 }
             }
-            DrawRoomLoot(node);RestoreEssence(node);UpdateJourneyPortal();doorCooldownUntil=clock+.8f;
-            if(GatehouseActive)OnGatehouseRoomEntered();if(thunderChapterMode)OnChapterRoomEntered(node,first);ConfigureJourneyView();view.transform.position=JourneyViewCenter;RequestCheckpoint();
+            DrawRoomLoot(node);BuildDesertLandmark(node);RestoreEssence(node);UpdateJourneyPortal();doorCooldownUntil=clock+.8f;
+            if(GatehouseActive)OnGatehouseRoomEntered();if(thunderChapterMode)OnChapterRoomEntered(node,first);UpdateFlowGuide();ConfigureJourneyView();view.transform.position=JourneyViewCenter;RequestCheckpoint();
         }
         private static bool IsCombatRoom(RoomNode node){return node.kind==RoomKind.Combat||node.kind==RoomKind.Elite||node.kind==RoomKind.Guardian||node.kind==RoomKind.Boss;}
 
         private void AddJourneyPillar(Vector2 at)
         {
-            obstacles.Add(new Rect(at.x-.42f,at.y-.24f,.84f,.48f));
-            if(pillarArtwork==null){projectileObstacles.Add(new Rect(at.x-.42f,at.y-.24f,.84f,1.8f));return;}
-            Bounds b=pillarArtwork.bounds;projectileObstacles.Add(new Rect(at.x+b.min.x,at.y+b.min.y,b.size.x,b.size.y));
+            Rect foot=new Rect(at.x-.36f,at.y-.19f,.72f,.38f);
+            if(pillarArtwork==null){AddRoundedCover(foot,new Rect(at.x-.42f,at.y-.24f,.84f,1.8f));return;}
+            Bounds b=pillarArtwork.bounds;AddRoundedCover(foot,new Rect(at.x+b.min.x,at.y+b.min.y,b.size.x,b.size.y));
             Draw("Pillar shadow",softDisc??disc,at+new Vector2(.1f,-.03f),new Vector2(1.2f,.4f),new Color(.12f,.08f,.04f,.3f),-800);
             Draw("Solid sandstone pillar",pillarArtwork,at,Vector2.one,Color.white,DepthAt(at.y));
         }
@@ -132,7 +133,7 @@ namespace NakiLegend.Prototype
 
         private void SpawnJourneyWave()
         {
-            RoomNode node=journeyRooms[currentRoom];currentWave++;nextWaveAt=-1;
+            RoomNode node=journeyRooms[currentRoom];currentWave++;nextWaveAt=-1;encounterWaveStartedAt=clock;BeginEncounterRecord();
             if(thunderChapterMode){SpawnChapterWave(node);return;}
             if(thunderPrototypeMode){SpawnThunderWave(node);return;}
             if(IsGatehouseRoom(node)){SpawnGatehouseWave(node);return;}
@@ -141,7 +142,7 @@ namespace NakiLegend.Prototype
             {
                 EnemyKind kind=node.kind==RoomKind.Boss?(EnemyKind)(5+selectedBoss):node.stage==0?EnemyKind.StoneSentinel:(EnemyKind)(5+(selectedBoss+1)%3);
                 Enemy guardian=SpawnJourneyEnemy(kind,FindJourneySpawn(random,.9f),node.depth);
-                if(node.kind==RoomKind.Guardian){guardian.boss=true;guardian.affinity=lightningTrialMode?Element.Lightning:Element.Wind;guardian.hp=guardian.maximum=node.stage==0?190:290;guardian.root.transform.localScale=Vector3.one*(node.stage==0?1.2f:1);}
+                if(node.kind==RoomKind.Guardian){guardian.boss=true;guardian.affinity=lightningTrialMode?Element.Lightning:Element.Wind;guardian.hp=guardian.maximum=(node.stage==0?350:800);ApplyBossLifeIncrease(guardian);guardian.root.transform.localScale=Vector3.one*(node.stage==0?1.2f:1);}
                 return;
             }
             if(node.kind==RoomKind.Elite&&(currentWave==1||currentWave==node.waves))QueueEnemy(EnemyKind.StoneSentinel,FindJourneySpawn(random,.65f));
@@ -157,7 +158,7 @@ namespace NakiLegend.Prototype
                 Vector2 at=new Vector2(Mathf.Lerp(bounds.xMin+1,bounds.xMax-1,(float)random.NextDouble()),Mathf.Lerp(bounds.yMin+1,bounds.yMax-1,(float)random.NextDouble()));
                 if(!Blocked(at,radius)&&!ProjectilePathBlocked(at,at,radius)&&Vector2.Distance(at,position)>3.5f&&!IntersectsTransit(at,Vector2.one*1.0f)&&!SpawnTooClose(at,radius))return at;
             }
-            for(float y=bounds.yMax-1;y>bounds.yMin+.6f;y-=1)for(float x=bounds.xMin+1;x<bounds.xMax-1;x+=1.2f){Vector2 at=new Vector2(x,y);if(!Blocked(at,radius)&&!ProjectilePathBlocked(at,at,radius)&&Vector2.Distance(at,position)>3&&!SpawnTooClose(at,radius))return at;}
+            for(float y=bounds.yMax-1;y>bounds.yMin+.6f;y-=1)for(float x=bounds.xMin+1;x<bounds.xMax-1;x+=1.2f){Vector2 at=new Vector2(x,y);if(!Blocked(at,radius)&&!ProjectilePathBlocked(at,at,radius)&&Vector2.Distance(at,position)>3&&!IntersectsTransit(at,Vector2.one)&&!SpawnTooClose(at,radius))return at;}
             throw new System.InvalidOperationException("No safe enemy spawn in room "+currentRoom);
         }
         private bool SpawnTooClose(Vector2 at,float radius)
@@ -169,7 +170,7 @@ namespace NakiLegend.Prototype
             TickGatehouseEnvironment();TickThunderEnvironment(dt);
             if(pendingBossClear){pendingBossClear=false;CompleteJourneyBoss();return;}
             TickPendingSpawns();TickGroundShocks();
-            RoomNode node=journeyRooms[currentRoom];
+            RoomNode node=journeyRooms[currentRoom];TickEncounterPressure(dt);if(TickOptionalChallenge())return;
             if(!node.cleared&&enemies.Count==0&&pendingSpawns.Count==0)
             {
                 if(currentWave<node.waves){if(nextWaveAt<0)nextWaveAt=clock+1.1f;else if(clock>=nextWaveAt)SpawnJourneyWave();}
@@ -179,7 +180,7 @@ namespace NakiLegend.Prototype
         }
         private void ClearJourneyRoom()
         {
-            RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;if(IsCombatRoom(node))Sfx("clear",false,.45f);
+            RoomNode node=journeyRooms[currentRoom];if(node.cleared)return;node.cleared=true;FinishEncounterRecord(true);RewardBossWeapon(node);if((node.kind==RoomKind.Boss||node.kind==RoomKind.Guardian)&&CurrentIsland.ordinal<=3&&node.stage==0)QueueOriginMoment(CurrentIsland.ordinal-1);if(IsCombatRoom(node))Sfx("clear",false,.45f);
             if(IsCombatRoom(node))clearedCombatRooms++;
             foreach(Shot shot in shots)if(shot.root!=null)Destroy(shot.root);shots.Clear();
             if(thunderChapterMode){ClearChapterSkillEffects();OnChapterRoomCleared(node);}
@@ -203,14 +204,17 @@ namespace NakiLegend.Prototype
                 CheckPendingLesson();TellStory(node.stage==0?"守井者停下重锤，古井碑上的风纹亮了起来。靠近按 F 学习，再走向标注“前往第2层”的石阶，靠近按 F 前往断渠遗迹。":"风铃重新响起。先寻找风铃台学习风波，标注“前往第3层”的石阶通向古渠核心，靠近按 F 进入。");return;
             }
             if(!bossPracticeMode&&!lightningTrialMode){UnlockCanalEpilogue(node);return;}
-            journeyComplete=true;windEmpowered=true;elementPower=Mathf.Min(100,elementPower+30);
+            journeyComplete=true;windEmpowered=true;elementPower=Mathf.Min(ElementMaximum,elementPower+30);
             TellStory("守关者试炼结束。剑锋上的风纹渐渐平息。","正式旅程中，取回风石后还需要疏通归渠水道、清理轮机并开启总闸，雨水才能回到沙城。");pendingRainCG=false;
         }
         private void TellStory(params string[] lines){storyLines=lines;storyIndex=0;}
         private bool StoryActive{get{return storyLines!=null&&storyIndex<storyLines.Length;}}
-        private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;if(pendingRainCG&&!DesertEndingReady)pendingRainCG=false;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
+        private void AdvanceJourneyStory(bool skip=false){storyIndex=skip?storyLines.Length:storyIndex+1;FinishManorStoryRecord();FinishThunderStoryRecord();if(pendingRainCG&&!DesertEndingReady)pendingRainCG=false;if(pendingRainCG&&(storyIndex>=2||!StoryActive)){showRainCG=true;pendingRainCG=false;}}
         private bool HandleJourneyOverlayInput()
         {
+            if(TickCapitalOverlay())return true;if(TickManorOpening())return true;
+            if(chapterSkillsMenu){if(Pressed('b')||Pressed('e')||Pressed('t'))chapterSkillsMenu=false;return true;}
+            if(HandleVoyagerJournal()||HandleOptionalChallengeMenu()||HandleOriginAbilityMenu()||HandleSupplyMenu())return true;
             if(TickChapterOverlay(Time.unscaledDeltaTime))return true;
             if(TickThunderOverlay(Time.unscaledDeltaTime))return true;
             if(TickOpeningCinematic(Time.unscaledDeltaTime))return true;
@@ -223,14 +227,14 @@ namespace NakiLegend.Prototype
             if(showRainCG){if(Pressed('f')||Pressed('e'))showRainCG=false;return true;}
             if(rewardMenu){if(Pressed('a'))routeChoice=(routeChoice+2)%3;if(Pressed('d'))routeChoice=(routeChoice+1)%3;if(Pressed('f'))ClaimJourneyReward(routeChoice);return true;}
             if(mapMenu){if(Pressed('m')||Pressed('e'))mapMenu=false;return true;}
-            if(thunderChapterMode&&health>0&&Pressed('t')){chapterSkillsMenu=true;return true;}
+            if(health>0&&Pressed('t')){chapterSkillsMenu=true;return true;}
             if(health>0&&Pressed('m')){mapMenu=true;return true;}return false;
         }
         private void ClaimJourneyReward(int choice)
         {
             RoomNode node=journeyRooms[currentRoom];if(node.claimed){rewardMenu=false;return;}node.claimed=true;rewardMenu=false;
             RequestCheckpoint();
-            if(choice==0){health=Mathf.Min(6,health+2);healingSupplies++;}else if(choice==1)swordDamage+=2;else{elementPower=Mathf.Min(100,elementPower+35);elementSupplies++;}
+            if(choice==0){health=Mathf.Min(6,health+2);healingSupplies++;}else if(choice==1)swordDamage+=2;else{elementPower=Mathf.Min(ElementMaximum,elementPower+35);elementSupplies++;}
             if(rewardChest!=null)Destroy(rewardChest);rewardChest=null;
         }
         private void CastWind(){CastWindWave();}

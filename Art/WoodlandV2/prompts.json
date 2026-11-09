@@ -1,0 +1,31 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "key": "forest-floor",
+      "transparent_background": false,
+      "prompt": "Original polished pixel RPG seamlessly repeating square GROUND TILE TEXTURE for NakiLegend 2D top-down action dungeon. Environment: mossy forest edge: muted olive moss with broad compact earthy dirt patches, sparse fallen leaves, small roots and old smooth pebbles. Strictly orthographic overhead, flat uniform light, NO perspective, NO walls, NO borders, NO props or isolated objects, NO flowers, NO UI, NO text, NO characters, NO water, NO lava. Large calm readable surface clusters, low contrast ground must let bright enemy bullets be legible. Refined crisp pixel clusters with limited earthy palette, not photorealistic. Tile evenly across both axes with consistent edge colors. Cover the entire square with the texture, not a picture inside a frame."
+    },
+    {
+      "key": "fungal-floor",
+      "transparent_background": false,
+      "prompt": "Original polished pixel RPG seamlessly repeating square GROUND TILE TEXTURE for NakiLegend 2D top-down action dungeon. Environment: ancient hollow woodland floor: muted dark umber decomposing leaf litter, weathered broad wood fibers and moss, very sparse pale fungal flecks, NO glowing dots or big mushrooms. Strictly orthographic overhead, flat uniform light, NO perspective, NO walls, NO borders, NO props or isolated objects, NO flowers, NO UI, NO text, NO characters, NO water, NO lava. Large calm readable surface clusters, low contrast ground must let bright enemy bullets be legible. Refined crisp pixel clusters with limited earthy palette, not photorealistic. Tile evenly across both axes with consistent edge colors. Cover the entire square with the texture, not a picture inside a frame."
+    },
+    {
+      "key": "canopy-floor",
+      "transparent_background": false,
+      "prompt": "Original polished pixel RPG seamlessly repeating square GROUND TILE TEXTURE for NakiLegend 2D top-down action dungeon. Environment: high ancient tree courtyard floor: muted desaturated teal moss over broad weathered dark wood root plates, scattered small ochre leaves, sparse soft natural gaps, no real holes. Strictly orthographic overhead, flat uniform light, NO perspective, NO walls, NO borders, NO props or isolated objects, NO flowers, NO UI, NO text, NO characters, NO water, NO lava. Large calm readable surface clusters, low contrast ground must let bright enemy bullets be legible. Refined crisp pixel clusters with limited earthy palette, not photorealistic. Tile evenly across both axes with consistent edge colors. Cover the entire square with the texture, not a picture inside a frame."
+    },
+    {
+      "key": "nature-atlas",
+      "transparent_background": true,
+      "prompt": "Original polished crisp pixel-art SPRITE ATLAS for NakiLegend, a 2D top-down fantasy action dungeon. Genuinely transparent background. FOUR separated full subjects in a 2x2 grid, ample empty margins and gutters, no text, no floor, no captions, no effects bleeding into neighbor cells. Same three-quarter front view, refined JRPG pixel clusters with dark readable outlines. TOP LEFT: low wide hollow ancient mossy tree stump cover, amber wood grain, dark opening, small shelf mushrooms, roots on feet. TOP RIGHT: low horizontal fallen tree log cover, broken bark at both ends, restrained green moss and tiny ferns, one entire log only. BOTTOM LEFT: compact dense thorn vine root cluster, dark living wood with a few muted red seedpods, readable low obstacle silhouette. BOTTOM RIGHT: colossal mother beetle BOSS, broad moss-green plated beetle shell with ivory thorn ridges, amber eyes, six visible short legs and polished jade abdominal plates, powerful broad silhouette, no wings, no humanoid parts. All four fully inside their quadrants, no touching boundaries. Crisp pixel-art, consistent camera and visual detail, no blurry brush painting. Transparent alpha."
+    },
+    {
+      "key": "seedling-ending",
+      "transparent_background": false,
+      "prompt": "Original NakiLegend widescreen 16:9 exquisite hand-painted anime fantasy game ending CG, absolutely NO TEXT or UI. Theme: old leaves fall, new seedlings can finally grow. Left foreground a teenage hero with short tousled dark navy-blue hair, cobalt blue short cape, ivory tunic, brown leather belts and gloves, sword sheathed, kneeling gently planting ONE small green seedling in a naturally cleared leaf bed. Beside him a young female herbalist in muted green-brown forest travel clothes and an older rescued seed gatherer carefully moving a dead branch aside. Forest is not burned or cut down: preserve mushrooms, old fallen leaves, insects and natural decomposition. At right in middle distance a huge living ancient tree guardian rests peacefully, bark face with kind soft turquoise eyes, purple parasite bindings gone, its leafy canopy now allows warm shafts of dawn light. Small wooden seed box open beside the planting bed. Lush but breathable forest, delicate mist, warm green-gold light against cooler shaded tree trunks, gentle hope and seasonal renewal, exceptionally refined artwork and natural hands. Lower image region can accommodate game subtitles, but generate no writing. Match a blue-caped young hero's cinematic fantasy adventure, not photorealistic."
+    }
+  ],
+  "cleanup": "Edit nature atlas: remove all background glow and fog, preserve four subjects, make background and gutters alpha 0."
+}

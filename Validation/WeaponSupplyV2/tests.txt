@@ -1,0 +1,27 @@
+ static void WeaponSupplyV2Tests(){
+  for(int island=0;island<5;island++){
+   p.woodlandMode=false;if(island==0){Fresh();Select();}else if(island==1)Chapter();else if(island==2)FullIce();else if(island==3)Fire();else Forest();Enter(SupplyRoom());object cache=Room((int)Get("currentRoom"));
+   var melee=new HashSet<int>();
+   foreach(string role in new[]{"Warrior","Mage","Archer"}){
+    Set("profession",EnumVal("Profession",role));int preferred=role=="Warrior"?0:role=="Mage"?1:2;
+    for(int seed=1;seed<=30;seed++){
+     Set("activeSeed",seed);Set(cache,"supplyOffers",null);int[] ids=(int[])Call("RollSupplyOffers",cache);int[] categories=ids.Select(id=>(int)Call("SupplyCategory",id)).ToArray();
+     Check(categories.Distinct().Count()==3&&categories[0]==preferred,"Every cache offers melee, staff and bow with the profession first: "+island+" / "+role+" / "+seed);
+     Check(ids.Select(id=>(int)Call("WeaponFamily",id)).Distinct().Count()==3&&ids.All(id=>!(bool)Get(((Array)Get("weaponCatalog")).GetValue(id),"signature")&&(int)Call("WeaponSourceIsland",id)<=island+1),"Balanced offers retain family uniqueness, progression and boss-only exclusions");
+     foreach(int id in ids)if((int)Call("SupplyCategory",id)==0)melee.Add(id);
+     string frozen=string.Join(",",ids);Set("activeSeed",seed+9000);Set("profession",EnumVal("Profession",role=="Warrior"?"Mage":"Warrior"));Check(string.Join(",",(int[])Call("RollSupplyOffers",cache))==frozen,"Opening again or changing profession never rerolls a balanced cache");Set("profession",EnumVal("Profession",role));
+    }
+   }
+   Check(melee.Count>=2,"Multiple actual melee weapons appear rather than only the starting sword on island "+island);
+  }
+  p.woodlandMode=false;Fresh();Select();Enter(SupplyRoom());object n=Room((int)Get("currentRoom"));Set(n,"supplyOffers",new[]{42,45,3});int[] repaired=(int[])Call("RollSupplyOffers",n);Check(repaired.Contains(42)&&repaired.Contains(45)&&repaired.Select(id=>(int)Call("SupplyCategory",id)).Distinct().Count()==3,"An unclaimed old ranged-only cache replaces only one duplicate category and preserves the two other choices");
+  string repairedText=string.Join(",",repaired);Set("activeSeed",1234);Check(string.Join(",",(int[])Call("RollSupplyOffers",n))==repairedText,"Migrated cache repairs exactly once");
+  Set(n,"claimed",true);Set(n,"supplyOffers",new[]{42,45,3});Check(string.Join(",",(int[])Call("RollSupplyOffers",n))=="42,45,3","Claimed historical rewards are never changed or reissued");Set(n,"claimed",false);Set(n,"supplyOffers",new[]{0,1,5});repaired=(int[])Call("RollSupplyOffers",n);Check(repaired[0]==0&&repaired.Select(id=>(int)Call("SupplyCategory",id)).Distinct().Count()==3,"Melee-only old offers also gain staff and bow choices without replacing the retained first choice");
+  Set("allowBatchCheckpoints",true);Set("checkpointPathOverride",Out+"save/balanced-cache.json");string saved=string.Join(",",repaired);Check((bool)Call("SaveCheckpoint",false)&&(bool)Call("LoadCheckpoint",false)&&string.Join(",",(int[])Get(Room((int)Get("currentRoom")),"supplyOffers"))==saved,"Balanced cache choices persist in actual old-compatible checkpoint format");Set("allowBatchCheckpoints",false);Set("checkpointPathOverride",null);
+  foreach(string role in new[]{"Warrior","Mage","Archer"}){
+   p.woodlandMode=false;Fresh();Select();Set("profession",EnumVal("Profession",role));int preferred=role=="Warrior"?0:role=="Mage"?1:2;object room=Room(Find("Combat"));int matches=0;
+   for(int seed=1;seed<=100;seed++){Set("activeSeed",seed);Set("clearedCombatRooms",4);Set(room,"lootSeeded",false);Set(room,"supplyOffers",null);((IList)Get(room,"drops")).Clear();Call("SeedRoomLoot",room);int id=(int)Get(((IList)Get(room,"drops"))[0],"id");if((int)Call("SupplyCategory",id)==preferred)matches++;}
+   Check(matches>=55&&matches<=85,"Ordinary weapon drops favor the profession without excluding alternatives: "+role+" matched "+matches+" of 100");
+  }
+  Check(Call("IslandWeaponFeature",((Array)Get("weaponCatalog")).GetValue(1)).ToString().Contains("突刺")&&Call("IslandWeaponFeature",((Array)Get("weaponCatalog")).GetValue(5)).ToString().Contains("斩击"),"Melee supply cards describe real thrust/slash instead of bow charging");p.woodlandMode=false;Fresh();Select();Quiet();
+ }
